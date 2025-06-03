@@ -1,0 +1,121 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hyun Jun Han – Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Space Grotesk', sans-serif;
+      background-color: #1a1a1a;
+      color: #f2f2f2;
+      line-height: 1.6;
+    }
+    header {
+      padding: 2rem;
+      text-align: center;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+      font-weight: 600;
+    }
+    header p {
+      max-width: 700px;
+      margin: 1rem auto 0;
+      font-size: 1.1rem;
+      color: #cccccc;
+    }
+    nav {
+      position: sticky;
+      top: 0;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      padding: 0.8rem 0;
+      z-index: 1000;
+      backdrop-filter: blur(6px);
+    }
+    nav a {
+      color: #f2f2f2;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    section {
+      padding: 4rem 2rem;
+      max-width: 1000px;
+      margin: auto;
+    }
+    section h2 {
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+      border-bottom: 1px solid #444;
+      padding-bottom: 0.5rem;
+    }
+    .full-width-img {
+      width: 100%;
+      height: auto;
+      margin: 2rem 0;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+    }
+    iframe {
+      width: 100%;
+      height: 500px;
+      margin-top: 2rem;
+      border: none;
+      border-radius: 8px;
+    }
+    .contact {
+      text-align: center;
+      font-size: 1.1rem;
+    }
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 2rem;
+      }
+      nav {
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Hyun Jun Han</h1>
+    <p>Postgraduate architecture student exploring computational analysis, spiritual architecture, and fluid dynamics through digital fabrication and philosophical experimentation.</p>
+  </header>
+  <nav>
+    <a href="#projects">Projects</a>
+    <a href="#video">Video</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <section id="projects">
+    <h2>Projects</h2>
+    <img src="https://sciarc0-my.sharepoint.com/:i:/g/personal/jun_han_sciarc_edu/EXSpRhSZWuZLgPTMrGkfpy0ByILGqmTNUt-Uj_1HuA7POA?e=ongccG" alt="Project image" class="full-width-img" />
+  </section>
+  <section id="video">
+    <h2>Video</h2>
+    <iframe src="https://sciarc0-my.sharepoint.com/:v:/g/personal/jun_han_sciarc_edu/EfS0a5c7xJ9As3npVwgdFjcB0BUPE1VHZSy_mqjXg3r4Sg?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJPbmVEcml2ZUZvckJ1c2luZXNzIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXciLCJyZWZlcnJhbFZpZXciOiJNeUZpbGVzTGlua0NvcHkifX0&e=2to95G" allowfullscreen></iframe>
+  </section>
+  <section id="about">
+    <h2>About</h2>
+    <p>
+      I am currently pursuing my M.Arch 1 degree with a deep focus on computational design, spiritual architectural typologies, and the behavioral modeling of materials and phenomena. My work engages with engineering precision and poetic ambiguity — exploring the role of voids, resonance, light, and archeoastronomy within architectural frameworks.
+    </p>
+    <p>
+      Adjacent interests include holography, optics, experimental fabrication, and the modeling of dynamic systems like fluid flows. I regularly work with Grasshopper to script and prototype these concepts into spatial structures and design systems.
+    </p>
+  </section>
+  <section id="contact" class="contact">
+    <h2>Contact</h2>
+    <p>Email: <a href="mailto:jun_han@sciarc.edu" style="color:#66ccff;">jun_han@sciarc.edu</a></p>
+  </section>
+</body>
+</html>
