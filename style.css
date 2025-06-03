@@ -1,0 +1,111 @@
+/* styles.css
+   Generated per prompt: Use only box-model layout + typographic principles.
+   No Flexbox or Grid. Referenced resources:
+     – Practical Typography: https://practicaltypography.com/typography-in-ten-minutes.html
+     – Safe Rules for CSS: https://anthonyhobday.com/sideprojects/saferules/
+     – ARC CSS guidelines: http://www--arc.com/
+     – Copying CSS Patterns: https://matthewstrom.com/writing/copying/
+     – Hello CSS: https://internetingishard.netlify.app/html-and-css/hello-css/
+     – CSS Selectors: https://internetingishard.netlify.app/html-and-css/css-selectors/
+*/
+
+/* === Base & Typography === */
+html {
+  font-size: 16px;
+}
+body {
+  margin: 0;
+  font-family: 'Space Grotesk', sans-serif;
+  background-color: #1a1a1a;
+  color: #f2f2f2;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* === Header === */
+header {
+  padding: 2rem 0;
+  text-align: center;
+}
+header h1 {
+  margin: 0;
+  font-size: 2.5rem;
+  font-weight: 600;
+}
+header p {
+  max-width: 700px;
+  margin: 1rem auto 0;
+  font-size: 1.1rem;
+  color: #cccccc;
+}
+
+/* === Nav === */
+nav {
+  position: sticky;
+  top: 0;
+  background: rgba(0, 0, 0, 0.7);
+  text-align: center;
+  padding: 0.8rem 0;
+  z-index: 1000;
+  backdrop-filter: blur(6px);
+}
+nav a {
+  display: inline-block;
+  margin: 0 1rem;
+  color: #f2f2f2;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+/* === Sections === */
+section {
+  padding: 4rem 2rem;
+  max-width: 1000px;
+  margin: auto;
+}
+section h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid #444;
+  padding-bottom: 0.5rem;
+}
+
+/* Images and Videos */
+.full-width-img,
+.full-width-video {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 2rem 0;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+}
+
+/* iFrame */
+iframe {
+  display: block;
+  width: 100%;
+  height: 500px;
+  margin-top: 2rem;
+  border: none;
+  border-radius: 8px;
+}
+
+/* Contact Section */
+.contact {
+  text-align: center;
+  font-size: 1.1rem;
+}
+.contact a {
+  color: #66ccff;
+}
+
+/* === Media Queries === */
+@media (max-width: 768px) {
+  header h1 {
+    font-size: 2rem;
+  }
+  nav a {
+    margin: 0.5rem;
+  }
+}
