@@ -1,0 +1,200 @@
+
+/* astrological-style.css
+   Revision: Celestial theme using only box‑model layout & typography; no Flexbox/Grid.
+   Interactive pseudo‑classes & pseudo‑elements added.
+*/
+
+/* === Base & Typography === */
+html {
+  font-size: 16px;
+}
+body {
+  margin: 0;
+  font-family: 'Cormorant Garamond', serif;
+  background: #0d0a23; /* deep night sky */
+  color: #e0e6ff;      /* starlight */
+  line-height: 1.6;
+  letter-spacing: 0.02em;
+  text-shadow: 0 0 2px rgba(255, 255, 255, 0.15);
+}
+
+/* === Header === */
+header {
+  padding: 2.5rem 0 2rem;
+  text-align: center;
+}
+header h1 {
+  margin: 0;
+  font-size: 2.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  position: relative;
+  transition: text-shadow 0.4s ease;
+}
+/* twinkling star after the title */
+header h1::after {
+  content: '★';
+  display: inline-block;
+  margin-left: 0.35rem;
+  font-size: 0.55em;
+  color: #ffd780;
+  opacity: 0.8;
+  transition: transform 0.6s ease;
+}
+header h1:hover {
+  text-shadow: 0 0 8px #ffd780;
+}
+header h1:hover::after {
+  transform: rotate(180deg) scale(1.3);
+}
+header p {
+  max-width: 700px;
+  margin: 1rem auto 0;
+  font-size: 1.05rem;
+  color: #c7c9ff;
+  letter-spacing: 0.015em;
+}
+
+/* === Nav === */
+nav {
+  position: sticky;
+  top: 0;
+  background: rgba(13, 10, 35, 0.85);
+  text-align: center;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid #262335;
+  z-index: 1000;
+}
+nav a {
+  display: inline-block;
+  margin: 0 1rem;
+  color: #8ab4ff;
+  text-decoration: none;
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  transition: background 0.3s ease, text-shadow 0.3s ease;
+}
+nav a:hover,
+nav a:focus {
+  background: #1a1440;
+  text-shadow: 0 0 6px #8ab4ff;
+}
+nav a:active {
+  background: #302b60;
+}
+
+/* === Sections === */
+section {
+  padding: 4rem 2rem;
+  max-width: 1000px;
+  margin: auto;
+  border-bottom: 1px dashed #262335;
+}
+section:last-of-type {
+  border-bottom: none;
+}
+section h2 {
+  font-size: 1.9rem;
+  margin-bottom: 1.4rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-bottom: 1px solid #444;
+  padding-bottom: 0.5rem;
+  position: relative;
+  transition: text-shadow 0.3s ease;
+}
+section h2::before {
+  content: '';
+  position: absolute;
+  left: -1.2rem;
+  top: 0.2rem;
+  width: 6px;
+  height: 6px;
+  background: #ffd780;
+  border-radius: 50%;
+  box-shadow: 0 0 6px #ffd780;
+}
+section h2:hover {
+  text-shadow: 0 0 6px #ffd780;
+}
+
+/* === Media Elements === */
+.full-width-img,
+.full-width-video {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin: 2rem 0;
+  border: 2px solid #1a1440;
+  box-shadow: 0 0 10px rgba(138, 180, 255, 0.15);
+  border-radius: 12px;
+  transition: box-shadow 0.4s ease;
+}
+.full-width-img:hover,
+.full-width-video:hover {
+  box-shadow: 0 0 14px rgba(255, 215, 128, 0.35);
+}
+
+/* === IFrame === */
+iframe {
+  display: block;
+  width: 100%;
+  height: 500px;
+  margin-top: 2rem;
+  border: none;
+  border-radius: 12px;
+  border: 2px solid #1a1440;
+}
+
+/* === Links (general) === */
+a {
+  color: #ffd780;
+  transition: text-shadow 0.3s ease;
+}
+a:hover,
+a:focus {
+  text-shadow: 0 0 6px #ffd780;
+}
+
+/* === Buttons (optional .btn class) === */
+.btn {
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  background: #1a1440;
+  border: 1px solid #262335;
+  color: #e0e6ff;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+.btn:hover,
+.btn:focus {
+  background: #262046;
+  box-shadow: 0 0 8px #8ab4ff;
+}
+.btn:active {
+  background: #302b60;
+}
+
+/* === Contact Section === */
+.contact {
+  text-align: center;
+  font-size: 1.1rem;
+}
+.contact a {
+  color: #8ab4ff;
+}
+
+/* === Media Queries === */
+@media (max-width: 768px) {
+  header h1 {
+    font-size: 2.2rem;
+  }
+  nav a {
+    margin: 0.5rem;
+  }
+}
