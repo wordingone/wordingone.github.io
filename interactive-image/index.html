@@ -9,11 +9,13 @@
 
   <h1 class="text-3xl font-bold mb-6 text-gray-800">Interactive Image</h1>
 
-  <!-- Image that updates -->
-  <img id="mainImage" src="images/cat.jpg" alt="Image"
-       class="w-72 h-auto rounded shadow-lg mb-6 transition-transform duration-300" />
+  <!-- Image that updates and rotates -->
+  <img id="mainImage"
+       src="images/cat.jpg"
+       alt="Image"
+       class="w-72 h-auto rounded shadow-lg mb-6 transition-transform duration-300 transform inline-block" />
 
-  <!-- Select dropdown -->
+  <!-- Image selector -->
   <label for="imageSelector" class="text-lg font-medium text-gray-700 mb-1">Pick an image:</label>
   <select id="imageSelector" class="mb-6 p-2 border border-gray-300 rounded w-64 shadow-sm">
     <option value="images/cat.jpg">Cat</option>
@@ -21,17 +23,14 @@
     <option value="images/bird.jpg">Bird</option>
   </select>
 
-  <!-- Rotation input -->
+  <!-- Rotation input (slider + box) -->
   <label for="rotationInput" class="text-lg font-medium text-gray-700 mb-1">Rotate Image:</label>
   <div class="flex items-center gap-2 mb-4">
-    <input type="range" id="rotationInput" min="0" max="360" value="0" class="w-64">
+    <input type="range" id="rotationInput" min="0" max="360" value="0" class="w-64 accent-purple-600">
     <input type="number" id="rotationValue" min="0" max="360" value="0"
            class="w-16 p-1 border border-gray-300 rounded text-center">
   </div>
 
-  <!-- (No caption anymore) -->
-
   <script src="script.js"></script>
 </body>
-
 </html>
