@@ -7,27 +7,31 @@
 </head>
 <body class="bg-gray-100 min-h-screen flex flex-col items-center justify-center p-6">
 
-  <h1 class="text-3xl font-bold mb-6 text-gray-800">Choose Your Image</h1>
+  <h1 class="text-3xl font-bold mb-6 text-gray-800">Interactive Image</h1>
 
   <!-- Image that updates -->
-  <img id="mainImage" src="images/cat.jpg" alt="Image" class="w-72 h-auto rounded shadow-lg mb-6" />
+  <img id="mainImage" src="images/cat.jpg" alt="Image"
+       class="w-72 h-auto rounded shadow-lg mb-6 transition-transform duration-300" />
 
   <!-- Select dropdown -->
   <label for="imageSelector" class="text-lg font-medium text-gray-700 mb-1">Pick an image:</label>
-  <select id="imageSelector" class="mb-4 p-2 border border-gray-300 rounded w-64 shadow-sm">
+  <select id="imageSelector" class="mb-6 p-2 border border-gray-300 rounded w-64 shadow-sm">
     <option value="images/cat.jpg">Cat</option>
     <option value="images/dog.jpg">Dog</option>
     <option value="images/bird.jpg">Bird</option>
   </select>
 
-  <!-- Text input for caption -->
-  <label for="captionInput" class="text-lg font-medium text-gray-700 mb-1">Caption:</label>
-  <input type="text" id="captionInput" placeholder="Enter a caption..."
-         class="mb-4 p-2 border border-gray-300 rounded w-64 shadow-sm" />
+  <!-- Rotation input -->
+  <label for="rotationInput" class="text-lg font-medium text-gray-700 mb-1">Rotate Image:</label>
+  <div class="flex items-center gap-2 mb-4">
+    <input type="range" id="rotationInput" min="0" max="360" value="0" class="w-64">
+    <input type="number" id="rotationValue" min="0" max="360" value="0"
+           class="w-16 p-1 border border-gray-300 rounded text-center">
+  </div>
 
-  <!-- Caption output -->
-  <p id="captionText" class="text-xl text-gray-700 font-medium mt-2"></p>
+  <!-- (No caption anymore) -->
+
   <script src="script.js"></script>
-
 </body>
+
 </html>

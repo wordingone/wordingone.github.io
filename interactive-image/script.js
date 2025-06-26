@@ -1,15 +1,25 @@
-// Get references to the DOM elements
+// Get references to DOM elements
 const image = document.getElementById("mainImage");
 const dropdown = document.getElementById("imageSelector");
-const captionInput = document.getElementById("captionInput");
-const captionText = document.getElementById("captionText");
+const rotationSlider = document.getElementById("rotationInput");
+const rotationBox = document.getElementById("rotationValue");
 
-// When the dropdown changes, update the image src
+// Update image when dropdown changes
 dropdown.addEventListener("change", function () {
   image.src = dropdown.value;
 });
 
-// When the text input changes, update the caption live
-captionInput.addEventListener("input", function () {
-  captionText.textContent = captionInput.value;
+// Rotate image when slider changes
+rotationSlider.addEventListener("input", () => {
+  const angle = rotationSlider.value;
+  image.style.transform = `rotate(${angle}deg)`;
+  rotationBox.value = angle;
+});
+
+// Rotate image when number input changes
+rotationBox.addEventListener("input", () => {
+  let angle = parseInt(rotationBox.value) || 0;
+  angle = Math.max(0, Math.min(angle, 360)); // clamp
+  rotationSlider.value = angle;
+  image.style.transform = `rotate(${angle}deg)`;
 });
