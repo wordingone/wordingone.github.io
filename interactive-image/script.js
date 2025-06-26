@@ -1,25 +1,29 @@
-// Get elements
+// Get DOM elements
 const image = document.getElementById("mainImage");
 const dropdown = document.getElementById("imageSelector");
 const rotationSlider = document.getElementById("rotationInput");
 const rotationBox = document.getElementById("rotationValue");
 
+// Unified rotation function
+function updateRotation(angle) {
+  angle = parseInt(angle) || 0;
+  angle = Math.max(0, Math.min(angle, 360)); // Clamp to valid range
+  image.style.transform = `rotate(${angle}deg)`;
+  rotationSlider.value = angle;
+  rotationBox.value = angle;
+}
+
 // Dropdown changes image
-dropdown.addEventListener("change", function () {
+dropdown.addEventListener("change", () => {
   image.src = dropdown.value;
 });
 
-// Slider → Number box + rotate image
+// Sync slider → update
 rotationSlider.addEventListener("input", () => {
-  const angle = rotationSlider.value;
-  image.style.transform = `rotate(${angle}deg)`;
-  rotationBox.value = angle;
+  updateRotation(rotationSlider.value);
 });
 
-// Number box → Slider + rotate image
+// Sync number box → update
 rotationBox.addEventListener("input", () => {
-  let angle = parseInt(rotationBox.value) || 0;
-  angle = Math.max(0, Math.min(angle, 360)); // Clamp
-  rotationSlider.value = angle;
-  image.style.transform = `rotate(${angle}deg)`;
+  updateRotation(rotationBox.value);
 });
