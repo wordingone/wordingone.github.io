@@ -192,14 +192,12 @@ body{background:var(--bg); color:#eaeaea; font-family:system-ui, sans-serif; ove
   </div>
 <script>
 /*──────────────── COLOUR CONSTANTS ───────────────*/
-const FACE_BASE=[
-  {h:215, s:56, l:36}, // front - face 0
-  {h: 25, s:70, l:38}, // right - face 1
-  {h:135, s:45, l:35}, // back - face 2
-  {h:285, s:40, l:38}, // left - face 3
-  {h: 50, s:70, l:40}, // top - face 4
-  {h:190, s:65, l:28}  // bottom - face 5
-];
+// Paths to lidar tile images
+function getTileImage(col, row){
+  const c = String(col % 4).padStart(2,'0');
+  const r = String(row % 3).padStart(2,'0');
+  return `../src/assets/lidar/tiles/0/0/tile_col${c}_row${r}.png`;
+}
 
 /*──────────────── GEOMETRY CONSTANTS ───────────────*/
 const TILE=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--tile'));
@@ -233,7 +231,6 @@ function getCubeSize() {
 const board=document.getElementById('board');
 for(let face=0;face<FACES;face++){
   const {nr,nc}=(()=>{for(let r=0;r<FACE_NET.length;r++){const c=FACE_NET[r].indexOf(face);if(c!==-1)return {nr:r,nc:c};}})();
-  const base=FACE_BASE[face];
   for(let fr=0;fr<3;fr++){
     for(let fc=0;fc<3;fc++){
       const idx=face*FACE_TILES + fr*3 + fc;
@@ -241,9 +238,10 @@ for(let face=0;face<FACES;face++){
       const tile=document.createElement('div');
       tile.className='tile'; tile.dataset.idx=idx; tile.dataset.face=face; tile.textContent=idx;
       tile.style.gridRowStart=row+1; tile.style.gridColumnStart=col+1;
-      /* colour variation */
-      const mult=0.9 + (fr*0.04) + (fc*0.04);
-      tile.style.background=`hsl(${base.h} ${base.s}% ${base.l*mult}%)`;
+      const img=getTileImage(col,row);
+      tile.style.backgroundImage=`url(${img})`;
+      tile.style.backgroundSize='cover';
+      tile.textContent='';
       board.appendChild(tile);
     }
   }
@@ -264,19 +262,17 @@ function buildCube() {
   cube.style.transformOrigin = '50% 50% 0px';
   
   for(let face=0;face<FACES;face++){
-    const base=FACE_BASE[face];
     for(let fr=0;fr<3;fr++){
       for(let fc=0;fc<3;fc++){
         const idx=face*FACE_TILES + fr*3 + fc;
         const tile=document.createElement('div');
-        tile.className='cTile'; 
-        tile.dataset.idx=idx; 
-        tile.dataset.face=face; 
-        tile.innerHTML='<span>'+idx+'</span>';
-        
-        /* colour variation */
-        const mult=0.9 + (fr*0.04) + (fc*0.04);
-        tile.style.background=`hsl(${base.h} ${base.s}% ${base.l*mult}%)`;
+        tile.className='cTile';
+        tile.dataset.idx=idx;
+        tile.dataset.face=face;
+        tile.innerHTML='';
+        const img=getTileImage(fc,fr);
+        tile.style.backgroundImage=`url(${img})`;
+        tile.style.backgroundSize='cover';
         
         /* position calculation - centered around cube's volumetric center */
         const fx = fc * tileSize - halfCube + tileSize/2;
