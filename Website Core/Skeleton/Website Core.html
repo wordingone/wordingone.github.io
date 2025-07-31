@@ -77,10 +77,10 @@ body{background:var(--bg); color:#eaeaea; font-family:system-ui, sans-serif; ove
   touch-action:none;
 }
 #board{
-  position:absolute; 
-  display:grid; 
-  grid-template-columns:repeat(9, var(--tile)); 
-  grid-template-rows:repeat(6, var(--tile));
+  position:absolute;
+  display:grid;
+  grid-template-columns:repeat(4, var(--tile));
+  grid-template-rows:repeat(3, var(--tile));
   touch-action:none;
 }
 .tile{
@@ -200,11 +200,17 @@ const FACE_BASE=[
   {h: 50, s:70, l:40}, // top - face 4
   {h:190, s:65, l:28}  // bottom - face 5
 ];
+// Paths to lidar tile images
+function getTileImage(col, row){
+  const c = String(col).padStart(2,'0');
+  const r = String(row).padStart(2,'0');
+  return `../src/assets/lidar/tiles/0/0/tile_col${c}_row${r}.png`;
+}
 
 /*──────────────── GEOMETRY CONSTANTS ───────────────*/
 const TILE=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--tile'));
 const CUBE_BASE=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--cube'));
-const BOARD_COLS=9, BOARD_ROWS=6; // overall grid
+const BOARD_COLS=4, BOARD_ROWS=3; // overall grid
 const FACE_TILES=9, FACES=6;      // cube logic
 
 /* face layout in board grid (3×2 of faces) */
@@ -231,21 +237,18 @@ function getCubeSize() {
 
 /*──────────────── BUILD BOARD ───────────────*/
 const board=document.getElementById('board');
-for(let face=0;face<FACES;face++){
-  const {nr,nc}=(()=>{for(let r=0;r<FACE_NET.length;r++){const c=FACE_NET[r].indexOf(face);if(c!==-1)return {nr:r,nc:c};}})();
-  const base=FACE_BASE[face];
-  for(let fr=0;fr<3;fr++){
-    for(let fc=0;fc<3;fc++){
-      const idx=face*FACE_TILES + fr*3 + fc;
-      const row=nr*3+fr; const col=nc*3+fc;
-      const tile=document.createElement('div');
-      tile.className='tile'; tile.dataset.idx=idx; tile.dataset.face=face; tile.textContent=idx;
-      tile.style.gridRowStart=row+1; tile.style.gridColumnStart=col+1;
-      /* colour variation */
-      const mult=0.9 + (fr*0.04) + (fc*0.04);
-      tile.style.background=`hsl(${base.h} ${base.s}% ${base.l*mult}%)`;
-      board.appendChild(tile);
-    }
+for(let r=0;r<BOARD_ROWS;r++){
+  for(let c=0;c<BOARD_COLS;c++){
+    const idx=r*BOARD_COLS+c;
+    const tile=document.createElement('div');
+    tile.className='tile';
+    tile.dataset.idx=idx;
+    tile.style.gridRowStart=r+1;
+    tile.style.gridColumnStart=c+1;
+    const img=getTileImage(c,r);
+    tile.style.backgroundImage=`url(${img})`;
+    tile.style.backgroundSize='cover';
+    board.appendChild(tile);
   }
 }
 
@@ -269,11 +272,11 @@ function buildCube() {
       for(let fc=0;fc<3;fc++){
         const idx=face*FACE_TILES + fr*3 + fc;
         const tile=document.createElement('div');
-        tile.className='cTile'; 
-        tile.dataset.idx=idx; 
-        tile.dataset.face=face; 
+        tile.className='cTile';
+        tile.dataset.idx=idx;
+        tile.dataset.face=face;
         tile.innerHTML='<span>'+idx+'</span>';
-        
+
         /* colour variation */
         const mult=0.9 + (fr*0.04) + (fc*0.04);
         tile.style.background=`hsl(${base.h} ${base.s}% ${base.l*mult}%)`;
@@ -496,68 +499,8 @@ function highlight(idx) {
 }
 
 /*──────────────── CUBE ORIENTATION SYNC - FIXED ───────────────*/
-function updateCubeFacing() {
-  // Get the center point of the board wrapper (crosshair position)
-  const boardWrapRect = boardWrap.getBoundingClientRect();
-  const crosshairX = boardWrapRect.width / 2;
-  const crosshairY = boardWrapRect.height / 2;
-  
-  // DEBUG: Log current state
-  console.log('--- updateCubeFacing Debug ---');
-  console.log('Scale:', scale);
-  console.log('Board position:', boardX, boardY);
-  console.log('Crosshair position:', crosshairX, crosshairY);
-  
-  // Calculate board position in logical coordinates (unscaled)
-  // This is the key fix - convert screen coordinates to logical board coordinates
-  const logicalX = (crosshairX - boardX) / scale;
-  const logicalY = (crosshairY - boardY) / scale;
-  
-  console.log('Logical coordinates:', logicalX, logicalY);
-  
-  // Calculate which tile this corresponds to
-  const col = Math.floor(logicalX / TILE);
-  const row = Math.floor(logicalY / TILE);
-  
-  console.log('Calculated tile:', row, col);
-  
-  // Update debug info
-  document.getElementById('crosshairPos').textContent = `(${Math.round(logicalX)}, ${Math.round(logicalY)})`;
-  document.getElementById('boardTile').textContent = `r:${row}, c:${col}`;
-  
-  // Check if we're within valid bounds
-  if (col >= 0 && col < BOARD_COLS && row >= 0 && row < BOARD_ROWS) {
-    const idx = idxFromRC(row, col);
-    console.log('Calculated idx:', idx);
-    
-    if (idx >= 0 && idx < 54) {
-      const face = faceOf(idx);
-      console.log('Face:', face);
-      
-      // Cube orientation mapping - CORRECTED with proper center rotation
-      const rotations = {
-        0: 'rotateX(0deg) rotateY(0deg)',       // front
-        1: 'rotateX(0deg) rotateY(-90deg)',     // right  
-        2: 'rotateX(0deg) rotateY(180deg)',     // back
-        3: 'rotateX(0deg) rotateY(90deg)',      // left
-        4: 'rotateX(90deg) rotateY(0deg)',      // top
-        5: 'rotateX(-90deg) rotateY(0deg)'      // bottom
-      };
-      
-      const transformStr = rotations[face];
-      cube.style.transform = transformStr;
-      
-      // Update debug info
-      document.getElementById('cubeFace').textContent = `${face} (idx:${idx})`;
-      document.getElementById('transform').textContent = transformStr;
-      return;
-    }
-  }
-  
-  // If out of bounds, show debug info
-  document.getElementById('cubeFace').textContent = 'out of bounds';
-  document.getElementById('transform').textContent = 'none';
-  console.log('Out of bounds');
+function updateCubeFacing(){
+  // orientation sync disabled for lidar board
 }
 
 // Initial update
