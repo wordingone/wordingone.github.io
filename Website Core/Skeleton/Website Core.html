@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Miro‑Lite · coloured board + nav‑cube</title>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<style>
+/* ───────── VISUAL CONFIG ───────── */
+:root{
+  --tile:120px;           /* one board tile */
+  --cube:360px;           /* nav‑cube = 3 × tile */
+  --bg:#181818;           /* global background */
+  --grid:#2c2c2c;         /* board grid lines */
+  --hilite:#5aa3ff;       /* selection border */
+}
+
+*{box-sizing:border-box; margin:0; padding:0; user-select:none;}
+body{background:var(--bg); color:#eaeaea; font-family:system-ui, sans-serif; overflow:hidden;}
+
+/* ─── CUBE WRAP (responsive left panel) ─── */
+#cubeWrap{
+  position:absolute; 
+  left:0; 
+  top:0; 
+  bottom:0; 
+  width:min(var(--cube), 30vw, 50vh); 
+  max-width:min(360px, 30vw, 50vh);
+  display:flex; 
+  align-items:center; 
+  justify-content:center; 
+  pointer-events:none; 
+  z-index:10;
+}
+
+/* ─── NAV CUBE (responsive) ─── */
+#scene{
+  position:relative; 
+  width:min(var(--cube), 30vw, 50vh); 
+  height:min(var(--cube), 30vw, 50vh); 
+  max-width:min(360px, 30vw, 50vh);
+  max-height:min(360px, 30vw, 50vh);
+  perspective:800px; 
+  pointer-events:auto; 
+  overflow:visible;
+}
+#cube{
+  position:absolute; 
+  inset:0; 
+  transform-style:preserve-3d; 
+  transition:transform .4s cubic-bezier(.25,.85,.35,1.1);
+}
+.cTile{
+  position:absolute; 
+  width:calc(min(var(--cube), 30vw, 50vh)/3); 
+  height:calc(min(var(--cube), 30vw, 50vh)/3); 
+  max-width:calc(min(360px, 30vw, 50vh)/3);
+  max-height:calc(min(360px, 30vw, 50vh)/3);
+  display:flex; 
+  align-items:center; 
+  justify-content:center; 
+  font-size:clamp(8px,1.2vw,14px); 
+  border:1px solid rgba(0,0,0,.6); 
+  opacity:.96; 
+  cursor:pointer; 
+  backface-visibility:hidden;
+}
+/* show numbers on cube for debugging */
+.cTile>span{display:block; color:#fff; font-weight:bold; text-shadow:1px 1px 2px rgba(0,0,0,0.8);}
+.cTile[data-visible="true"]{outline:2px solid var(--hilite);} /* active tile border */
+
+/* ─── BOARD (responsive) ─── */
+#boardWrapper{
+  position:absolute; 
+  inset:0 0 0 min(var(--cube), 30vw, 50vh); 
+  overflow:hidden; 
+  cursor:grab;
+  touch-action:none;
+}
+#board{
+  position:absolute; 
+  display:grid; 
+  grid-template-columns:repeat(9, var(--tile)); 
+  grid-template-rows:repeat(6, var(--tile));
+  touch-action:none;
+}
+.tile{
+  width:var(--tile); 
+  height:var(--tile); 
+  display:flex; 
+  align-items:center; 
+  justify-content:center; 
+  font-size:clamp(12px,1.8vw,20px); 
+  border:1px solid var(--grid); 
+  transition:filter .2s ease;
+}
+.tile[data-visible="true"]{outline:2px solid var(--hilite);} /* selection */
+
+/* ─── CROSSHAIR ─── */
+#crosshair{
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:40px;
+  height:40px;
+  margin:-20px 0 0 -20px;
+  border:2px solid var(--hilite);
+  border-radius:50%;
+  pointer-events:none;
+  z-index:20;
+  opacity:0.7;
+}
+#crosshair::before{
+  content:'';
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:2px;
+  height:20px;
+  background:var(--hilite);
+  margin:-10px 0 0 -1px;
+}
+#crosshair::after{
+  content:'';
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:20px;
+  height:2px;
+  background:var(--hilite);
+  margin:-1px 0 0 -10px;
+}
+
+/* ─── DEBUG INFO ─── */
+#debugInfo{
+  position:absolute;
+  top:10px;
+  right:10px;
+  background:rgba(0,0,0,0.8);
+  padding:10px;
+  border-radius:5px;
+  font-family:monospace;
+  font-size:11px;
+  z-index:30;
+  min-width:200px;
+  max-width:250px;
+}
+
+/* ─── MOBILE OPTIMIZATIONS ─── */
+@media (max-width: 768px) {
+  #cubeWrap {
+    width:min(200px, 35vw, 40vh);
+    max-width:min(200px, 35vw, 40vh);
+  }
+  #scene {
+    width:min(200px, 35vw, 40vh);
+    height:min(200px, 35vw, 40vh);
+    max-width:min(200px, 35vw, 40vh);
+    max-height:min(200px, 35vw, 40vh);
+  }
+  .cTile {
+    width:calc(min(200px, 35vw, 40vh)/3);
+    height:calc(min(200px, 35vw, 40vh)/3);
+    max-width:calc(min(200px, 35vw, 40vh)/3);
+    max-height:calc(min(200px, 35vw, 40vh)/3);
+    font-size:clamp(6px,1vw,10px);
+  }
+  #boardWrapper {
+    inset:0 0 0 min(200px, 35vw, 40vh);
+  }
+  #debugInfo {
+    font-size:10px;
+    min-width:150px;
+    max-width:200px;
+  }
+}
+</style>
+</head>
+<body>
+  <div id="cubeWrap">
+    <div id="scene"><div id="cube"></div></div>
+  </div>
+  <div id="boardWrapper">
+    <div id="board"></div>
+    <div id="crosshair"></div>
+  </div>
+  <div id="debugInfo">
+    <div>Crosshair Position: <span id="crosshairPos">-</span></div>
+    <div>Board Tile: <span id="boardTile">-</span></div>
+    <div>Cube Face: <span id="cubeFace">-</span></div>
+    <div>Transform: <span id="transform">-</span></div>
+    <div>Scale: <span id="scaleInfo">-</span></div>
+  </div>
+<script>
+/*──────────────── COLOUR CONSTANTS ───────────────*/
+const FACE_BASE=[
+  {h:215, s:56, l:36}, // front - face 0
+  {h: 25, s:70, l:38}, // right - face 1
+  {h:135, s:45, l:35}, // back - face 2
+  {h:285, s:40, l:38}, // left - face 3
+  {h: 50, s:70, l:40}, // top - face 4
+  {h:190, s:65, l:28}  // bottom - face 5
+];
+
+/*──────────────── GEOMETRY CONSTANTS ───────────────*/
+const TILE=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--tile'));
+const CUBE_BASE=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--cube'));
+const BOARD_COLS=9, BOARD_ROWS=6; // overall grid
+const FACE_TILES=9, FACES=6;      // cube logic
+
+/* face layout in board grid (3×2 of faces) */
+const FACE_NET=[[0,1,2],[3,4,5]];
+
+/* helper: board row/col → idx (0‑53) */
+function idxFromRC(row,col){
+  const netRow=Math.floor(row/3), netCol=Math.floor(col/3);
+  if(netRow>1||netCol>2) return -1;
+  const face=FACE_NET[netRow][netCol];
+  const rIn=row%3, cIn=col%3;
+  return face*FACE_TILES + rIn*3 + cIn;
+}
+function faceOf(idx){return Math.floor(idx / FACE_TILES);} // 0‑5
+
+// Get responsive cube size
+function getCubeSize() {
+  const isMobile = window.innerWidth <= 768;
+  if (isMobile) {
+    return Math.min(200, window.innerWidth * 0.35, window.innerHeight * 0.4);
+  }
+  return Math.min(CUBE_BASE, window.innerWidth * 0.3, window.innerHeight * 0.5);
+}
+
+/*──────────────── BUILD BOARD ───────────────*/
+const board=document.getElementById('board');
+for(let face=0;face<FACES;face++){
+  const {nr,nc}=(()=>{for(let r=0;r<FACE_NET.length;r++){const c=FACE_NET[r].indexOf(face);if(c!==-1)return {nr:r,nc:c};}})();
+  const base=FACE_BASE[face];
+  for(let fr=0;fr<3;fr++){
+    for(let fc=0;fc<3;fc++){
+      const idx=face*FACE_TILES + fr*3 + fc;
+      const row=nr*3+fr; const col=nc*3+fc;
+      const tile=document.createElement('div');
+      tile.className='tile'; tile.dataset.idx=idx; tile.dataset.face=face; tile.textContent=idx;
+      tile.style.gridRowStart=row+1; tile.style.gridColumnStart=col+1;
+      /* colour variation */
+      const mult=0.9 + (fr*0.04) + (fc*0.04);
+      tile.style.background=`hsl(${base.h} ${base.s}% ${base.l*mult}%)`;
+      board.appendChild(tile);
+    }
+  }
+}
+
+/*──────────────── BUILD CUBE ───────────────*/
+const cube=document.getElementById('cube');
+
+function buildCube() {
+  // Clear existing cube
+  cube.innerHTML = '';
+  
+  const cubeSize = getCubeSize();
+  const tileSize = cubeSize / 3;
+  const halfCube = cubeSize / 2;
+  
+  // Set cube's transform-origin to its volumetric center
+  cube.style.transformOrigin = '50% 50% 0px';
+  
+  for(let face=0;face<FACES;face++){
+    const base=FACE_BASE[face];
+    for(let fr=0;fr<3;fr++){
+      for(let fc=0;fc<3;fc++){
+        const idx=face*FACE_TILES + fr*3 + fc;
+        const tile=document.createElement('div');
+        tile.className='cTile'; 
+        tile.dataset.idx=idx; 
+        tile.dataset.face=face; 
+        tile.innerHTML='<span>'+idx+'</span>';
+        
+        /* colour variation */
+        const mult=0.9 + (fr*0.04) + (fc*0.04);
+        tile.style.background=`hsl(${base.h} ${base.s}% ${base.l*mult}%)`;
+        
+        /* position calculation - centered around cube's volumetric center */
+        const fx = fc * tileSize - halfCube + tileSize/2;
+        const fy = fr * tileSize - halfCube + tileSize/2;
+        
+        let transform;
+        switch(face) {
+          case 0: // front
+            transform = `translate3d(${fx}px, ${fy}px, ${halfCube}px)`;
+            break;
+          case 1: // right
+            transform = `translate3d(${halfCube}px, ${fy}px, ${-fx}px) rotateY(90deg)`;
+            break;
+          case 2: // back
+            transform = `translate3d(${-fx}px, ${fy}px, ${-halfCube}px) rotateY(180deg)`;
+            break;
+          case 3: // left
+            transform = `translate3d(${-halfCube}px, ${fy}px, ${fx}px) rotateY(-90deg)`;
+            break;
+          case 4: // top
+            transform = `translate3d(${fx}px, ${-halfCube}px, ${-fy}px) rotateX(-90deg)`;
+            break;
+          case 5: // bottom
+            transform = `translate3d(${fx}px, ${halfCube}px, ${fy}px) rotateX(90deg)`;
+            break;
+        }
+        
+        tile.style.transform=transform;
+        cube.appendChild(tile);
+      }
+    }
+  }
+}
+
+// Initial cube build
+buildCube();
+
+/*──────────────── INTERACTION ───────────────*/
+let scale=1;
+function getMinScale() {
+  const cubeWidth = getCubeSize();
+  const availableWidth = window.innerWidth - cubeWidth;
+  const availableHeight = window.innerHeight;
+  const minScaleX = availableWidth / (BOARD_COLS * TILE);
+  const minScaleY = availableHeight / (BOARD_ROWS * TILE);
+  return Math.min(minScaleX, minScaleY, 0.3); // minimum scale of 0.3
+}
+
+let minScale = getMinScale();
+let boardX = 0, boardY = 0;
+
+function applyBoardTransform(){
+  board.style.transform=`translate(${boardX}px,${boardY}px) scale(${scale})`;
+  document.getElementById('scaleInfo').textContent = `${scale.toFixed(2)} (min: ${minScale.toFixed(2)})`;
+}
+
+// Initial positioning
+function centerBoard() {
+  const cubeWidth = getCubeSize();
+  const availableWidth = window.innerWidth - cubeWidth;
+  const availableHeight = window.innerHeight;
+  const boardWidth = BOARD_COLS * TILE * scale;
+  const boardHeight = BOARD_ROWS * TILE * scale;
+  
+  boardX = Math.max(0, (availableWidth - boardWidth) / 2);
+  boardY = Math.max(0, (availableHeight - boardHeight) / 2);
+}
+
+centerBoard();
+applyBoardTransform();
+
+const boardWrap=document.getElementById('boardWrapper');
+
+/*──────────────── TOUCH AND MOUSE INTERACTION ───────────────*/
+let isPanning = false;
+let startX = 0, startY = 0;
+let startBoardX = 0, startBoardY = 0;
+let lastTouchDistance = 0;
+let isZooming = false;
+
+// Unified pointer events for mouse and touch
+boardWrap.addEventListener('pointerdown', handlePointerDown);
+boardWrap.addEventListener('pointermove', handlePointerMove);
+boardWrap.addEventListener('pointerup', handlePointerUp);
+boardWrap.addEventListener('pointercancel', handlePointerUp);
+
+// Track active pointers for multi-touch
+const activePointers = new Map();
+
+function handlePointerDown(e) {
+  activePointers.set(e.pointerId, {x: e.clientX, y: e.clientY});
+  
+  if (activePointers.size === 1) {
+    // Single pointer - start panning
+    isPanning = true;
+    startX = e.clientX;
+    startY = e.clientY;
+    startBoardX = boardX;
+    startBoardY = boardY;
+    boardWrap.setPointerCapture(e.pointerId);
+  } else if (activePointers.size === 2) {
+    // Two pointers - start zooming
+    isPanning = false;
+    isZooming = true;
+    const pointers = Array.from(activePointers.values());
+    lastTouchDistance = Math.sqrt(
+      Math.pow(pointers[1].x - pointers[0].x, 2) + 
+      Math.pow(pointers[1].y - pointers[0].y, 2)
+    );
+  }
+}
+
+function handlePointerMove(e) {
+  if (!activePointers.has(e.pointerId)) return;
+  
+  // Update pointer position
+  activePointers.set(e.pointerId, {x: e.clientX, y: e.clientY});
+  
+  if (isPanning && activePointers.size === 1) {
+    // Single pointer panning
+    boardX = startBoardX + (e.clientX - startX);
+    boardY = startBoardY + (e.clientY - startY);
+    applyBoardTransform();
+    updateCubeFacing();
+  } else if (isZooming && activePointers.size === 2) {
+    // Two-finger pinch zoom
+    const pointers = Array.from(activePointers.values());
+    const currentDistance = Math.sqrt(
+      Math.pow(pointers[1].x - pointers[0].x, 2) + 
+      Math.pow(pointers[1].y - pointers[0].y, 2)
+    );
+    
+    if (lastTouchDistance > 0) {
+      const zoomFactor = currentDistance / lastTouchDistance;
+      const newScale = Math.min(Math.max(scale * zoomFactor, minScale), 4);
+      
+      // Calculate zoom center point
+      const centerX = (pointers[0].x + pointers[1].x) / 2;
+      const centerY = (pointers[0].y + pointers[1].y) / 2;
+      
+      // Get board rect before scaling
+      const boardRect = board.getBoundingClientRect();
+      const boardCenterX = centerX - boardRect.left;
+      const boardCenterY = centerY - boardRect.top;
+      
+      // Apply zoom with focal point
+      const scaleDiff = newScale - scale;
+      boardX -= (boardCenterX / scale) * scaleDiff;
+      boardY -= (boardCenterY / scale) * scaleDiff;
+      
+      scale = newScale;
+      applyBoardTransform();
+      updateCubeFacing();
+    }
+    
+    lastTouchDistance = currentDistance;
+  }
+}
+
+function handlePointerUp(e) {
+  activePointers.delete(e.pointerId);
+  
+  if (activePointers.size === 0) {
+    isPanning = false;
+    isZooming = false;
+  } else if (activePointers.size === 1 && isZooming) {
+    // Switch from zoom to pan
+    isZooming = false;
+    isPanning = true;
+    const remainingPointer = activePointers.values().next().value;
+    startX = remainingPointer.x;
+    startY = remainingPointer.y;
+    startBoardX = boardX;
+    startBoardY = boardY;
+  }
+}
+
+/* Mouse wheel zoom */
+boardWrap.addEventListener('wheel', e => {
+  e.preventDefault();
+  const direction = Math.sign(e.deltaY);
+  const zoomFactor = direction > 0 ? 0.9 : 1.1;
+  const newScale = Math.min(Math.max(scale * zoomFactor, minScale), 4);
+  
+  // Get zoom center point
+  const rect = boardWrap.getBoundingClientRect();
+  const centerX = e.clientX - rect.left;
+  const centerY = e.clientY - rect.top;
+  
+  // Get board position relative to zoom center
+  const boardRect = board.getBoundingClientRect();
+  const boardCenterX = centerX - (boardRect.left - rect.left);
+  const boardCenterY = centerY - (boardRect.top - rect.top);
+  
+  // Apply zoom with focal point
+  const scaleDiff = newScale - scale;
+  boardX -= (boardCenterX / scale) * scaleDiff;
+  boardY -= (boardCenterY / scale) * scaleDiff;
+  
+  scale = newScale;
+  applyBoardTransform();
+  updateCubeFacing();
+});
+
+/* Board tile selection */
+board.addEventListener('click', e => {
+  if (!e.target.classList.contains('tile')) return;
+  
+  document.querySelectorAll('[data-visible="true"]').forEach(t => t.removeAttribute('data-visible'));
+  const idx = +e.target.dataset.idx;
+  highlight(idx);
+});
+
+function highlight(idx) {
+  document.querySelector(`.tile[data-idx='${idx}']`).dataset.visible = true;
+  document.querySelector(`.cTile[data-idx='${idx}']`).dataset.visible = true;
+}
+
+/*──────────────── CUBE ORIENTATION SYNC - FIXED ───────────────*/
+function updateCubeFacing() {
+  // Get the center point of the board wrapper (crosshair position)
+  const boardWrapRect = boardWrap.getBoundingClientRect();
+  const crosshairX = boardWrapRect.width / 2;
+  const crosshairY = boardWrapRect.height / 2;
+  
+  // DEBUG: Log current state
+  console.log('--- updateCubeFacing Debug ---');
+  console.log('Scale:', scale);
+  console.log('Board position:', boardX, boardY);
+  console.log('Crosshair position:', crosshairX, crosshairY);
+  
+  // Calculate board position in logical coordinates (unscaled)
+  // This is the key fix - convert screen coordinates to logical board coordinates
+  const logicalX = (crosshairX - boardX) / scale;
+  const logicalY = (crosshairY - boardY) / scale;
+  
+  console.log('Logical coordinates:', logicalX, logicalY);
+  
+  // Calculate which tile this corresponds to
+  const col = Math.floor(logicalX / TILE);
+  const row = Math.floor(logicalY / TILE);
+  
+  console.log('Calculated tile:', row, col);
+  
+  // Update debug info
+  document.getElementById('crosshairPos').textContent = `(${Math.round(logicalX)}, ${Math.round(logicalY)})`;
+  document.getElementById('boardTile').textContent = `r:${row}, c:${col}`;
+  
+  // Check if we're within valid bounds
+  if (col >= 0 && col < BOARD_COLS && row >= 0 && row < BOARD_ROWS) {
+    const idx = idxFromRC(row, col);
+    console.log('Calculated idx:', idx);
+    
+    if (idx >= 0 && idx < 54) {
+      const face = faceOf(idx);
+      console.log('Face:', face);
+      
+      // Cube orientation mapping - CORRECTED with proper center rotation
+      const rotations = {
+        0: 'rotateX(0deg) rotateY(0deg)',       // front
+        1: 'rotateX(0deg) rotateY(-90deg)',     // right  
+        2: 'rotateX(0deg) rotateY(180deg)',     // back
+        3: 'rotateX(0deg) rotateY(90deg)',      // left
+        4: 'rotateX(90deg) rotateY(0deg)',      // top
+        5: 'rotateX(-90deg) rotateY(0deg)'      // bottom
+      };
+      
+      const transformStr = rotations[face];
+      cube.style.transform = transformStr;
+      
+      // Update debug info
+      document.getElementById('cubeFace').textContent = `${face} (idx:${idx})`;
+      document.getElementById('transform').textContent = transformStr;
+      return;
+    }
+  }
+  
+  // If out of bounds, show debug info
+  document.getElementById('cubeFace').textContent = 'out of bounds';
+  document.getElementById('transform').textContent = 'none';
+  console.log('Out of bounds');
+}
+
+// Initial update
+updateCubeFacing();
+
+/*──────────────── RESPONSIVE HANDLING ───────────────*/
+window.addEventListener('resize', () => {
+  // Recalculate dimensions
+  minScale = getMinScale();
+  if (scale < minScale) {
+    scale = minScale;
+  }
+  
+  // Rebuild cube with new dimensions
+  buildCube();
+  
+  // Re-center board if needed
+  centerBoard();
+  applyBoardTransform();
+  updateCubeFacing();
+});
+
+/* Prevent context menu */
+document.addEventListener('contextmenu', e => e.preventDefault());
+</script>
+</body>
+</html>
