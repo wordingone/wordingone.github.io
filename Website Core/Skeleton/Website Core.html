@@ -39,34 +39,9 @@ body{background:var(--bg); color:#eaeaea; font-family:system-ui, sans-serif; ove
   height:min(var(--cube), 30vw, 50vh); 
   max-width:min(360px, 30vw, 50vh);
   max-height:min(360px, 30vw, 50vh);
-  perspective:800px; 
-  pointer-events:auto; 
+  pointer-events:auto;
   overflow:visible;
 }
-#cube{
-  position:absolute; 
-  inset:0; 
-  transform-style:preserve-3d; 
-  transition:transform .4s cubic-bezier(.25,.85,.35,1.1);
-}
-.cTile{
-  position:absolute; 
-  width:calc(min(var(--cube), 30vw, 50vh)/3); 
-  height:calc(min(var(--cube), 30vw, 50vh)/3); 
-  max-width:calc(min(360px, 30vw, 50vh)/3);
-  max-height:calc(min(360px, 30vw, 50vh)/3);
-  display:flex; 
-  align-items:center; 
-  justify-content:center; 
-  font-size:clamp(8px,1.2vw,14px); 
-  border:1px solid rgba(0,0,0,.6); 
-  opacity:.96; 
-  cursor:pointer; 
-  backface-visibility:hidden;
-}
-/* show numbers on cube for debugging */
-.cTile>span{display:block; color:#fff; font-weight:bold; text-shadow:1px 1px 2px rgba(0,0,0,0.8);}
-.cTile[data-visible="true"]{outline:2px solid var(--hilite);} /* active tile border */
 
 /* ─── BOARD (responsive) ─── */
 #boardWrapper{
@@ -157,13 +132,6 @@ body{background:var(--bg); color:#eaeaea; font-family:system-ui, sans-serif; ove
     max-width:min(200px, 35vw, 40vh);
     max-height:min(200px, 35vw, 40vh);
   }
-  .cTile {
-    width:calc(min(200px, 35vw, 40vh)/3);
-    height:calc(min(200px, 35vw, 40vh)/3);
-    max-width:calc(min(200px, 35vw, 40vh)/3);
-    max-height:calc(min(200px, 35vw, 40vh)/3);
-    font-size:clamp(6px,1vw,10px);
-  }
   #boardWrapper {
     inset:0 0 0 min(200px, 35vw, 40vh);
   }
@@ -174,10 +142,11 @@ body{background:var(--bg); color:#eaeaea; font-family:system-ui, sans-serif; ove
   }
 }
 </style>
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 </head>
 <body>
   <div id="cubeWrap">
-    <div id="scene"><div id="cube"></div></div>
+    <div id="scene"></div>
   </div>
   <div id="boardWrapper">
     <div id="board"></div>
@@ -252,70 +221,50 @@ for(let r=0;r<BOARD_ROWS;r++){
   }
 }
 
-/*──────────────── BUILD CUBE ───────────────*/
-const cube=document.getElementById('cube');
+/*──────────────── BUILD CUBE WITH THREE.JS ───────────────*/
+const cubeContainer = document.getElementById('scene');
+let renderer, scene3D, camera, cubeMesh;
 
-function buildCube() {
-  // Clear existing cube
-  cube.innerHTML = '';
-  
-  const cubeSize = getCubeSize();
-  const tileSize = cubeSize / 3;
-  const halfCube = cubeSize / 2;
-  
-  // Set cube's transform-origin to its volumetric center
-  cube.style.transformOrigin = '50% 50% 0px';
-  
-  for(let face=0;face<FACES;face++){
-    const base=FACE_BASE[face];
-    for(let fr=0;fr<3;fr++){
-      for(let fc=0;fc<3;fc++){
-        const idx=face*FACE_TILES + fr*3 + fc;
-        const tile=document.createElement('div');
-        tile.className='cTile';
-        tile.dataset.idx=idx;
-        tile.dataset.face=face;
-        tile.innerHTML='<span>'+idx+'</span>';
+function initCube() {
+  const size = getCubeSize();
+  cubeContainer.innerHTML = '';
 
-        /* colour variation */
-        const mult=0.9 + (fr*0.04) + (fc*0.04);
-        tile.style.background=`hsl(${base.h} ${base.s}% ${base.l*mult}%)`;
-        
-        /* position calculation - centered around cube's volumetric center */
-        const fx = fc * tileSize - halfCube + tileSize/2;
-        const fy = fr * tileSize - halfCube + tileSize/2;
-        
-        let transform;
-        switch(face) {
-          case 0: // front
-            transform = `translate3d(${fx}px, ${fy}px, ${halfCube}px)`;
-            break;
-          case 1: // right
-            transform = `translate3d(${halfCube}px, ${fy}px, ${-fx}px) rotateY(90deg)`;
-            break;
-          case 2: // back
-            transform = `translate3d(${-fx}px, ${fy}px, ${-halfCube}px) rotateY(180deg)`;
-            break;
-          case 3: // left
-            transform = `translate3d(${-halfCube}px, ${fy}px, ${fx}px) rotateY(-90deg)`;
-            break;
-          case 4: // top
-            transform = `translate3d(${fx}px, ${-halfCube}px, ${-fy}px) rotateX(-90deg)`;
-            break;
-          case 5: // bottom
-            transform = `translate3d(${fx}px, ${halfCube}px, ${fy}px) rotateX(90deg)`;
-            break;
-        }
-        
-        tile.style.transform=transform;
-        cube.appendChild(tile);
-      }
-    }
-  }
+  renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
+  renderer.setSize(size, size);
+  cubeContainer.appendChild(renderer.domElement);
+
+  scene3D = new THREE.Scene();
+  camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+  camera.position.z = 3;
+
+  const geometry = new THREE.BoxGeometry(1,1,1);
+  const materials = FACE_BASE.map(b => new THREE.MeshBasicMaterial({color:new THREE.Color(`hsl(${b.h},${b.s}%,${b.l}%)`)}));
+  cubeMesh = new THREE.Mesh(geometry, materials);
+  scene3D.add(cubeMesh);
+
+  animateCube();
 }
 
-// Initial cube build
-buildCube();
+function animateCube() {
+  requestAnimationFrame(animateCube);
+  renderer.render(scene3D, camera);
+}
+
+// Simple drag rotation
+let dragging = false, prevX = 0, prevY = 0;
+cubeContainer.addEventListener('pointerdown', e => { dragging = true; prevX = e.clientX; prevY = e.clientY; cubeContainer.setPointerCapture(e.pointerId); });
+cubeContainer.addEventListener('pointermove', e => {
+  if(!dragging) return;
+  const dx = e.clientX - prevX, dy = e.clientY - prevY;
+  cubeMesh.rotation.y += dx * 0.01;
+  cubeMesh.rotation.x += dy * 0.01;
+  prevX = e.clientX; prevY = e.clientY;
+});
+cubeContainer.addEventListener('pointerup', () => { dragging = false; });
+cubeContainer.addEventListener('pointercancel', () => { dragging = false; });
+
+// Initial cube
+initCube();
 
 /*──────────────── INTERACTION ───────────────*/
 let scale=1;
@@ -495,7 +444,6 @@ board.addEventListener('click', e => {
 
 function highlight(idx) {
   document.querySelector(`.tile[data-idx='${idx}']`).dataset.visible = true;
-  document.querySelector(`.cTile[data-idx='${idx}']`).dataset.visible = true;
 }
 
 /*──────────────── CUBE ORIENTATION SYNC - FIXED ───────────────*/
@@ -515,7 +463,7 @@ window.addEventListener('resize', () => {
   }
   
   // Rebuild cube with new dimensions
-  buildCube();
+  initCube();
   
   // Re-center board if needed
   centerBoard();
