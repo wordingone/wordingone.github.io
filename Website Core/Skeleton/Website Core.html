@@ -39,34 +39,9 @@ body{background:var(--bg); color:#eaeaea; font-family:system-ui, sans-serif; ove
   height:min(var(--cube), 30vw, 50vh); 
   max-width:min(360px, 30vw, 50vh);
   max-height:min(360px, 30vw, 50vh);
-  perspective:800px; 
-  pointer-events:auto; 
+  pointer-events:auto;
   overflow:visible;
 }
-#cube{
-  position:absolute; 
-  inset:0; 
-  transform-style:preserve-3d; 
-  transition:transform .4s cubic-bezier(.25,.85,.35,1.1);
-}
-.cTile{
-  position:absolute; 
-  width:calc(min(var(--cube), 30vw, 50vh)/3); 
-  height:calc(min(var(--cube), 30vw, 50vh)/3); 
-  max-width:calc(min(360px, 30vw, 50vh)/3);
-  max-height:calc(min(360px, 30vw, 50vh)/3);
-  display:flex; 
-  align-items:center; 
-  justify-content:center; 
-  font-size:clamp(8px,1.2vw,14px); 
-  border:1px solid rgba(0,0,0,.6); 
-  opacity:.96; 
-  cursor:pointer; 
-  backface-visibility:hidden;
-}
-/* show numbers on cube for debugging */
-.cTile>span{display:block; color:#fff; font-weight:bold; text-shadow:1px 1px 2px rgba(0,0,0,0.8);}
-.cTile[data-visible="true"]{outline:2px solid var(--hilite);} /* active tile border */
 
 /* ─── BOARD (responsive) ─── */
 #boardWrapper{
@@ -77,10 +52,10 @@ body{background:var(--bg); color:#eaeaea; font-family:system-ui, sans-serif; ove
   touch-action:none;
 }
 #board{
-  position:absolute; 
-  display:grid; 
-  grid-template-columns:repeat(9, var(--tile)); 
-  grid-template-rows:repeat(6, var(--tile));
+  position:absolute;
+  display:grid;
+  grid-template-columns:repeat(4, var(--tile));
+  grid-template-rows:repeat(3, var(--tile));
   touch-action:none;
 }
 .tile{
@@ -157,13 +132,6 @@ body{background:var(--bg); color:#eaeaea; font-family:system-ui, sans-serif; ove
     max-width:min(200px, 35vw, 40vh);
     max-height:min(200px, 35vw, 40vh);
   }
-  .cTile {
-    width:calc(min(200px, 35vw, 40vh)/3);
-    height:calc(min(200px, 35vw, 40vh)/3);
-    max-width:calc(min(200px, 35vw, 40vh)/3);
-    max-height:calc(min(200px, 35vw, 40vh)/3);
-    font-size:clamp(6px,1vw,10px);
-  }
   #boardWrapper {
     inset:0 0 0 min(200px, 35vw, 40vh);
   }
@@ -174,10 +142,11 @@ body{background:var(--bg); color:#eaeaea; font-family:system-ui, sans-serif; ove
   }
 }
 </style>
+<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 </head>
 <body>
   <div id="cubeWrap">
-    <div id="scene"><div id="cube"></div></div>
+    <div id="scene"></div>
   </div>
   <div id="boardWrapper">
     <div id="board"></div>
@@ -200,11 +169,17 @@ const FACE_BASE=[
   {h: 50, s:70, l:40}, // top - face 4
   {h:190, s:65, l:28}  // bottom - face 5
 ];
+// Paths to lidar tile images
+function getTileImage(col, row){
+  const c = String(col).padStart(2,'0');
+  const r = String(row).padStart(2,'0');
+  return `../src/assets/lidar/tiles/0/0/tile_col${c}_row${r}.png`;
+}
 
 /*──────────────── GEOMETRY CONSTANTS ───────────────*/
 const TILE=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--tile'));
 const CUBE_BASE=parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--cube'));
-const BOARD_COLS=9, BOARD_ROWS=6; // overall grid
+const BOARD_COLS=4, BOARD_ROWS=3; // overall grid
 const FACE_TILES=9, FACES=6;      // cube logic
 
 /* face layout in board grid (3×2 of faces) */
@@ -231,88 +206,65 @@ function getCubeSize() {
 
 /*──────────────── BUILD BOARD ───────────────*/
 const board=document.getElementById('board');
-for(let face=0;face<FACES;face++){
-  const {nr,nc}=(()=>{for(let r=0;r<FACE_NET.length;r++){const c=FACE_NET[r].indexOf(face);if(c!==-1)return {nr:r,nc:c};}})();
-  const base=FACE_BASE[face];
-  for(let fr=0;fr<3;fr++){
-    for(let fc=0;fc<3;fc++){
-      const idx=face*FACE_TILES + fr*3 + fc;
-      const row=nr*3+fr; const col=nc*3+fc;
-      const tile=document.createElement('div');
-      tile.className='tile'; tile.dataset.idx=idx; tile.dataset.face=face; tile.textContent=idx;
-      tile.style.gridRowStart=row+1; tile.style.gridColumnStart=col+1;
-      /* colour variation */
-      const mult=0.9 + (fr*0.04) + (fc*0.04);
-      tile.style.background=`hsl(${base.h} ${base.s}% ${base.l*mult}%)`;
-      board.appendChild(tile);
-    }
+for(let r=0;r<BOARD_ROWS;r++){
+  for(let c=0;c<BOARD_COLS;c++){
+    const idx=r*BOARD_COLS+c;
+    const tile=document.createElement('div');
+    tile.className='tile';
+    tile.dataset.idx=idx;
+    tile.style.gridRowStart=r+1;
+    tile.style.gridColumnStart=c+1;
+    const img=getTileImage(c,r);
+    tile.style.backgroundImage=`url(${img})`;
+    tile.style.backgroundSize='cover';
+    board.appendChild(tile);
   }
 }
 
-/*──────────────── BUILD CUBE ───────────────*/
-const cube=document.getElementById('cube');
+/*──────────────── BUILD CUBE WITH THREE.JS ───────────────*/
+const cubeContainer = document.getElementById('scene');
+let renderer, scene3D, camera, cubeMesh;
 
-function buildCube() {
-  // Clear existing cube
-  cube.innerHTML = '';
-  
-  const cubeSize = getCubeSize();
-  const tileSize = cubeSize / 3;
-  const halfCube = cubeSize / 2;
-  
-  // Set cube's transform-origin to its volumetric center
-  cube.style.transformOrigin = '50% 50% 0px';
-  
-  for(let face=0;face<FACES;face++){
-    const base=FACE_BASE[face];
-    for(let fr=0;fr<3;fr++){
-      for(let fc=0;fc<3;fc++){
-        const idx=face*FACE_TILES + fr*3 + fc;
-        const tile=document.createElement('div');
-        tile.className='cTile'; 
-        tile.dataset.idx=idx; 
-        tile.dataset.face=face; 
-        tile.innerHTML='<span>'+idx+'</span>';
-        
-        /* colour variation */
-        const mult=0.9 + (fr*0.04) + (fc*0.04);
-        tile.style.background=`hsl(${base.h} ${base.s}% ${base.l*mult}%)`;
-        
-        /* position calculation - centered around cube's volumetric center */
-        const fx = fc * tileSize - halfCube + tileSize/2;
-        const fy = fr * tileSize - halfCube + tileSize/2;
-        
-        let transform;
-        switch(face) {
-          case 0: // front
-            transform = `translate3d(${fx}px, ${fy}px, ${halfCube}px)`;
-            break;
-          case 1: // right
-            transform = `translate3d(${halfCube}px, ${fy}px, ${-fx}px) rotateY(90deg)`;
-            break;
-          case 2: // back
-            transform = `translate3d(${-fx}px, ${fy}px, ${-halfCube}px) rotateY(180deg)`;
-            break;
-          case 3: // left
-            transform = `translate3d(${-halfCube}px, ${fy}px, ${fx}px) rotateY(-90deg)`;
-            break;
-          case 4: // top
-            transform = `translate3d(${fx}px, ${-halfCube}px, ${-fy}px) rotateX(-90deg)`;
-            break;
-          case 5: // bottom
-            transform = `translate3d(${fx}px, ${halfCube}px, ${fy}px) rotateX(90deg)`;
-            break;
-        }
-        
-        tile.style.transform=transform;
-        cube.appendChild(tile);
-      }
-    }
-  }
+function initCube() {
+  const size = getCubeSize();
+  cubeContainer.innerHTML = '';
+
+  renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
+  renderer.setSize(size, size);
+  cubeContainer.appendChild(renderer.domElement);
+
+  scene3D = new THREE.Scene();
+  camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+  camera.position.z = 3;
+
+  const geometry = new THREE.BoxGeometry(1,1,1);
+  const materials = FACE_BASE.map(b => new THREE.MeshBasicMaterial({color:new THREE.Color(`hsl(${b.h},${b.s}%,${b.l}%)`)}));
+  cubeMesh = new THREE.Mesh(geometry, materials);
+  scene3D.add(cubeMesh);
+
+  animateCube();
 }
 
-// Initial cube build
-buildCube();
+function animateCube() {
+  requestAnimationFrame(animateCube);
+  renderer.render(scene3D, camera);
+}
+
+// Simple drag rotation
+let dragging = false, prevX = 0, prevY = 0;
+cubeContainer.addEventListener('pointerdown', e => { dragging = true; prevX = e.clientX; prevY = e.clientY; cubeContainer.setPointerCapture(e.pointerId); });
+cubeContainer.addEventListener('pointermove', e => {
+  if(!dragging) return;
+  const dx = e.clientX - prevX, dy = e.clientY - prevY;
+  cubeMesh.rotation.y += dx * 0.01;
+  cubeMesh.rotation.x += dy * 0.01;
+  prevX = e.clientX; prevY = e.clientY;
+});
+cubeContainer.addEventListener('pointerup', () => { dragging = false; });
+cubeContainer.addEventListener('pointercancel', () => { dragging = false; });
+
+// Initial cube
+initCube();
 
 /*──────────────── INTERACTION ───────────────*/
 let scale=1;
@@ -492,72 +444,11 @@ board.addEventListener('click', e => {
 
 function highlight(idx) {
   document.querySelector(`.tile[data-idx='${idx}']`).dataset.visible = true;
-  document.querySelector(`.cTile[data-idx='${idx}']`).dataset.visible = true;
 }
 
 /*──────────────── CUBE ORIENTATION SYNC - FIXED ───────────────*/
-function updateCubeFacing() {
-  // Get the center point of the board wrapper (crosshair position)
-  const boardWrapRect = boardWrap.getBoundingClientRect();
-  const crosshairX = boardWrapRect.width / 2;
-  const crosshairY = boardWrapRect.height / 2;
-  
-  // DEBUG: Log current state
-  console.log('--- updateCubeFacing Debug ---');
-  console.log('Scale:', scale);
-  console.log('Board position:', boardX, boardY);
-  console.log('Crosshair position:', crosshairX, crosshairY);
-  
-  // Calculate board position in logical coordinates (unscaled)
-  // This is the key fix - convert screen coordinates to logical board coordinates
-  const logicalX = (crosshairX - boardX) / scale;
-  const logicalY = (crosshairY - boardY) / scale;
-  
-  console.log('Logical coordinates:', logicalX, logicalY);
-  
-  // Calculate which tile this corresponds to
-  const col = Math.floor(logicalX / TILE);
-  const row = Math.floor(logicalY / TILE);
-  
-  console.log('Calculated tile:', row, col);
-  
-  // Update debug info
-  document.getElementById('crosshairPos').textContent = `(${Math.round(logicalX)}, ${Math.round(logicalY)})`;
-  document.getElementById('boardTile').textContent = `r:${row}, c:${col}`;
-  
-  // Check if we're within valid bounds
-  if (col >= 0 && col < BOARD_COLS && row >= 0 && row < BOARD_ROWS) {
-    const idx = idxFromRC(row, col);
-    console.log('Calculated idx:', idx);
-    
-    if (idx >= 0 && idx < 54) {
-      const face = faceOf(idx);
-      console.log('Face:', face);
-      
-      // Cube orientation mapping - CORRECTED with proper center rotation
-      const rotations = {
-        0: 'rotateX(0deg) rotateY(0deg)',       // front
-        1: 'rotateX(0deg) rotateY(-90deg)',     // right  
-        2: 'rotateX(0deg) rotateY(180deg)',     // back
-        3: 'rotateX(0deg) rotateY(90deg)',      // left
-        4: 'rotateX(90deg) rotateY(0deg)',      // top
-        5: 'rotateX(-90deg) rotateY(0deg)'      // bottom
-      };
-      
-      const transformStr = rotations[face];
-      cube.style.transform = transformStr;
-      
-      // Update debug info
-      document.getElementById('cubeFace').textContent = `${face} (idx:${idx})`;
-      document.getElementById('transform').textContent = transformStr;
-      return;
-    }
-  }
-  
-  // If out of bounds, show debug info
-  document.getElementById('cubeFace').textContent = 'out of bounds';
-  document.getElementById('transform').textContent = 'none';
-  console.log('Out of bounds');
+function updateCubeFacing(){
+  // orientation sync disabled for lidar board
 }
 
 // Initial update
@@ -572,7 +463,7 @@ window.addEventListener('resize', () => {
   }
   
   // Rebuild cube with new dimensions
-  buildCube();
+  initCube();
   
   // Re-center board if needed
   centerBoard();
