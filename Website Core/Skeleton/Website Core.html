@@ -161,6 +161,7 @@ body{background:var(--bg); color:#eaeaea; font-family:system-ui, sans-serif; ove
   </div>
 <script>
 /*──────────────── COLOUR CONSTANTS ───────────────*/
+1ljynp-codex/check-tile-folder-for-images
 const FACE_BASE=[
   {h:215, s:56, l:36}, // front - face 0
   {h: 25, s:70, l:38}, // right - face 1
@@ -173,6 +174,12 @@ const FACE_BASE=[
 function getTileImage(col, row){
   const c = String(col).padStart(2,'0');
   const r = String(row).padStart(2,'0');
+
+// Paths to lidar tile images
+function getTileImage(col, row){
+  const c = String(col % 4).padStart(2,'0');
+  const r = String(row % 3).padStart(2,'0');
+main
   return `../src/assets/lidar/tiles/0/0/tile_col${c}_row${r}.png`;
 }
 
@@ -206,6 +213,7 @@ function getCubeSize() {
 
 /*──────────────── BUILD BOARD ───────────────*/
 const board=document.getElementById('board');
+ 1ljynp-codex/check-tile-folder-for-images
 for(let r=0;r<BOARD_ROWS;r++){
   for(let c=0;c<BOARD_COLS;c++){
     const idx=r*BOARD_COLS+c;
@@ -218,6 +226,23 @@ for(let r=0;r<BOARD_ROWS;r++){
     tile.style.backgroundImage=`url(${img})`;
     tile.style.backgroundSize='cover';
     board.appendChild(tile);
+=======
+for(let face=0;face<FACES;face++){
+  const {nr,nc}=(()=>{for(let r=0;r<FACE_NET.length;r++){const c=FACE_NET[r].indexOf(face);if(c!==-1)return {nr:r,nc:c};}})();
+  for(let fr=0;fr<3;fr++){
+    for(let fc=0;fc<3;fc++){
+      const idx=face*FACE_TILES + fr*3 + fc;
+      const row=nr*3+fr; const col=nc*3+fc;
+      const tile=document.createElement('div');
+      tile.className='tile'; tile.dataset.idx=idx; tile.dataset.face=face; tile.textContent=idx;
+      tile.style.gridRowStart=row+1; tile.style.gridColumnStart=col+1;
+      const img=getTileImage(col,row);
+      tile.style.backgroundImage=`url(${img})`;
+      tile.style.backgroundSize='cover';
+      tile.textContent='';
+      board.appendChild(tile);
+    }
+main
   }
 }
 
@@ -225,6 +250,7 @@ for(let r=0;r<BOARD_ROWS;r++){
 const cubeContainer = document.getElementById('scene');
 let renderer, scene3D, camera, cubeMesh;
 
+1ljynp-codex/check-tile-folder-for-images
 function initCube() {
   const size = getCubeSize();
   cubeContainer.innerHTML = '';
@@ -248,6 +274,63 @@ function initCube() {
 function animateCube() {
   requestAnimationFrame(animateCube);
   renderer.render(scene3D, camera);
+=======
+function buildCube() {
+  // Clear existing cube
+  cube.innerHTML = '';
+  
+  const cubeSize = getCubeSize();
+  const tileSize = cubeSize / 3;
+  const halfCube = cubeSize / 2;
+  
+  // Set cube's transform-origin to its volumetric center
+  cube.style.transformOrigin = '50% 50% 0px';
+  
+  for(let face=0;face<FACES;face++){
+    for(let fr=0;fr<3;fr++){
+      for(let fc=0;fc<3;fc++){
+        const idx=face*FACE_TILES + fr*3 + fc;
+        const tile=document.createElement('div');
+        tile.className='cTile';
+        tile.dataset.idx=idx;
+        tile.dataset.face=face;
+        tile.innerHTML='';
+        const img=getTileImage(fc,fr);
+        tile.style.backgroundImage=`url(${img})`;
+        tile.style.backgroundSize='cover';
+        
+        /* position calculation - centered around cube's volumetric center */
+        const fx = fc * tileSize - halfCube + tileSize/2;
+        const fy = fr * tileSize - halfCube + tileSize/2;
+        
+        let transform;
+        switch(face) {
+          case 0: // front
+            transform = `translate3d(${fx}px, ${fy}px, ${halfCube}px)`;
+            break;
+          case 1: // right
+            transform = `translate3d(${halfCube}px, ${fy}px, ${-fx}px) rotateY(90deg)`;
+            break;
+          case 2: // back
+            transform = `translate3d(${-fx}px, ${fy}px, ${-halfCube}px) rotateY(180deg)`;
+            break;
+          case 3: // left
+            transform = `translate3d(${-halfCube}px, ${fy}px, ${fx}px) rotateY(-90deg)`;
+            break;
+          case 4: // top
+            transform = `translate3d(${fx}px, ${-halfCube}px, ${-fy}px) rotateX(-90deg)`;
+            break;
+          case 5: // bottom
+            transform = `translate3d(${fx}px, ${halfCube}px, ${fy}px) rotateX(90deg)`;
+            break;
+        }
+        
+        tile.style.transform=transform;
+        cube.appendChild(tile);
+      }
+    }
+  }
+main
 }
 
 // Simple drag rotation
