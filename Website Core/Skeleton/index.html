@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Architectural Navigation System</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Main Layout Container -->
+    <div id="app-container">
+        <!-- Left Panel: 3D Model Viewer (1/3 width) -->
+        <div id="model-panel">
+            <canvas id="canvas"></canvas>
+            
+            <!-- Model Info Overlay -->
+            <div id="model-info">
+                <h3>3D Navigation Model</h3>
+                <p>5-Floor Architectural System</p>
+                <p>Mouse: rotate | Wheel: zoom</p>
+                <p>2,673 instanced components</p>
+            </div>
+        </div>
+        
+        <!-- Right Panel: Main Content Area (2/3 width) -->
+        <div id="main-panel">
+            <!-- LiDAR Board Interface -->
+            <div id="lidar-board-container">
+                <!-- Board Controls -->
+                <div id="board-controls">
+                    <button id="highlight-btn" class="control-btn">
+                        <span class="btn-icon">✨</span>
+                        <span class="btn-text">Highlight</span>
+                    </button>
+                    <button id="reset-btn" class="control-btn">
+                        <span class="btn-icon">↺</span>
+                        <span class="btn-text">Reset View</span>
+                    </button>
+                    <div id="zoom-indicator">
+                        <span>Zoom: <span id="zoom-level">100%</span></span>
+                    </div>
+                </div>
+                
+                <!-- LiDAR Board Display -->
+                <div id="lidar-board" class="board-container">
+                    <!-- Main LiDAR Image -->
+                    <div id="lidar-image-container">
+                        <img id="lidar-image" src="./src/assets/image/lidar_00.png" alt="LiDAR Scan">
+                        
+                        <!-- Highlight Overlay -->
+                        <div id="highlight-overlay" class="overlay">
+                            <!-- Dynamic highlight areas will be added here -->
+                        </div>
+                        
+                        <!-- Crosshair for center reference -->
+                        <div id="crosshair">
+                            <div class="crosshair-h"></div>
+                            <div class="crosshair-v"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Board Status -->
+                <div id="board-status">
+                    <span id="board-info">LiDAR Navigation Board | Ready</span>
+                    <span id="selection-info">Click areas to explore | Sync with 3D model</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Loading Screen -->
+    <div id="loading">
+        <div class="spinner"></div>
+        <p>Loading Architectural Models...</p>
+        <div class="loading-progress">
+            <div class="progress-bar"></div>
+        </div>
+    </div>
+
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+            "three/examples/jsm/loaders/GLTFLoader": "https://unpkg.com/three@0.160.0/examples/jsm/loaders/GLTFLoader.js",
+            "three/examples/jsm/loaders/DRACOLoader": "https://unpkg.com/three@0.160.0/examples/jsm/loaders/DRACOLoader.js",
+            "three/examples/jsm/controls/OrbitControls": "https://unpkg.com/three@0.160.0/examples/jsm/controls/OrbitControls.js"
+        }
+    }
+    </script>
+    
+    <script type="module" src="script.js"></script>
+</body>
+</html>

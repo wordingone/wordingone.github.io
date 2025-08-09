@@ -1,0 +1,563 @@
+/* ===== RESET & BASE STYLES ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #1a1a1a;
+    color: #ffffff;
+}
+
+/* ===== MAIN LAYOUT CONTAINER ===== */
+#app-container {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+}
+
+/* ===== LEFT PANEL: 3D MODEL VIEWER (1/3 WIDTH) ===== */
+#model-panel {
+    width: 33.333%;
+    height: 100vh;
+    position: relative;
+    background: #222222;
+    border-right: 2px solid #333333;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* Canvas fills the model panel */
+#canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+    background: #222222;
+    cursor: grab;
+}
+
+#canvas:active {
+    cursor: grabbing;
+}
+
+/* Model info overlay */
+#model-info {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 12px;
+    line-height: 1.4;
+    z-index: 10;
+    max-width: calc(100% - 32px);
+}
+
+#model-info h3 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #ffffff;
+}
+
+#model-info p {
+    margin: 2px 0;
+    color: #cccccc;
+}
+
+/* ===== RIGHT PANEL: LIDAR BOARD INTERFACE ===== */
+#main-panel {
+    width: 66.667%;
+    height: 100vh;
+    background: #f8f9fa;
+    color: #333333;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* LiDAR Board Container */
+#lidar-board-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+/* Board Controls */
+#board-controls {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 16px 24px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    z-index: 100;
+}
+
+.control-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 20px;
+    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
+}
+
+.control-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(52, 152, 219, 0.4);
+}
+
+.control-btn:active {
+    transform: translateY(0);
+}
+
+#highlight-btn {
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    box-shadow: 0 2px 8px rgba(231, 76, 60, 0.3);
+}
+
+#highlight-btn:hover {
+    box-shadow: 0 4px 16px rgba(231, 76, 60, 0.4);
+}
+
+#highlight-btn.active {
+    background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%);
+    box-shadow: 0 4px 16px rgba(243, 156, 18, 0.4);
+}
+
+.btn-icon {
+    font-size: 16px;
+}
+
+#zoom-indicator {
+    margin-left: auto;
+    padding: 8px 16px;
+    background: rgba(108, 117, 125, 0.1);
+    border-radius: 6px;
+    font-size: 13px;
+    color: #6c757d;
+    font-weight: 500;
+}
+
+/* LiDAR Board Display */
+#lidar-board {
+    flex: 1;
+    position: relative;
+    overflow: hidden;
+    background: #000000;
+    cursor: grab;
+}
+
+#lidar-board:active {
+    cursor: grabbing;
+}
+
+#lidar-image-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#lidar-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    transition: all 0.3s ease;
+    user-select: none;
+    pointer-events: none;
+}
+
+/* Highlight Overlay System */
+#highlight-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0);
+    transition: background 0.4s ease;
+    pointer-events: none;
+    z-index: 10;
+}
+
+/* Darkened state when highlight is active - MUCH lighter so LiDAR shows through */
+#highlight-overlay.highlight-active {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+/* Highlighted sections */
+.highlight-section {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid rgba(52, 152, 219, 0.8);
+    border-radius: 4px;
+    pointer-events: none;
+    opacity: 0;
+    transform: scale(0.8);
+    transition: all 0.3s ease;
+    box-shadow: 
+        0 0 20px rgba(52, 152, 219, 0.4),
+        inset 0 0 20px rgba(255, 255, 255, 0.1);
+}
+
+.highlight-section.visible {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.highlight-section.pulsing {
+    animation: highlightPulse 2s ease-in-out infinite;
+}
+
+@keyframes highlightPulse {
+    0%, 100% {
+        box-shadow: 
+            0 0 20px rgba(52, 152, 219, 0.4),
+            inset 0 0 20px rgba(255, 255, 255, 0.1);
+    }
+    50% {
+        box-shadow: 
+            0 0 40px rgba(52, 152, 219, 0.8),
+            inset 0 0 30px rgba(255, 255, 255, 0.2);
+    }
+}
+
+/* Crosshair */
+#crosshair {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 30;
+    opacity: 0.3;
+    transition: opacity 0.3s ease;
+}
+
+#crosshair.visible {
+    opacity: 0.7;
+}
+
+.crosshair-h, .crosshair-v {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.crosshair-h {
+    width: 40px;
+    height: 1px;
+    top: 0;
+    left: -20px;
+}
+
+.crosshair-v {
+    width: 1px;
+    height: 40px;
+    top: -20px;
+    left: 0;
+}
+
+/* Board Status */
+#board-status {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 24px;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+    font-size: 12px;
+    color: #6c757d;
+    z-index: 100;
+}
+
+#board-info {
+    font-weight: 600;
+    color: #495057;
+}
+
+#selection-info {
+    font-style: italic;
+}
+
+/* Zoom and Pan States */
+.zoomed {
+    cursor: move;
+}
+
+.zoomed #lidar-image {
+    cursor: move;
+    pointer-events: auto;
+}
+
+/* Loading state for LiDAR image */
+#lidar-image {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+#lidar-image.loaded {
+    opacity: 1;
+}
+
+/* Responsive adjustments for LiDAR board */
+@media (max-width: 1024px) {
+    #board-controls {
+        padding: 12px 16px;
+        gap: 12px;
+    }
+    
+    .control-btn {
+        padding: 10px 16px;
+        font-size: 13px;
+    }
+    
+    #board-status {
+        padding: 10px 16px;
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 768px) {
+    #board-controls {
+        flex-wrap: wrap;
+        padding: 10px 12px;
+    }
+    
+    .control-btn {
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+    
+    .btn-text {
+        display: none;
+    }
+    
+    #zoom-indicator {
+        order: -1;
+        margin-left: 0;
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* ===== LOADING SCREEN ===== */
+#loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(26, 26, 26, 0.95);
+    backdrop-filter: blur(10px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+}
+
+#loading.hidden {
+    opacity: 0;
+    visibility: hidden;
+}
+
+/* Spinner Animation */
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    border-top: 3px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+#loading p {
+    font-size: 18px;
+    color: #ffffff;
+    margin-bottom: 20px;
+    font-weight: 300;
+}
+
+/* Progress Bar */
+.loading-progress {
+    width: 300px;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, #3498db, #2ecc71);
+    border-radius: 2px;
+    animation: loadingProgress 3s ease-in-out infinite;
+}
+
+@keyframes loadingProgress {
+    0% { width: 0%; }
+    50% { width: 70%; }
+    100% { width: 100%; }
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 1024px) {
+    #app-container {
+        flex-direction: column;
+    }
+    
+    #model-panel {
+        width: 100%;
+        height: 40vh;
+        border-right: none;
+        border-bottom: 2px solid #333333;
+    }
+    
+    #main-panel {
+        width: 100%;
+        height: 60vh;
+    }
+    
+    #content-placeholder {
+        padding: 20px;
+    }
+    
+    #content-placeholder h2 {
+        font-size: 24px;
+    }
+    
+    #model-info {
+        top: 12px;
+        left: 12px;
+        padding: 8px 12px;
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 768px) {
+    #model-panel {
+        height: 35vh;
+    }
+    
+    #main-panel {
+        height: 65vh;
+    }
+    
+    #content-placeholder {
+        padding: 16px;
+    }
+    
+    #content-placeholder h2 {
+        font-size: 20px;
+    }
+    
+    #content-placeholder p {
+        font-size: 14px;
+    }
+    
+    #model-info h3 {
+        font-size: 12px;
+    }
+    
+    #model-info {
+        font-size: 10px;
+    }
+}
+
+/* ===== UTILITY CLASSES ===== */
+.hidden {
+    display: none !important;
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* ===== SCROLLBAR STYLING ===== */
+#content-placeholder::-webkit-scrollbar {
+    width: 8px;
+}
+
+#content-placeholder::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+#content-placeholder::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+
+#content-placeholder::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* ===== HOVER EFFECTS ===== */
+#model-info {
+    transition: all 0.3s ease;
+}
+
+#model-info:hover {
+    background: rgba(0, 0, 0, 0.9);
+    border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* ===== FOCUS STATES FOR ACCESSIBILITY ===== */
+#canvas:focus {
+    outline: 2px solid #3498db;
+    outline-offset: 2px;
+}
+
+/* ===== PERFORMANCE OPTIMIZATIONS ===== */
+#canvas {
+    will-change: auto;
+    transform: translateZ(0);
+}
+
+#model-panel {
+    contain: layout style paint;
+}
+
+#main-panel {
+    contain: layout style;
+}
