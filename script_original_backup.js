@@ -105,25 +105,23 @@ function loadModel() {
     
     let modelsLoaded = 0;
     
-    // FIXED: Use GitHub release URLs to bypass Git LFS issue
-    // These URLs serve actual binary GLB files instead of LFS pointers
-    const releaseBaseUrl = 'https://github.com/wordingone/wordingone.github.io/releases/download/v1.0/';
-    
+    // Use local models directory - no CORS issues
+    const modelsBasePath = new URL('./models/', import.meta.url);
     const modelsToLoad = [
-        { name: 'Architectural System', file: releaseBaseUrl + 'arch_module_smallest.glb', isInstanced: true },
-        { name: 'Misc Geometry', file: releaseBaseUrl + 'misc%20geometry.glb', isInstanced: false },
-        { name: 'Altars', file: releaseBaseUrl + 'altars.glb', isInstanced: false },
-        { name: 'Circulation', file: releaseBaseUrl + 'circulation.glb', isInstanced: false },
-        { name: 'Distress', file: releaseBaseUrl + 'Distress.glb', isInstanced: false },
-        { name: 'Embellishments', file: releaseBaseUrl + 'embellishments.glb', isInstanced: false },
-        { name: 'Index', file: releaseBaseUrl + 'Index.glb', isInstanced: false },
-        { name: 'Mirror', file: releaseBaseUrl + 'mirror.glb', isInstanced: false },
-        { name: 'Moulage', file: releaseBaseUrl + 'Moulage.glb', isInstanced: false },
-        { name: 'Robot', file: releaseBaseUrl + 'robot.glb', isInstanced: false }
+        { name: 'Architectural System', file: new URL('arch_module_smallest.glb', modelsBasePath).href, isInstanced: true },
+        { name: 'Misc Geometry', file: new URL('misc geometry.glb', modelsBasePath).href, isInstanced: false },
+        { name: 'Altars', file: new URL('altars.glb', modelsBasePath).href, isInstanced: false },
+        { name: 'Circulation', file: new URL('circulation.glb', modelsBasePath).href, isInstanced: false },
+        { name: 'Distress', file: new URL('Distress.glb', modelsBasePath).href, isInstanced: false },
+        { name: 'Embellishments', file: new URL('embellishments.glb', modelsBasePath).href, isInstanced: false },
+        { name: 'Index', file: new URL('Index.glb', modelsBasePath).href, isInstanced: false },
+        { name: 'Mirror', file: new URL('mirror.glb', modelsBasePath).href, isInstanced: false },
+        { name: 'Moulage', file: new URL('Moulage.glb', modelsBasePath).href, isInstanced: false },
+        { name: 'Robot', file: new URL('robot.glb', modelsBasePath).href, isInstanced: false }
     ];
     
     const totalModels = modelsToLoad.length;
-    console.log(`Loading ${totalModels} models from GitHub release (bypassing Git LFS)...`);
+    console.log(`Loading ${totalModels} models from shared coordinate system...`);
     
     // Load each model directly
     modelsToLoad.forEach((modelInfo, index) => {
@@ -131,7 +129,7 @@ function loadModel() {
         loader.load(
             modelInfo.file,
             function(gltf) {
-                console.log(`${modelInfo.name} loaded successfully from release!`);
+                console.log(`${modelInfo.name} loaded, processing...`);
                 
                 if (modelInfo.isInstanced) {
                     // Handle the main architectural instanced system
@@ -212,7 +210,7 @@ function loadModel() {
         if (modelsLoaded === totalModels) {
             hideLoading();
             needsRender = true;
-            console.log(`All ${totalModels} models loaded successfully from GitHub release!`);
+            console.log(`All ${totalModels} models loaded successfully from shared coordinate system!`);
             
             // Dispose of DRACO loader resources
             dracoLoader.dispose();
