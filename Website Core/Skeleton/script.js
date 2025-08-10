@@ -105,114 +105,125 @@ function loadModel() {
     
     let modelsLoaded = 0;
     
-    // Define all models to load (excluding .glbbak backup files)
+    // Define all models to load with fallback to GitHub releases for Git LFS files
+    const GITHUB_RELEASE_BASE = 'https://github.com/wordingone/wordingone.github.io/releases/download/models/';
+    
     const modelsToLoad = [
-        { name: 'Architectural System', file: './src/assets/models/arch_module_smallest.glb', isInstanced: true },
-        { name: 'Misc Geometry', file: './src/assets/models/misc geometry.glb', isInstanced: false },
-        { name: 'Altars', file: './src/assets/models/altars.glb', isInstanced: false },
-        { name: 'Circulation', file: './src/assets/models/circulation.glb', isInstanced: false },
-        { name: 'Distress', file: './src/assets/models/Distress.glb', isInstanced: false },
-        { name: 'Embellishments', file: './src/assets/models/embellishments.glb', isInstanced: false },
-        { name: 'Index', file: './src/assets/models/Index.glb', isInstanced: false },
-        { name: 'Mirror', file: './src/assets/models/mirror.glb', isInstanced: false },
-        { name: 'Moulage', file: './src/assets/models/Moulage.glb', isInstanced: false },
-        { name: 'Robot', file: './src/assets/models/robot.glb', isInstanced: false }
+        { name: 'Architectural System', file: './src/assets/models/arch_module_smallest.glb', fallback: GITHUB_RELEASE_BASE + 'arch_module_smallest.glb', isInstanced: true },
+        { name: 'Misc Geometry', file: './src/assets/models/misc geometry.glb', fallback: GITHUB_RELEASE_BASE + 'misc_geometry.glb', isInstanced: false },
+        { name: 'Altars', file: './src/assets/models/altars.glb', fallback: GITHUB_RELEASE_BASE + 'altars.glb', isInstanced: false },
+        { name: 'Circulation', file: './src/assets/models/circulation.glb', fallback: GITHUB_RELEASE_BASE + 'circulation.glb', isInstanced: false },
+        { name: 'Distress', file: './src/assets/models/Distress.glb', fallback: GITHUB_RELEASE_BASE + 'Distress.glb', isInstanced: false },
+        { name: 'Embellishments', file: './src/assets/models/embellishments.glb', fallback: GITHUB_RELEASE_BASE + 'embellishments.glb', isInstanced: false },
+        { name: 'Index', file: './src/assets/models/Index.glb', fallback: GITHUB_RELEASE_BASE + 'Index.glb', isInstanced: false },
+        { name: 'Mirror', file: './src/assets/models/mirror.glb', fallback: GITHUB_RELEASE_BASE + 'mirror.glb', isInstanced: false },
+        { name: 'Moulage', file: './src/assets/models/Moulage.glb', fallback: GITHUB_RELEASE_BASE + 'Moulage.glb', isInstanced: false },
+        { name: 'Robot', file: './src/assets/models/robot.glb', fallback: GITHUB_RELEASE_BASE + 'robot.glb', isInstanced: false }
     ];
+    
+    // Helper function to check if content is a Git LFS pointer
+    async function isGitLFSPointer(url) {
+        try {
+            const response = await fetch(url, { method: 'HEAD' });
+            const contentType = response.headers.get('content-type');
+            return contentType && contentType.includes('text/plain');
+        } catch (error) {
+            return false;
+        }
+    }
     
     const totalModels = modelsToLoad.length;
     console.log(`Loading ${totalModels} models from shared coordinate system...`);
     
-    // Load each model with LFS placeholder detection
-    modelsToLoad.forEach((modelInfo) => {
-        fetch(modelInfo.file)
-            .then(response => response.arrayBuffer())
-            .then(buffer => {
-                // Detect Git LFS placeholder (starts with "version https://git-lfs")
-                const header = new TextDecoder().decode(buffer.slice(0, 36));
-                if (header.startsWith('version https://git-lfs')) {
-                    console.warn(`${modelInfo.name} appears to be a Git LFS placeholder; skipping`);
-                    modelsLoaded++;
-                    checkAllModelsLoaded();
-                    return;
-                }
-
-                loader.parse(buffer, '', function(gltf) {
-                    console.log(`${modelInfo.name} loaded, processing...`);
-
-                    if (modelInfo.isInstanced) {
-                        // Handle the main architectural instanced system
-                        const model = gltf.scene;
-                        const box = new THREE.Box3().setFromObject(model);
-                        const size = box.getSize(new THREE.Vector3());
-
-                        console.log('Architectural model size:', size.x.toFixed(2), '×', size.y.toFixed(2), '×', size.z.toFixed(2));
-                        createAdvancedInstancedSystem(model, size);
-                        console.log('Advanced instanced system complete!');
-                    } else {
-                        // Handle regular models with shared coordinate system
-                        const loadedModel = gltf.scene;
-
-                        // Apply consistent shading system to all meshes
-                        loadedModel.traverse(function(child) {
-                            if (child.isMesh) {
-                                console.log(`Processing ${modelInfo.name} mesh:`, child.name || 'unnamed');
-
-                                // Apply baked lighting to geometry
-                                if (child.geometry) {
-                                    generateBakedLighting(child.geometry);
-                                }
-
-                                // Create optimized material matching the instanced system
-                                const optimizedMaterial = new THREE.MeshBasicMaterial({
-                                    transparent: false,
-                                    alphaTest: 0,
-                                    side: THREE.FrontSide,
-                                    vertexColors: true,
-                                    fog: false
-                                });
-
-                                // Copy texture if the original material has one
-                                if (child.material && child.material.map) {
-                                    const texture = child.material.map.clone();
-                                    texture.generateMipmaps = false;
-                                    texture.minFilter = THREE.LinearFilter;
-                                    texture.magFilter = THREE.LinearFilter;
-                                    optimizedMaterial.map = texture;
-                                }
-
-                                // Apply the optimized material
-                                child.material = optimizedMaterial;
-
-                                // Apply GPU optimizations
-                                child.castShadow = false;
-                                child.receiveShadow = false;
-                                child.matrixAutoUpdate = false;
+    // Load each model with Git LFS detection and fallback
+    modelsToLoad.forEach(async (modelInfo, index) => {
+        // Check if file is a Git LFS pointer before attempting to load
+        const isLFSPointer = await isGitLFSPointer(modelInfo.file);
+        
+        let fileToLoad = modelInfo.file;
+        if (isLFSPointer) {
+            console.log(`${modelInfo.name} appears to be a Git LFS placeholder; trying release fallback...`);
+            fileToLoad = modelInfo.fallback;
+        }
+        
+        loader.load(
+            fileToLoad,
+            function(gltf) {
+                console.log(`${modelInfo.name} loaded, processing...`);
+                
+                if (modelInfo.isInstanced) {
+                    // Handle the main architectural instanced system
+                    const model = gltf.scene;
+                    const box = new THREE.Box3().setFromObject(model);
+                    const size = box.getSize(new THREE.Vector3());
+                    
+                    console.log('Architectural model size:', size.x.toFixed(2), '×', size.y.toFixed(2), '×', size.z.toFixed(2));
+                    createAdvancedInstancedSystem(model, size);
+                    console.log('Advanced instanced system complete!');
+                } else {
+                    // Handle regular models with shared coordinate system
+                    const loadedModel = gltf.scene;
+                    
+                    // Apply consistent shading system to all meshes
+                    loadedModel.traverse(function(child) {
+                        if (child.isMesh) {
+                            console.log(`Processing ${modelInfo.name} mesh:`, child.name || 'unnamed');
+                            
+                            // Apply baked lighting to geometry
+                            if (child.geometry) {
+                                generateBakedLighting(child.geometry);
                             }
-                        });
-
-                        // Position using shared coordinate system with small X-axis offset
-                        // Architectural tower stays at origin, other models shifted -0.3 units on X-axis
-                        loadedModel.position.set(-0.3, 0, 0);
-
-                        // Add to scene
-                        scene.add(loadedModel);
-
-                        console.log(`${modelInfo.name} placed in scene with matching shading`);
-                    }
-
-                    modelsLoaded++;
-                    checkAllModelsLoaded();
-                }, function(error) {
-                    console.error(`Error parsing ${modelInfo.name}:`, error);
-                    modelsLoaded++;
-                    checkAllModelsLoaded();
-                });
-            })
-            .catch(error => {
-                console.error(`Error fetching ${modelInfo.name}:`, error);
+                            
+                            // Create optimized material matching the instanced system
+                            const optimizedMaterial = new THREE.MeshBasicMaterial({
+                                transparent: false,
+                                alphaTest: 0,
+                                side: THREE.FrontSide,
+                                vertexColors: true,
+                                fog: false
+                            });
+                            
+                            // Copy texture if the original material has one
+                            if (child.material && child.material.map) {
+                                const texture = child.material.map.clone();
+                                texture.generateMipmaps = false;
+                                texture.minFilter = THREE.LinearFilter;
+                                texture.magFilter = THREE.LinearFilter;
+                                optimizedMaterial.map = texture;
+                            }
+                            
+                            // Apply the optimized material
+                            child.material = optimizedMaterial;
+                            
+                            // Apply GPU optimizations
+                            child.castShadow = false;
+                            child.receiveShadow = false;
+                            child.matrixAutoUpdate = false;
+                        }
+                    });
+                    
+                    // Position using shared coordinate system with small X-axis offset
+                    // Architectural tower stays at origin, other models shifted -0.3 units on X-axis
+                    loadedModel.position.set(-0.3, 0, 0);
+                    
+                    // Add to scene
+                    scene.add(loadedModel);
+                    
+                    console.log(`${modelInfo.name} placed in scene with matching shading`);
+                }
+                
                 modelsLoaded++;
                 checkAllModelsLoaded();
-            });
+            },
+            function(progress) {
+                const percent = Math.round((progress.loaded / progress.total * 100));
+                console.log(`Loading ${modelInfo.name} progress: ${percent}%`);
+            },
+            function(error) {
+                console.error(`Error loading ${modelInfo.name}:`, error);
+                showError(`Failed to load ${modelInfo.name}: ` + error.message);
+            }
+        );
     });
     
     function checkAllModelsLoaded() {
@@ -595,88 +606,52 @@ function initResponsiveLiDARBoard() {
     console.log('Initializing responsive LiDAR board with Figma-style hotspots...');
     
     const lidarBoard = document.getElementById('lidar-board');
-    let hotspots = [];
+    const hotspots = document.querySelectorAll('.hotspot');
     
     // Figma SVG reference dimensions (1920x1080)
     const REFERENCE_WIDTH = 1920;
     const REFERENCE_HEIGHT = 1080;
     
-    // Reload hotspot regions from external SVG
-    async function reloadHotspotsFromSVG() {
-        try {
-            const response = await fetch('./src/assets/figma/hover and button locations.svg');
-            const svgText = await response.text();
-            const parser = new DOMParser();
-            const svgDoc = parser.parseFromString(svgText, 'image/svg+xml');
-            const shapes = svgDoc.querySelectorAll('rect, path');
-
-            // Clear existing hotspots
-            lidarBoard.querySelectorAll('.hotspot').forEach(h => h.remove());
-
-            shapes.forEach((shape, index) => {
-                const bbox = shape.getBBox();
-                const transform = shape.getAttribute('transform') || '';
-                let rotation = 0;
-                const match = transform.match(/rotate\(([-\d\.]+)/);
-                if (match) {
-                    rotation = parseFloat(match[1]);
-                }
-
-                const hotspot = document.createElement('div');
-                hotspot.className = 'hotspot';
-                hotspot.dataset.area = `area-${index + 1}`;
-                hotspot.dataset.coords = `${bbox.x},${bbox.y},${bbox.width},${bbox.height}`;
-                hotspot.dataset.rotation = rotation;
-                lidarBoard.appendChild(hotspot);
-            });
-
-            hotspots = lidarBoard.querySelectorAll('.hotspot');
-            addHotspotListeners();
-            positionHotspots();
-            console.log(`Reloaded ${hotspots.length} hotspots from SVG`);
-        } catch (err) {
-            console.error('Failed to reload hotspots from SVG', err);
-        }
-    }
-
     // Position hotspots responsively
     function positionHotspots() {
         const boardRect = lidarBoard.getBoundingClientRect();
         const scaleX = boardRect.width / REFERENCE_WIDTH;
         const scaleY = boardRect.height / REFERENCE_HEIGHT;
-
+        
         hotspots.forEach(hotspot => {
             const coords = hotspot.dataset.coords.split(',').map(Number);
             const rotation = parseFloat(hotspot.dataset.rotation || 0);
+            
             const [x, y, width, height] = coords;
-
+            
+            // Scale coordinates to current container size
             const scaledX = x * scaleX;
             const scaledY = y * scaleY;
             const scaledWidth = width * scaleX;
             const scaledHeight = height * scaleY;
-
+            
+            // Apply responsive positioning
             hotspot.style.left = scaledX + 'px';
             hotspot.style.top = scaledY + 'px';
             hotspot.style.width = scaledWidth + 'px';
             hotspot.style.height = scaledHeight + 'px';
             hotspot.style.transform = `rotate(${rotation}deg)`;
         });
-
+        
         console.log(`Positioned ${hotspots.length} hotspots for ${boardRect.width.toFixed(0)}x${boardRect.height.toFixed(0)} container`);
     }
-
-    function addHotspotListeners() {
-        hotspots.forEach(hotspot => {
-            hotspot.addEventListener('click', function(e) {
-                e.preventDefault();
-                handleHotspotClick(this);
-            });
-
-            hotspot.addEventListener('mouseenter', function() {
-                console.log(`Hovering over ${this.dataset.area} area`);
-            });
+    
+    // Add click handlers for hotspots
+    hotspots.forEach(hotspot => {
+        hotspot.addEventListener('click', function(e) {
+            e.preventDefault();
+            handleHotspotClick(this);
         });
-    }
+        
+        hotspot.addEventListener('mouseenter', function() {
+            console.log(`Hovering over ${this.dataset.area} area`);
+        });
+    });
     
     function handleHotspotClick(hotspot) {
         const area = hotspot.dataset.area;
@@ -711,15 +686,25 @@ function initResponsiveLiDARBoard() {
     function handleResize() {
         clearTimeout(resizeTimeout);
         resizeTimeout = setTimeout(() => {
-            reloadHotspotsFromSVG();
+            positionHotspots();
         }, 100); // Debounce resize events
     }
     
     // Set up resize listener
     window.addEventListener('resize', handleResize);
-
-    // Initial loading of hotspots and positioning
-    reloadHotspotsFromSVG();
-
+    
+    // Initial positioning
+    // Wait for layout to be ready
+    setTimeout(positionHotspots, 100);
+    
+    // Also reposition when images load (if any)
+    if (document.readyState === 'complete') {
+        setTimeout(positionHotspots, 200);
+    } else {
+        window.addEventListener('load', () => {
+            setTimeout(positionHotspots, 200);
+        });
+    }
+    
     console.log('Responsive LiDAR board initialized with mask-style interaction');
 }
