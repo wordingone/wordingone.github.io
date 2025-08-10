@@ -105,20 +105,20 @@ function loadModel() {
     
     let modelsLoaded = 0;
     
-    // Define all models to load with fallback to GitHub releases for Git LFS files
-    const GITHUB_RELEASE_BASE = 'https://github.com/wordingone/wordingone.github.io/releases/download/models/';
+    // Use GitHub releases directly for all models to avoid Git LFS issues
+    const GITHUB_RELEASE_BASE = 'https://github.com/wordingone/Website%20Core/releases/download/v1.0/';
     
     const modelsToLoad = [
-        { name: 'Architectural System', file: './src/assets/models/arch_module_smallest.glb', fallback: GITHUB_RELEASE_BASE + 'arch_module_smallest.glb', isInstanced: true },
-        { name: 'Misc Geometry', file: './src/assets/models/misc geometry.glb', fallback: GITHUB_RELEASE_BASE + 'misc_geometry.glb', isInstanced: false },
-        { name: 'Altars', file: './src/assets/models/altars.glb', fallback: GITHUB_RELEASE_BASE + 'altars.glb', isInstanced: false },
-        { name: 'Circulation', file: './src/assets/models/circulation.glb', fallback: GITHUB_RELEASE_BASE + 'circulation.glb', isInstanced: false },
-        { name: 'Distress', file: './src/assets/models/Distress.glb', fallback: GITHUB_RELEASE_BASE + 'Distress.glb', isInstanced: false },
-        { name: 'Embellishments', file: './src/assets/models/embellishments.glb', fallback: GITHUB_RELEASE_BASE + 'embellishments.glb', isInstanced: false },
-        { name: 'Index', file: './src/assets/models/Index.glb', fallback: GITHUB_RELEASE_BASE + 'Index.glb', isInstanced: false },
-        { name: 'Mirror', file: './src/assets/models/mirror.glb', fallback: GITHUB_RELEASE_BASE + 'mirror.glb', isInstanced: false },
-        { name: 'Moulage', file: './src/assets/models/Moulage.glb', fallback: GITHUB_RELEASE_BASE + 'Moulage.glb', isInstanced: false },
-        { name: 'Robot', file: './src/assets/models/robot.glb', fallback: GITHUB_RELEASE_BASE + 'robot.glb', isInstanced: false }
+        { name: 'Architectural System', file: GITHUB_RELEASE_BASE + 'arch_module_smallest.glb', fallback: './src/assets/models/arch_module_smallest.glb', isInstanced: true },
+        { name: 'Misc Geometry', file: GITHUB_RELEASE_BASE + 'misc%20geometry.glb', fallback: './src/assets/models/misc geometry.glb', isInstanced: false },
+        { name: 'Altars', file: GITHUB_RELEASE_BASE + 'altars.glb', fallback: './src/assets/models/altars.glb', isInstanced: false },
+        { name: 'Circulation', file: GITHUB_RELEASE_BASE + 'circulation.glb', fallback: './src/assets/models/circulation.glb', isInstanced: false },
+        { name: 'Distress', file: GITHUB_RELEASE_BASE + 'Distress.glb', fallback: './src/assets/models/Distress.glb', isInstanced: false },
+        { name: 'Embellishments', file: GITHUB_RELEASE_BASE + 'embellishments.glb', fallback: './src/assets/models/embellishments.glb', isInstanced: false },
+        { name: 'Index', file: GITHUB_RELEASE_BASE + 'Index.glb', fallback: './src/assets/models/Index.glb', isInstanced: false },
+        { name: 'Mirror', file: GITHUB_RELEASE_BASE + 'mirror.glb', fallback: './src/assets/models/mirror.glb', isInstanced: false },
+        { name: 'Moulage', file: GITHUB_RELEASE_BASE + 'Moulage.glb', fallback: './src/assets/models/Moulage.glb', isInstanced: false },
+        { name: 'Robot', file: GITHUB_RELEASE_BASE + 'robot.glb', fallback: './src/assets/models/robot.glb', isInstanced: false }
     ];
     
     // Helper function to check if content is a Git LFS pointer
