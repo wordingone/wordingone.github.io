@@ -689,4 +689,45 @@ function initResponsiveLiDARBoard() {
     }
     
     console.log('Responsive LiDAR board initialized with mask-style interaction');
+} 3D model camera position/highlighting
+        syncWith3DModel(area);
+    }
+    
+    function syncWith3DModel(area) {
+        // Placeholder for 3D model synchronization
+        console.log(`Syncing 3D model with area: ${area}`);
+        
+        // You can add specific camera movements or highlighting here
+        // For example:
+        // - Move camera to specific position
+        // - Highlight certain model parts
+        // - Change model visibility layers
+    }
+    
+    // Handle window resize for responsive hotspots
+    let resizeTimeout;
+    function handleResize() {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            positionHotspots();
+        }, 100); // Debounce resize events
+    }
+    
+    // Set up resize listener
+    window.addEventListener('resize', handleResize);
+    
+    // Initial positioning
+    // Wait for layout to be ready
+    setTimeout(positionHotspots, 100);
+    
+    // Also reposition when images load (if any)
+    if (document.readyState === 'complete') {
+        setTimeout(positionHotspots, 200);
+    } else {
+        window.addEventListener('load', () => {
+            setTimeout(positionHotspots, 200);
+        });
+    }
+    
+    console.log('Responsive LiDAR board initialized with mask-style interaction');
 }
