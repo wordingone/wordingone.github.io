@@ -105,49 +105,28 @@ function loadModel() {
     
     let modelsLoaded = 0;
     
-    // Use GitHub releases directly for all models to avoid Git LFS issues
-    const GITHUB_RELEASE_BASE = 'https://github.com/wordingone/Website%20Core/releases/download/v1.0/';
-    
+    // Use local relative paths since models are actual files, not LFS pointers
     const modelsToLoad = [
-        { name: 'Architectural System', file: GITHUB_RELEASE_BASE + 'arch_module_smallest.glb', fallback: './src/assets/models/arch_module_smallest.glb', isInstanced: true },
-        { name: 'Misc Geometry', file: GITHUB_RELEASE_BASE + 'misc%20geometry.glb', fallback: './src/assets/models/misc geometry.glb', isInstanced: false },
-        { name: 'Altars', file: GITHUB_RELEASE_BASE + 'altars.glb', fallback: './src/assets/models/altars.glb', isInstanced: false },
-        { name: 'Circulation', file: GITHUB_RELEASE_BASE + 'circulation.glb', fallback: './src/assets/models/circulation.glb', isInstanced: false },
-        { name: 'Distress', file: GITHUB_RELEASE_BASE + 'Distress.glb', fallback: './src/assets/models/Distress.glb', isInstanced: false },
-        { name: 'Embellishments', file: GITHUB_RELEASE_BASE + 'embellishments.glb', fallback: './src/assets/models/embellishments.glb', isInstanced: false },
-        { name: 'Index', file: GITHUB_RELEASE_BASE + 'Index.glb', fallback: './src/assets/models/Index.glb', isInstanced: false },
-        { name: 'Mirror', file: GITHUB_RELEASE_BASE + 'mirror.glb', fallback: './src/assets/models/mirror.glb', isInstanced: false },
-        { name: 'Moulage', file: GITHUB_RELEASE_BASE + 'Moulage.glb', fallback: './src/assets/models/Moulage.glb', isInstanced: false },
-        { name: 'Robot', file: GITHUB_RELEASE_BASE + 'robot.glb', fallback: './src/assets/models/robot.glb', isInstanced: false }
+        { name: 'Architectural System', file: './src/assets/models/arch_module_smallest.glb', isInstanced: true },
+        { name: 'Misc Geometry', file: './src/assets/models/misc geometry.glb', isInstanced: false },
+        { name: 'Altars', file: './src/assets/models/altars.glb', isInstanced: false },
+        { name: 'Circulation', file: './src/assets/models/circulation.glb', isInstanced: false },
+        { name: 'Distress', file: './src/assets/models/Distress.glb', isInstanced: false },
+        { name: 'Embellishments', file: './src/assets/models/embellishments.glb', isInstanced: false },
+        { name: 'Index', file: './src/assets/models/Index.glb', isInstanced: false },
+        { name: 'Mirror', file: './src/assets/models/mirror.glb', isInstanced: false },
+        { name: 'Moulage', file: './src/assets/models/Moulage.glb', isInstanced: false },
+        { name: 'Robot', file: './src/assets/models/robot.glb', isInstanced: false }
     ];
-    
-    // Helper function to check if content is a Git LFS pointer
-    async function isGitLFSPointer(url) {
-        try {
-            const response = await fetch(url, { method: 'HEAD' });
-            const contentType = response.headers.get('content-type');
-            return contentType && contentType.includes('text/plain');
-        } catch (error) {
-            return false;
-        }
-    }
     
     const totalModels = modelsToLoad.length;
     console.log(`Loading ${totalModels} models from shared coordinate system...`);
     
-    // Load each model with Git LFS detection and fallback
-    modelsToLoad.forEach(async (modelInfo, index) => {
-        // Check if file is a Git LFS pointer before attempting to load
-        const isLFSPointer = await isGitLFSPointer(modelInfo.file);
-        
-        let fileToLoad = modelInfo.file;
-        if (isLFSPointer) {
-            console.log(`${modelInfo.name} appears to be a Git LFS placeholder; trying release fallback...`);
-            fileToLoad = modelInfo.fallback;
-        }
+    // Load each model directly
+    modelsToLoad.forEach((modelInfo, index) => {
         
         loader.load(
-            fileToLoad,
+            modelInfo.file,
             function(gltf) {
                 console.log(`${modelInfo.name} loaded, processing...`);
                 
