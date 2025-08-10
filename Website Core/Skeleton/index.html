@@ -22,49 +22,37 @@
             </div>
         </div>
         
-        <!-- Right Panel: Main Content Area (2/3 width) -->
+        <!-- Right Panel: LiDAR Interface (2/3 width) -->
         <div id="main-panel">
             <!-- LiDAR Board Interface -->
-            <div id="lidar-board-container">
-                <!-- Board Controls -->
-                <div id="board-controls">
-                    <button id="highlight-btn" class="control-btn">
-                        <span class="btn-icon">✨</span>
-                        <span class="btn-text">Highlight</span>
-                    </button>
-                    <button id="reset-btn" class="control-btn">
-                        <span class="btn-icon">↺</span>
-                        <span class="btn-text">Reset View</span>
-                    </button>
-                    <div id="zoom-indicator">
-                        <span>Zoom: <span id="zoom-level">100%</span></span>
-                    </div>
-                </div>
+            <div id="lidar-board">
+                <!-- Interactive hotspots - CORRECTED coordinates to match red outlined areas -->
+                <!-- Hotspot 1: Left workspace area (red rectangle on left side) -->
+                <div class="hotspot" data-area="workspace-left" data-coords="240,340,120,80" data-rotation="0"></div>
                 
-                <!-- LiDAR Board Display -->
-                <div id="lidar-board" class="board-container">
-                    <!-- Main LiDAR Image -->
-                    <div id="lidar-image-container">
-                        <img id="lidar-image" src="./src/assets/image/lidar_00.png" alt="LiDAR Scan">
-                        
-                        <!-- Highlight Overlay -->
-                        <div id="highlight-overlay" class="overlay">
-                            <!-- Dynamic highlight areas will be added here -->
-                        </div>
-                        
-                        <!-- Crosshair for center reference -->
-                        <div id="crosshair">
-                            <div class="crosshair-h"></div>
-                            <div class="crosshair-v"></div>
-                        </div>
-                    </div>
-                </div>
+                <!-- Hotspot 2: Lower left workspace area -->
+                <div class="hotspot" data-area="workspace-lower" data-coords="380,420,140,90" data-rotation="0"></div>
                 
-                <!-- Board Status -->
-                <div id="board-status">
-                    <span id="board-info">LiDAR Navigation Board | Ready</span>
-                    <span id="selection-info">Click areas to explore | Sync with 3D model</span>
-                </div>
+                <!-- Hotspot 3: Central area workspace -->
+                <div class="hotspot" data-area="central-workspace" data-coords="760,450,180,100" data-rotation="0"></div>
+                
+                <!-- Hotspot 4: Right central area (upper red rectangle) -->
+                <div class="hotspot" data-area="research-upper" data-coords="1180,180,200,120" data-rotation="0"></div>
+                
+                <!-- Hotspot 5: Right central area (lower red rectangle) -->
+                <div class="hotspot" data-area="research-lower" data-coords="1200,320,180,100" data-rotation="0"></div>
+                
+                <!-- Hotspot 6: Digital workspace center -->
+                <div class="hotspot" data-area="digital-center" data-coords="900,540,160,110" data-rotation="0"></div>
+                
+                <!-- Hotspot 7: Exhibition area right -->
+                <div class="hotspot" data-area="exhibition-right" data-coords="1280,580,180,130" data-rotation="0"></div>
+                
+                <!-- Hotspot 8: Archive section upper left -->
+                <div class="hotspot" data-area="archive-upper" data-coords="320,250,100,70" data-rotation="0"></div>
+                
+                <!-- Hotspot 9: Studio space far right -->
+                <div class="hotspot" data-area="studio-right" data-coords="1480,480,160,90" data-rotation="0"></div>
             </div>
         </div>
     </div>

@@ -572,171 +572,117 @@ document.addEventListener('DOMContentLoaded', function() {
     init();
     animate();
     
-    // Initialize LiDAR board
-    initLiDARBoard();
+    // Initialize LiDAR board with responsive hotspots
+    initResponsiveLiDARBoard();
     
     // Initial render
     render();
 });
 
-// ===== LIDAR BOARD FUNCTIONALITY =====
-function initLiDARBoard() {
-    console.log('Initializing LiDAR board interface...');
+// ===== RESPONSIVE LIDAR BOARD FUNCTIONALITY =====
+function initResponsiveLiDARBoard() {
+    console.log('Initializing responsive LiDAR board with Figma-style hotspots...');
     
-    // Get board elements
-    const highlightBtn = document.getElementById('highlight-btn');
-    const resetBtn = document.getElementById('reset-btn');
-    const lidarImage = document.getElementById('lidar-image');
-    const highlightOverlay = document.getElementById('highlight-overlay');
-    const crosshair = document.getElementById('crosshair');
+    const lidarBoard = document.getElementById('lidar-board');
+    const hotspots = document.querySelectorAll('.hotspot');
     
-    let isHighlightMode = false;
-    let highlightAreas = [];
+    // Figma SVG reference dimensions (1920x1080)
+    const REFERENCE_WIDTH = 1920;
+    const REFERENCE_HEIGHT = 1080;
     
-    // LiDAR image load handler
-    lidarImage.addEventListener('load', function() {
-        console.log('LiDAR image loaded successfully');
-        lidarImage.classList.add('loaded');
-    });
-    
-    // Highlight button functionality
-    highlightBtn.addEventListener('click', function() {
-        isHighlightMode = !isHighlightMode;
+    // Position hotspots responsively
+    function positionHotspots() {
+        const boardRect = lidarBoard.getBoundingClientRect();
+        const scaleX = boardRect.width / REFERENCE_WIDTH;
+        const scaleY = boardRect.height / REFERENCE_HEIGHT;
         
-        if (isHighlightMode) {
-            activateHighlightMode();
-        } else {
-            deactivateHighlightMode();
-        }
-    });
-    
-    // Reset button functionality
-    resetBtn.addEventListener('click', function() {
-        resetBoardView();
-    });
-    
-    function activateHighlightMode() {
-        console.log('Activating highlight mode...');
+        hotspots.forEach(hotspot => {
+            const coords = hotspot.dataset.coords.split(',').map(Number);
+            const rotation = parseFloat(hotspot.dataset.rotation || 0);
+            
+            const [x, y, width, height] = coords;
+            
+            // Scale coordinates to current container size
+            const scaledX = x * scaleX;
+            const scaledY = y * scaleY;
+            const scaledWidth = width * scaleX;
+            const scaledHeight = height * scaleY;
+            
+            // Apply responsive positioning
+            hotspot.style.left = scaledX + 'px';
+            hotspot.style.top = scaledY + 'px';
+            hotspot.style.width = scaledWidth + 'px';
+            hotspot.style.height = scaledHeight + 'px';
+            hotspot.style.transform = `rotate(${rotation}deg)`;
+        });
         
-        // Update button state
-        highlightBtn.classList.add('active');
-        highlightBtn.querySelector('.btn-text').textContent = 'Exit Highlight';
-        
-        // Activate light dark overlay so LiDAR is still visible
-        highlightOverlay.classList.add('highlight-active');
-        
-        // Show crosshair
-        crosshair.classList.add('visible');
-        
-        // Create highlight areas (simulating the prototype behavior)
-        createHighlightAreas();
-        
-        // Update status
-        updateBoardStatus('Highlight Mode Active', 'LiDAR darkened with highlighted sections visible');
+        console.log(`Positioned ${hotspots.length} hotspots for ${boardRect.width.toFixed(0)}x${boardRect.height.toFixed(0)} container`);
     }
     
-    function deactivateHighlightMode() {
-        console.log('Deactivating highlight mode...');
+    // Add click handlers for hotspots
+    hotspots.forEach(hotspot => {
+        hotspot.addEventListener('click', function(e) {
+            e.preventDefault();
+            handleHotspotClick(this);
+        });
         
-        // Update button state
-        highlightBtn.classList.remove('active');
-        highlightBtn.querySelector('.btn-text').textContent = 'Highlight';
+        hotspot.addEventListener('mouseenter', function() {
+            console.log(`Hovering over ${this.dataset.area} area`);
+        });
+    });
+    
+    function handleHotspotClick(hotspot) {
+        const area = hotspot.dataset.area;
+        console.log(`Clicked on ${area} hotspot`);
         
-        // Remove dark overlay
-        highlightOverlay.classList.remove('highlight-active');
+        // Remove active state from all hotspots
+        hotspots.forEach(h => h.classList.remove('active'));
         
-        // Hide crosshair
-        crosshair.classList.remove('visible');
+        // Add active state to clicked hotspot
+        hotspot.classList.add('active');
         
-        // Clear highlight areas
-        clearHighlightAreas();
+        // Log the interaction (you can expand this to sync with 3D model)
+        console.log(`Selected area: ${area}`);
         
-        // Update status
-        updateBoardStatus('LiDAR Navigation Board | Ready', 'Full LiDAR image visible');
+        // Future: Sync with 3D model camera position/highlighting
+        syncWith3DModel(area);
     }
     
-    function createHighlightAreas() {
-        // Clear existing highlights
-        clearHighlightAreas();
+    function syncWith3DModel(area) {
+        // Placeholder for 3D model synchronization
+        console.log(`Syncing 3D model with area: ${area}`);
         
-        // Create sample highlight areas based on architectural zones
-        const sampleAreas = [
-            { x: 15, y: 12, width: 8, height: 6, label: 'Central Altar' },
-            { x: 8, y: 20, width: 6, height: 4, label: 'Left Circulation' },
-            { x: 22, y: 20, width: 6, height: 4, label: 'Right Circulation' },
-            { x: 16, y: 8, width: 4, height: 3, label: 'Entry Point' },
-            { x: 10, y: 28, width: 12, height: 3, label: 'Back Gallery' }
-        ];
-        
-        sampleAreas.forEach((area, index) => {
-            setTimeout(() => {
-                createHighlightSection(area.x, area.y, area.width, area.height, area.label);
-            }, index * 200); // Staggered animation
+        // You can add specific camera movements or highlighting here
+        // For example:
+        // - Move camera to specific position
+        // - Highlight certain model parts
+        // - Change model visibility layers
+    }
+    
+    // Handle window resize for responsive hotspots
+    let resizeTimeout;
+    function handleResize() {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            positionHotspots();
+        }, 100); // Debounce resize events
+    }
+    
+    // Set up resize listener
+    window.addEventListener('resize', handleResize);
+    
+    // Initial positioning
+    // Wait for layout to be ready
+    setTimeout(positionHotspots, 100);
+    
+    // Also reposition when images load (if any)
+    if (document.readyState === 'complete') {
+        setTimeout(positionHotspots, 200);
+    } else {
+        window.addEventListener('load', () => {
+            setTimeout(positionHotspots, 200);
         });
     }
     
-    function createHighlightSection(gridX, gridY, width, height, label) {
-        const highlightDiv = document.createElement('div');
-        highlightDiv.className = 'highlight-section';
-        
-        // Calculate position as percentage of container
-        const left = (gridX / 33) * 100;
-        const top = (gridY / 33) * 100;
-        const sectionWidth = (width / 33) * 100;
-        const sectionHeight = (height / 33) * 100;
-        
-        highlightDiv.style.left = left + '%';
-        highlightDiv.style.top = top + '%';
-        highlightDiv.style.width = sectionWidth + '%';
-        highlightDiv.style.height = sectionHeight + '%';
-        
-        // Add label
-        if (label) {
-            highlightDiv.setAttribute('data-label', label);
-            highlightDiv.title = label;
-        }
-        
-        highlightOverlay.appendChild(highlightDiv);
-        highlightAreas.push(highlightDiv);
-        
-        // Animate in
-        setTimeout(() => {
-            highlightDiv.classList.add('visible', 'pulsing');
-        }, 50);
-    }
-    
-    function clearHighlightAreas() {
-        highlightAreas.forEach(area => {
-            area.classList.remove('visible');
-            setTimeout(() => {
-                if (area.parentNode) {
-                    area.parentNode.removeChild(area);
-                }
-            }, 300);
-        });
-        highlightAreas = [];
-    }
-    
-    function resetBoardView() {
-        console.log('Resetting board view...');
-        
-        // Reset highlight mode if active
-        if (isHighlightMode) {
-            deactivateHighlightMode();
-            isHighlightMode = false;
-        }
-        
-        // Reset zoom level
-        document.getElementById('zoom-level').textContent = '100%';
-        
-        // Update status
-        updateBoardStatus('LiDAR Navigation Board | Ready', 'View reset | Ready for navigation');
-    }
-    
-    function updateBoardStatus(info, selection) {
-        document.getElementById('board-info').textContent = info;
-        document.getElementById('selection-info').textContent = selection;
-    }
-    
-    console.log('LiDAR board interface initialized successfully');
+    console.log('Responsive LiDAR board initialized with mask-style interaction');
 }
