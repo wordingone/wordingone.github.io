@@ -122,86 +122,97 @@ function loadModel() {
     const totalModels = modelsToLoad.length;
     console.log(`Loading ${totalModels} models from shared coordinate system...`);
     
-    // Load each model
-    modelsToLoad.forEach((modelInfo, index) => {
-        loader.load(
-            modelInfo.file,
-            function(gltf) {
-                console.log(`${modelInfo.name} loaded, processing...`);
-                
-                if (modelInfo.isInstanced) {
-                    // Handle the main architectural instanced system
-                    const model = gltf.scene;
-                    const box = new THREE.Box3().setFromObject(model);
-                    const size = box.getSize(new THREE.Vector3());
-                    
-                    console.log('Architectural model size:', size.x.toFixed(2), '×', size.y.toFixed(2), '×', size.z.toFixed(2));
-                    createAdvancedInstancedSystem(model, size);
-                    console.log('Advanced instanced system complete!');
-                } else {
-                    // Handle regular models with shared coordinate system
-                    const loadedModel = gltf.scene;
-                    
-                    // Apply consistent shading system to all meshes
-                    loadedModel.traverse(function(child) {
-                        if (child.isMesh) {
-                            console.log(`Processing ${modelInfo.name} mesh:`, child.name || 'unnamed');
-                            
-                            // Apply baked lighting to geometry
-                            if (child.geometry) {
-                                generateBakedLighting(child.geometry);
-                            }
-                            
-                            // Create optimized material matching the instanced system
-                            const optimizedMaterial = new THREE.MeshBasicMaterial({
-                                transparent: false,
-                                alphaTest: 0,
-                                side: THREE.FrontSide,
-                                vertexColors: true,
-                                fog: false
-                            });
-                            
-                            // Copy texture if the original material has one
-                            if (child.material && child.material.map) {
-                                const texture = child.material.map.clone();
-                                texture.generateMipmaps = false;
-                                texture.minFilter = THREE.LinearFilter;
-                                texture.magFilter = THREE.LinearFilter;
-                                optimizedMaterial.map = texture;
-                            }
-                            
-                            // Apply the optimized material
-                            child.material = optimizedMaterial;
-                            
-                            // Apply GPU optimizations
-                            child.castShadow = false;
-                            child.receiveShadow = false;
-                            child.matrixAutoUpdate = false;
-                        }
-                    });
-                    
-                    // Position using shared coordinate system with small X-axis offset
-                    // Architectural tower stays at origin, other models shifted -0.3 units on X-axis
-                    loadedModel.position.set(-0.3, 0, 0);
-                    
-                    // Add to scene
-                    scene.add(loadedModel);
-                    
-                    console.log(`${modelInfo.name} placed in scene with matching shading`);
+    // Load each model with LFS placeholder detection
+    modelsToLoad.forEach((modelInfo) => {
+        fetch(modelInfo.file)
+            .then(response => response.arrayBuffer())
+            .then(buffer => {
+                // Detect Git LFS placeholder (starts with "version https://git-lfs")
+                const header = new TextDecoder().decode(buffer.slice(0, 36));
+                if (header.startsWith('version https://git-lfs')) {
+                    console.warn(`${modelInfo.name} appears to be a Git LFS placeholder; skipping`);
+                    modelsLoaded++;
+                    checkAllModelsLoaded();
+                    return;
                 }
-                
+
+                loader.parse(buffer, '', function(gltf) {
+                    console.log(`${modelInfo.name} loaded, processing...`);
+
+                    if (modelInfo.isInstanced) {
+                        // Handle the main architectural instanced system
+                        const model = gltf.scene;
+                        const box = new THREE.Box3().setFromObject(model);
+                        const size = box.getSize(new THREE.Vector3());
+
+                        console.log('Architectural model size:', size.x.toFixed(2), '×', size.y.toFixed(2), '×', size.z.toFixed(2));
+                        createAdvancedInstancedSystem(model, size);
+                        console.log('Advanced instanced system complete!');
+                    } else {
+                        // Handle regular models with shared coordinate system
+                        const loadedModel = gltf.scene;
+
+                        // Apply consistent shading system to all meshes
+                        loadedModel.traverse(function(child) {
+                            if (child.isMesh) {
+                                console.log(`Processing ${modelInfo.name} mesh:`, child.name || 'unnamed');
+
+                                // Apply baked lighting to geometry
+                                if (child.geometry) {
+                                    generateBakedLighting(child.geometry);
+                                }
+
+                                // Create optimized material matching the instanced system
+                                const optimizedMaterial = new THREE.MeshBasicMaterial({
+                                    transparent: false,
+                                    alphaTest: 0,
+                                    side: THREE.FrontSide,
+                                    vertexColors: true,
+                                    fog: false
+                                });
+
+                                // Copy texture if the original material has one
+                                if (child.material && child.material.map) {
+                                    const texture = child.material.map.clone();
+                                    texture.generateMipmaps = false;
+                                    texture.minFilter = THREE.LinearFilter;
+                                    texture.magFilter = THREE.LinearFilter;
+                                    optimizedMaterial.map = texture;
+                                }
+
+                                // Apply the optimized material
+                                child.material = optimizedMaterial;
+
+                                // Apply GPU optimizations
+                                child.castShadow = false;
+                                child.receiveShadow = false;
+                                child.matrixAutoUpdate = false;
+                            }
+                        });
+
+                        // Position using shared coordinate system with small X-axis offset
+                        // Architectural tower stays at origin, other models shifted -0.3 units on X-axis
+                        loadedModel.position.set(-0.3, 0, 0);
+
+                        // Add to scene
+                        scene.add(loadedModel);
+
+                        console.log(`${modelInfo.name} placed in scene with matching shading`);
+                    }
+
+                    modelsLoaded++;
+                    checkAllModelsLoaded();
+                }, function(error) {
+                    console.error(`Error parsing ${modelInfo.name}:`, error);
+                    modelsLoaded++;
+                    checkAllModelsLoaded();
+                });
+            })
+            .catch(error => {
+                console.error(`Error fetching ${modelInfo.name}:`, error);
                 modelsLoaded++;
                 checkAllModelsLoaded();
-            },
-            function(progress) {
-                const percent = Math.round((progress.loaded / progress.total * 100));
-                console.log(`Loading ${modelInfo.name} progress: ${percent}%`);
-            },
-            function(error) {
-                console.error(`Error loading ${modelInfo.name}:`, error);
-                showError(`Failed to load ${modelInfo.name}: ` + error.message);
-            }
-        );
+            });
     });
     
     function checkAllModelsLoaded() {
