@@ -584,52 +584,88 @@ function initResponsiveLiDARBoard() {
     console.log('Initializing responsive LiDAR board with Figma-style hotspots...');
     
     const lidarBoard = document.getElementById('lidar-board');
-    const hotspots = document.querySelectorAll('.hotspot');
+    let hotspots = [];
     
     // Figma SVG reference dimensions (1920x1080)
     const REFERENCE_WIDTH = 1920;
     const REFERENCE_HEIGHT = 1080;
     
+    // Reload hotspot regions from external SVG
+    async function reloadHotspotsFromSVG() {
+        try {
+            const response = await fetch('./src/assets/figma/hover and button locations.svg');
+            const svgText = await response.text();
+            const parser = new DOMParser();
+            const svgDoc = parser.parseFromString(svgText, 'image/svg+xml');
+            const shapes = svgDoc.querySelectorAll('rect, path');
+
+            // Clear existing hotspots
+            lidarBoard.querySelectorAll('.hotspot').forEach(h => h.remove());
+
+            shapes.forEach((shape, index) => {
+                const bbox = shape.getBBox();
+                const transform = shape.getAttribute('transform') || '';
+                let rotation = 0;
+                const match = transform.match(/rotate\(([-\d\.]+)/);
+                if (match) {
+                    rotation = parseFloat(match[1]);
+                }
+
+                const hotspot = document.createElement('div');
+                hotspot.className = 'hotspot';
+                hotspot.dataset.area = `area-${index + 1}`;
+                hotspot.dataset.coords = `${bbox.x},${bbox.y},${bbox.width},${bbox.height}`;
+                hotspot.dataset.rotation = rotation;
+                lidarBoard.appendChild(hotspot);
+            });
+
+            hotspots = lidarBoard.querySelectorAll('.hotspot');
+            addHotspotListeners();
+            positionHotspots();
+            console.log(`Reloaded ${hotspots.length} hotspots from SVG`);
+        } catch (err) {
+            console.error('Failed to reload hotspots from SVG', err);
+        }
+    }
+
     // Position hotspots responsively
     function positionHotspots() {
         const boardRect = lidarBoard.getBoundingClientRect();
         const scaleX = boardRect.width / REFERENCE_WIDTH;
         const scaleY = boardRect.height / REFERENCE_HEIGHT;
-        
+
         hotspots.forEach(hotspot => {
             const coords = hotspot.dataset.coords.split(',').map(Number);
             const rotation = parseFloat(hotspot.dataset.rotation || 0);
-            
             const [x, y, width, height] = coords;
-            
-            // Scale coordinates to current container size
+
             const scaledX = x * scaleX;
             const scaledY = y * scaleY;
             const scaledWidth = width * scaleX;
             const scaledHeight = height * scaleY;
-            
-            // Apply responsive positioning
+
             hotspot.style.left = scaledX + 'px';
             hotspot.style.top = scaledY + 'px';
             hotspot.style.width = scaledWidth + 'px';
             hotspot.style.height = scaledHeight + 'px';
             hotspot.style.transform = `rotate(${rotation}deg)`;
         });
-        
+
         console.log(`Positioned ${hotspots.length} hotspots for ${boardRect.width.toFixed(0)}x${boardRect.height.toFixed(0)} container`);
     }
-    
-    // Add click handlers for hotspots
-    hotspots.forEach(hotspot => {
-        hotspot.addEventListener('click', function(e) {
-            e.preventDefault();
-            handleHotspotClick(this);
+
+    function addHotspotListeners() {
+        hotspots.forEach(hotspot => {
+            hotspot.addEventListener('click', function(e) {
+                e.preventDefault();
+                handleHotspotClick(this);
+            });
+
+            hotspot.addEventListener('mouseenter', function() {
+                console.log(`Hovering over ${this.dataset.area} area`);
+            });
         });
-        
-        hotspot.addEventListener('mouseenter', function() {
-            console.log(`Hovering over ${this.dataset.area} area`);
-        });
-    });
+    }
     
     function handleHotspotClick(hotspot) {
         const area = hotspot.dataset.area;
@@ -664,25 +700,15 @@ function initResponsiveLiDARBoard() {
     function handleResize() {
         clearTimeout(resizeTimeout);
         resizeTimeout = setTimeout(() => {
-            positionHotspots();
+            reloadHotspotsFromSVG();
         }, 100); // Debounce resize events
     }
     
     // Set up resize listener
     window.addEventListener('resize', handleResize);
-    
-    // Initial positioning
-    // Wait for layout to be ready
-    setTimeout(positionHotspots, 100);
-    
-    // Also reposition when images load (if any)
-    if (document.readyState === 'complete') {
-        setTimeout(positionHotspots, 200);
-    } else {
-        window.addEventListener('load', () => {
-            setTimeout(positionHotspots, 200);
-        });
-    }
-    
+
+    // Initial loading of hotspots and positioning
+    reloadHotspotsFromSVG();
+
     console.log('Responsive LiDAR board initialized with mask-style interaction');
 }
