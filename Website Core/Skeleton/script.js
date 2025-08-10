@@ -105,18 +105,18 @@ function loadModel() {
     
     let modelsLoaded = 0;
     
-    // Use local relative paths since models are actual files, not LFS pointers
+    // Use local models directory - no CORS issues
     const modelsToLoad = [
-        { name: 'Architectural System', file: './src/assets/models/arch_module_smallest.glb', isInstanced: true },
-        { name: 'Misc Geometry', file: './src/assets/models/misc geometry.glb', isInstanced: false },
-        { name: 'Altars', file: './src/assets/models/altars.glb', isInstanced: false },
-        { name: 'Circulation', file: './src/assets/models/circulation.glb', isInstanced: false },
-        { name: 'Distress', file: './src/assets/models/Distress.glb', isInstanced: false },
-        { name: 'Embellishments', file: './src/assets/models/embellishments.glb', isInstanced: false },
-        { name: 'Index', file: './src/assets/models/Index.glb', isInstanced: false },
-        { name: 'Mirror', file: './src/assets/models/mirror.glb', isInstanced: false },
-        { name: 'Moulage', file: './src/assets/models/Moulage.glb', isInstanced: false },
-        { name: 'Robot', file: './src/assets/models/robot.glb', isInstanced: false }
+        { name: 'Architectural System', file: './models/arch_module_smallest.glb', isInstanced: true },
+        { name: 'Misc Geometry', file: './models/misc geometry.glb', isInstanced: false },
+        { name: 'Altars', file: './models/altars.glb', isInstanced: false },
+        { name: 'Circulation', file: './models/circulation.glb', isInstanced: false },
+        { name: 'Distress', file: './models/Distress.glb', isInstanced: false },
+        { name: 'Embellishments', file: './models/embellishments.glb', isInstanced: false },
+        { name: 'Index', file: './models/Index.glb', isInstanced: false },
+        { name: 'Mirror', file: './models/mirror.glb', isInstanced: false },
+        { name: 'Moulage', file: './models/Moulage.glb', isInstanced: false },
+        { name: 'Robot', file: './models/robot.glb', isInstanced: false }
     ];
     
     const totalModels = modelsToLoad.length;
