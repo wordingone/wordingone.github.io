@@ -170,19 +170,19 @@ function generateBakedLighting(geometry) {
         
         // Apply deterministic variation based on vertex index (no Math.random)
         const hash = (i * 2654435761) % 2147483647; // Simple hash function
-        const variation = 0.95 + (hash / 2147483647) * 0.1; // 0.95 to 1.05 range
-        const finalIntensity = totalLight * variation;
+        const variation = 0.85 + (hash / 2147483647) * 0.1; // 0.85 to 0.95 range (darker than before)
+        const finalIntensity = totalLight * variation * 0.7; // Additional 0.7 multiplier to make overall darker
         
-        // Set RGB color (slight warm tint for architectural feel)
-        colors[i * 3] = finalIntensity * 0.95;     // R - slightly less red
-        colors[i * 3 + 1] = finalIntensity * 0.97; // G - neutral
-        colors[i * 3 + 2] = finalIntensity * 1.0;  // B - slightly more blue
+        // Set RGB color with darker gray tones (architectural concrete feel)
+        colors[i * 3] = finalIntensity * 0.8;     // R - darker red component
+        colors[i * 3 + 1] = finalIntensity * 0.82; // G - slightly less dark
+        colors[i * 3 + 2] = finalIntensity * 0.85;  // B - lightest component for cool tone
     }
     
     // Add color attribute to geometry
     geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
     
-    console.log('Generated deterministic baked lighting with vertex colors');
+    console.log('Generated deterministic baked lighting with darker gray vertex colors');
 }
 
 /**
@@ -319,7 +319,7 @@ function applyGPUOptimizations(instancedMesh) {
 }
 
 /**
- * Process regular (non-instanced) models for consistent rendering
+ * Process regular (non-instanced) models for consistent rendering with darker gray tones
  * @param {THREE.Object3D} modelScene - Model scene to process
  * @param {string} modelName - Name of the model for logging
  */
@@ -329,18 +329,19 @@ export function processRegularModel(modelScene, modelName) {
         if (child.isMesh) {
             console.log(`Processing ${modelName} mesh:`, child.name || 'unnamed');
             
-            // Apply baked lighting to geometry
+            // Apply baked lighting to geometry with darker tones
             if (child.geometry) {
                 generateBakedLighting(child.geometry);
             }
             
-            // Create optimized material matching the instanced system
+            // Create optimized material matching the instanced system with darker base color
             const optimizedMaterial = new THREE.MeshBasicMaterial({
                 transparent: false,
                 alphaTest: 0,
                 side: THREE.FrontSide,
                 vertexColors: true,
-                fog: false
+                fog: false,
+                color: new THREE.Color(0.6, 0.6, 0.6) // Darker base color to match instanced models
             });
             
             // Copy texture if the original material has one
@@ -366,5 +367,5 @@ export function processRegularModel(modelScene, modelName) {
     // Architectural tower stays at origin, other models shifted -0.3 units on X-axis
     modelScene.position.set(-0.3, 0, 0);
     
-    console.log(`${modelName} processed with matching shading`);
+    console.log(`${modelName} processed with matching darker gray shading`);
 }

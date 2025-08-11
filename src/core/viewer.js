@@ -18,8 +18,8 @@ export function createViewer(canvasEl) {
     const panelWidth = rect.width || window.innerWidth / 3;
     const panelHeight = rect.height || window.innerHeight;
     
-    // Orthographic camera sized to model panel
-    const frustumSize = 20;
+    // Orthographic camera sized to model panel (30% more zoomed in)
+    const frustumSize = 14; // Reduced from 20 to 14 for 30% more zoom
     const aspect = panelWidth / panelHeight;
     const camera = new THREE.OrthographicCamera(
         frustumSize * aspect / -2,
@@ -111,7 +111,7 @@ export function createViewer(canvasEl) {
         const height = rect.height;
         
         const aspect = width / height;
-        const frustumSize = 20;
+        const frustumSize = 14; // Keep consistent with initial zoom level
         
         camera.left = frustumSize * aspect / -2;
         camera.right = frustumSize * aspect / 2;
