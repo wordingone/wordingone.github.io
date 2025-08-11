@@ -105,25 +105,22 @@ function loadModel() {
     
     let modelsLoaded = 0;
     
-    // FIXED: Use GitHub release URLs to bypass Git LFS issue
-    // These URLs serve actual binary GLB files instead of LFS pointers
-    const releaseBaseUrl = 'https://github.com/wordingone/wordingone.github.io/releases/download/v1.0/';
-    
+    // Load models from local directory
     const modelsToLoad = [
-        { name: 'Architectural System', file: releaseBaseUrl + 'arch_module_smallest.glb', isInstanced: true },
-        { name: 'Misc Geometry', file: releaseBaseUrl + 'misc%20geometry.glb', isInstanced: false },
-        { name: 'Altars', file: releaseBaseUrl + 'altars.glb', isInstanced: false },
-        { name: 'Circulation', file: releaseBaseUrl + 'circulation.glb', isInstanced: false },
-        { name: 'Distress', file: releaseBaseUrl + 'Distress.glb', isInstanced: false },
-        { name: 'Embellishments', file: releaseBaseUrl + 'embellishments.glb', isInstanced: false },
-        { name: 'Index', file: releaseBaseUrl + 'Index.glb', isInstanced: false },
-        { name: 'Mirror', file: releaseBaseUrl + 'mirror.glb', isInstanced: false },
-        { name: 'Moulage', file: releaseBaseUrl + 'Moulage.glb', isInstanced: false },
-        { name: 'Robot', file: releaseBaseUrl + 'robot.glb', isInstanced: false }
+        { name: 'Architectural System', file: './models/arch_module_smallest.glb', isInstanced: true },
+        { name: 'Misc Geometry', file: './models/misc geometry.glb', isInstanced: false },
+        { name: 'Altars', file: './models/altars.glb', isInstanced: false },
+        { name: 'Circulation', file: './models/circulation.glb', isInstanced: false },
+        { name: 'Distress', file: './models/Distress.glb', isInstanced: false },
+        { name: 'Embellishments', file: './models/embellishments.glb', isInstanced: false },
+        { name: 'Index', file: './models/Index.glb', isInstanced: false },
+        { name: 'Mirror', file: './models/mirror.glb', isInstanced: false },
+        { name: 'Moulage', file: './models/Moulage.glb', isInstanced: false },
+        { name: 'Robot', file: './models/robot.glb', isInstanced: false }
     ];
     
     const totalModels = modelsToLoad.length;
-    console.log(`Loading ${totalModels} models from GitHub release (bypassing Git LFS)...`);
+    console.log(`Loading ${totalModels} models from local directory...`);
     
     // Load each model directly
     modelsToLoad.forEach((modelInfo, index) => {
@@ -131,7 +128,7 @@ function loadModel() {
         loader.load(
             modelInfo.file,
             function(gltf) {
-                console.log(`${modelInfo.name} loaded successfully from release!`);
+                console.log(`${modelInfo.name} loaded successfully from local directory!`);
                 
                 if (modelInfo.isInstanced) {
                     // Handle the main architectural instanced system
@@ -212,7 +209,7 @@ function loadModel() {
         if (modelsLoaded === totalModels) {
             hideLoading();
             needsRender = true;
-            console.log(`All ${totalModels} models loaded successfully from GitHub release!`);
+            console.log(`All ${totalModels} models loaded successfully from local directory!`);
             
             // Dispose of DRACO loader resources
             dracoLoader.dispose();
@@ -649,47 +646,6 @@ function initResponsiveLiDARBoard() {
         console.log(`Selected area: ${area}`);
         
         // Future: Sync with 3D model camera position/highlighting
-        syncWith3DModel(area);
-    }
-    
-    function syncWith3DModel(area) {
-        // Placeholder for 3D model synchronization
-        console.log(`Syncing 3D model with area: ${area}`);
-        
-        // You can add specific camera movements or highlighting here
-        // For example:
-        // - Move camera to specific position
-        // - Highlight certain model parts
-        // - Change model visibility layers
-    }
-    
-    // Handle window resize for responsive hotspots
-    let resizeTimeout;
-    function handleResize() {
-        clearTimeout(resizeTimeout);
-        resizeTimeout = setTimeout(() => {
-            positionHotspots();
-        }, 100); // Debounce resize events
-    }
-    
-    // Set up resize listener
-    window.addEventListener('resize', handleResize);
-    
-    // Initial positioning
-    // Wait for layout to be ready
-    setTimeout(positionHotspots, 100);
-    
-    // Also reposition when images load (if any)
-    if (document.readyState === 'complete') {
-        setTimeout(positionHotspots, 200);
-    } else {
-        window.addEventListener('load', () => {
-            setTimeout(positionHotspots, 200);
-        });
-    }
-    
-    console.log('Responsive LiDAR board initialized with mask-style interaction');
-} 3D model camera position/highlighting
         syncWith3DModel(area);
     }
     

@@ -4,8 +4,8 @@ A responsive, cinematic web experience bridging campaign narratives with a deepe
 
 ## Status (Evidence-Based)
 - Directory verified: ✅ B:\GIT\wordingone.github.io
-- Script loading mode: GitHub Release URLs (bypassing LFS)
-- LFS: Active for *.glb in .gitattributes but models are binary (2.5MB+)
+- Script loading mode: Local ./models/ paths
+- LFS: Active in .gitattributes but models are binary (2.5MB+)
 - Models: 10 GLB files (all binary, no LFS pointers)
 
 ## Structure (from repo)
@@ -48,7 +48,7 @@ wordingone.github.io/
 
 ## Maintenance Notes
 - Keep `.glb` as binary; avoid LFS pointers.
-- Script uses GitHub release URLs to bypass LFS issues
+- Script uses local ./models/ paths for offline support
 - Models total: ~4.3MB across 10 files
 
 _Last updated: 2025-01-27_

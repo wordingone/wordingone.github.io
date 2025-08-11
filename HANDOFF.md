@@ -168,6 +168,7 @@ SyntaxError: Unexpected token 'v', "version ht"... is not valid JSON
 
 ## Changes Since Last Handoff
 - Verified models are binary (not LFS pointers) at 2.5MB+ sizes
-- Script.js uses GitHub release URLs to bypass any LFS issues
+- Script.js FIXED: Now uses local ./models/ paths instead of broken GitHub release URLs
+- Removed syntax error from duplicate code at line 692
 - .gitattributes still tracks *.glb with LFS but models are properly binary
 - Total model size: ~4.3MB across 10 GLB files
