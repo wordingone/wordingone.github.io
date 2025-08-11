@@ -407,9 +407,9 @@ export function processRegularModel(modelScene, modelName) {
         }
     });
     
-    // Position using shared coordinate system with small X-axis offset
-    // Architectural tower stays at origin, other models shifted -0.3 units on X-axis
-    modelScene.position.set(-0.3, 0, 0);
+    // Position using shared coordinate system with small X-axis offset and Y-axis adjustment
+    // Architectural tower stays at origin, other models shifted -0.3 units on X-axis and -0.2 units on Y-axis
+    modelScene.position.set(-0.3, -0.2, 0);
     
-    console.log(`${modelName} processed with original coloring (not darkened)`);
+    console.log(`${modelName} processed with original coloring and positioned at (-0.3, -0.2, 0)`);
 }

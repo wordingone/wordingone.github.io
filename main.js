@@ -34,11 +34,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     const videoOverlay = createVideoOverlay(lidarBoardElement, {
         onOverlayOpen: (region, hotspot) => {
             console.log(`Video overlay opened for: ${region}`);
-            // Apply model focus for this region
-            if (modelFocus) {
-                modelFocus.focusOnRegion(region);
-                console.log(`Applied 3D model focus for region: ${region}`);
-            }
+            // Model focus is already applied when hotspot was clicked
             // Disable highlighting when overlay opens
             if (lidar.getHighlighting()) {
                 lidar.setHighlighting(false);
@@ -52,6 +48,8 @@ document.addEventListener('DOMContentLoaded', async function() {
             if (modelFocus) {
                 modelFocus.clearFocus();
                 console.log('Cleared 3D model focus - all models restored');
+                // Force immediate render to show focus clear
+                render();
             }
             // Overlay closed (via × or ESC) → show Highlight button again
             highlightBtn.style.display = 'block';
@@ -67,12 +65,28 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Initialize LiDAR board with video overlay integration
     const lidar = initLidarBoard(lidarBoardElement, {
         onSelect: (area, hotspot) => {
-            // Show video overlay instead of just syncing
+            // Apply model focus IMMEDIATELY when hotspot is clicked (before zoom/overlay)
+            if (modelFocus) {
+                modelFocus.focusOnRegion(area);
+                console.log(`Applied 3D model focus immediately for region: ${area}`);
+                // Force immediate render to show focus effect
+                render();
+            }
+            
+            // Show video overlay (this will trigger zoom animation)
             videoOverlay.showOverlay(area, hotspot);
             // Still sync for any 3D interactions
             sync.handleAreaSelect(area, hotspot);
         },
         onZoomExtents: () => {
+            // Clear model focus FIRST when zoom extents is clicked
+            if (modelFocus) {
+                modelFocus.clearFocus();
+                console.log('Cleared 3D model focus via Zoom Extents');
+                // Force immediate render to show focus clear
+                render();
+            }
+            
             // Use video overlay's zoom toggle for proper state management
             videoOverlay.toggleZoom();
             // Only after zoom reset, re-enable the Highlight button
