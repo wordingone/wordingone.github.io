@@ -322,20 +322,16 @@ body {
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
-/* Frame-positioned overlays use absolute positioning within lidar board */
+/* Frame-positioned overlays use fixed positioning on screen */
 .video-overlay.frame-positioned {
-    position: absolute;
-    top: 0;
-    right: auto;
-    left: 0;
-    width: 200px;
-    height: 150px;
-    opacity: 0;
-    visibility: hidden;
-    transform: scale(0.86);
-    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+    position: fixed !important;
+    z-index: 10000 !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    transition: all 0.3s ease;
     border-radius: 8px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255,255,255,0.1);
+    background: #000;
 }
 
 .video-overlay.active {

@@ -105,8 +105,8 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
             // Position overlay in the center of the zoomed view
             positionOverlayInZoomedView(currentOverlay, frameData);
             
-            // Add overlay to the lidar board
-            lidarBoard.appendChild(currentOverlay);
+            // Add overlay to the body for fixed positioning
+            document.body.appendChild(currentOverlay);
             
             // Force reflow to ensure CSS is applied before adding active class
             currentOverlay.offsetHeight;
@@ -154,36 +154,42 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
      * @param {Object} frameData - Frame positioning data
      */
     function positionOverlayInZoomedView(overlay, frameData) {
-        // Get the main panel (viewport) dimensions, not the scaled lidar board
+        // Get the main panel dimensions (right 2/3 of screen)
         const mainPanel = document.getElementById('main-panel');
-        const viewportRect = mainPanel.getBoundingClientRect();
+        const panelRect = mainPanel.getBoundingClientRect();
         
-        // Calculate position in the right 1/3 of the viewport  
-        const rightThirdCenterX = viewportRect.width * 0.75; // 75% from left = center of right third
-        const viewportCenterY = viewportRect.height / 2;
+        // Calculate center of the main panel
+        const centerX = panelRect.left + panelRect.width / 2;
+        const centerY = panelRect.top + panelRect.height / 2;
         
-        // Size the overlay 50% smaller than before
-        const overlayWidth = Math.min(200, Math.max(100, frameData.width));
-        const overlayHeight = Math.min(150, Math.max(75, frameData.height));
+        // Size the overlay appropriately
+        const overlayWidth = 400;
+        const overlayHeight = 300;
         
-        // Position overlay in right third
-        const overlayX = rightThirdCenterX - overlayWidth / 2;
-        const overlayY = viewportCenterY - overlayHeight / 2;
+        // Position overlay at center of main panel using fixed positioning
+        const overlayX = centerX - overlayWidth / 2;
+        const overlayY = centerY - overlayHeight / 2;
         
-        // Set only positional properties - let CSS classes handle visibility
-        overlay.style.position = 'absolute';
-        overlay.style.left = `${overlayX}px`;
-        overlay.style.top = `${overlayY}px`;
-        overlay.style.width = `${overlayWidth}px`;
-        overlay.style.height = `${overlayHeight}px`;
-        overlay.style.zIndex = '1000';
-        overlay.style.borderRadius = '8px';
-        overlay.style.overflow = 'hidden';
-        overlay.style.boxShadow = '0 8px 32px rgba(0,0,0,0.6)';
-        overlay.style.pointerEvents = 'auto';
+        // Apply inline styles for immediate visibility with fixed positioning
+        overlay.style.cssText = `
+            position: fixed !important;
+            left: ${overlayX}px !important;
+            top: ${overlayY}px !important;
+            width: ${overlayWidth}px !important;
+            height: ${overlayHeight}px !important;
+            z-index: 10000 !important;
+            border-radius: 8px !important;
+            overflow: hidden !important;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.8) !important;
+            pointer-events: auto !important;
+            background: #000 !important;
+            opacity: 1 !important;
+            visibility: visible !important;
+            transform: none !important;
+            display: block !important;
+        `;
         
-        console.log(`Positioned overlay in right third: ${overlayX.toFixed(0)}, ${overlayY.toFixed(0)} (${overlayWidth.toFixed(0)}x${overlayHeight.toFixed(0)})`);
-        console.log(`Viewport dimensions: ${viewportRect.width.toFixed(0)}x${viewportRect.height.toFixed(0)}`);
+        console.log(`Overlay positioned at: ${overlayX.toFixed(0)}, ${overlayY.toFixed(0)} (${overlayWidth}x${overlayHeight})`);
     }
     
     /**
@@ -216,7 +222,7 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
             `;
             
             positionOverlayInZoomedView(currentOverlay, frameData);
-            lidarBoard.appendChild(currentOverlay);
+            document.body.appendChild(currentOverlay);
             
             // Force reflow to ensure CSS is applied before adding active class
             currentOverlay.offsetHeight;
