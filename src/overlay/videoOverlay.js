@@ -396,7 +396,7 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
         const overlayX = viewportWidth - overlayWidth - 40; // 40px from right edge
         const overlayY = (viewportHeight - overlayHeight) / 2; // Vertically centered
         
-        // Apply inline styles for fixed viewport positioning
+        // Apply minimal inline styles and let CSS handle the transitions
         overlay.style.cssText = `
             position: fixed !important;
             left: ${overlayX}px !important;
@@ -410,11 +410,10 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
             pointer-events: auto !important;
             background: #000 !important;
             transform-origin: center center !important;
-            opacity: 0 !important;
-            visibility: visible !important;
-            transform: scale(0.3) !important;
             display: block !important;
         `;
+        
+        // Let CSS handle opacity, visibility, and transform via classes
         
         console.log(`Overlay positioned at FIXED viewport location: ${overlayX.toFixed(0)}, ${overlayY.toFixed(0)} (${overlayWidth}x${overlayHeight})`);
         console.log('Viewport size:', viewportWidth, 'x', viewportHeight);
