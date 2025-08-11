@@ -4,8 +4,8 @@ A responsive, cinematic web experience bridging campaign narratives with a deepe
 
 ## Status (Evidence-Based)
 - Directory verified: ✅ B:\GIT\wordingone.github.io
-- Script loading mode: ✅ LOCAL - uses ./models/ paths (fixed)
-- LFS: Disabled for web assets (PNG/GLB serve as binary)
+- Script loading mode: ✅ LOCAL - uses ./models/ paths
+- LFS: ✅ DISABLED for GLB files (binary deployment)
 - Models: 10 files; pointers: 0; binary: 10
 
 ## Structure (from repo)

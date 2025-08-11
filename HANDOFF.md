@@ -180,14 +180,11 @@ SyntaxError: Unexpected token 'v', "version ht"... is not valid JSON
 *Status: FULLY OPERATIONAL - All models loading successfully*
 
 ## Changes Since Last Handoff
-- **ANALYSIS COMPLETE**: All 10 GLB files verified as binary (not LFS pointers)
-- **SCRIPT MODE**: Local ./models/ paths confirmed working
-- **LFS STATUS**: Disabled for GLB files via .gitattributes
-- **MODELS**: Total 4.3MB across 10 files, largest arch_module_smallest.glb at 2.5MB
-- **EVIDENCE**: File sizes confirm binary storage (pointers would be ~130 bytes)
-- **LFS ISSUE RESOLVED**: Git LFS untrack + recommit fixed GitHub Pages deployment
-  - Executed: `git lfs untrack "*.glb"` → `git rm --cached -r models` → `git add models .gitattributes` → `git commit` → `git push`
-  - VERIFIED: GitHub Pages now serves actual GLB binaries (not LFS pointer text)
-  - CONFIRMED: GLTFLoader receives `glTF` binary data instead of `version https://git-lfs` text
-  - RESULT: All 10 models load successfully on live site
-- **DEPLOYMENT SUCCESS**: Site fully operational at https://wordingone.github.io/
+- **CURRENT ISSUE**: Website shows dark gray background instead of LiDAR imagery mood board from image 2
+- **VISUAL COMPARISON**: Image 1 (current state) vs Image 2 (desired state) shows missing mood board background
+- **CURRENT STATUS**: 3D model loads correctly on left, but right panel is dark gray instead of photographic LiDAR content
+- **HOTSPOTS**: Interactive areas defined but background imagery missing
+- **TECH STACK**: All models loading correctly (10 GLB files, 4.3MB total)
+- **3D SYSTEM**: GPU instancing with 2,673 components working properly
+- **ROOT CAUSE**: CSS background-image path or missing LiDAR mood board image file
+- **NEXT ACTION**: Locate and implement LiDAR background imagery to match Image 2 reference
