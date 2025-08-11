@@ -7,10 +7,10 @@ A responsive, cinematic web experience bridging campaign narratives with a deepe
 - Script loading mode: modular_es6 — `import { createViewer } from './src/core/viewer.js'`
 - LFS: commented out (web deployment mode)
 - Models: 10 GLB files (binary: 10, pointers: 0)
-- **CRITICAL ARCHITECTURAL FIX**: Container-based scaling with unified background and hotspot system
+- **CRITICAL FLEXBOX FIX**: Proper aspect ratio container with flexbox centering and smart scaling calculations
 - **BRAND UPDATE**: Changed to "Prada: Remaking" with improved design system
 - **ENHANCED**: Professional typography and button design for better UX
-- **ENHANCED**: Cross-device responsive design with proper aspect ratio handling
+- **ENHANCED**: Cross-device responsive design with vertical centering when space available
 
 ## Structure (from repo)
 ```
@@ -48,10 +48,10 @@ B:\GIT\wordingone.github.io/
 ## Maintenance Notes
 - Keep `.glb` as binary; avoid LFS pointers.
 - Prefer local `./models/...` unless a release URL is intentional and exists.
-- **ARCHITECTURAL**: LiDAR interface uses unified container system with aspect ratio constraints
-- **RESPONSIVE**: Background image and hotspots scale together as single unit via `.lidar-container`
+- **FLEXBOX ARCHITECTURE**: LiDAR interface uses flexbox centering with smart `min()` calculations for width/height
+- **RESPONSIVE SCALING**: Container scales proportionally using `aspect-ratio: 16/9` with vertical centering
 - **BRAND**: Interface branded as "Prada: Remaking" with professional design system
-- **DEVICE SUPPORT**: Touch-friendly design with 44px minimum hotspot sizes for mobile accessibility
-- **TECHNICAL**: All positioning calculations relative to container, not viewport, for consistent scaling
+- **DEVICE SUPPORT**: Touch-friendly design with responsive calculations for all screen sizes
+- **TECHNICAL**: Background uses `background-size: cover` with hotspots positioned relative to flexbox container
 
 _Last updated: 2025-08-11_

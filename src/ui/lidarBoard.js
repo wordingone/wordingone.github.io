@@ -296,7 +296,7 @@ function positionHotspots() {
         // Reset any transform state on the container
         const container = rootEl.querySelector('.lidar-container');
         if (container) {
-            container.style.transform = 'translate(-50%, -50%) scale(1)';
+            container.style.transform = 'scale(1)';
             container.style.transformOrigin = 'center';
         }
         
@@ -331,7 +331,7 @@ function positionHotspots() {
             // Force clean state and reposition
             const container = rootEl.querySelector('.lidar-container');
             if (container) {
-                container.style.transform = 'translate(-50%, -50%) scale(1)';
+                container.style.transform = 'scale(1)';
                 container.style.transformOrigin = 'center';
             }
             setTimeout(positionHotspots, 10);
@@ -341,7 +341,7 @@ function positionHotspots() {
             rootEl.classList.remove('zooming', 'zoom-reset', 'highlighting', 'mask-active');
             const container = rootEl.querySelector('.lidar-container');
             if (container) {
-                container.style.transform = 'translate(-50%, -50%) scale(1)';
+                container.style.transform = 'scale(1)';
                 container.style.transformOrigin = 'center';
             }
             isResizing = false;

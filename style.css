@@ -157,33 +157,32 @@ body {
     color: #ffffff;
 }
 
-/* LiDAR Board with Proper Aspect Ratio Container */
+/* LiDAR Board with Proper Flexbox Centering */
 #lidar-board {
     flex: 1;
     position: relative;
     background: #000;
     overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
 }
 
-/* The key fix: Aspect ratio container */
+/* Proper aspect ratio container with flexbox centering */
 .lidar-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    /* This ensures the container maintains the exact aspect ratio of the source image */
-    aspect-ratio: 16 / 9; /* Adjust this to match your lidar_00.png aspect ratio */
+    position: relative;
+    /* Use min() to ensure we don't exceed either dimension */
+    width: min(100%, calc(100vh * 16 / 9));
+    height: min(100%, calc(100vw * 9 / 16));
+    /* Maintain exact aspect ratio */
+    aspect-ratio: 16 / 9;
+    /* Fallback for browsers without aspect-ratio support */
     max-width: 100%;
     max-height: 100%;
-    margin: auto;
-    /* Center the container if it doesn't fill the full space */
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
 }
 
-/* Background image - now properly contained */
+/* Background image - properly contained within aspect ratio */
 .lidar-background {
     position: absolute;
     top: 0;
@@ -191,13 +190,13 @@ body {
     width: 100%;
     height: 100%;
     background-image: url('./lidar_00.png');
-    background-size: 100% 100%;
+    background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     z-index: 1;
 }
 
-/* Hotspots - now positioned relative to the container, not the parent */
+/* Hotspots - clean invisible regions */
 .hotspot {
     position: absolute;
     background: transparent;
@@ -209,37 +208,19 @@ body {
     align-items: center;
     justify-content: center;
     pointer-events: auto;
-    transition: all 0.3s ease;
+    transition: none;
 }
 
 .hotspot:hover {
-    opacity: 1;
-    background: rgba(52, 152, 219, 0.2);
-    border: 2px solid #3498db;
-    border-radius: 4px;
-    transform: scale(1.05);
-}
-
-/* Hotspot Labels */
-.hotspot-label {
-    font-size: 10px;
-    font-weight: 600;
-    color: #fff;
-    background: rgba(0, 0, 0, 0.8);
-    padding: 3px 8px;
-    border-radius: 4px;
-    white-space: nowrap;
-    pointer-events: none;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
-    border: 1px solid #3498db;
-    font-family: 'SF Mono', monospace;
-    letter-spacing: 0.5px;
     opacity: 0;
-    transition: opacity 0.2s ease;
+    /* No visual changes on hover - keep completely invisible */
+    cursor: pointer;
 }
 
-.hotspot:hover .hotspot-label {
-    opacity: 1;
+/* Hotspot Labels - completely hidden */
+.hotspot-label {
+    display: none;
+    /* Completely remove labels from display */
 }
 
 /* Highlighting Mode */
@@ -258,30 +239,28 @@ body {
     opacity: 1;
 }
 
-/* When highlighting is active, hotspots become visible and cut holes */
+/* When highlighting is active, hotspots become clickable but remain invisible */
 #lidar-board.highlighting .hotspot {
-    opacity: 1;
+    opacity: 0;
     z-index: 15;
-    background: rgba(52, 152, 219, 0.3);
-    border: 2px solid #3498db;
-    border-radius: 4px;
+    background: transparent;
+    border: none;
+    /* Keep hotspots completely invisible even during highlighting */
 }
 
 #lidar-board.highlighting .hotspot .hotspot-label {
-    opacity: 1;
-    background: #3498db;
-    color: white;
-    border-color: #3498db;
+    display: none;
+    /* Keep labels hidden even during highlighting */
 }
 
-/* Zoom Animation - applied to the container, not the board */
+/* Zoom Animation - applied to the container */
 #lidar-board.zooming .lidar-container {
-    transform: translate(-50%, -50%) scale(3.5);
+    transform: scale(3.5);
     transition: transform 1000ms ease-out;
 }
 
 #lidar-board.zoom-reset .lidar-container {
-    transform: translate(-50%, -50%) scale(1);
+    transform: scale(1);
     transition: transform 800ms ease-in-out;
 }
 
@@ -450,6 +429,16 @@ body {
         height: 60vh;
     }
     
+    #lidar-board {
+        padding: 15px;
+    }
+    
+    .lidar-container {
+        /* Adjust sizing for tablet landscape */
+        width: min(100%, calc((60vh - 100px) * 16 / 9));
+        height: min(100%, calc(100vw * 9 / 16));
+    }
+    
     .video-overlay {
         width: 90vw;
         height: 50vh;
@@ -495,6 +484,16 @@ body {
         height: 65vh;
     }
     
+    #lidar-board {
+        padding: 12px;
+    }
+    
+    .lidar-container {
+        /* Adjust for mobile portrait */
+        width: min(100%, calc((65vh - 80px) * 16 / 9));
+        height: min(100%, calc((100vw - 24px) * 9 / 16));
+    }
+    
     #model-info {
         bottom: 12px;
         left: 12px;
@@ -533,6 +532,16 @@ body {
     .control-btn {
         padding: 6px 10px;
         font-size: 10px;
+    }
+    
+    #lidar-board {
+        padding: 8px;
+    }
+    
+    .lidar-container {
+        /* Very small screens */
+        width: min(100%, calc((65vh - 60px) * 16 / 9));
+        height: min(100%, calc((100vw - 16px) * 9 / 16));
     }
     
     .hotspot {

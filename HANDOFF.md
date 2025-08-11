@@ -11,15 +11,18 @@ Multi-phase architectural navigation system featuring synchronized 3D models, in
 **Status**: CRITICAL ARCHITECTURAL FIX APPLIED - Proper container-based scaling implemented
 
 **🚨 CRITICAL ARCHITECTURAL FIX APPLIED**:
-- **✅ FIXED: Container Architecture** - LiDAR image and hotspots now in unified `.lidar-container` with aspect ratio constraints
-- **✅ FIXED: Responsive Scaling** - Background image and hotspot regions now scale together as one unit
-- **✅ FIXED: Cross-device Compatibility** - Proper scaling on all viewport sizes from mobile to desktop
+- **✅ FIXED: Flexbox Container Architecture** - LiDAR uses proper flexbox centering with aspect ratio constraints
+- **✅ FIXED: Proportional Scaling** - Container scales correctly in both width and height using `min()` calculations
+- **✅ FIXED: Vertical Centering** - LiDAR container centers vertically when extra space available
+- **✅ FIXED: Cross-device Compatibility** - Responsive calculations for all viewport sizes from mobile to desktop
 - **✅ FIXED: Brand Identity** - Updated to "Prada: Remaking" throughout interface
 
 **🎨 DESIGN IMPROVEMENTS APPLIED**:
 - **✅ IMPROVED: Typography & Buttons** - Cleaner, more professional button design and text hierarchy
 - **✅ IMPROVED: Color Scheme** - Maintained sophisticated dark theme with better contrast
 - **✅ IMPROVED: Mobile Responsiveness** - Touch-friendly hotspot sizes and proper viewport handling
+- **✅ IMPROVED: Clean Hotspot Design** - Removed all visual indicators from hotspot regions (no colors, borders, or labels)
+- **✅ IMPROVED: Invisible Interaction** - Hotspots remain completely invisible but fully functional
 
 **⚠️ PREVIOUS ISSUES (NOW RESOLVED)**:
 - **✅ Fixed ghosting colors** - Focused models now light gray/white (#cccccc) like original scheme
@@ -85,22 +88,25 @@ Multi-phase architectural navigation system featuring synchronized 3D models, in
 
 ## Recent Fixes Applied
 
-### 🚨 Critical Container Architecture Fix
-- **Problem**: Background image and hotspots were scaling independently, causing misalignment
-- **Root Cause**: LiDAR background was direct CSS background while hotspots were absolutely positioned children
-- **Solution**: Created unified `.lidar-container` with aspect ratio constraints containing both background and hotspots
+### 🚨 Critical Flexbox Container Architecture Fix
+- **Problem**: LiDAR container was scaling incorrectly and not centering when extra space available
+- **Root Cause**: Container used absolute positioning with manual translate transforms instead of flexbox
+- **Solution**: Implemented proper flexbox centering with smart aspect ratio constraints
 - **Implementation**: 
-  - `aspect-ratio: 16/9` CSS property ensures consistent proportions
-  - Background image as child element `.lidar-background` with `background-size: 100% 100%`
-  - Hotspots positioned relative to container, not viewport
-  - All transforms and animations applied to container as single unit
-- **Result**: Perfect alignment and scaling across all devices and viewport sizes
+  - Parent `#lidar-board` uses `display: flex; align-items: center; justify-content: center`
+  - Container uses `width: min(100%, calc(100vh * 16/9))` and `height: min(100%, calc(100vw * 9/16))`
+  - `aspect-ratio: 16/9` ensures consistent proportions across devices
+  - Responsive calculations account for header heights and padding on mobile devices
+  - Background image uses `background-size: cover` for proper scaling without distortion
+- **Result**: Perfect centering, proportional scaling, and responsive behavior on all devices
 
 ### 🎨 Design System Improvements
 - **Typography**: Cleaner hierarchy with proper font weights and spacing
-- **Buttons**: Professional styling with subtle hover effects and better accessibility
+- **Buttons**: Professional styling with subtle hover effects and better accessibility  
 - **Brand Identity**: Updated to "Prada: Remaking" with consistent branding
 - **Mobile UX**: Touch-friendly hotspot sizes (44px minimum) and responsive text scaling
+- **Clean Interaction**: Hotspots completely invisible with no visual feedback (no colors, borders, labels)
+- **Minimal Interface**: Pure click regions without visual clutter for sophisticated user experience
 
 ### 🔧 Video Overlay Positioning
 - **Issue**: Viewport centering misaligned for specific regions
