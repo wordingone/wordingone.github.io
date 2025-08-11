@@ -3,6 +3,7 @@
 ## Meta
 Date: 2025-01-28 · Repo: B:\GIT\wordingone.github.io
 Status: RESOLVED
+Updated: 2025-01-28 20:21 PST
 
 ## Problem
 1. Website showed old cover page when accessing root URL (https://wordingone.github.io/)
@@ -66,6 +67,22 @@ RESOLVED — All acceptance criteria met. Navigation flow now works as specified
 5. Skip button appears after resources load
 
 ## Changes Since Last Handoff
+### 2025-01-28 20:25 PST (latest)
+- Fixed audio playback for intro video (complete animation.mp4)
+- Added sound control button with mute/unmute toggle
+- Smart autoplay detection: attempts sound if user clicked from index.html
+- Falls back to muted for direct navigation (browser autoplay policy)
+- Volume set to 70% for comfortable listening
+- **Note**: Browsers block autoplay with sound unless user interacted with page
+
+### 2025-01-28 20:14 PST
+- Analyzed full repo structure (10 GLB models, 26 MP4 videos)
+- Confirmed ES6 modular loading system in place
+- Verified LFS disabled for web deployment (all binaries served directly)
+- Models loading from ./models/ with ES6 imports
+- GPU instancing active for architectural system
+
+### 2025-01-28 (previous)
 - Fixed navigation flow completely
 - Removed duplicate cover.html file
 - Implemented proper scroll locking
@@ -81,5 +98,6 @@ Rollback: Restore from backup files (old-cover.html.backup, previous index.html)
 - [x] Implement scroll lock
 - [x] Move video to main-app overlay
 - [x] Fix skip button timing
-- [ ] Consider adding sound controls for video
+- [x] Add sound controls for video (COMPLETED)
 - [ ] Test on mobile devices for scroll behavior
+- [ ] Consider adding volume slider for finer control

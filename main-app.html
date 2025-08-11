@@ -48,6 +48,72 @@
             z-index: 10001;
         }
 
+        /* Sound Button */
+        .sound-button {
+            position: fixed;
+            top: 40px;
+            right: 100px;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 10001;
+        }
+
+        .sound-button.visible {
+            display: flex;
+        }
+
+        .sound-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+
+        .sound-button.muted .sound-icon::after {
+            content: '';
+            position: absolute;
+            width: 2px;
+            height: 24px;
+            background: #fff;
+            transform: rotate(-45deg);
+            left: 11px;
+            top: -2px;
+        }
+
+        /* Sound icon */
+        .sound-icon {
+            position: relative;
+            width: 24px;
+            height: 24px;
+        }
+
+        .sound-icon::before {
+            content: '';
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #fff;
+            left: 2px;
+            top: 8px;
+        }
+
+        .sound-icon span {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 8px 0 8px 10px;
+            border-color: transparent transparent transparent #fff;
+            left: 10px;
+            top: 4px;
+        }
+
         .skip-button.visible {
             display: flex;
         }
@@ -128,6 +194,9 @@
         <video class="intro-video" id="introVideo" playsinline preload="auto">
             <source src="./videos/complete animation.mp4" type="video/mp4">
         </video>
+        <div class="sound-button muted" id="soundButton">
+            <div class="sound-icon"><span></span></div>
+        </div>
         <div class="skip-button" id="skipButton">
             <div class="skip-icon"></div>
         </div>
@@ -250,6 +319,7 @@
             const videoOverlay = document.getElementById('videoOverlay');
             const introVideo = document.getElementById('introVideo');
             const skipButton = document.getElementById('skipButton');
+            const soundButton = document.getElementById('soundButton');
             const videoLoadingStatus = document.getElementById('videoLoadingStatus');
             
             // Check if we should play the intro video
@@ -303,23 +373,55 @@
                 function closeVideoOverlay() {
                     videoOverlay.classList.remove('active');
                     skipButton.classList.remove('visible');
+                    soundButton.classList.remove('visible');
                     videoLoadingStatus.classList.remove('visible');
                     introVideo.pause();
                     introVideo.currentTime = 0;
                 }
                 
-                // Play video
-                introVideo.muted = true; // Mute for autoplay policy
+                // Check if we came from user interaction (clicking logo)
+                // This might allow autoplay with sound!
+                const cameFromUserAction = document.referrer.includes('index.html') || 
+                                          document.referrer.endsWith('wordingone.github.io/');
+                
+                let audioAllowed = false;
+                
+                // If user clicked to get here, try with sound first
+                if (cameFromUserAction) {
+                    console.log('User navigated here via click, attempting autoplay with sound...');
+                    introVideo.muted = false;
+                    introVideo.volume = 0.7;
+                } else {
+                    // Direct navigation - start muted
+                    console.log('Direct navigation detected, starting muted');
+                    introVideo.muted = true;
+                }
+                
                 const playPromise = introVideo.play();
                 
                 if (playPromise !== undefined) {
                     playPromise.then(() => {
-                        console.log('Intro video playing');
+                        if (!introVideo.muted) {
+                            console.log('✓ Video playing WITH SOUND (user interaction carried over)');
+                            audioAllowed = true;
+                            soundButton.classList.remove('muted');
+                        } else {
+                            console.log('Video playing muted');
+                        }
+                        soundButton.classList.add('visible');
                         startLoadingResources();
                     }).catch(error => {
-                        console.error('Video play failed:', error);
-                        // Still load resources even if video fails
-                        startLoadingResources();
+                        console.log('Autoplay failed, trying muted fallback:', error.message);
+                        // Fallback: mute and try again
+                        introVideo.muted = true;
+                        soundButton.classList.add('visible');
+                        introVideo.play().then(() => {
+                            console.log('Video playing muted (fallback)');
+                            startLoadingResources();
+                        }).catch(err => {
+                            console.error('Video play completely failed:', err);
+                            startLoadingResources();
+                        });
                     });
                 } else {
                     introVideo.play();
@@ -331,6 +433,20 @@
                     videoEnded = true;
                     if (resourcesLoaded) {
                         setTimeout(closeVideoOverlay, 500);
+                    }
+                });
+                
+                // Handle sound button
+                soundButton.addEventListener('click', function() {
+                    if (introVideo.muted) {
+                        introVideo.muted = false;
+                        introVideo.volume = 0.7;
+                        soundButton.classList.remove('muted');
+                        console.log('Video unmuted');
+                    } else {
+                        introVideo.muted = true;
+                        soundButton.classList.add('muted');
+                        console.log('Video muted');
                     }
                 });
                 
