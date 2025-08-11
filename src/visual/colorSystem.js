@@ -131,16 +131,23 @@ export class ColorSystem {
      * @param {string} state - Color state (hover, focus)
      */
     applyRegionalTint(object, regionName, state = COLOR_STATES.HOVER) {
-        if (!object.material || !REGION_COLORS[regionName]) return;
+        if (!object.material || !REGION_COLORS[regionName]) {
+            console.warn(`Cannot apply tint - missing material or region color for: ${regionName}`);
+            return;
+        }
 
         const colorConfig = REGION_COLORS[regionName];
         const tintColor = colorConfig[state] || colorConfig.tint;
+        
+        console.log(`Applying ${state} tint for ${regionName}:`, tintColor.getHexString());
 
         if (Array.isArray(object.material)) {
+            console.log(`Processing ${object.material.length} materials for object`);
             object.material.forEach((material, index) => {
                 this.applyTintToMaterial(material, tintColor, object.uuid, index);
             });
         } else {
+            console.log(`Processing single material for object`);
             this.applyTintToMaterial(object.material, tintColor, object.uuid);
         }
     }
@@ -153,6 +160,8 @@ export class ColorSystem {
      * @param {number} materialIndex - Material index for arrays
      */
     applyTintToMaterial(material, tintColor, objectId, materialIndex = 0) {
+        console.log(`Applying tint to material:`, material.type, 'with color:', tintColor.getHexString());
+        
         // Store original if not already stored
         if (!this.originalMaterials.has(objectId)) {
             this.catalogMaterial({ uuid: objectId, material });
@@ -163,14 +172,29 @@ export class ColorSystem {
         if (original) {
             const originalColor = Array.isArray(original) ? original[materialIndex]?.color : original.color;
             if (originalColor) {
+                console.log(`Original color:`, originalColor.getHexString());
+                
+                // Store current color before change
+                const beforeColor = material.color.getHexString();
+                
                 // Subtle color mixing: 85% original + 15% tint for very subtle effect
                 material.color.copy(originalColor).lerp(tintColor, 0.15);
+                
+                console.log(`Color changed from ${beforeColor} to ${material.color.getHexString()}`);
                 
                 // Add very subtle emissive glow for enhanced visibility
                 if (material.emissive) {
                     material.emissive.copy(tintColor).multiplyScalar(0.02); // Very subtle glow
+                    console.log(`Applied emissive:`, material.emissive.getHexString());
                 }
+                
+                // Force material update
+                material.needsUpdate = true;
+            } else {
+                console.warn('No original color found for material');
             }
+        } else {
+            console.warn('No original material data found for object:', objectId);
         }
     }
 

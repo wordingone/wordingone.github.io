@@ -80,11 +80,18 @@ document.addEventListener('DOMContentLoaded', async function() {
         },
         onHover: (area, hotspot) => {
             // Apply subtle color tinting on hover
+            console.log(`HOVER DEBUG: Attempting to apply color for region: ${area}`);
             if (modelFocus) {
-                modelFocus.applyHoverHighlight(area);
-                console.log(`Applied hover color highlight for region: ${area}`);
-                // Force immediate render to show color changes
-                render();
+                try {
+                    modelFocus.applyHoverHighlight(area);
+                    console.log(`✓ Applied hover color highlight for region: ${area}`);
+                    // Force immediate render to show color changes
+                    render();
+                } catch (error) {
+                    console.error('Error applying hover highlight:', error);
+                }
+            } else {
+                console.warn('modelFocus not available for hover highlighting');
             }
         },
         onHoverEnd: (area, hotspot) => {

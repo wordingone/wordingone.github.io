@@ -43,8 +43,9 @@ export function createModelFocus(scene) {
             description: 'Red dye related components'
         },
         'insula': {
-            models: ['Misc Geometry'], // Insula visualization
-            description: 'Insula components'
+            models: ['Architectural System'], // Top 4 floors only
+            description: 'Insula components - top 4 floors only',
+            instanceMode: 'top-floors-only'
         }
     };
     
@@ -66,31 +67,52 @@ export function createModelFocus(scene) {
      * @param {string} regionName - Region name to highlight
      */
     function applyHoverHighlight(regionName) {
-        if (!modelRegionMapping[regionName] || isHovering) return;
+        if (!modelRegionMapping[regionName]) {
+            console.warn(`No model mapping found for region: ${regionName}`);
+            return;
+        }
+        
+        if (isHovering) {
+            console.log(`Already hovering, skipping for: ${regionName}`);
+            return;
+        }
         
         console.log(`Applying hover highlight for region: ${regionName}`);
         
         const focusConfig = modelRegionMapping[regionName];
         const focusedModels = new Set(focusConfig.models);
         
+        console.log(`Focused models for ${regionName}:`, Array.from(focusedModels));
+        console.log(`Available model objects:`, Array.from(modelObjects.keys()));
+        
         isHovering = true;
         colorSystem.setRegionState(regionName, COLOR_STATES.HOVER);
+        
+        let objectsProcessed = 0;
         
         // Apply color tint to focused models only
         modelObjects.forEach((objects, modelName) => {
             if (focusedModels.has(modelName)) {
+                console.log(`Processing model: ${modelName} with ${objects.length} objects`);
                 objects.forEach(object => {
+                    console.log(`Applying color to object:`, object.uuid, object.type);
                     colorSystem.applyRegionalTint(object, regionName, COLOR_STATES.HOVER);
+                    objectsProcessed++;
                 });
             }
         });
         
-        // Handle instanced meshes for archive regions
+        // Handle instanced meshes for regions that use Architectural System
         if (focusedModels.has('Architectural System')) {
+            console.log(`Processing instanced meshes for region: ${regionName}`);
             instancedMeshes.forEach((instancedMesh) => {
+                console.log(`Applying color to instanced mesh:`, instancedMesh.uuid);
                 colorSystem.applyRegionalTint(instancedMesh, regionName, COLOR_STATES.HOVER);
+                objectsProcessed++;
             });
         }
+        
+        console.log(`Hover highlight applied to ${objectsProcessed} objects for region: ${regionName}`);
     }
     
     /**
@@ -282,8 +304,47 @@ export function createModelFocus(scene) {
                     // Fallback: just restore original material
                     restoreOriginalMaterial(instancedMesh);
                 }
+            } else if (focusConfig.instanceMode === 'top-floors-only') {
+                console.log(`Applying top-floors-only focus for insula region: ${regionName}`);
+                
+                // Show top 4 floors only (floors 2-5, instances 1089-2672)
+                const firstFloorCount = 33 * 33; // 1,089 instances (floor 1 - to be hidden)
+                const totalCount = 2673; // Total instances
+                const topFloorsCount = totalCount - firstFloorCount; // 1,584 instances (floors 2-5)
+                const original = backupInstancedMeshes.get(uuid);
+                
+                if (original) {
+                    // Create new instance matrix buffer with only top floors
+                    const topFloorsMatrix = new THREE.InstancedBufferAttribute(
+                        new Float32Array(topFloorsCount * 16), 16
+                    );
+                    
+                    // Copy top floors matrices (instances 1089-2672)
+                    const originalArray = original.originalMatrix.array;
+                    for (let i = 0; i < topFloorsCount; i++) {
+                        const sourceIndex = firstFloorCount + i; // Start from instance 1089
+                        for (let j = 0; j < 16; j++) {
+                            topFloorsMatrix.array[i * 16 + j] = originalArray[sourceIndex * 16 + j];
+                        }
+                    }
+                    
+                    // Update the instanced mesh
+                    instancedMesh.count = topFloorsCount;
+                    instancedMesh.instanceMatrix = topFloorsMatrix;
+                    instancedMesh.instanceMatrix.needsUpdate = true;
+                    
+                    // Apply focused material (original appearance)
+                    restoreOriginalMaterial(instancedMesh);
+                    
+                    console.log(`Insula focus: Architectural system limited to top 4 floors (${topFloorsCount} instances)`);
+                    console.log('Ground floor (instances 0-1088) is hidden');
+                } else {
+                    console.warn('No backup found for instanced mesh, using fallback approach');
+                    // Fallback: just restore original material
+                    restoreOriginalMaterial(instancedMesh);
+                }
             } else {
-                // For non-archive regions, show all floors normally
+                // For non-special regions, show all floors normally
                 restoreOriginalMaterial(instancedMesh);
             }
         });
