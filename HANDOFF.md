@@ -2,7 +2,7 @@
 
 ## Meta
 Date: 2025-08-10 · Repo: B:\GIT\wordingone.github.io
-Status: MONITORING - Modular architecture present but models may need inspection
+Status: TESTING - Frame-based overlay system with dynamic zoom origin
 
 ## Problem
 Implement frame-based video overlay system where overlays position within clicked hotspot regions during zoom animations.
@@ -55,10 +55,11 @@ Files:
 RESOLVED — Frame-based video overlay system implemented with zoom state management
 
 ## Changes Since Last Handoff
-- Created invisible region frames that track clicked hotspot coordinates
-- Implemented dual overlay positioning: fixed (top-right) and frame-positioned (within regions)
-- Added zoom state management to toggle between normal and zoomed views
-- Updated zoom extents button to reverse zoom animations properly
+- **FIXED**: Video overlay positioning issue during zoom
+- Set dynamic transform-origin to clicked region center for proper zoom behavior
+- Position overlays at viewport center after zoom animation completes
+- Added proper coordinate calculation before/after zoom transforms
+- Updated zoom extents button to reset transform-origin correctly
 
 ## Risks & Rollback
 Low risk — CSS-based positioning may need adjustment for different screen sizes · Rollback: Revert to fixed top-right overlay positioning

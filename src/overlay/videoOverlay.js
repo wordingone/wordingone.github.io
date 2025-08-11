@@ -13,6 +13,7 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
     let currentRegionFrame = null;
     let isOverlayActive = false;
     let isZoomed = false;
+    let zoomScale = 3.5; // Match CSS zoom scale
     
     // Video configuration for each region - mapped to actual files
     const regionVideos = {
@@ -23,41 +24,30 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
     };
     
     /**
-     * Create invisible frame for the clicked region
+     * Create invisible frame for the clicked region (pre-zoom coordinates)
      * @param {HTMLElement} hotspot - Hotspot element that was clicked
-     * @returns {HTMLElement} Frame element
+     * @returns {Object} Frame data for positioning
      */
-    function createRegionFrame(hotspot) {
-        const frame = document.createElement('div');
-        frame.className = 'region-frame';
-        
+    function createRegionFrameData(hotspot) {
         // Copy position and size from hotspot
         const coords = hotspot.dataset.coords.split(',').map(Number);
         const [x, y, width, height] = coords;
         const rotation = parseFloat(hotspot.dataset.rotation || 0);
         
-        // Get current scale factors
+        // Get current scale factors (before zoom)
         const boardRect = lidarBoard.getBoundingClientRect();
         const scaleX = boardRect.width / 1920; // Reference width from hotspots config
         const scaleY = boardRect.height / 1080; // Reference height from hotspots config
         
-        // Position frame exactly over the hotspot
-        frame.style.cssText = `
-            position: absolute;
-            left: ${x * scaleX}px;
-            top: ${y * scaleY}px;
-            width: ${width * scaleX}px;
-            height: ${height * scaleY}px;
-            transform: rotate(${rotation}deg);
-            background: transparent;
-            border: 2px solid rgba(52, 152, 219, 0.5);
-            pointer-events: none;
-            z-index: 100;
-            box-sizing: border-box;
-        `;
-        
-        lidarBoard.appendChild(frame);
-        return frame;
+        return {
+            x: x * scaleX,
+            y: y * scaleY,
+            width: width * scaleX,
+            height: height * scaleY,
+            rotation,
+            centerX: (x * scaleX) + (width * scaleX) / 2,
+            centerY: (y * scaleY) + (height * scaleY) / 2
+        };
     }
     
     /**
@@ -80,8 +70,11 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
             return;
         }
         
-        // Create invisible frame for this region
-        currentRegionFrame = createRegionFrame(hotspot);
+        // Get frame data before zoom
+        const frameData = createRegionFrameData(hotspot);
+        
+        // Set zoom transform origin to the clicked region center
+        lidarBoard.style.transformOrigin = `${frameData.centerX}px ${frameData.centerY}px`;
         
         // Start zoom animation
         lidarBoard.classList.add('zooming');
@@ -89,7 +82,7 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
         
         // Wait for zoom animation to complete before showing video
         setTimeout(() => {
-            // Create overlay container positioned within the frame
+            // Create overlay container
             currentOverlay = document.createElement('div');
             currentOverlay.className = 'video-overlay frame-positioned';
             currentOverlay.innerHTML = `
@@ -103,10 +96,10 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
                 </div>
             `;
             
-            // Position overlay within the region frame
-            positionOverlayInFrame(currentOverlay, currentRegionFrame);
+            // Position overlay in the center of the zoomed view
+            positionOverlayInZoomedView(currentOverlay, frameData);
             
-            // Add overlay to the lidar board (not body)
+            // Add overlay to the lidar board
             lidarBoard.appendChild(currentOverlay);
             
             // Set up event listeners
@@ -147,26 +140,24 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
     }
     
     /**
-     * Position overlay within the region frame using CSS positioning
+     * Position overlay in the center of the zoomed view
      * @param {HTMLElement} overlay - Overlay element
-     * @param {HTMLElement} frame - Region frame element
+     * @param {Object} frameData - Frame positioning data
      */
-    function positionOverlayInFrame(overlay, frame) {
-        const frameRect = frame.getBoundingClientRect();
+    function positionOverlayInZoomedView(overlay, frameData) {
         const boardRect = lidarBoard.getBoundingClientRect();
         
-        // Calculate position relative to the lidar board
-        const relativeX = frameRect.left - boardRect.left;
-        const relativeY = frameRect.top - boardRect.top;
+        // Calculate the center of the viewport
+        const viewportCenterX = boardRect.width / 2;
+        const viewportCenterY = boardRect.height / 2;
         
-        // Size the overlay to fill the frame with some padding
-        const padding = 8;
-        const overlayWidth = Math.max(frameRect.width - padding * 2, 200);
-        const overlayHeight = Math.max(frameRect.height - padding * 2, 150);
+        // Size the overlay appropriately for the zoomed view
+        const overlayWidth = Math.min(400, frameData.width * zoomScale * 0.8);
+        const overlayHeight = Math.min(300, frameData.height * zoomScale * 0.8);
         
-        // Center overlay within the frame
-        const overlayX = relativeX + (frameRect.width - overlayWidth) / 2;
-        const overlayY = relativeY + (frameRect.height - overlayHeight) / 2;
+        // Position overlay at viewport center
+        const overlayX = viewportCenterX - overlayWidth / 2;
+        const overlayY = viewportCenterY - overlayHeight / 2;
         
         overlay.style.cssText = `
             position: absolute;
@@ -185,17 +176,20 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
             pointer-events: auto;
         `;
         
-        console.log(`Positioned overlay at ${overlayX.toFixed(0)}, ${overlayY.toFixed(0)} (${overlayWidth.toFixed(0)}x${overlayHeight.toFixed(0)})`);
+        console.log(`Positioned overlay at center: ${overlayX.toFixed(0)}, ${overlayY.toFixed(0)} (${overlayWidth.toFixed(0)}x${overlayHeight.toFixed(0)})`);
     }
     
     /**
-     * Show "no video available" message within the frame
+     * Show "no video available" message in the center of zoomed view
      * @param {string} region - Region name
      * @param {HTMLElement} hotspot - Hotspot element
      */
     function showNoVideoMessage(region, hotspot) {
-        // Create frame and overlay for no-video message
-        currentRegionFrame = createRegionFrame(hotspot);
+        // Get frame data before zoom
+        const frameData = createRegionFrameData(hotspot);
+        
+        // Set zoom transform origin to the clicked region center
+        lidarBoard.style.transformOrigin = `${frameData.centerX}px ${frameData.centerY}px`;
         
         lidarBoard.classList.add('zooming');
         isZoomed = true;
@@ -214,7 +208,7 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
                 </div>
             `;
             
-            positionOverlayInFrame(currentOverlay, currentRegionFrame);
+            positionOverlayInZoomedView(currentOverlay, frameData);
             lidarBoard.appendChild(currentOverlay);
             
             const closeBtn = currentOverlay.querySelector('.overlay-close');
@@ -264,6 +258,7 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
             if (isZoomed) {
                 lidarBoard.classList.remove('zooming');
                 lidarBoard.classList.add('zoom-reset');
+                lidarBoard.style.transformOrigin = 'center'; // Reset transform origin
                 isZoomed = false;
                 
                 // Remove zoom-reset class after animation
@@ -290,6 +285,7 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
             // Reset zoom if zoomed but no active overlay
             lidarBoard.classList.remove('zooming');
             lidarBoard.classList.add('zoom-reset');
+            lidarBoard.style.transformOrigin = 'center'; // Reset transform origin
             isZoomed = false;
             
             setTimeout(() => {

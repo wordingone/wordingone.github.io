@@ -443,15 +443,16 @@ body {
     }
 }
 
-/* LiDAR zoom animation - much closer zoom to focus on region */
+/* LiDAR zoom animation - zoom to clicked region center */
 #lidar-board.zooming {
     transform: scale(3.5);
-    transform-origin: center;
+    /* transform-origin set dynamically by JS to clicked region center */
     transition: transform 1000ms ease-out;
 }
 
 #lidar-board.zoom-reset {
     transform: scale(1);
+    transform-origin: center;
     transition: transform 800ms ease-in-out;
 }
 
