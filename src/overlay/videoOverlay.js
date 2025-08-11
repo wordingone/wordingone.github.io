@@ -166,8 +166,8 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
         const overlayWidth = 600;  // 400 * 1.5
         const overlayHeight = 450; // 300 * 1.5
         
-        // Position overlay at center of main panel using fixed positioning, then move 500px right
-        const overlayX = (centerX - overlayWidth / 2) + 500;
+        // Position overlay at center of main panel using fixed positioning, then move 800px right
+        const overlayX = (centerX - overlayWidth / 2) + 800;
         const overlayY = centerY - overlayHeight / 2;
         
         // Apply inline styles for immediate visibility with fixed positioning
@@ -245,7 +245,7 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
     }
     
     /**
-     * Hide the current video overlay and reset zoom
+     * Hide the current video overlay and reset zoom with proper state management
      */
     function hideOverlay() {
         if (!currentOverlay || !isOverlayActive) return;
@@ -270,16 +270,25 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
             
             isOverlayActive = false;
             
-            // Reset zoom on LiDAR board
+            // Reset zoom on LiDAR board with proper cleanup
             if (isZoomed) {
                 lidarBoard.classList.remove('zooming');
                 lidarBoard.classList.add('zoom-reset');
                 lidarBoard.style.transformOrigin = 'center'; // Reset transform origin
                 isZoomed = false;
                 
-                // Remove zoom-reset class after animation
+                // Remove zoom-reset class after animation and force hotspot repositioning
                 setTimeout(() => {
                     lidarBoard.classList.remove('zoom-reset');
+                    // Force a clean state reset
+                    lidarBoard.style.transform = '';
+                    lidarBoard.style.transformOrigin = 'center';
+                    
+                    // Trigger hotspot repositioning after zoom reset is complete
+                    setTimeout(() => {
+                        const event = new Event('resize');
+                        window.dispatchEvent(event);
+                    }, 50);
                 }, 800);
             }
             
@@ -294,7 +303,7 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
     }
     
     /**
-     * Toggle zoom state (for zoom extents button)
+     * Toggle zoom state (for zoom extents button) with improved state management
      */
     function toggleZoom() {
         if (isZoomed && !isOverlayActive) {
@@ -306,6 +315,15 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
             
             setTimeout(() => {
                 lidarBoard.classList.remove('zoom-reset');
+                // Force clean state
+                lidarBoard.style.transform = '';
+                lidarBoard.style.transformOrigin = 'center';
+                
+                // Trigger repositioning after zoom reset
+                setTimeout(() => {
+                    const event = new Event('resize');
+                    window.dispatchEvent(event);
+                }, 50);
             }, 800);
             
             console.log('Zoom reset via toggle');

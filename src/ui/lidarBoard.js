@@ -161,9 +161,15 @@ export function initLidarBoard(rootEl, callbacks = {}) {
     });
     
     /**
-     * Position hotspots responsively
+     * Position hotspots responsively with proper state management
      */
     function positionHotspots() {
+        // Don't reposition during zoom transitions to avoid conflicts
+        if (rootEl.classList.contains('zooming') || rootEl.classList.contains('zoom-reset')) {
+            console.log('Skipping hotspot positioning during zoom transition');
+            return;
+        }
+        
         const boardRect = rootEl.getBoundingClientRect();
         const scaleX = boardRect.width / REFERENCE_WIDTH;
         const scaleY = boardRect.height / REFERENCE_HEIGHT;
@@ -219,38 +225,59 @@ export function initLidarBoard(rootEl, callbacks = {}) {
         }
     }
     
-    // Handle window resize for responsive hotspots
+    // Handle window resize for responsive hotspots with improved debouncing
     let resizeTimeout;
+    let isResizing = false;
     function handleResize() {
+        if (isResizing) return;
+        
         clearTimeout(resizeTimeout);
+        isResizing = true;
+        
         resizeTimeout = setTimeout(() => {
+            // Reset any transform origin issues before repositioning
+            if (!rootEl.classList.contains('zooming')) {
+                rootEl.style.transformOrigin = 'center';
+            }
+            
             positionHotspots();
+            
             // Recreate mask if highlighting is active
             if (isHighlighting) {
                 createMaskWithHoles();
             }
-        }, 100); // Debounce resize events
+            
+            isResizing = false;
+        }, 150); // Increased debounce time for stability
     }
     
     // Set up resize listener
     window.addEventListener('resize', handleResize);
     
-    // Initial positioning
-    // Wait for layout to be ready
-    setTimeout(positionHotspots, 100);
-    
-    // Also reposition when images load (if any)
-    if (document.readyState === 'complete') {
+    // Enhanced initialization sequence
+    function initializeHotspots() {
+        // Reset any transform state
+        rootEl.style.transform = '';
+        rootEl.style.transformOrigin = 'center';
+        
+        // Initial positioning with multiple checks
+        setTimeout(positionHotspots, 50);
         setTimeout(positionHotspots, 200);
+        setTimeout(positionHotspots, 500);
+    }
+    
+    // Initialize when DOM is ready
+    if (document.readyState === 'complete') {
+        initializeHotspots();
     } else {
-        window.addEventListener('load', () => {
-            setTimeout(positionHotspots, 200);
-        });
+        window.addEventListener('load', initializeHotspots);
+        // Also try during DOM ready
+        document.addEventListener('DOMContentLoaded', initializeHotspots);
     }
     
     console.log('Responsive LiDAR board initialized with mask-style interaction');
     
-    // Public API
+    // Public API with enhanced methods
     return {
         positionHotspots,
         createMaskWithHoles: () => isHighlighting && createMaskWithHoles(),
@@ -259,6 +286,21 @@ export function initLidarBoard(rootEl, callbacks = {}) {
                 highlightBtn.click(); // Trigger the same logic
             }
         },
-        getHighlighting: () => isHighlighting
+        getHighlighting: () => isHighlighting,
+        forceRepositioning: () => {
+            // Force clean state and reposition
+            rootEl.style.transform = '';
+            rootEl.style.transformOrigin = 'center';
+            setTimeout(positionHotspots, 10);
+        },
+        resetState: () => {
+            // Complete state reset
+            rootEl.classList.remove('zooming', 'zoom-reset');
+            rootEl.style.transform = '';
+            rootEl.style.transformOrigin = 'center';
+            isResizing = false;
+            clearTimeout(resizeTimeout);
+            setTimeout(positionHotspots, 10);
+        }
     };
 }

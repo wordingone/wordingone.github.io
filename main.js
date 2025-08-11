@@ -41,6 +41,12 @@ document.addEventListener('DOMContentLoaded', async function() {
             console.log('Video overlay closed');
             // Overlay closed (via × or ESC) → show Highlight button again
             highlightBtn.style.display = 'block';
+            // Force lidar board to reset state after overlay closes
+            setTimeout(() => {
+                if (lidar.resetState) {
+                    lidar.resetState();
+                }
+            }, 100);
         }
     });
     
@@ -57,6 +63,12 @@ document.addEventListener('DOMContentLoaded', async function() {
             videoOverlay.toggleZoom();
             // Only after zoom reset, re-enable the Highlight button
             highlightBtn.style.display = 'block';
+            // Force clean state reset after zoom extents
+            setTimeout(() => {
+                if (lidar.resetState) {
+                    lidar.resetState();
+                }
+            }, 900); // After zoom animation completes
             // Still sync for any 3D interactions
             sync.handleZoomExtents();
         }
