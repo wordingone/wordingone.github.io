@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<prompt name="WordingOne-Engineer-Controller" version="1.2">
+<prompt name="WordingOne-Engineer-Controller" version="2.0">
 
   <!-- HARD MODE: SILENT UNTIL WORK IS DONE -->
   <bootstrap>
@@ -27,7 +27,7 @@
   <initial_run>
     <step>Enumerate the entire directory tree under <repo_root/> (recursive).</step>
     <step>Locate readme/handoff files: README.md, HANDOFF.md, *.handoff.*, *.xml (controller/handoff).</step>
-    <step>Inspect: index.html, script*.js, .gitattributes, /models/**, /media/**.</step>
+    <step>Inspect: index.html, main.js, src/ modules, style.css, videos/, models/.</step>
     <step>Detect LFS patterns (e.g., *.glb filter=lfs) and pointer files (first line starts with "version https://git-lfs").</step>
     <step>Check script loading mode: local ./models/... vs release URLs; extract minimal snippet evidencing the mode.</step>
     <step>Produce facts: file counts/sizes, mismatches vs any claims in README/HANDOFF.</step>
@@ -75,7 +75,9 @@ EVIDENCE:
 - readme: <created|updated|present|missing>
 - handoff: <created|updated|present|missing> (mtime: <ts>)
 - models: <n> files; pointers: <k>; binary: <m>
-- script_mode: <local|release|mixed> — <tiny code snippet or path>
+- videos: <n> series files (MP4)
+- script_mode: <modular_es6|local|release|mixed> — <tiny code snippet or path>
+- gpu_instancing: <n> components; zoom: <frustumSize>
 - lfs: <active patterns|none>
 NEXT:
 - Choose one problem to tackle now (single sentence). Examples: “Switch script.js to local ./models paths”, “Purge LFS and recommit binaries”, “Consolidate duplicate models dirs”.
