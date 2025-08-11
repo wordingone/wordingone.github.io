@@ -130,18 +130,34 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
         // Get frame data before zoom
         const frameData = createRegionFrameData(hotspot);
         
-        // Set zoom transform origin to the clicked region center using percentages
-        const boardRect = lidarBoard.getBoundingClientRect();
+        // Find the lidar container element that actually needs to zoom
+        const lidarContainer = lidarBoard.querySelector('.lidar-container');
+        if (!lidarContainer) {
+            console.error('Could not find .lidar-container for zoom');
+            return;
+        }
         
-        // Convert absolute coordinates to percentages for more reliable transform-origin
-        const transformOriginXPercent = (frameData.centerX / boardRect.width) * 100;
-        const transformOriginYPercent = (frameData.centerY / boardRect.height) * 100;
+        // Get container dimensions for percentage calculation
+        const containerRect = lidarContainer.getBoundingClientRect();
+        
+        // Convert hotspot center to percentages relative to container
+        const coords = hotspot.dataset.coords.split(',').map(Number);
+        const [x, y, width, height] = coords;
+        
+        // Calculate center in reference coordinates
+        const centerX = x + (width / 2);
+        const centerY = y + (height / 2);
+        
+        // Convert to percentages (reference dimensions are 1920x1080)
+        const transformOriginXPercent = (centerX / 1920) * 100;
+        const transformOriginYPercent = (centerY / 1080) * 100;
         
         console.log(`Setting transform origin to: ${transformOriginXPercent.toFixed(1)}% ${transformOriginYPercent.toFixed(1)}% for region ${region}`);
         
-        lidarBoard.style.transformOrigin = `${transformOriginXPercent}% ${transformOriginYPercent}%`;
+        // Apply transform origin to the container that will zoom
+        lidarContainer.style.transformOrigin = `${transformOriginXPercent}% ${transformOriginYPercent}%`;
         
-        // Start zoom animation
+        // Start zoom animation on lidar board (which has the CSS classes)
         lidarBoard.classList.add('zooming');
         isZoomed = true;
         
@@ -432,16 +448,29 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
         // Get frame data before zoom (still needed for zoom animation)
         const frameData = createRegionFrameData(hotspot);
         
-        // Set zoom transform origin to the clicked region center using percentages
-        const boardRect = lidarBoard.getBoundingClientRect();
+        // Find the lidar container element that actually needs to zoom
+        const lidarContainer = lidarBoard.querySelector('.lidar-container');
+        if (!lidarContainer) {
+            console.error('Could not find .lidar-container for zoom');
+            return;
+        }
         
-        // Convert absolute coordinates to percentages for more reliable transform-origin
-        const transformOriginXPercent = (frameData.centerX / boardRect.width) * 100;
-        const transformOriginYPercent = (frameData.centerY / boardRect.height) * 100;
+        // Convert hotspot center to percentages relative to container
+        const coords = hotspot.dataset.coords.split(',').map(Number);
+        const [x, y, width, height] = coords;
+        
+        // Calculate center in reference coordinates
+        const centerX = x + (width / 2);
+        const centerY = y + (height / 2);
+        
+        // Convert to percentages (reference dimensions are 1920x1080)
+        const transformOriginXPercent = (centerX / 1920) * 100;
+        const transformOriginYPercent = (centerY / 1080) * 100;
         
         console.log(`Setting transform origin to: ${transformOriginXPercent.toFixed(1)}% ${transformOriginYPercent.toFixed(1)}% for no-video region ${region}`);
         
-        lidarBoard.style.transformOrigin = `${transformOriginXPercent}% ${transformOriginYPercent}%`;
+        // Apply transform origin to the container that will zoom
+        lidarContainer.style.transformOrigin = `${transformOriginXPercent}% ${transformOriginYPercent}%`;
         
         lidarBoard.classList.add('zooming');
         isZoomed = true;
@@ -517,17 +546,26 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
             
             // Reset zoom on LiDAR board with proper cleanup
             if (isZoomed) {
+                const lidarContainer = lidarBoard.querySelector('.lidar-container');
+                
                 lidarBoard.classList.remove('zooming');
                 lidarBoard.classList.add('zoom-reset');
-                lidarBoard.style.transformOrigin = 'center'; // Reset transform origin
+                
+                // Reset transform origin on container
+                if (lidarContainer) {
+                    lidarContainer.style.transformOrigin = 'center';
+                }
+                
                 isZoomed = false;
                 
                 // Remove zoom-reset class after animation and force hotspot repositioning
                 setTimeout(() => {
                     lidarBoard.classList.remove('zoom-reset');
                     // Force a clean state reset
-                    lidarBoard.style.transform = '';
-                    lidarBoard.style.transformOrigin = 'center';
+                    if (lidarContainer) {
+                        lidarContainer.style.transform = '';
+                        lidarContainer.style.transformOrigin = 'center';
+                    }
                     
                     // Trigger hotspot repositioning after zoom reset is complete
                     setTimeout(() => {
@@ -553,16 +591,25 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
     function toggleZoom() {
         if (isZoomed && !isOverlayActive) {
             // Reset zoom if zoomed but no active overlay
+            const lidarContainer = lidarBoard.querySelector('.lidar-container');
+            
             lidarBoard.classList.remove('zooming');
             lidarBoard.classList.add('zoom-reset');
-            lidarBoard.style.transformOrigin = 'center'; // Reset transform origin
+            
+            // Reset transform origin on container
+            if (lidarContainer) {
+                lidarContainer.style.transformOrigin = 'center';
+            }
+            
             isZoomed = false;
             
             setTimeout(() => {
                 lidarBoard.classList.remove('zoom-reset');
                 // Force clean state
-                lidarBoard.style.transform = '';
-                lidarBoard.style.transformOrigin = 'center';
+                if (lidarContainer) {
+                    lidarContainer.style.transform = '';
+                    lidarContainer.style.transformOrigin = 'center';
+                }
                 
                 // Trigger repositioning after zoom reset
                 setTimeout(() => {

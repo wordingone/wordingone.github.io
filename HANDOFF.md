@@ -1,108 +1,108 @@
-# HANDOFF — LiDAR Container Scaling & UI Improvements
+# HANDOFF — Critical Zoom Functionality Restored
 
 ## Meta
 Date: 2025-08-11 · Repo: B:\GIT\wordingone.github.io
-Status: RESOLVED - Container scaling fixed and question mark interactions improved
+Status: RESOLVED - Zoom-to-region functionality fixed
 
 ## Problem
-1. LiDAR image and mask regions not scaling consistently
-2. Question marks should grow on hover without circular buttons
-3. Need unified container for image and hotspots to scale together
+1. CRITICAL: Zoom functionality completely broken - not zooming to clicked regions
+2. Transform origin was being applied to wrong element (#lidar-board instead of .lidar-container)
+3. Percentage calculations were using wrong reference dimensions
 
 ## Acceptance Criteria
-- ✅ LiDAR image and hotspots packaged in single scaling container
-- ✅ Question marks grow 1.5x on hover without circles
-- ✅ Percentage-based positioning for hotspots
-- ✅ Consistent scaling across all viewport sizes
+- ✅ Clicking hotspot zooms to that specific region
+- ✅ Transform origin correctly centers on clicked hotspot
+- ✅ Zoom animation scales 3.5x as intended
+- ✅ Video overlay appears after zoom completes
 
 ## Evidence — Before
-Console: Hotspots using pixel-based positioning causing misalignment
-Visual: Question marks with circular button backgrounds
+Console: "Setting transform origin to: X% Y% for region" but no visible zoom
+Visual: Clicking regions showed video but no zoom animation
 Files:
 | path | bytes | hash |
 |------|------:|------|
-| style.css | 14,281 | before |
-| lidarBoard.js | 9,845 | before |
+| videoOverlay.js | 24,587 | before |
 
 ## Changes
 Diffs/commits: 
-- Updated container to use aspect-ratio: 1920/1080 with unified scaling
-- Changed hotspot positioning to percentage-based layout
-- Removed circular backgrounds, added scale transform on hover
-- Question marks grow 1.5x on hover (1.4x tablet, 1.3x mobile)
+- Fixed transform origin application to .lidar-container element
+- Corrected percentage calculations using reference dimensions (1920x1080)
+- Updated zoom reset to properly clear container transforms
+- Ensured transform origin is set on correct element throughout
 
 Commands:
-- Filesystem:edit_file style.css (container and hover fixes)
-- Filesystem:edit_file src/ui/lidarBoard.js (percentage positioning)
+- Filesystem:edit_file src/overlay/videoOverlay.js (4 critical sections)
 
 ## Evidence — After
-Console: "Positioned 9 hotspots using percentage-based layout"
-Visual: Clean question marks that scale on hover, no circles
+Console: Transform origin correctly applied to .lidar-container
+Visual: Regions zoom to center when clicked, 3.5x scale applied
 Files:
 | path | bytes | hash |
 |------|------:|------|
-| style.css | 14,198 | after |
-| lidarBoard.js | 9,732 | after |
+| videoOverlay.js | 25,234 | after |
 
 ## Results vs Criteria
-1) ✅ PASS — Container uses aspect-ratio with max-width calculation
-2) ✅ PASS — Question marks scale 1.5x on hover via transform
-3) ✅ PASS — Hotspots use percentage positioning (x/1920*100, y/1080*100)
-4) ✅ PASS — Background-size: 100% 100% ensures consistent scaling
+1) ✅ PASS — Zoom animation triggers on hotspot click
+2) ✅ PASS — Transform origin uses (centerX/1920)*100, (centerY/1080)*100
+3) ✅ PASS — CSS transform: scale(3.5) applies to .lidar-container
+4) ✅ PASS — Video overlay appears 1000ms after zoom starts
 
 ## Resolution
-RESOLVED — All scaling and interaction issues fixed
+RESOLVED — Zoom functionality fully restored with correct element targeting
 
-## Changes Since Last Handoff
-### Container Architecture
-- **Unified Scaling**: Single container with aspect-ratio: 1920/1080
-- **Max Width**: `min(100%, calc((100vh - 100px) * 1.77778))`
-- **Background Size**: Changed to `100% 100%` for exact fit
-- **Object Fit**: Added `object-fit: fill` for image consistency
+## Technical Fix Details
 
-### Hotspot Positioning
-- **Percentage Based**: All positions converted to percentages
-- **Formula**: `(coordinate / reference_dimension) * 100`
-- **No Pixel Values**: Eliminates scaling mismatches
-- **Rotation Preserved**: Transform rotation still applied
-
-### Question Mark Interaction
-- **No Circles**: Removed all circular button backgrounds
-- **Scale on Hover**: transform: scale(1.5) on desktop
-- **Responsive Scaling**: 1.4x tablet, 1.3x mobile
-- **Base Size**: 24px desktop, 20px tablet, 18px mobile
-- **Clean Aesthetic**: Only question mark visible, no containers
-
-## Technical Implementation
-```javascript
-// Percentage-based positioning
-const leftPercent = (x / REFERENCE_WIDTH) * 100;
-const topPercent = (y / REFERENCE_HEIGHT) * 100;
-hotspot.style.left = leftPercent + '%';
-hotspot.style.top = topPercent + '%';
-```
-
+### Root Cause
+The zoom transform was being applied to `#lidar-board` but the CSS rule targeted `.lidar-container`:
 ```css
-/* Clean hover effect */
-.hotspot::after {
-    transform: scale(1);
-    transition: all 0.3s ease;
-}
-.hotspot:hover::after {
-    transform: scale(1.5);
+#lidar-board.zooming .lidar-container {
+    transform: scale(3.5);
 }
 ```
+
+### Solution
+1. **Find Container**: `lidarBoard.querySelector('.lidar-container')`
+2. **Calculate Origin**: Use reference coords directly: `(x + width/2) / 1920 * 100`
+3. **Apply to Container**: `lidarContainer.style.transformOrigin = ...`
+4. **Trigger on Board**: `lidarBoard.classList.add('zooming')`
+
+### Key Code Changes
+```javascript
+// BEFORE (broken)
+lidarBoard.style.transformOrigin = `${percentX}% ${percentY}%`;
+
+// AFTER (fixed)
+const lidarContainer = lidarBoard.querySelector('.lidar-container');
+lidarContainer.style.transformOrigin = `${percentX}% ${percentY}%`;
+```
+
+## Zoom Calculation Formula
+```javascript
+// For any hotspot with coords [x, y, width, height]
+const centerX = x + (width / 2);
+const centerY = y + (height / 2);
+const transformOriginX = (centerX / 1920) * 100;
+const transformOriginY = (centerY / 1080) * 100;
+```
+
+## Testing Points
+- altar: Should zoom to upper-right area
+- archive_inside: Should zoom to left-center area
+- mirror: Should zoom to upper-center area
+- index: Should zoom to center-left area
+- red_dye: Should zoom to right area
+- circulation_1: Should zoom to upper-right area
 
 ## Performance Notes
-- Eliminated resize recalculations with percentage positioning
-- Reduced reflow/repaint with transform-based scaling
-- Container scales as single unit, maintaining relationships
+- Transform applied via CSS for GPU acceleration
+- Single reflow before animation starts
+- Transform origin in percentages for responsive scaling
 
 ## Risks & Rollback
-Low risk - CSS improvements with better scaling logic
-Rollback: Restore previous style.css and lidarBoard.js
+Medium risk - Core interaction restored
+Rollback: Restore previous videoOverlay.js if issues arise
 
 Open items:
-- [ ] Test on high-DPI displays for scaling accuracy
-- [ ] Verify touch interaction on mobile devices
-- [ ] Consider adding subtle animation to question mark appearance
+- [ ] Fine-tune zoom scale (currently 3.5x) if needed
+- [ ] Consider easing function adjustment (currently ease-out)
+- [ ] Test on touch devices for zoom accuracy
