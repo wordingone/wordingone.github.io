@@ -179,8 +179,8 @@ export function initLidarBoard(rootEl, callbacks = {}) {
 function positionHotspots() {
     // Don't reposition during zoom transitions to avoid conflicts
     if (rootEl.classList.contains('zooming') || rootEl.classList.contains('zoom-reset')) {
-    console.log('Skipping hotspot positioning during zoom transition');
-    return;
+        console.log('Skipping hotspot positioning during zoom transition');
+        return;
     }
     
     // Get the container that holds both background and hotspots
@@ -190,31 +190,27 @@ function positionHotspots() {
         return;
     }
     
-    const containerRect = container.getBoundingClientRect();
-    const scaleX = containerRect.width / REFERENCE_WIDTH;
-    const scaleY = containerRect.height / REFERENCE_HEIGHT;
-    
     hotspots.forEach(hotspot => {
-    const coords = hotspot.dataset.coords.split(',').map(Number);
-    const rotation = parseFloat(hotspot.dataset.rotation || 0);
-    
-    const [x, y, width, height] = coords;
-    
-    // Scale coordinates to current container size
-    const scaledX = x * scaleX;
-    const scaledY = y * scaleY;
-    const scaledWidth = width * scaleX;
-    const scaledHeight = height * scaleY;
+        const coords = hotspot.dataset.coords.split(',').map(Number);
+        const rotation = parseFloat(hotspot.dataset.rotation || 0);
         
-        // Apply responsive positioning relative to container
-        hotspot.style.left = scaledX + 'px';
-        hotspot.style.top = scaledY + 'px';
-        hotspot.style.width = scaledWidth + 'px';
-        hotspot.style.height = scaledHeight + 'px';
+        const [x, y, width, height] = coords;
+        
+        // Convert to percentages based on reference dimensions
+        const leftPercent = (x / REFERENCE_WIDTH) * 100;
+        const topPercent = (y / REFERENCE_HEIGHT) * 100;
+        const widthPercent = (width / REFERENCE_WIDTH) * 100;
+        const heightPercent = (height / REFERENCE_HEIGHT) * 100;
+        
+        // Apply percentage-based positioning
+        hotspot.style.left = leftPercent + '%';
+        hotspot.style.top = topPercent + '%';
+        hotspot.style.width = widthPercent + '%';
+        hotspot.style.height = heightPercent + '%';
         hotspot.style.transform = `rotate(${rotation}deg)`;
     });
     
-    console.log(`Positioned ${hotspots.length} hotspots for ${containerRect.width.toFixed(0)}x${containerRect.height.toFixed(0)} container`);
+    console.log(`Positioned ${hotspots.length} hotspots using percentage-based layout`);
 }
     
     // Add click handlers for hotspots with color integration

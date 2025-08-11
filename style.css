@@ -172,19 +172,16 @@ body {
 /* Proper aspect ratio container with flexbox centering */
 .lidar-container {
     position: relative;
-    /* Calculate dimensions based on available space */
+    /* Use object-fit approach for better scaling */
     width: 100%;
-    height: 100%;
-    /* Maintain exact aspect ratio */
-    aspect-ratio: 16 / 9;
-    /* Ensure container scales properly */
-    max-width: calc((100vh - 120px) * 1.77778); /* Account for header height */
-    max-height: calc(100vw * 0.5625);
-    /* Center within parent */
+    max-width: min(100%, calc((100vh - 100px) * 1.77778));
+    aspect-ratio: 1920 / 1080;
     margin: auto;
+    /* This container will scale as one unit */
+    display: block;
 }
 
-/* Background image - properly contained within aspect ratio */
+/* Use img tag for better scaling control */
 .lidar-background {
     position: absolute;
     top: 0;
@@ -192,10 +189,12 @@ body {
     width: 100%;
     height: 100%;
     background-image: url('./lidar_00.png');
-    background-size: cover;
+    background-size: 100% 100%;
     background-position: center;
     background-repeat: no-repeat;
     z-index: 1;
+    /* Ensure image fills container exactly */
+    object-fit: fill;
 }
 
 /* Hotspots - clean invisible regions with hover question marks */
@@ -205,38 +204,33 @@ body {
     border: none;
     cursor: pointer;
     z-index: 10;
-    opacity: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     pointer-events: auto;
-    transition: none;
-    /* Ensure hotspots scale with container */
+    /* Remove any transform that might interfere with positioning */
     transform-origin: center;
 }
 
-.hotspot:hover {
-    opacity: 1;
-    /* Show question mark on hover */
-    cursor: pointer;
-}
-
-/* Question mark on hover - large with drop shadow */
+/* Question mark - always visible but scales on hover */
 .hotspot::after {
     content: '?';
-    font-size: 28px;
+    font-size: 24px;
     font-weight: 700;
     color: white;
     text-shadow: 0 4px 8px rgba(0, 0, 0, 0.8), 0 2px 4px rgba(0, 0, 0, 0.6);
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     opacity: 0;
-    transition: opacity 0.3s ease;
+    transform: scale(1);
+    transition: all 0.3s ease;
     pointer-events: none;
     z-index: 20;
+    display: block;
 }
 
 .hotspot:hover::after {
     opacity: 1;
+    transform: scale(1.5);
 }
 
 /* Hotspot Labels - NEVER visible */
@@ -273,17 +267,13 @@ body {
 }
 
 /* When highlighting is active, show question marks and make hotspots clickable */
-#lidar-board.highlighting .hotspot {
-    opacity: 1;
-    z-index: 15;
-    background: transparent;
-    border: none;
-    /* Show question marks when highlighting is active */
-}
-
 #lidar-board.highlighting .hotspot::after {
     opacity: 1;
-    /* Always show question marks during highlighting mode */
+    transform: scale(1);
+}
+
+#lidar-board.highlighting .hotspot:hover::after {
+    transform: scale(1.5);
 }
 
 /* Zoom Animation - applied to the container */
@@ -541,14 +531,12 @@ body {
         font-size: 9px;
     }
     
-    .hotspot {
-        min-width: 44px;
-        min-height: 44px;
+    .hotspot::after {
+        font-size: 20px;
     }
     
-    .hotspot::after {
-        font-size: 24px;
-        /* Slightly smaller question marks on tablet */
+    .hotspot:hover::after {
+        transform: scale(1.4);
     }
     
     .video-overlay {
@@ -582,14 +570,13 @@ body {
         height: min(100%, calc((100vw - 16px) * 9 / 16));
     }
     
-    .hotspot {
-        min-width: 48px;
-        min-height: 48px;
+    .hotspot::after {
+        font-size: 18px;
     }
     
-    .hotspot::after {
-        font-size: 22px;
-        /* Smaller question marks on mobile for touch targets */
+    .hotspot:hover::after,
+    .hotspot:active::after {
+        transform: scale(1.3);
     }
     
     .hotspot-label {

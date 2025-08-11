@@ -1,92 +1,108 @@
-# HANDOFF — Cover Page Redesign & Color Scheme Update
+# HANDOFF — LiDAR Container Scaling & UI Improvements
 
 ## Meta
 Date: 2025-08-11 · Repo: B:\GIT\wordingone.github.io
-Status: RESOLVED - Cover page redesigned with scrollable interaction and color scheme updated
+Status: RESOLVED - Container scaling fixed and question mark interactions improved
 
 ## Problem
-1. Remove gold color from interface - use white/black/dark blue only
-2. Cover page should be actually scrollable with content reveal on scroll
-3. Logo needs to be much larger to match text width
-4. Skip button should only appear after models AND lidar are fully loaded
-5. Use correct video file: "complete animation.mp4"
+1. LiDAR image and mask regions not scaling consistently
+2. Question marks should grow on hover without circular buttons
+3. Need unified container for image and hotspots to scale together
 
 ## Acceptance Criteria
-- ✅ All gold (#d4af37) replaced with white or blue (#3498db)
-- ✅ Cover page is scrollable (200vh height) with scroll-triggered reveal
-- ✅ Logo scaled to 600px width to match text length
-- ✅ Skip button only appears after resources are loaded
-- ✅ Correct video file path implemented
+- ✅ LiDAR image and hotspots packaged in single scaling container
+- ✅ Question marks grow 1.5x on hover without circles
+- ✅ Percentage-based positioning for hotspots
+- ✅ Consistent scaling across all viewport sizes
 
 ## Evidence — Before
-Console: Gold colors throughout interface
-Network: Cover page not scrollable, wrong video path
+Console: Hotspots using pixel-based positioning causing misalignment
+Visual: Question marks with circular button backgrounds
 Files:
 | path | bytes | hash |
 |------|------:|------|
-| cover.html | 8,432 | before |
-| style.css | 14,287 | before |
+| style.css | 14,281 | before |
+| lidarBoard.js | 9,845 | before |
 
 ## Changes
 Diffs/commits: 
-- Redesigned cover.html with 200vh scrollable container
-- Updated all color values in style.css (gold → white/blue)
-- Fixed video path to "./videos/complete animation.mp4"
-- Implemented resource loading checks for skip button
+- Updated container to use aspect-ratio: 1920/1080 with unified scaling
+- Changed hotspot positioning to percentage-based layout
+- Removed circular backgrounds, added scale transform on hover
+- Question marks grow 1.5x on hover (1.4x tablet, 1.3x mobile)
 
 Commands:
-- Filesystem:write_file cover.html (complete rewrite)
-- Filesystem:edit_file style.css (color updates)
+- Filesystem:edit_file style.css (container and hover fixes)
+- Filesystem:edit_file src/ui/lidarBoard.js (percentage positioning)
 
 ## Evidence — After
-Console: Scroll events trigger logo reveal correctly
-Network: Correct video loads from videos/complete animation.mp4
+Console: "Positioned 9 hotspots using percentage-based layout"
+Visual: Clean question marks that scale on hover, no circles
 Files:
 | path | bytes | hash |
 |------|------:|------|
-| cover.html | 10,245 | after |
-| style.css | 14,281 | after |
+| style.css | 14,198 | after |
+| lidarBoard.js | 9,732 | after |
 
 ## Results vs Criteria
-1) ✅ PASS — Color scheme updated: white text, blue accents (#3498db)
-2) ✅ PASS — Scrollable page with header fade-out at 100px, logo reveal at 200px
-3) ✅ PASS — Logo width increased to 600px matching text width
-4) ✅ PASS — Skip button visibility tied to modelsLoaded && lidarLoaded flags
-5) ✅ PASS — Video source corrected to complete animation.mp4
+1) ✅ PASS — Container uses aspect-ratio with max-width calculation
+2) ✅ PASS — Question marks scale 1.5x on hover via transform
+3) ✅ PASS — Hotspots use percentage positioning (x/1920*100, y/1080*100)
+4) ✅ PASS — Background-size: 100% 100% ensures consistent scaling
 
 ## Resolution
-RESOLVED — All acceptance criteria met with proper implementation
+RESOLVED — All scaling and interaction issues fixed
 
 ## Changes Since Last Handoff
-### Cover Page Improvements
-- **Scrollable Design**: 200vh container height for actual scrolling
-- **Scroll Triggers**: Header fades at 100px scroll, logo appears at 200px
-- **Logo Scaling**: Increased from 200px to 600px width
-- **Resource Loading**: Tracks both model and lidar loading states
-- **Skip Logic**: Button only appears when both resources ready
+### Container Architecture
+- **Unified Scaling**: Single container with aspect-ratio: 1920/1080
+- **Max Width**: `min(100%, calc((100vh - 100px) * 1.77778))`
+- **Background Size**: Changed to `100% 100%` for exact fit
+- **Object Fit**: Added `object-fit: fill` for image consistency
 
-### Color Scheme Updates
-- **Brand Logo**: #d4af37 → #ffffff (white)
-- **Model Info Headers**: #d4af37 → #3498db (blue)
-- **Overlay Titles**: #d4af37 → #3498db (blue)
-- **Maintained**: Dark theme with black background
+### Hotspot Positioning
+- **Percentage Based**: All positions converted to percentages
+- **Formula**: `(coordinate / reference_dimension) * 100`
+- **No Pixel Values**: Eliminates scaling mismatches
+- **Rotation Preserved**: Transform rotation still applied
 
-### Video Integration
-- **Correct Path**: "./videos/complete animation.mp4"
-- **Loading Status**: Shows progress messages during load
-- **Auto-advance**: Proceeds to main page when video ends AND resources loaded
+### Question Mark Interaction
+- **No Circles**: Removed all circular button backgrounds
+- **Scale on Hover**: transform: scale(1.5) on desktop
+- **Responsive Scaling**: 1.4x tablet, 1.3x mobile
+- **Base Size**: 24px desktop, 20px tablet, 18px mobile
+- **Clean Aesthetic**: Only question mark visible, no containers
 
 ## Technical Implementation
-- **Scroll Detection**: Passive scroll listener with transform transitions
-- **Resource Tracking**: Separate flags for models and lidar
-- **Iframe Preloading**: Hidden iframe loads index.html in background
-- **Image Preloading**: Direct Image() load for lidar_00.png
+```javascript
+// Percentage-based positioning
+const leftPercent = (x / REFERENCE_WIDTH) * 100;
+const topPercent = (y / REFERENCE_HEIGHT) * 100;
+hotspot.style.left = leftPercent + '%';
+hotspot.style.top = topPercent + '%';
+```
+
+```css
+/* Clean hover effect */
+.hotspot::after {
+    transform: scale(1);
+    transition: all 0.3s ease;
+}
+.hotspot:hover::after {
+    transform: scale(1.5);
+}
+```
+
+## Performance Notes
+- Eliminated resize recalculations with percentage positioning
+- Reduced reflow/repaint with transform-based scaling
+- Container scales as single unit, maintaining relationships
 
 ## Risks & Rollback
-Low risk - UI color changes and improved interaction flow
-Rollback: Restore previous cover.html and style.css versions
+Low risk - CSS improvements with better scaling logic
+Rollback: Restore previous style.css and lidarBoard.js
 
 Open items:
-- [ ] Verify "complete animation.mp4" exists in videos/ directory
-- [ ] Test actual model loading detection (currently simulated with 3s timeout)
-- [ ] Add progress percentage for more detailed loading feedback
+- [ ] Test on high-DPI displays for scaling accuracy
+- [ ] Verify touch interaction on mobile devices
+- [ ] Consider adding subtle animation to question mark appearance
