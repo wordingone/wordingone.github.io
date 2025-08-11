@@ -180,11 +180,11 @@ SyntaxError: Unexpected token 'v', "version ht"... is not valid JSON
 *Status: FULLY OPERATIONAL - All models loading successfully*
 
 ## Changes Since Last Handoff
-- **CURRENT ISSUE**: Website shows dark gray background instead of LiDAR imagery mood board from image 2
-- **VISUAL COMPARISON**: Image 1 (current state) vs Image 2 (desired state) shows missing mood board background
-- **CURRENT STATUS**: 3D model loads correctly on left, but right panel is dark gray instead of photographic LiDAR content
-- **HOTSPOTS**: Interactive areas defined but background imagery missing
-- **TECH STACK**: All models loading correctly (10 GLB files, 4.3MB total)
-- **3D SYSTEM**: GPU instancing with 2,673 components working properly
-- **ROOT CAUSE**: CSS background-image path or missing LiDAR mood board image file
-- **NEXT ACTION**: Locate and implement LiDAR background imagery to match Image 2 reference
+- **IMAGE ISSUE RESOLVED**: LiDAR background now loads (lidar_00.png untracked from LFS)
+- **HOTSPOT UPDATE**: Replaced estimated coordinates with exact Figma SVG data
+- **COORDINATES FIXED**: 9 hotspots now use precise x,y,width,height from Figma export
+- **ROTATION APPLIED**: Each hotspot includes exact rotation from Figma transforms
+- **FIGMA SYNC**: Hotspots match 1920x1080 SVG viewBox with responsive scaling
+- **AREAS MAPPED**: central-workspace, upper-central, exhibition-right, workspace-left, archive-center, research-tower, documentation, digital-workspace, studio-corner
+- **PRECISION**: Coordinates extracted from rect/path elements in Figma SVG
+- **NEXT ACTION**: Test hotspot accuracy on live site after commit/push
