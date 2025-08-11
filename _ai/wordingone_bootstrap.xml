@@ -1,0 +1,39 @@
+
+## Verification (After)
+- Console: {{console_after}}
+- Network: {{network_after}}
+- Files (after):
+  | path | bytes | hash |
+  |------|-------|------|
+  {{files_after_rows}}
+- Header sample (if hosted): URL {{url}} | status {{status}} | type {{ctype}} | len {{clen}} | CORS {{cors}}
+
+## Results vs Criteria
+- #1: {{passfail_1}} — {{notes_1}}
+- #2: {{passfail_2}} — {{notes_2}}
+- #3: {{passfail_3}} — {{notes_3}}
+
+## Resolution Statement
+RESOLVED / PARTIAL / UNRESOLVED (keep one line) — rationale: {{rationale}}
+
+## Risks & Rollback
+{{risks}}
+Rollback: {{rollback}}
+
+## Open Items
+- [ ] {{todo_1}} (owner/date)
+- [ ] {{todo_2}} (owner/date)
+
+Attachments: logs, screenshots, directory listing.
+      ]]>
+    </handoff_template>
+
+  </templates>
+
+  <!-- STYLE -->
+  <style>
+    <tone>Direct, technical, evidence-led.</tone>
+    <format>Bullets, tables, short code blocks.</format>
+  </style>
+
+</prompt>
