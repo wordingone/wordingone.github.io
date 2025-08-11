@@ -8,8 +8,8 @@ A responsive, cinematic web experience bridging campaign narratives with a deepe
 - LFS: commented out (web deployment mode)
 - Models: 10 GLB files (binary: 10, pointers: 0)
 - **CRITICAL FLEXBOX FIX**: Proper aspect ratio container with flexbox centering and smart scaling calculations
+- **HOVER QUESTION MARKS**: Large question marks (28px) appear on hover with drop shadows for clean interaction
 - **BRAND UPDATE**: Changed to "Prada: Remaking" with improved design system
-- **ENHANCED**: Professional typography and button design for better UX
 - **ENHANCED**: Cross-device responsive design with vertical centering when space available
 
 ## Structure (from repo)
@@ -49,9 +49,10 @@ B:\GIT\wordingone.github.io/
 - Keep `.glb` as binary; avoid LFS pointers.
 - Prefer local `./models/...` unless a release URL is intentional and exists.
 - **FLEXBOX ARCHITECTURE**: LiDAR interface uses flexbox centering with smart `min()` calculations for width/height
-- **RESPONSIVE SCALING**: Container scales proportionally using `aspect-ratio: 16/9` with vertical centering
+- **HOVER SYSTEM**: Question marks (28px) with drop shadows appear on hover, responsive sizing for mobile
+- **INTERACTION DESIGN**: Clean floating question marks with 0.3s transitions, no visible containers
 - **BRAND**: Interface branded as "Prada: Remaking" with professional design system
-- **DEVICE SUPPORT**: Touch-friendly design with responsive calculations for all screen sizes
-- **TECHNICAL**: Background uses `background-size: cover` with hotspots positioned relative to flexbox container
+- **DEVICE SUPPORT**: Touch-friendly design with responsive question mark sizing (28px→24px→22px)
+- **ACCESSIBILITY**: High contrast white question marks with dual drop shadows for visibility
 
 _Last updated: 2025-08-11_

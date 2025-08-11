@@ -21,8 +21,9 @@ Multi-phase architectural navigation system featuring synchronized 3D models, in
 - **✅ IMPROVED: Typography & Buttons** - Cleaner, more professional button design and text hierarchy
 - **✅ IMPROVED: Color Scheme** - Maintained sophisticated dark theme with better contrast
 - **✅ IMPROVED: Mobile Responsiveness** - Touch-friendly hotspot sizes and proper viewport handling
-- **✅ IMPROVED: Clean Hotspot Design** - Removed all visual indicators from hotspot regions (no colors, borders, or labels)
-- **✅ IMPROVED: Invisible Interaction** - Hotspots remain completely invisible but fully functional
+- **✅ IMPROVED: Hover Question Marks** - Large question marks (28px) appear on hover with drop shadows
+- **✅ IMPROVED: Clean Interaction** - No visible containers, just question marks with smooth transitions
+- **✅ IMPROVED: Invisible Labels** - All region labels completely hidden for minimal interface
 
 **⚠️ PREVIOUS ISSUES (NOW RESOLVED)**:
 - **✅ Fixed ghosting colors** - Focused models now light gray/white (#cccccc) like original scheme
@@ -100,13 +101,23 @@ Multi-phase architectural navigation system featuring synchronized 3D models, in
   - Background image uses `background-size: cover` for proper scaling without distortion
 - **Result**: Perfect centering, proportional scaling, and responsive behavior on all devices
 
+### ❓ Question Mark Hover System
+- **Implementation**: CSS `::after` pseudo-elements with large, bold question marks
+- **Sizing**: 28px on desktop, 24px on tablet, 22px on mobile for optimal touch targets
+- **Visual Design**: White text with dual drop shadows (0 4px 8px + 0 2px 4px black)
+- **Interaction**: 0.3s opacity transition on hover, always visible during highlighting mode
+- **Typography**: System fonts (-apple-system, BlinkMacSystemFont, Segoe UI) for consistency
+- **Accessibility**: High contrast white on dark with strong shadow for visibility
+
 ### 🎨 Design System Improvements
 - **Typography**: Cleaner hierarchy with proper font weights and spacing
 - **Buttons**: Professional styling with subtle hover effects and better accessibility  
 - **Brand Identity**: Updated to "Prada: Remaking" with consistent branding
 - **Mobile UX**: Touch-friendly hotspot sizes (44px minimum) and responsive text scaling
-- **Clean Interaction**: Hotspots completely invisible with no visual feedback (no colors, borders, labels)
-- **Minimal Interface**: Pure click regions without visual clutter for sophisticated user experience
+- **Hover Question Marks**: Large question marks (28px desktop, 24px tablet, 22px mobile) with drop shadows
+- **Clean Interaction**: No visible containers or backgrounds, just floating question marks
+- **Smooth Transitions**: 0.3s opacity transitions for question mark appearance
+- **Minimal Interface**: Pure click regions with elegant hover feedback for sophisticated UX
 
 ### 🔧 Video Overlay Positioning
 - **Issue**: Viewport centering misaligned for specific regions

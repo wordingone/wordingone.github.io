@@ -196,7 +196,7 @@ body {
     z-index: 1;
 }
 
-/* Hotspots - clean invisible regions */
+/* Hotspots - clean invisible regions with hover question marks */
 .hotspot {
     position: absolute;
     background: transparent;
@@ -212,9 +212,27 @@ body {
 }
 
 .hotspot:hover {
-    opacity: 0;
-    /* No visual changes on hover - keep completely invisible */
+    opacity: 1;
+    /* Show question mark on hover */
     cursor: pointer;
+}
+
+/* Question mark on hover - large with drop shadow */
+.hotspot::after {
+    content: '?';
+    font-size: 28px;
+    font-weight: 700;
+    color: white;
+    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.8), 0 2px 4px rgba(0, 0, 0, 0.6);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 20;
+}
+
+.hotspot:hover::after {
+    opacity: 1;
 }
 
 /* Hotspot Labels - NEVER visible */
@@ -250,13 +268,18 @@ body {
     opacity: 1;
 }
 
-/* When highlighting is active, hotspots become clickable but remain invisible */
+/* When highlighting is active, show question marks and make hotspots clickable */
 #lidar-board.highlighting .hotspot {
-    opacity: 0;
+    opacity: 1;
     z-index: 15;
     background: transparent;
     border: none;
-    /* Keep hotspots completely invisible even during highlighting */
+    /* Show question marks when highlighting is active */
+}
+
+#lidar-board.highlighting .hotspot::after {
+    opacity: 1;
+    /* Always show question marks during highlighting mode */
 }
 
 /* Zoom Animation - applied to the container */
@@ -519,6 +542,11 @@ body {
         min-height: 44px;
     }
     
+    .hotspot::after {
+        font-size: 24px;
+        /* Slightly smaller question marks on tablet */
+    }
+    
     .video-overlay {
         width: 95vw;
         height: 60vh;
@@ -553,6 +581,11 @@ body {
     .hotspot {
         min-width: 48px;
         min-height: 48px;
+    }
+    
+    .hotspot::after {
+        font-size: 22px;
+        /* Smaller question marks on mobile for touch targets */
     }
     
     .hotspot-label {
