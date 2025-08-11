@@ -7,16 +7,16 @@ A responsive, cinematic web experience bridging campaign narratives with a deepe
 - Script loading mode: modular_es6 — `import { createViewer } from './src/core/viewer.js'`
 - LFS: commented out (web deployment mode)
 - Models: 10 GLB files (binary: 10, pointers: 0)
-- **NEW**: Cover page with scroll-reveal Prada branding
-- **FIXED**: LiDAR container scaling with proper aspect ratio calculations
-- **ENHANCED**: Background-size 'cover' for better image scaling
+- **UPDATED**: Scrollable cover page with 200vh height and scroll-triggered reveals
+- **UPDATED**: Color scheme - removed gold, using white/black/blue (#3498db)
+- **FIXED**: Video path corrected to "complete animation.mp4"
 
 ## Structure (from repo)
 ```
 B:\GIT\wordingone.github.io/
 ├── .git/                   # Git repository data
 ├── .gitattributes          # LFS configuration (disabled for web)
-├── cover.html             # NEW: Cover page with logo reveal
+├── cover.html             # UPDATED: Scrollable cover with proper logo scaling
 ├── HANDOFF.md             # Project handoff documentation
 ├── README.md              # This file
 ├── index.html             # Main application entry
@@ -24,22 +24,23 @@ B:\GIT\wordingone.github.io/
 ├── main.js                # Central coordination system
 ├── script.js              # Legacy/backup script
 ├── script_broken_backup.js # Backup file
-├── style.css              # Enhanced UI styling
+├── style.css              # Updated color scheme (no gold)
 ├── logo/                  # Logo assets directory
 │   └── remaking logo 1.png # Prada logo image
 ├── models/                # 3D architectural assets (10 GLB files)
 ├── src/                   # Modular ES6 source code
 ├── videos/                # Video series content (26 MP4 files)
+│   └── complete animation.mp4 # Intro loading video
 └── _ai/                   # AI assistant artifacts
 ```
 
 ## Cover Page Features
-- **Scroll-reveal Design**: Initial text at top, logo appears on scroll
-- **Typography System**: Roboto for headers, GFS Didot for Prada branding
-- **Interactive Logo**: Glows and scales 5% on hover
-- **Video Integration**: Plays intro.mp4 as loading mechanism
-- **Smart Loading**: Preloads main page while video plays
-- **Skip Controls**: Icon-only skip button (no text per requirements)
+- **Scrollable Interface**: 200vh height for actual scrolling interaction
+- **Scroll-triggered Reveals**: Header fades at 100px, logo appears at 200px scroll
+- **Large Logo**: 600px width to match text length (responsive scaling on mobile)
+- **Smart Loading**: Skip button only appears after models AND lidar fully loaded
+- **Correct Video**: Plays "complete animation.mp4" during loading
+- **Color Scheme**: White text, black background, blue (#3498db) accents
 
 ## Assets (from repo)
 | file | bytes |
@@ -56,12 +57,12 @@ B:\GIT\wordingone.github.io/
 | embellishments.glb | 1,172 |
 
 ## Maintenance Notes
-- Keep `.glb` as binary; avoid LFS pointers.
-- Prefer local `./models/...` unless a release URL is intentional and exists.
-- **LIDAR SCALING**: Container uses `max-width: calc((100vh - 120px) * 1.77778)` for proper aspect ratio
-- **COVER PAGE**: Access via cover.html, automatically redirects to index.html after interaction
-- **VIDEO LOADING**: Add intro.mp4 to videos/ directory for full functionality
-- **FONT LOADING**: Uses Google Fonts CDN for Roboto and GFS Didot
-- **RESPONSIVE**: Cover page adapts to mobile with smaller typography
+- Keep `.glb` as binary; avoid LFS pointers
+- Prefer local `./models/...` unless a release URL is intentional and exists
+- **COVER PAGE**: Requires actual scrolling to reveal logo (200px scroll distance)
+- **VIDEO PATH**: Must have "complete animation.mp4" in videos/ directory
+- **SKIP BUTTON**: Only appears when modelsLoaded && lidarLoaded are both true
+- **COLOR PALETTE**: White (#fff), Black (#000), Blue (#3498db) only - no gold
+- **LOGO SIZE**: 600px width on desktop, scales responsively on mobile
 
 _Last updated: 2025-08-11_

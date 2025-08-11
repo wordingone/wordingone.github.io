@@ -52,7 +52,7 @@ body {
     font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
     font-size: 14px;
     font-weight: 600;
-    color: #d4af37;
+    color: #ffffff;
     text-transform: uppercase;
     letter-spacing: 2px;
 }
@@ -90,7 +90,7 @@ body {
     font-size: 12px;
     font-weight: 600;
     margin-bottom: 4px;
-    color: #d4af37;
+    color: #3498db;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
@@ -376,7 +376,7 @@ body {
 }
 
 .overlay-title {
-    color: #d4af37;
+    color: #3498db;
     font-size: 13px;
     font-weight: 600;
     font-family: 'SF Mono', monospace;
