@@ -195,7 +195,7 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
             </div>
         `;
         
-        // Position overlay in the center of the zoomed view
+        // Position overlay in fixed viewport location (not dependent on zoom/LiDAR coordinates)
         positionOverlayInZoomedView(currentOverlay, frameData);
         
         // Add overlay to the body for fixed positioning
@@ -379,31 +379,24 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
     }
     
     /**
-     * Position overlay in the center of the zoomed view
+     * Position overlay in a fixed viewport location (not dependent on LiDAR coordinates)
      * @param {HTMLElement} overlay - Overlay element
-     * @param {Object} frameData - Frame positioning data
+     * @param {Object} frameData - Frame positioning data (not used for fixed positioning)
      */
     function positionOverlayInZoomedView(overlay, frameData) {
-        // Get the main panel dimensions (right 2/3 of screen)
-        const mainPanel = document.getElementById('main-panel');
-        const panelRect = mainPanel.getBoundingClientRect();
+        // Fixed viewport positioning - independent of LiDAR board zoom/scale
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
         
-        // Calculate center of the main panel
-        const centerX = panelRect.left + panelRect.width / 2;
-        const centerY = panelRect.top + panelRect.height / 2;
-        
-        // Size the overlay appropriately (increased by 50%)
+        // Position overlay at a fixed location in viewport
         const overlayWidth = 600;  // 400 * 1.5
         const overlayHeight = 450; // 300 * 1.5
         
-        // Position overlay at center of main panel using fixed positioning, then move 800px right
-        const overlayX = (centerX - overlayWidth / 2) + 800;
-        const overlayY = centerY - overlayHeight / 2;
+        // Fixed position: right side of viewport, vertically centered
+        const overlayX = viewportWidth - overlayWidth - 40; // 40px from right edge
+        const overlayY = (viewportHeight - overlayHeight) / 2; // Vertically centered
         
-        // Video overlay should scale from its own center, not from LiDAR board
-        // Transform origin defaults to center (50% 50%) for smooth scale animation
-        
-        // Apply inline styles for centered scale animation
+        // Apply inline styles for fixed viewport positioning
         overlay.style.cssText = `
             position: fixed !important;
             left: ${overlayX}px !important;
@@ -423,7 +416,8 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
             display: block !important;
         `;
         
-        console.log(`Overlay positioned at: ${overlayX.toFixed(0)}, ${overlayY.toFixed(0)} (${overlayWidth}x${overlayHeight})`);
+        console.log(`Overlay positioned at FIXED viewport location: ${overlayX.toFixed(0)}, ${overlayY.toFixed(0)} (${overlayWidth}x${overlayHeight})`);
+        console.log('Viewport size:', viewportWidth, 'x', viewportHeight);
         console.log('Overlay element after positioning:', currentOverlay);
         console.log('Overlay visibility:', getComputedStyle(currentOverlay).visibility);
         console.log('Overlay opacity:', getComputedStyle(currentOverlay).opacity);
@@ -431,12 +425,12 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
     }
     
     /**
-     * Show "no video available" message in the center of zoomed view
+     * Show "no video available" message using fixed viewport positioning
      * @param {string} region - Region name
      * @param {HTMLElement} hotspot - Hotspot element
      */
     function showNoVideoMessage(region, hotspot) {
-        // Get frame data before zoom
+        // Get frame data before zoom (still needed for zoom animation)
         const frameData = createRegionFrameData(hotspot);
         
         // Set zoom transform origin to the clicked region center using percentages
@@ -467,6 +461,7 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
                 </div>
             `;
             
+            // Use the same fixed viewport positioning as regular overlays
             positionOverlayInZoomedView(currentOverlay, frameData);
             document.body.appendChild(currentOverlay);
             

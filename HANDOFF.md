@@ -18,8 +18,8 @@ Multi-phase architectural navigation system featuring synchronized 3D models, in
 
 **⚠️ CURRENT ISSUES**:
 - **✅ Fixed ghosting colors** - Focused models now light gray/white (#cccccc) like original scheme
-- **🔧 Debugging video overlay** - Added extensive debugging logs to identify display issue
-- **🔧 CSS specificity** - Improved frame-positioned active state CSS rules
+- **✅ Fixed video overlay positioning** - Now uses fixed viewport coordinates, independent of LiDAR zoom scale
+- **🔧 Testing video overlay** - Implemented viewport-relative positioning to avoid zoom interference
 
 **Enhancements Implemented**:
 - Comprehensive brand system with CSS custom properties
@@ -38,13 +38,13 @@ Multi-phase architectural navigation system featuring synchronized 3D models, in
 - **Archive Integration**: First floor architectural components linked to archive series
 - **No Regional Colors**: Removed regional color tinting from focused models per user feedback
 
-### ✅ Video Series System (SMOOTH ANIMATIONS ADDED)
+### ✅ Video Series System (FIXED VIEWPORT POSITIONING)
 - **Sequential Playback**: Videos play automatically in series with 500ms transitions
 - **Navigation Controls**: Previous/next buttons, dot navigation, video counters
 - **Smart Series Grouping**: Related content grouped into logical collections
-- **Responsive Overlay**: 600×450px positioned 800px right of center
+- **Fixed Viewport Position**: 600×450px positioned at right edge, independent of zoom
 - **Auto-advance**: Seamless progression through video sequences
-- **Smooth Animation**: Scale-in from center with 0.6s bounce easing
+- **Smooth Animation**: Scale-in from center with 0.4s bounce easing
 
 ### ✅ Enhanced 3D Viewer (PROFESSIONAL UI)
 - **Optimized Zoom**: 50% increased zoom level (frustumSize: 20→10) for detailed view
