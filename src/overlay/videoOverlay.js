@@ -383,7 +383,10 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
         const overlayX = (centerX - overlayWidth / 2) + 800;
         const overlayY = centerY - overlayHeight / 2;
         
-        // Apply inline styles for immediate visibility with fixed positioning
+        // Video overlay should scale from its own center, not from LiDAR board
+        // Transform origin defaults to center (50% 50%) for smooth scale animation
+        
+        // Apply inline styles for centered scale animation
         overlay.style.cssText = `
             position: fixed !important;
             left: ${overlayX}px !important;
@@ -396,9 +399,10 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
             box-shadow: 0 8px 32px rgba(0,0,0,0.8) !important;
             pointer-events: auto !important;
             background: #000 !important;
-            opacity: 1 !important;
+            transform-origin: center center !important;
+            opacity: 0 !important;
             visibility: visible !important;
-            transform: none !important;
+            transform: scale(0.1) !important;
             display: block !important;
         `;
         

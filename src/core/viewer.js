@@ -10,7 +10,7 @@ export function createViewer(canvasEl) {
     console.log('Initializing advanced instanced viewer...');
     
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0x222222);
+    scene.background = new THREE.Color(0x0a0a0a); // Much darker background for better model visibility
     
     // Get model panel dimensions for proper sizing
     const modelPanel = canvasEl.closest('#model-panel');

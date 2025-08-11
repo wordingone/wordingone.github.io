@@ -2,11 +2,12 @@ import * as THREE from 'three';
 import { createColorSystem, COLOR_STATES, REGION_COLORS } from '../visual/colorSystem.js';
 
 /**
- * Advanced Model Focus System with Cinematic Animations
- * Features: Color tinting, dramatic falling animations, smooth transitions
+ * Cinematic Model Focus System with Falling Animations
+ * Features: Strong color tinting, dramatic falling animations, fast restoration
+ * Replaces ghosting effects with dynamic model isolation
  */
 export function createModelFocus(scene) {
-    console.log('Initializing cinematic model focus system...');
+    console.log('Initializing cinematic falling animation focus system...');
     
     // Model grouping configuration - maps regions to their related 3D models
     const modelRegionMapping = {
@@ -56,7 +57,8 @@ export function createModelFocus(scene) {
     
     // Animation system
     const animations = new Map(); // Active animations
-    const animationDuration = 800; // ms for falling/rising animations
+    const fallingDuration = 600; // ms for falling animations (fast to keep up with clicks)
+    const risingDuration = 400; // ms for rising animations (even faster restoration)
     
     // Initialize color system
     const colorSystem = createColorSystem();
@@ -69,7 +71,7 @@ export function createModelFocus(scene) {
      * Initialize the focus system by cataloging all scene objects
      */
     function initializeFocusSystem() {
-        console.log('Cataloging scene objects for cinematic focus system...');
+        console.log('Cataloging scene objects for cinematic falling animation system...');
         
         scene.traverse((object) => {
             if (object.isMesh || object.isInstancedMesh) {
@@ -116,21 +118,21 @@ export function createModelFocus(scene) {
             }
         });
         
-        console.log(`Cataloged ${originalMaterials.size} objects for cinematic focus system`);
+        console.log(`Cataloged ${originalMaterials.size} objects for cinematic falling animation system`);
     }
 
     /**
-     * Apply hover color tinting (no animations on hover)
+     * Apply hover color tinting (no animations on hover, just enhanced colors)
      */
     function applyHoverHighlight(regionName) {
         if (!modelRegionMapping[regionName] || isAnimating) return;
         
-        console.log(`Applying hover color for region: ${regionName}`);
+        console.log(`Applying enhanced hover color for region: ${regionName}`);
         
         const focusConfig = modelRegionMapping[regionName];
         const focusedModels = new Set(focusConfig.models);
         
-        // Apply colors only to focused models
+        // Apply stronger colors to focused models only during hover
         modelObjects.forEach((objects, modelName) => {
             if (focusedModels.has(modelName)) {
                 objects.forEach(object => {
@@ -167,12 +169,12 @@ export function createModelFocus(scene) {
     }
 
     /**
-     * Apply dramatic focus with falling animations and color enhancement
+     * Apply dramatic focus with falling animations and enhanced color
      */
     function focusOnRegion(regionName) {
         if (!modelRegionMapping[regionName] || isAnimating) return;
         
-        console.log(`Applying cinematic focus to region: ${regionName}`);
+        console.log(`Applying cinematic falling focus to region: ${regionName}`);
         
         const focusConfig = modelRegionMapping[regionName];
         const focusedModels = new Set(focusConfig.models);
@@ -189,12 +191,12 @@ export function createModelFocus(scene) {
             
             objects.forEach(object => {
                 if (shouldStay) {
-                    // Apply stronger color tinting to focused models
+                    // Apply much stronger color tinting to focused models
                     colorSystem.applyRegionalTint(object, regionName, COLOR_STATES.FOCUS);
                 } else {
                     // Animate non-focused models falling down and out of frame
                     if (object.parent && modelName !== 'Architectural System') {
-                        const promise = animateModelFalling(object.parent);
+                        const promise = animateModelFallingFast(object.parent);
                         animationPromises.push(promise);
                     }
                 }
@@ -211,7 +213,7 @@ export function createModelFocus(scene) {
             // If architectural system is not focused, animate it falling
             instancedMeshes.forEach((instancedMesh) => {
                 if (instancedMesh.parent) {
-                    const promise = animateModelFalling(instancedMesh.parent);
+                    const promise = animateModelFallingFast(instancedMesh.parent);
                     animationPromises.push(promise);
                 }
             });
@@ -220,33 +222,37 @@ export function createModelFocus(scene) {
         // Wait for all animations to complete
         Promise.all(animationPromises).then(() => {
             isAnimating = false;
-            console.log(`Cinematic focus complete for region: ${regionName}`);
+            console.log(`Cinematic falling focus complete for region: ${regionName}`);
         });
     }
 
     /**
-     * Animate model falling down and out of frame
+     * Animate model falling down fast and out of frame (negative Y)
      */
-    function animateModelFalling(modelParent) {
+    function animateModelFallingFast(modelParent) {
         return new Promise((resolve) => {
             const startPosition = modelParent.position.clone();
-            const targetY = startPosition.y - 15; // Fall 15 units down
+            const targetY = startPosition.y - 20; // Fall 20 units down (out of frame)
             const startTime = performance.now();
             
             function animateFall() {
                 const currentTime = performance.now();
                 const elapsed = currentTime - startTime;
-                const progress = Math.min(elapsed / animationDuration, 1);
+                const progress = Math.min(elapsed / fallingDuration, 1);
                 
-                // Smooth easing out for realistic fall
-                const easedProgress = 1 - Math.pow(1 - progress, 3);
+                // Fast easing out for dramatic but quick fall
+                const easedProgress = 1 - Math.pow(1 - progress, 2);
                 
-                // Update position
+                // Update position - move downward (negative Y)
                 modelParent.position.y = THREE.MathUtils.lerp(startPosition.y, targetY, easedProgress);
                 
                 // Add slight rotation for dramatic effect
-                modelParent.rotation.x = easedProgress * 0.3;
-                modelParent.rotation.z = easedProgress * 0.2;
+                modelParent.rotation.x = easedProgress * 0.4;
+                modelParent.rotation.z = easedProgress * 0.3;
+                
+                // Add slight scaling down as it falls
+                const scale = THREE.MathUtils.lerp(1, 0.8, easedProgress);
+                modelParent.scale.setScalar(scale);
                 
                 if (progress < 1) {
                     requestAnimationFrame(animateFall);
@@ -262,29 +268,37 @@ export function createModelFocus(scene) {
     }
 
     /**
-     * Animate model rising back to original position
+     * Animate model shooting back up to original position (fast restoration)
      */
-    function animateModelRising(modelParent, originalState) {
+    function animateModelRisingFast(modelParent, originalState) {
         return new Promise((resolve) => {
             // Make visible again before animating
             modelParent.visible = true;
             
             const startPosition = modelParent.position.clone();
             const startRotation = modelParent.rotation.clone();
+            const startScale = modelParent.scale.clone();
             const startTime = performance.now();
             
             function animateRise() {
                 const currentTime = performance.now();
                 const elapsed = currentTime - startTime;
-                const progress = Math.min(elapsed / (animationDuration * 0.8), 1); // Slightly faster rise
+                const progress = Math.min(elapsed / risingDuration, 1);
                 
-                // Smooth easing in for upward motion
-                const easedProgress = Math.pow(progress, 2);
+                // Fast easing in for quick upward motion
+                const easedProgress = Math.pow(progress, 1.5);
                 
-                // Update position
+                // Update position - shooting upward (positive Y) back to original
                 modelParent.position.lerpVectors(startPosition, originalState.position, easedProgress);
+                
+                // Restore rotation
                 modelParent.rotation.x = THREE.MathUtils.lerp(startRotation.x, originalState.rotation.x, easedProgress);
                 modelParent.rotation.z = THREE.MathUtils.lerp(startRotation.z, originalState.rotation.z, easedProgress);
+                
+                // Restore scale
+                const targetScale = originalState.scale.x;
+                const currentScale = THREE.MathUtils.lerp(startScale.x, targetScale, easedProgress);
+                modelParent.scale.setScalar(currentScale);
                 
                 if (progress < 1) {
                     requestAnimationFrame(animateRise);
@@ -360,12 +374,12 @@ export function createModelFocus(scene) {
     }
 
     /**
-     * Clear all focus effects with rising animations
+     * Clear all focus effects with fast rising animations
      */
     function clearFocus() {
         if (!isFocusActive && !isAnimating) return;
         
-        console.log('Clearing focus with rising animations');
+        console.log('Clearing focus with fast rising animations');
         
         isAnimating = true;
         const animationPromises = [];
@@ -391,23 +405,23 @@ export function createModelFocus(scene) {
             }
         });
         
-        // Animate fallen models rising back up
+        // Animate fallen models shooting back up quickly
         originalPositions.forEach((originalState, objectId) => {
             // Find the object by traversing scene
             scene.traverse((object) => {
                 if (object.uuid === objectId && object.parent && !object.parent.visible) {
-                    const promise = animateModelRising(object.parent, originalState);
+                    const promise = animateModelRisingFast(object.parent, originalState);
                     animationPromises.push(promise);
                 }
             });
         });
         
-        // Wait for all rising animations
+        // Wait for all fast rising animations
         Promise.all(animationPromises).then(() => {
             isAnimating = false;
             isFocusActive = false;
             currentFocusRegion = null;
-            console.log('All models restored with rising animations');
+            console.log('All models restored with fast rising animations');
         });
     }
 
@@ -415,7 +429,7 @@ export function createModelFocus(scene) {
      * Catalog new model for the system
      */
     function catalogNewModel(modelScene, modelName) {
-        console.log(`Cataloging new model for cinematic system: ${modelName}`);
+        console.log(`Cataloging new model for cinematic falling system: ${modelName}`);
         
         modelScene.userData.modelName = modelName;
         
@@ -457,13 +471,13 @@ export function createModelFocus(scene) {
             }
         });
         
-        console.log(`✓ Model '${modelName}' cataloged for cinematic system`);
+        console.log(`✓ Model '${modelName}' cataloged for cinematic falling system`);
     }
 
     // Initialize the system
     initializeFocusSystem();
     
-    console.log('Cinematic model focus system initialized');
+    console.log('Cinematic falling animation focus system initialized');
     
     // Public API
     return {

@@ -177,14 +177,14 @@ export class ColorSystem {
                 // Store current color before change
                 const beforeColor = material.color.getHexString();
                 
-                // Subtle color mixing: 85% original + 15% tint for very subtle effect
-                material.color.copy(originalColor).lerp(tintColor, 0.15);
+                // Enhanced color mixing: 70% original + 30% tint for stronger visibility
+                material.color.copy(originalColor).lerp(tintColor, 0.30);
                 
                 console.log(`Color changed from ${beforeColor} to ${material.color.getHexString()}`);
                 
-                // Add very subtle emissive glow for enhanced visibility
+                // Add enhanced emissive glow for better visibility
                 if (material.emissive) {
-                    material.emissive.copy(tintColor).multiplyScalar(0.02); // Very subtle glow
+                    material.emissive.copy(tintColor).multiplyScalar(0.08); // Stronger glow for visibility
                     console.log(`Applied emissive:`, material.emissive.getHexString());
                 }
                 

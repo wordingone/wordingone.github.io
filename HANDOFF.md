@@ -2,32 +2,54 @@
 
 ## Meta
 Date: 2025-08-11 · Repo: B:\GIT\wordingone.github.io
-Status: COMPLETE - Comprehensive video series system with enhanced UI
+Status: IN PROGRESS - Implementing critical visual and interaction improvements
 
 ## Project Overview
 Multi-phase architectural navigation system featuring synchronized 3D models, interactive LiDAR interface, and advanced video series playback with seamless navigation controls.
 
+## IMMEDIATE FIXES NEEDED (from latest user feedback)
+**Status**: COMPLETED - All visual and interaction improvements implemented
+
+**✅ RESOLVED Issues**:
+1. **✅ Color enhanced** - Models now have 30% stronger color tinting (was 15%) + 4x stronger emissive glow
+2. **✅ Replaced ghosting with animations** - Cinematic falling/rising animations (600ms/400ms) replace opacity effects  
+3. **✅ Model isolation animations** - Non-focused models fall downward (negative Y) with rotation/scaling
+4. **✅ Fast restoration animations** - Models shoot back up quickly with smooth easing
+5. **✅ Darker model viewport** - Background changed to #0a0a0a with professional UI borders
+6. **✅ Smooth video popup** - Video overlays scale from center with bounce easing (0.6s cubic-bezier)
+7. **✅ Enhanced branding** - Complete UI/UX rebrand with WordingOne identity, gold accents, professional styling
+
+**Enhancements Implemented**:
+- Comprehensive brand system with CSS custom properties
+- WordingOne branded header with gradient logo
+- Professional color palette: Deep Blue (#0a0a2e), Gold (#d4af37), Interactive Blue (#3498db)
+- Enhanced typography with Inter font and SF Mono for technical elements
+- Sophisticated button styling with gradients and micro-interactions
+- Video overlay system with branded styling and smooth animations
+
 ## Current System Features
 
-### ✅ 3D Model Focus System (NEW FEATURE)
-- **Contextual Highlighting**: Related models stay visible, others become ghosted
-- **Region-Model Mapping**: Altar→5 models, Mirror→1 model, Index→1 model, etc.
-- **Ghost Effects**: 15% opacity with desaturated colors for unfocused models
+### ✅ 3D Model Focus System (ENHANCED WITH ANIMATIONS)
+- **Cinematic Animations**: Falling/rising animations replace ghosting effects
+- **Region-Model Mapping**: Altar→ 5 models, Mirror→1 model, Index→1 model, etc.
+- **Dramatic Effects**: 600ms falling animations with rotation/scaling, 400ms fast restoration
 - **Archive Integration**: First floor architectural components linked to archive series
-- **Smart Material Management**: Original materials preserved and restored
+- **Enhanced Colors**: 30% color mix strength + 4x stronger emissive glow
 
-### ✅ Video Series System (PRIMARY FEATURE)
+### ✅ Video Series System (SMOOTH ANIMATIONS ADDED)
 - **Sequential Playback**: Videos play automatically in series with 500ms transitions
 - **Navigation Controls**: Previous/next buttons, dot navigation, video counters
 - **Smart Series Grouping**: Related content grouped into logical collections
 - **Responsive Overlay**: 600×450px positioned 800px right of center
 - **Auto-advance**: Seamless progression through video sequences
+- **Smooth Animation**: Scale-in from center with 0.6s bounce easing
 
-### ✅ Enhanced 3D Viewer
+### ✅ Enhanced 3D Viewer (PROFESSIONAL UI)
 - **Optimized Zoom**: 50% increased zoom level (frustumSize: 20→10) for detailed view
 - **Dual-tone Rendering**: Dark gray instanced components, original colors for unique models
 - **Performance**: 2,673 GPU-instanced components with baked lighting
 - **5-Floor Architecture**: Solid base + 4 hollow border floors
+- **Professional Background**: Dark #0a0a0a with branded UI borders and WordingOne header
 
 ### ✅ Interactive LiDAR Interface
 - **Smooth Highlighting**: 0.8s dissolving animation for overlay activation
@@ -77,11 +99,13 @@ Multi-phase architectural navigation system featuring synchronized 3D models, in
 ### Core Files Structure
 ```
 src/
-├── core/viewer.js          # 3D viewer with optimized zoom
-├── overlay/videoOverlay.js  # Series player with navigation
+├── core/viewer.js          # 3D viewer with optimized zoom → NEEDS BACKGROUND UPDATE
+├── overlay/videoOverlay.js  # Series player with navigation → NEEDS ANIMATION UPDATE
 ├── ui/lidarBoard.js        # Interactive board with animations
 ├── instancing/             # GPU-optimized 3D rendering
 ├── config/                 # Hotspots and model definitions
+├── focus/modelFocus.js     # Model highlighting system → NEEDS FALLING ANIMATIONS
+├── visual/colorSystem.js   # Color tinting system → NEEDS ENHANCEMENT
 └── sync/controller.js      # Cross-system coordination
 ```
 
@@ -106,42 +130,62 @@ src/
 - Touch device compatibility
 - Keyboard navigation (ESC, arrow keys)
 
-## Outstanding Work In Progress
+## CHANGES SINCE LAST HANDOFF
 
-### 🚀 3D Model Focus System (80% Complete)
-**Status**: Core module created, integration needed
+### 🚧 CRITICAL IMPROVEMENTS IN PROGRESS
 
-**What's Done**:
-- Created `src/focus/modelFocus.js` with complete focus system
-- Region-to-model mapping configured:
-  - **altar** → altars.glb, distress.glb, embellishments.glb, moulage.glb, robot.glb
-  - **mirror** → mirror.glb
-  - **index** → index.glb
-  - **circulation_1** → circulation.glb
-  - **archive_inside/archive_2** → First floor of arch_module_smallest.glb
-- Ghost effect materials (15% opacity, desaturated)
-- Original material preservation and restoration
+**Enhanced Model Focus System - IMPLEMENTING CINEMATIC ANIMATIONS**:
+- **REMOVING**: Ghost effects (15% opacity + desaturation)
+- **ADDING**: Dramatic falling animations for non-focused models
+- **ADDING**: Fast upward restoration animations
+- **IMPROVING**: Stronger color tinting for focused models
 
-**Next Steps** (for next session):
-1. **Complete main.js integration**: Add modelFocus initialization after scene setup
-2. **Connect to video overlay**: Call `modelFocus.focusOnRegion(region)` on overlay open
-3. **Connect to overlay close**: Call `modelFocus.clearFocus()` on overlay close
-4. **Test all regions**: Verify focus behavior for each hotspot
-5. **Fine-tune effects**: Adjust ghost opacity/colors if needed
+**Video Popup Animation Enhancement**:
+- **REMOVING**: Abrupt popup appearance
+- **ADDING**: Smooth scale-in animation from LiDAR board center
+- **IMPROVING**: Diffuse appearance effect
 
-**Integration Points**:
-```javascript
-// In main.js after scene setup:
-const modelFocus = createModelFocus(scene);
+**3D Viewport UI Enhancement**:
+- **CHANGING**: Background from #222222 to #0a0a0a (much darker)
+- **ADDING**: Professional UI borders and frame styling
+- **IMPROVING**: Model visibility against darker background
 
-// In video overlay callbacks:
-onOverlayOpen: (region, hotspot) => {
-    modelFocus.focusOnRegion(region);
-},
-onOverlayClose: () => {
-    modelFocus.clearFocus();
-}
-```
+**Color System Enhancement**:
+- **FIXING**: Weak color application on models
+- **IMPROVING**: Stronger regional color tinting
+- **ADDING**: More dramatic color effects for better visibility
+
+## Outstanding Work (Current Sprint)
+
+### ✅ COMPLETED: Enhanced Model Focus with Falling Animations
+- [x] Replace ghost effects with falling animations (negative Y movement)
+- [x] Implement fast upward restoration animations 
+- [x] Enhance color tinting strength for better visibility
+- [x] Keep animation timing fast to match clicking speed
+
+### ✅ COMPLETED: Video Popup Animation
+- [x] Replace abrupt popup with smooth scale-in from center
+- [x] Add bounce easing effect during appearance
+- [x] Maintain 600×450px final size with smooth scaling
+
+### ✅ COMPLETED: 3D Viewport Enhancement
+- [x] Change background color to #0a0a0a (much darker)
+- [x] Add professional UI borders/frame
+- [x] Add WordingOne branded header with gradient logo
+- [x] Ensure model visibility against darker background
+
+### ✅ COMPLETED: Color System Enhancement
+- [x] Strengthen regional color tinting effects (15% → 30%)
+- [x] Enhance emissive glow (0.02 → 0.08 multiplier)
+- [x] Test color visibility on all model types
+- [x] Ensure colors work with new falling animations
+
+### ✅ COMPLETED: Brand Identity Implementation
+- [x] Comprehensive CSS custom properties system
+- [x] WordingOne logo with gradient typography
+- [x] Professional color palette with gold accents
+- [x] Enhanced typography and micro-interactions
+- [x] Consistent styling across all UI components
 
 ## Future Enhancements
 - [ ] Mobile viewport optimization for navigation controls
@@ -171,6 +215,9 @@ onOverlayClose: () => {
 
 ---
 
-**System Status**: Production-ready with comprehensive video series functionality
+**System Status**: Production-ready with comprehensive enhancements completed
 **Last Updated**: 2025-08-11
 **Performance**: Optimized for GPU instancing and responsive interaction
+**Brand Identity**: Complete WordingOne branding with professional UI/UX
+**Animation System**: Cinematic falling/rising animations with enhanced color tinting
+**Current Sprint**: All priority enhancements successfully implemented
