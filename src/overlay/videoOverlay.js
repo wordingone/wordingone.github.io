@@ -26,23 +26,19 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
             videos: ['videos/altar_1.mp4', 'videos/altar_2.mp4', 'videos/altar_3.mp4', 'videos/altar_4.mp4'],
             title: 'ALTAR SERIES'
         },
-        'archive_1': {
-            videos: ['videos/archive_1.mp4', 'videos/archive_2.mp4', 'videos/archive_3.mp4', 'videos/archive_4.mp4', 'videos/archive_5.mp4', 'videos/archive_6.mp4'],
-            title: 'ARCHIVE SERIES'
+        'archive_inside': {
+            videos: ['videos/archive_inside.mp4'],
+            title: 'ARCHIVE INSIDE'
         },
         'archive_2': {
             videos: ['videos/archive_1.mp4', 'videos/archive_2.mp4', 'videos/archive_3.mp4', 'videos/archive_4.mp4', 'videos/archive_5.mp4', 'videos/archive_6.mp4'],
             title: 'ARCHIVE SERIES'
         },
         'red_dye': {
-            videos: ['videos/Red Dye_1.mp4', 'videos/Red Dye_2.mp4'],
-            title: 'RED DYE SERIES'
+            videos: ['videos/Red Dye.mp4'],
+            title: 'RED DYE'
         },
         'circulation_1': {
-            videos: ['videos/circulation_1.mp4', 'videos/circulation_2.mp4'],
-            title: 'CIRCULATION SERIES'
-        },
-        'circulation_2': {
             videos: ['videos/circulation_1.mp4', 'videos/circulation_2.mp4'],
             title: 'CIRCULATION SERIES'
         },
