@@ -607,7 +607,8 @@ function initResponsiveLiDARBoard() {
             // Create CSS mask with holes for hotspots
             createMaskWithHoles();
             
-            console.log('Highlighting enabled - CSS mask with soft feathered cutouts');</n            console.log('Feather radius: 20px for extended soft edges');
+            console.log('Highlighting enabled - CSS mask with tight feathered edges');
+            console.log('Feather radius: 3px for sharp transition');
         } else {
             lidarBoard.classList.remove('highlighting');
             highlightBtn.classList.remove('active');
@@ -678,7 +679,7 @@ function initResponsiveLiDARBoard() {
         
         // Add blur filter for feathered edges
         svg += `<filter id="featherBlur">`;
-        svg += `<feGaussianBlur in="SourceGraphic" stdDeviation="20"/>`;
+        svg += `<feGaussianBlur in="SourceGraphic" stdDeviation="3"/>`;
         svg += `</filter>`;
         
         svg += `<mask id="cutoutMask">`;
