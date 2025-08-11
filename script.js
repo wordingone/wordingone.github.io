@@ -603,10 +603,51 @@ function initResponsiveLiDARBoard() {
         if (isHighlighting) {
             lidarBoard.classList.add('highlighting');
             highlightBtn.classList.add('active');
-            console.log('Highlighting enabled - dark overlay appears, regions stay bright');
+            
+            // Create individual mask divs for each hotspot
+            hotspots.forEach(hotspot => {
+                const maskDiv = document.createElement('div');
+                maskDiv.className = 'hotspot-mask';
+                
+                // Copy positioning from hotspot
+                const coords = hotspot.dataset.coords.split(',').map(Number);
+                const rotation = parseFloat(hotspot.dataset.rotation || 0);
+                const [x, y, width, height] = coords;
+                
+                // Calculate responsive coordinates
+                const boardRect = lidarBoard.getBoundingClientRect();
+                const scaleX = boardRect.width / REFERENCE_WIDTH;
+                const scaleY = boardRect.height / REFERENCE_HEIGHT;
+                
+                const scaledX = x * scaleX;
+                const scaledY = y * scaleY;
+                const scaledWidth = width * scaleX;
+                const scaledHeight = height * scaleY;
+                
+                // Position the mask
+                maskDiv.style.position = 'absolute';
+                maskDiv.style.left = scaledX + 'px';
+                maskDiv.style.top = scaledY + 'px';
+                maskDiv.style.width = scaledWidth + 'px';
+                maskDiv.style.height = scaledHeight + 'px';
+                maskDiv.style.transform = `rotate(${rotation}deg)`;
+                maskDiv.style.background = 'transparent';
+                maskDiv.style.boxShadow = '0 0 0 2000px rgba(0, 0, 0, 0.7)';
+                maskDiv.style.zIndex = '5';
+                maskDiv.style.pointerEvents = 'none';
+                
+                lidarBoard.appendChild(maskDiv);
+            });
+            
+            console.log('Highlighting enabled - dark overlay with bright windows');
         } else {
             lidarBoard.classList.remove('highlighting');
             highlightBtn.classList.remove('active');
+            
+            // Remove all mask divs
+            const masks = lidarBoard.querySelectorAll('.hotspot-mask');
+            masks.forEach(mask => mask.remove());
+            
             console.log('Highlighting disabled - normal bright image restored');
         }
     });

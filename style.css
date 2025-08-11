@@ -151,42 +151,30 @@ body {
     opacity: 1;
 }
 
-/* Hotspot System */
+/* Hotspot System - Invisible masks */
 .hotspot {
     position: absolute;
     background: transparent;
-    border: 2px solid transparent;
+    border: none;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    z-index: 2;
+    z-index: 10;
     opacity: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-/* Hotspot mask overlay for revealing bright areas */
-.hotspot::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.7);
-    z-index: 1;
-    opacity: 1;
-    transition: opacity 0.3s ease;
     pointer-events: none;
 }
 
-/* Show hotspots when highlighting is active */
+/* When highlighting is active, hotspots cut holes in overlay */
 #lidar-board.highlighting .hotspot {
     opacity: 1;
     background: transparent;
-    border-color: rgba(52, 152, 219, 0.3);
-    z-index: 3;
+    /* Cut holes using clip-path on parent */
+    pointer-events: auto;
 }
 
-/* COMPLETELY REMOVE hotspot masks when highlighting (revealing bright areas) */
-#lidar-board.highlighting .hotspot::before {
+/* Remove individual hotspot masks completely */
+.hotspot::before {
     display: none;
 }
 
