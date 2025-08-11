@@ -180,11 +180,18 @@ SyntaxError: Unexpected token 'v', "version ht"... is not valid JSON
 *Status: FULLY OPERATIONAL - All models loading successfully*
 
 ## Changes Since Last Handoff
-- **IMAGE ISSUE RESOLVED**: LiDAR background now loads (lidar_00.png untracked from LFS)
-- **HOTSPOT UPDATE**: Replaced estimated coordinates with exact Figma SVG data
-- **COORDINATES FIXED**: 9 hotspots now use precise x,y,width,height from Figma export
-- **ROTATION APPLIED**: Each hotspot includes exact rotation from Figma transforms
-- **FIGMA SYNC**: Hotspots match 1920x1080 SVG viewBox with responsive scaling
-- **AREAS MAPPED**: central-workspace, upper-central, exhibition-right, workspace-left, archive-center, research-tower, documentation, digital-workspace, studio-corner
-- **PRECISION**: Coordinates extracted from rect/path elements in Figma SVG
-- **NEXT ACTION**: Test hotspot accuracy on live site after commit/push
+- **REGION LABELS UPDATED**: All hotspots now use proper architectural terminology
+- **FUNCTIONAL NAMING**: Regions renamed for future interactive functions:
+  - workspace-left → archive_1
+  - central-workspace → index
+  - upper-central → mirror
+  - digital-workspace → insula
+  - archive-center → archive_2
+  - documentation → circulation_1
+  - research-tower → circulation_2
+  - studio-corner → altar
+  - exhibition-right (unchanged)
+- **3D MODEL SYNC READY**: Region names now match GLB model architecture for future integration
+- **COORDINATES FINALIZED**: All positions adjusted and aligned with LiDAR imagery
+- **DEBUG LABELS**: Visual labels updated to show new architectural names
+- **NEXT ACTION**: Remove debug labels when ready for production
