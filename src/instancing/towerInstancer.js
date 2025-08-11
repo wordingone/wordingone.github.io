@@ -186,6 +186,50 @@ function generateBakedLighting(geometry) {
 }
 
 /**
+ * Generate baked lighting using vertex colors (original brightness for non-instanced models)
+ * @param {THREE.BufferGeometry} geometry - Geometry to add vertex colors to
+ */
+function generateOriginalBakedLighting(geometry) {
+    const positions = geometry.attributes.position;
+    const normals = geometry.attributes.normal;
+    const vertexCount = positions.count;
+    
+    // Pre-calculate lighting directions (simulating typical architectural lighting)
+    const lightDir1 = new THREE.Vector3(0.5, 0.8, 0.3).normalize(); // Main light from above-front
+    const lightDir2 = new THREE.Vector3(-0.3, 0.2, -0.8).normalize(); // Fill light
+    const ambientLevel = 0.3; // Ambient lighting level
+    
+    // Create color array for vertex colors
+    const colors = new Float32Array(vertexCount * 3);
+    const normal = new THREE.Vector3();
+    
+    for (let i = 0; i < vertexCount; i++) {
+        // Get vertex normal
+        normal.fromBufferAttribute(normals, i);
+        
+        // Calculate lighting using simple but effective Lambert shading
+        const lightContrib1 = Math.max(0, normal.dot(lightDir1)) * 0.7;
+        const lightContrib2 = Math.max(0, normal.dot(lightDir2)) * 0.3;
+        const totalLight = Math.min(1.0, ambientLevel + lightContrib1 + lightContrib2);
+        
+        // Apply deterministic variation based on vertex index (no Math.random)
+        const hash = (i * 2654435761) % 2147483647; // Simple hash function
+        const variation = 0.95 + (hash / 2147483647) * 0.1; // 0.95 to 1.05 range (original brightness)
+        const finalIntensity = totalLight * variation; // No additional darkening multiplier
+        
+        // Set RGB color (slight warm tint for architectural feel - original coloring)
+        colors[i * 3] = finalIntensity * 0.95;     // R - slightly less red
+        colors[i * 3 + 1] = finalIntensity * 0.97; // G - neutral
+        colors[i * 3 + 2] = finalIntensity * 1.0;  // B - slightly more blue
+    }
+    
+    // Add color attribute to geometry
+    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+    
+    console.log('Generated original brightness baked lighting for non-instanced model');
+}
+
+/**
  * Set up instance matrices for 5-floor tower
  * @param {THREE.InstancedMesh} instancedMesh - Instanced mesh to configure
  * @param {THREE.Vector3} size - Size of individual model unit
@@ -319,7 +363,7 @@ function applyGPUOptimizations(instancedMesh) {
 }
 
 /**
- * Process regular (non-instanced) models for consistent rendering with darker gray tones
+ * Process regular (non-instanced) models for consistent rendering
  * @param {THREE.Object3D} modelScene - Model scene to process
  * @param {string} modelName - Name of the model for logging
  */
@@ -329,19 +373,19 @@ export function processRegularModel(modelScene, modelName) {
         if (child.isMesh) {
             console.log(`Processing ${modelName} mesh:`, child.name || 'unnamed');
             
-            // Apply baked lighting to geometry with darker tones
+            // Apply baked lighting to geometry (but keep original brightness)
             if (child.geometry) {
-                generateBakedLighting(child.geometry);
+                generateOriginalBakedLighting(child.geometry);
             }
             
-            // Create optimized material matching the instanced system with darker base color
+            // Create optimized material matching the original system (no darker base color)
             const optimizedMaterial = new THREE.MeshBasicMaterial({
                 transparent: false,
                 alphaTest: 0,
                 side: THREE.FrontSide,
                 vertexColors: true,
-                fog: false,
-                color: new THREE.Color(0.6, 0.6, 0.6) // Darker base color to match instanced models
+                fog: false
+                // No darker color override - keep original appearance
             });
             
             // Copy texture if the original material has one
@@ -367,5 +411,5 @@ export function processRegularModel(modelScene, modelName) {
     // Architectural tower stays at origin, other models shifted -0.3 units on X-axis
     modelScene.position.set(-0.3, 0, 0);
     
-    console.log(`${modelName} processed with matching darker gray shading`);
+    console.log(`${modelName} processed with original coloring (not darkened)`);
 }
