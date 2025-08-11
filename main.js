@@ -5,6 +5,7 @@ import { buildTowerInstancedMeshes, processRegularModel } from './src/instancing
 import { initLidarBoard } from './src/ui/lidarBoard.js';
 import { createVideoOverlay } from './src/overlay/videoOverlay.js';
 import { createSync } from './src/sync/controller.js';
+import { createModelFocus } from './src/focus/modelFocus.js';
 import models from './src/config/models.js';
 
 // Wait for DOM to be ready

@@ -12,7 +12,8 @@ A sophisticated architectural navigation system combining real-time 3D visualiza
 
 ### 🎯 Core Features
 
-- **📹 Video Series System**: Sequential playback with smart navigation controls
+- **🎬 Video Series System**: Sequential playback with smart navigation controls
+- **🔍 3D Model Focus System**: Contextual highlighting with ghost effects for unfocused models
 - **🏛️ 3D Architecture Viewer**: GPU-optimized instanced rendering with dual-tone aesthetics
 - **🗺️ Interactive LiDAR Interface**: Responsive hotspots with smooth animations
 - **⚡ Performance Optimized**: WebGL2 with static draw usage for maximum efficiency

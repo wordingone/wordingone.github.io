@@ -9,6 +9,13 @@ Multi-phase architectural navigation system featuring synchronized 3D models, in
 
 ## Current System Features
 
+### ✅ 3D Model Focus System (NEW FEATURE)
+- **Contextual Highlighting**: Related models stay visible, others become ghosted
+- **Region-Model Mapping**: Altar→5 models, Mirror→1 model, Index→1 model, etc.
+- **Ghost Effects**: 15% opacity with desaturated colors for unfocused models
+- **Archive Integration**: First floor architectural components linked to archive series
+- **Smart Material Management**: Original materials preserved and restored
+
 ### ✅ Video Series System (PRIMARY FEATURE)
 - **Sequential Playback**: Videos play automatically in series with 500ms transitions
 - **Navigation Controls**: Previous/next buttons, dot navigation, video counters
@@ -99,9 +106,44 @@ src/
 - Touch device compatibility
 - Keyboard navigation (ESC, arrow keys)
 
-## Outstanding Considerations
+## Outstanding Work In Progress
 
-### Future Enhancements
+### 🚀 3D Model Focus System (80% Complete)
+**Status**: Core module created, integration needed
+
+**What's Done**:
+- Created `src/focus/modelFocus.js` with complete focus system
+- Region-to-model mapping configured:
+  - **altar** → altars.glb, distress.glb, embellishments.glb, moulage.glb, robot.glb
+  - **mirror** → mirror.glb
+  - **index** → index.glb
+  - **circulation_1** → circulation.glb
+  - **archive_inside/archive_2** → First floor of arch_module_smallest.glb
+- Ghost effect materials (15% opacity, desaturated)
+- Original material preservation and restoration
+
+**Next Steps** (for next session):
+1. **Complete main.js integration**: Add modelFocus initialization after scene setup
+2. **Connect to video overlay**: Call `modelFocus.focusOnRegion(region)` on overlay open
+3. **Connect to overlay close**: Call `modelFocus.clearFocus()` on overlay close
+4. **Test all regions**: Verify focus behavior for each hotspot
+5. **Fine-tune effects**: Adjust ghost opacity/colors if needed
+
+**Integration Points**:
+```javascript
+// In main.js after scene setup:
+const modelFocus = createModelFocus(scene);
+
+// In video overlay callbacks:
+onOverlayOpen: (region, hotspot) => {
+    modelFocus.focusOnRegion(region);
+},
+onOverlayClose: () => {
+    modelFocus.clearFocus();
+}
+```
+
+## Future Enhancements
 - [ ] Mobile viewport optimization for navigation controls
 - [ ] Additional video series integration
 - [ ] Advanced transition effects between videos
