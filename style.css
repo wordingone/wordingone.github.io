@@ -443,17 +443,17 @@ body {
     filter: blur(0px);
 }
 
+.video-overlay.frame-positioned.active {
+    opacity: 1 !important;
+    visibility: visible !important;
+    transform: scale(1) !important;
+    filter: blur(0px) !important;
+}
+
 .video-overlay.active {
     opacity: 1;
     visibility: visible;
     transform: translateX(0);
-}
-
-.video-overlay.frame-positioned.active {
-    opacity: 1 !important;
-    visibility: visible;
-    transform: scale(1) !important;
-    filter: blur(0px);
 }
 
 .video-overlay.closing {

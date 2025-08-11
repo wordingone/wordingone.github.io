@@ -153,12 +153,12 @@ export function createModelFocus(scene) {
     }
 
     /**
-     * Apply focus with enhanced colors and ghosting
+     * Apply focus with light gray/white focused models and ghosting
      */
     function focusOnRegion(regionName) {
         if (!modelRegionMapping[regionName]) return;
         
-        console.log(`Applying enhanced focus to region: ${regionName}`);
+        console.log(`Applying focus to region: ${regionName}`);
         
         const focusConfig = modelRegionMapping[regionName];
         const focusedModels = new Set(focusConfig.models);
@@ -172,8 +172,8 @@ export function createModelFocus(scene) {
             
             objects.forEach(object => {
                 if (shouldStay) {
-                    // Apply strong color tinting to focused models
-                    colorSystem.applyRegionalTint(object, regionName, COLOR_STATES.FOCUS);
+                    // Apply light gray/white color to focused models (like original scheme)
+                    applyFocusColor(object);
                 } else {
                     // Apply ghosting to non-focused models
                     applyGhosting(object);
@@ -185,7 +185,7 @@ export function createModelFocus(scene) {
         if (focusedModels.has('Architectural System')) {
             handleArchitecturalSystemFocus(regionName, focusConfig);
             instancedMeshes.forEach((instancedMesh) => {
-                colorSystem.applyRegionalTint(instancedMesh, regionName, COLOR_STATES.FOCUS);
+                applyFocusColor(instancedMesh);
             });
         } else {
             // If architectural system is not focused, ghost it
@@ -194,7 +194,30 @@ export function createModelFocus(scene) {
             });
         }
         
-        console.log(`Enhanced focus complete for region: ${regionName}`);
+        console.log(`Focus complete for region: ${regionName}`);
+    }
+
+    /**
+     * Apply light gray/white color to focused models
+     */
+    function applyFocusColor(object) {
+        if (object.material) {
+            const lightGrayColor = new THREE.Color(0xcccccc); // Light gray/white-ish
+            
+            if (Array.isArray(object.material)) {
+                object.material.forEach(material => {
+                    material.color.copy(lightGrayColor);
+                    material.transparent = false;
+                    material.opacity = 1.0;
+                    material.needsUpdate = true;
+                });
+            } else {
+                object.material.color.copy(lightGrayColor);
+                object.material.transparent = false;
+                object.material.opacity = 1.0;
+                object.material.needsUpdate = true;
+            }
+        }
     }
 
     /**
@@ -280,21 +303,24 @@ export function createModelFocus(scene) {
     function clearFocus() {
         if (!isFocusActive) return;
         
-        console.log('Clearing focus and restoring materials');
+        console.log('Clearing focus and restoring original materials');
         
-        // Restore colors and opacity for all objects
+        // Restore original materials for all objects
         modelObjects.forEach((objects) => {
             objects.forEach(object => {
-                colorSystem.restoreOriginalColors(object);
-                // Restore original opacity
-                if (object.material) {
+                const original = originalMaterials.get(object.uuid);
+                if (original && object.material) {
                     if (Array.isArray(object.material)) {
-                        object.material.forEach(material => {
-                            material.transparent = false;
-                            material.opacity = 1.0;
-                            material.needsUpdate = true;
+                        object.material.forEach((material, index) => {
+                            if (original[index]) {
+                                material.color.copy(original[index].color);
+                                material.transparent = false;
+                                material.opacity = 1.0;
+                                material.needsUpdate = true;
+                            }
                         });
                     } else {
+                        object.material.color.copy(original.color);
                         object.material.transparent = false;
                         object.material.opacity = 1.0;
                         object.material.needsUpdate = true;
@@ -304,16 +330,19 @@ export function createModelFocus(scene) {
         });
         
         instancedMeshes.forEach((instancedMesh) => {
-            colorSystem.restoreOriginalColors(instancedMesh);
-            // Restore original opacity
-            if (instancedMesh.material) {
+            const original = originalMaterials.get(instancedMesh.uuid);
+            if (original && instancedMesh.material) {
                 if (Array.isArray(instancedMesh.material)) {
-                    instancedMesh.material.forEach(material => {
-                        material.transparent = false;
-                        material.opacity = 1.0;
-                        material.needsUpdate = true;
+                    instancedMesh.material.forEach((material, index) => {
+                        if (original[index]) {
+                            material.color.copy(original[index].color);
+                            material.transparent = false;
+                            material.opacity = 1.0;
+                            material.needsUpdate = true;
+                        }
                     });
                 } else {
+                    instancedMesh.material.color.copy(original.color);
                     instancedMesh.material.transparent = false;
                     instancedMesh.material.opacity = 1.0;
                     instancedMesh.material.needsUpdate = true;
@@ -333,7 +362,7 @@ export function createModelFocus(scene) {
         
         isFocusActive = false;
         currentFocusRegion = null;
-        console.log('All models restored');
+        console.log('All models restored to original colors');
     }
 
     /**

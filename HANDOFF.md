@@ -17,8 +17,9 @@ Multi-phase architectural navigation system featuring synchronized 3D models, in
 4. **✅ Enhanced branding** - Complete UI/UX rebrand with WordingOne identity, gold accents, professional styling
 
 **⚠️ CURRENT ISSUES**:
-- **Video overlay not appearing** - Investigating display/positioning issues after branding changes
-- **Need to test ghosting + enhanced colors** - Ensure 30% color tinting works with 15% opacity ghosting
+- **✅ Fixed ghosting colors** - Focused models now light gray/white (#cccccc) like original scheme
+- **🔧 Debugging video overlay** - Added extensive debugging logs to identify display issue
+- **🔧 CSS specificity** - Improved frame-positioned active state CSS rules
 
 **Enhancements Implemented**:
 - Comprehensive brand system with CSS custom properties
@@ -30,12 +31,12 @@ Multi-phase architectural navigation system featuring synchronized 3D models, in
 
 ## Current System Features
 
-### ✅ 3D Model Focus System (REVERTED TO ENHANCED GHOSTING)
-- **Enhanced Ghosting**: 15% opacity ghosting with 30% stronger color tinting for focused models
+### ✅ 3D Model Focus System (FIXED GHOSTING COLORS)
+- **Light Gray Focused Models**: Focused models now use light gray/white (#cccccc) like original scheme
 - **Region-Model Mapping**: Altar→ 5 models, Mirror→1 model, Index→1 model, etc.
-- **No Animations**: Clean ghosting effects without falling/rising animations (per user feedback)
+- **15% Opacity Ghosting**: Clean ghosting effects for non-focused models
 - **Archive Integration**: First floor architectural components linked to archive series
-- **Enhanced Colors**: 30% color mix strength + 4x stronger emissive glow for focused models
+- **No Regional Colors**: Removed regional color tinting from focused models per user feedback
 
 ### ✅ Video Series System (SMOOTH ANIMATIONS ADDED)
 - **Sequential Playback**: Videos play automatically in series with 500ms transitions

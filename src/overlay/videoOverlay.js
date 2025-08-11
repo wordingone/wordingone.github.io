@@ -215,6 +215,10 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
             if (currentOverlay) {
                 console.log('Triggering overlay active class');
                 currentOverlay.classList.add('active');
+                console.log('Active class added. Classes:', currentOverlay.className);
+                console.log('Overlay visibility after active:', getComputedStyle(currentOverlay).visibility);
+                console.log('Overlay opacity after active:', getComputedStyle(currentOverlay).opacity);
+                console.log('Overlay transform after active:', getComputedStyle(currentOverlay).transform);
             }
         }, 50);
     }
@@ -420,6 +424,10 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
         `;
         
         console.log(`Overlay positioned at: ${overlayX.toFixed(0)}, ${overlayY.toFixed(0)} (${overlayWidth}x${overlayHeight})`);
+        console.log('Overlay element after positioning:', currentOverlay);
+        console.log('Overlay visibility:', getComputedStyle(currentOverlay).visibility);
+        console.log('Overlay opacity:', getComputedStyle(currentOverlay).opacity);
+        console.log('Overlay transform:', getComputedStyle(currentOverlay).transform);
     }
     
     /**
