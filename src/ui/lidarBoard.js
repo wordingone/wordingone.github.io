@@ -202,7 +202,7 @@ export function initLidarBoard(rootEl, callbacks = {}) {
         console.log(`Positioned ${hotspots.length} hotspots for ${boardRect.width.toFixed(0)}x${boardRect.height.toFixed(0)} container`);
     }
     
-    // Add click handlers for hotspots
+    // Add click handlers for hotspots with color integration
     hotspots.forEach(hotspot => {
         hotspot.addEventListener('click', function(e) {
             e.preventDefault();
@@ -210,7 +210,23 @@ export function initLidarBoard(rootEl, callbacks = {}) {
         });
         
         hotspot.addEventListener('mouseenter', function() {
-            console.log(`Hovering over ${this.dataset.area} area`);
+            const area = this.dataset.area;
+            console.log(`Hovering over ${area} area`);
+            
+            // Apply color highlight via callback
+            if (callbacks.onHover) {
+                callbacks.onHover(area, this);
+            }
+        });
+        
+        hotspot.addEventListener('mouseleave', function() {
+            const area = this.dataset.area;
+            console.log(`Leaving ${area} area`);
+            
+            // Remove color highlight via callback
+            if (callbacks.onHoverEnd) {
+                callbacks.onHoverEnd(area, this);
+            }
         });
     });
     

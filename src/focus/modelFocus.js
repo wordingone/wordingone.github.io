@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { createColorSystem, COLOR_STATES, REGION_COLORS } from '../visual/colorSystem.js';
 
 /**
  * Advanced Model Focus System with Instance-Level Control
@@ -53,8 +54,68 @@ export function createModelFocus(scene) {
     const instancedMeshes = new Map(); // Store references to instanced meshes
     const backupInstancedMeshes = new Map(); // Store backup of original instanced meshes
     
+    // Initialize color system for regional highlighting
+    const colorSystem = createColorSystem();
+    
     let currentFocusRegion = null;
     let isFocusActive = false;
+    let isHovering = false;
+    
+    /**
+     * Apply hover color tint to region models
+     * @param {string} regionName - Region name to highlight
+     */
+    function applyHoverHighlight(regionName) {
+        if (!modelRegionMapping[regionName] || isHovering) return;
+        
+        console.log(`Applying hover highlight for region: ${regionName}`);
+        
+        const focusConfig = modelRegionMapping[regionName];
+        const focusedModels = new Set(focusConfig.models);
+        
+        isHovering = true;
+        colorSystem.setRegionState(regionName, COLOR_STATES.HOVER);
+        
+        // Apply color tint to focused models only
+        modelObjects.forEach((objects, modelName) => {
+            if (focusedModels.has(modelName)) {
+                objects.forEach(object => {
+                    colorSystem.applyRegionalTint(object, regionName, COLOR_STATES.HOVER);
+                });
+            }
+        });
+        
+        // Handle instanced meshes for archive regions
+        if (focusedModels.has('Architectural System')) {
+            instancedMeshes.forEach((instancedMesh) => {
+                colorSystem.applyRegionalTint(instancedMesh, regionName, COLOR_STATES.HOVER);
+            });
+        }
+    }
+    
+    /**
+     * Remove hover color tint from all models
+     */
+    function removeHoverHighlight() {
+        if (!isHovering) return;
+        
+        console.log('Removing hover highlight');
+        
+        isHovering = false;
+        colorSystem.clearState();
+        
+        // Restore original colors for all objects
+        modelObjects.forEach((objects) => {
+            objects.forEach(object => {
+                colorSystem.restoreOriginalColors(object);
+            });
+        });
+        
+        // Restore instanced meshes
+        instancedMeshes.forEach((instancedMesh) => {
+            colorSystem.restoreOriginalColors(instancedMesh);
+        });
+    }
     
     /**
      * Initialize the focus system by cataloging all scene objects
@@ -71,6 +132,9 @@ export function createModelFocus(scene) {
                     } else {
                         originalMaterials.set(object.uuid, object.material.clone());
                     }
+                    
+                    // Catalog materials for color system
+                    colorSystem.catalogMaterial(object);
                 }
                 
                 // Catalog objects by their parent scene name if available
@@ -263,18 +327,23 @@ export function createModelFocus(scene) {
      * Clear all focus effects and restore normal appearance
      */
     function clearFocus() {
-        if (!isFocusActive) return;
+        if (!isFocusActive && !isHovering) return;
         
         console.log('Clearing focus - restoring all models to normal state');
         
-        // Restore all objects to their original materials
+        // Clear color system state
+        colorSystem.clearState();
+        isHovering = false;
+        
+        // Restore all objects to their original materials and colors
         modelObjects.forEach((objects) => {
             objects.forEach(object => {
                 restoreOriginalMaterial(object);
+                colorSystem.restoreOriginalColors(object);
             });
         });
         
-        // Restore instanced meshes to full tower (all floors)
+        // Restore instanced meshes to full tower (all floors) and original colors
         instancedMeshes.forEach((instancedMesh, uuid) => {
             const backup = backupInstancedMeshes.get(uuid);
             if (backup) {
@@ -283,12 +352,13 @@ export function createModelFocus(scene) {
                 instancedMesh.instanceMatrix.needsUpdate = true;
                 console.log(`Restored full architectural system: ${backup.originalCount} instances`);
             }
+            colorSystem.restoreOriginalColors(instancedMesh);
         });
         
         currentFocusRegion = null;
         isFocusActive = false;
         
-        console.log('Focus cleared - all models and instances restored');
+        console.log('Focus cleared - all models, instances, and colors restored');
     }
     
     /**
@@ -380,9 +450,14 @@ export function createModelFocus(scene) {
         focusOnRegion,
         clearFocus,
         catalogNewModel,
+        applyHoverHighlight,
+        removeHoverHighlight,
         getAvailableRegions,
         isFocused,
         getCurrentFocus,
+        // Color system access
+        getRegionalColor: (regionName, state) => colorSystem.getCSSColor(regionName, state),
+        getColorDescription: (regionName) => colorSystem.getColorDescription(regionName),
         // Expose mapping for debugging
         getModelMapping: () => modelRegionMapping,
         getModelCatalog: () => modelObjects

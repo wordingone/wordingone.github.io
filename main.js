@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         }
     });
     
-    // Initialize LiDAR board with video overlay integration
+    // Initialize LiDAR board with video overlay integration and color hover effects
     const lidar = initLidarBoard(lidarBoardElement, {
         onSelect: (area, hotspot) => {
             // Apply model focus IMMEDIATELY when hotspot is clicked (before zoom/overlay)
@@ -77,6 +77,24 @@ document.addEventListener('DOMContentLoaded', async function() {
             videoOverlay.showOverlay(area, hotspot);
             // Still sync for any 3D interactions
             sync.handleAreaSelect(area, hotspot);
+        },
+        onHover: (area, hotspot) => {
+            // Apply subtle color tinting on hover
+            if (modelFocus) {
+                modelFocus.applyHoverHighlight(area);
+                console.log(`Applied hover color highlight for region: ${area}`);
+                // Force immediate render to show color changes
+                render();
+            }
+        },
+        onHoverEnd: (area, hotspot) => {
+            // Remove color tinting when hover ends (but only if not in focus mode)
+            if (modelFocus && !modelFocus.isFocused()) {
+                modelFocus.removeHoverHighlight();
+                console.log(`Removed hover color highlight for region: ${area}`);
+                // Force immediate render to show color changes
+                render();
+            }
         },
         onZoomExtents: () => {
             // Clear model focus FIRST when zoom extents is clicked
