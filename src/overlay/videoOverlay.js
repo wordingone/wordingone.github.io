@@ -162,12 +162,12 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
         const centerX = panelRect.left + panelRect.width / 2;
         const centerY = panelRect.top + panelRect.height / 2;
         
-        // Size the overlay appropriately
-        const overlayWidth = 400;
-        const overlayHeight = 300;
+        // Size the overlay appropriately (increased by 50%)
+        const overlayWidth = 600;  // 400 * 1.5
+        const overlayHeight = 450; // 300 * 1.5
         
-        // Position overlay at center of main panel using fixed positioning
-        const overlayX = centerX - overlayWidth / 2;
+        // Position overlay at center of main panel using fixed positioning, then move 500px right
+        const overlayX = (centerX - overlayWidth / 2) + 500;
         const overlayY = centerY - overlayHeight / 2;
         
         // Apply inline styles for immediate visibility with fixed positioning
