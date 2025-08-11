@@ -16,6 +16,8 @@ document.addEventListener('DOMContentLoaded', async function() {
     const canvas = document.getElementById('canvas');
     const loadingElement = document.getElementById('loading');
     const lidarBoardElement = document.getElementById('lidar-board');
+    const highlightBtn = document.getElementById('btnHighlight');
+    const zoomExtentsBtn = document.getElementById('btnZoomExtents');
     
     // Initialize 3D viewer
     const viewer = createViewer(canvas);
@@ -32,10 +34,13 @@ document.addEventListener('DOMContentLoaded', async function() {
             if (lidar.getHighlighting()) {
                 lidar.setHighlighting(false);
             }
+            // Hide the Highlight button while zoomed/overlayed
+            highlightBtn.style.display = 'none';
         },
         onOverlayClose: () => {
             console.log('Video overlay closed');
-            // Could re-enable highlighting here if desired
+            // Overlay closed (via × or ESC) → show Highlight button again
+            highlightBtn.style.display = 'block';
         }
     });
     
@@ -50,6 +55,8 @@ document.addEventListener('DOMContentLoaded', async function() {
         onZoomExtents: () => {
             // Use video overlay's zoom toggle for proper state management
             videoOverlay.toggleZoom();
+            // Only after zoom reset, re-enable the Highlight button
+            highlightBtn.style.display = 'block';
             // Still sync for any 3D interactions
             sync.handleZoomExtents();
         }

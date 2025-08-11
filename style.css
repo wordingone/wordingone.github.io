@@ -330,8 +330,10 @@ body {
     left: 0;
     width: 200px;
     height: 150px;
-    transform: scale(0.8);
-    transition: all 0.3s ease;
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.86);
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
     border-radius: 8px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
 }

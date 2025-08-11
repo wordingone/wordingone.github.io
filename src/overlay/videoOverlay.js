@@ -19,8 +19,14 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
     const regionVideos = {
         'insula': 'videos/insula.mp4',
         'mirror': 'videos/Mirror.mp4',
-        'archive_2': 'videos/Red Dye.mp4'
-        // Other regions will show "no video available" message
+        'archive_2': 'videos/Red Dye.mp4',
+        // All other regions will show "no video available" message
+        'index': null,
+        'exhibition-right': null,
+        'archive_1': null,
+        'circulation_2': null,
+        'circulation_1': null,
+        'altar': null
     };
     
     /**
@@ -65,7 +71,7 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
         // Get the video file for this region
         const videoSrc = regionVideos[region];
         if (!videoSrc) {
-            console.warn(`No video configured for region: ${region}`);
+            console.log(`No video configured for region: ${region} - showing placeholder`);
             showNoVideoMessage(region, hotspot);
             return;
         }
@@ -159,22 +165,17 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
         const overlayX = viewportCenterX - overlayWidth / 2;
         const overlayY = viewportCenterY - overlayHeight / 2;
         
-        overlay.style.cssText = `
-            position: absolute;
-            left: ${overlayX}px;
-            top: ${overlayY}px;
-            width: ${overlayWidth}px;
-            height: ${overlayHeight}px;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transform: scale(0.8);
-            transition: all 0.3s ease;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
-            pointer-events: auto;
-        `;
+        // Set only positional properties - let CSS classes handle visibility
+        overlay.style.position = 'absolute';
+        overlay.style.left = `${overlayX}px`;
+        overlay.style.top = `${overlayY}px`;
+        overlay.style.width = `${overlayWidth}px`;
+        overlay.style.height = `${overlayHeight}px`;
+        overlay.style.zIndex = '1000';
+        overlay.style.borderRadius = '8px';
+        overlay.style.overflow = 'hidden';
+        overlay.style.boxShadow = '0 8px 32px rgba(0,0,0,0.6)';
+        overlay.style.pointerEvents = 'auto';
         
         console.log(`Positioned overlay at center: ${overlayX.toFixed(0)}, ${overlayY.toFixed(0)} (${overlayWidth.toFixed(0)}x${overlayHeight.toFixed(0)})`);
     }
