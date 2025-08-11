@@ -180,17 +180,25 @@ SyntaxError: Unexpected token 'v', "version ht"... is not valid JSON
 *Status: FULLY OPERATIONAL - All models loading successfully*
 
 ## Changes Since Last Handoff
-- **FINE-TUNING COMPLETE**: Final pixel adjustments for perfect alignment
-  - index: shifted left 1px, down 1px (516,448)
-  - archive_1: shifted left 1px (352,440)
-- **HIGHLIGHT TOGGLE ADDED**: Interactive control system implemented
-  - Added control bar with Highlight and Zoom Extents buttons
-  - Buttons positioned in top-right of LiDAR panel only
-  - Modern dark UI matching architectural aesthetic
-- **MASK FUNCTIONALITY CORRECTED**: Proper highlighting system implemented
-  - **Default**: Normal bright LiDAR image (no overlay)
-  - **Highlight ON**: Dark overlay appears covering entire image + hotspot regions reveal bright areas
-  - **Highlight OFF**: Dark overlay disappears, normal bright image returns
-  - **Logic**: Main overlay shows/hides, hotspot masks hide when highlighting to create "windows"
-- **INTERACTION FLOW FIXED**: Click Highlight → Dark overlay + bright regions → Click again → Normal bright image
-- **NEXT ACTION**: Test masking effect and remove debug labels when positioning confirmed
+## Changes Since Last Handoff
+- **MASKING IMPLEMENTATION: COMPLETE FAILURE**
+- **CRITICAL ERRORS**: Multiple failed attempts at creating highlight masks
+  - **Attempt 1**: Used CSS ::before overlay with opacity toggle - FAILED (inverted logic)
+  - **Attempt 2**: Tried CSS mask property with radial gradients - FAILED (browser support issues)
+  - **Attempt 3**: Used clip-path polygons - FAILED (complex syntax errors)
+  - **Attempt 4**: Box-shadow technique with 2000px spread - FAILED (creates pitch black overlay)
+- **ROOT PROBLEM**: Fundamental misunderstanding of CSS masking techniques
+- **CURRENT STATE**: Highlight button creates pitch black screen instead of masked regions
+- **SPECIFIC FAILURES**:
+  1. **Box-shadow approach**: `box-shadow: 0 0 0 2000px rgba(0,0,0,0.7)` creates massive dark area covering everything
+  2. **Z-index conflicts**: Multiple overlay elements fighting for display priority
+  3. **JavaScript complexity**: Dynamically creating divs that obscure the image entirely
+  4. **CSS ::before conflicts**: Main overlay and individual masks interfering with each other
+- **WHAT SHOULD WORK**: Simple overlay with CSS `mask` or `clip-path` to cut rectangular holes
+- **WHAT ACTUALLY HAPPENS**: Complete blackout when highlight is activated
+- **NEEDED SOLUTION**: 
+  - Single overlay element with CSS mask that excludes hotspot rectangles
+  - OR: Use SVG mask with proper hole cutouts
+  - OR: Multiple positioned divs that DON'T use box-shadow technique
+- **DEVELOPER ERROR**: Overcomplicated solution instead of using standard CSS masking patterns
+- **STATUS**: HIGHLIGHTING FEATURE BROKEN - requires complete reimplementation
