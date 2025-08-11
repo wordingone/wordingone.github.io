@@ -180,18 +180,22 @@ SyntaxError: Unexpected token 'v', "version ht"... is not valid JSON
 *Status: FULLY OPERATIONAL - All models loading successfully*
 
 ## Changes Since Last Handoff
-- **REGION LABELS UPDATED**: All hotspots now use proper architectural terminology
-- **FUNCTIONAL NAMING**: Regions renamed for future interactive functions:
-  - workspace-left → archive_1
-  - central-workspace → index
-  - upper-central → mirror
-  - digital-workspace → insula
-  - archive-center → archive_2
-  - documentation → circulation_1
-  - research-tower → circulation_2
-  - studio-corner → altar
-  - exhibition-right (unchanged)
-- **3D MODEL SYNC READY**: Region names now match GLB model architecture for future integration
-- **COORDINATES FINALIZED**: All positions adjusted and aligned with LiDAR imagery
-- **DEBUG LABELS**: Visual labels updated to show new architectural names
-- **NEXT ACTION**: Remove debug labels when ready for production
+- **FINE-TUNING COMPLETE**: Final pixel adjustments for perfect alignment
+  - index: shifted left 1px, down 1px (516,448)
+  - archive_1: shifted left 1px (352,440)
+- **HIGHLIGHT TOGGLE ADDED**: Interactive control system implemented
+  - Added control bar with Highlight and Zoom Extents buttons
+  - Buttons positioned in top-right of LiDAR panel only
+  - Modern dark UI matching architectural aesthetic
+- **MASK FUNCTIONALITY**: Revolutionary highlighting system
+  - Default: Dark overlay (0.7 opacity) covers entire LiDAR image
+  - Toggle ON: Dark overlay disappears, hotspot masks appear
+  - Result: Normal brightness LiDAR shows through hotspot regions only
+  - Inverse masking creates focused attention on architectural zones
+- **BUTTON STATES**: Visual feedback system
+  - Inactive: Dark with subtle border
+  - Hover: Lighter background with blue accent
+  - Active: Blue background indicates highlighting mode
+- **DEBUG LABELS**: Still visible for final positioning verification
+- **INTERACTION FLOW**: Click Highlight → Regions illuminate → Click again → Return to overview
+- **NEXT ACTION**: Test masking effect and remove debug labels when positioning confirmed

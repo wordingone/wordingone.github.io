@@ -587,10 +587,36 @@ function initResponsiveLiDARBoard() {
     
     const lidarBoard = document.getElementById('lidar-board');
     const hotspots = document.querySelectorAll('.hotspot');
+    const highlightBtn = document.getElementById('btnHighlight');
+    const zoomExtentsBtn = document.getElementById('btnZoomExtents');
+    
+    let isHighlighting = false;
     
     // Figma SVG reference dimensions (1920x1080)
     const REFERENCE_WIDTH = 1920;
     const REFERENCE_HEIGHT = 1080;
+    
+    // Highlight toggle functionality
+    highlightBtn.addEventListener('click', function() {
+        isHighlighting = !isHighlighting;
+        
+        if (isHighlighting) {
+            lidarBoard.classList.add('highlighting');
+            highlightBtn.classList.add('active');
+            console.log('Highlighting enabled - regions revealed through masks');
+        } else {
+            lidarBoard.classList.remove('highlighting');
+            highlightBtn.classList.remove('active');
+            console.log('Highlighting disabled - dark overlay restored');
+        }
+    });
+    
+    // Zoom extents functionality (placeholder)
+    zoomExtentsBtn.addEventListener('click', function() {
+        console.log('Zoom Extents clicked - reset camera view');
+        // Future: Reset 3D camera to show full model
+        syncWith3DModel('zoom-extents');
+    });
     
     // Position hotspots responsively
     function positionHotspots() {

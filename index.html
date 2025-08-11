@@ -24,11 +24,21 @@
         
         <!-- Right Panel: LiDAR Interface (2/3 width) -->
         <div id="main-panel">
+            <!-- LiDAR Control Bar -->
+            <div class="lidar-controls">
+                <button id="btnHighlight" type="button" class="control-btn">
+                    Highlight
+                </button>
+                <button id="btnZoomExtents" type="button" class="control-btn">
+                    Zoom Extents
+                </button>
+            </div>
+            
             <!-- LiDAR Board Interface -->
             <div id="lidar-board">
                 <!-- Interactive hotspots - EXACT coordinates from Figma SVG export -->
-                <!-- Region 1: Central workspace area (shifted left 5px, down 1px) -->
-                <div class="hotspot" data-area="index" data-coords="517,447,154,37" data-rotation="2.8">
+                <!-- Region 1: Central workspace area (shifted left 1px, down 1px more) -->
+                <div class="hotspot" data-area="index" data-coords="516,448,154,37" data-rotation="2.8">
                     <span class="hotspot-label">index</span>
                 </div>
                 
@@ -42,8 +52,8 @@
                     <span class="hotspot-label">exhibition-right</span>
                 </div>
                 
-                <!-- Region 4: Left workspace (shifted left 2px more) -->
-                <div class="hotspot" data-area="archive_1" data-coords="353,440,58,44" data-rotation="4.2">
+                <!-- Region 4: Left workspace (shifted left 1px more) -->
+                <div class="hotspot" data-area="archive_1" data-coords="352,440,58,44" data-rotation="4.2">
                     <span class="hotspot-label">archive_1</span>
                 </div>
                 

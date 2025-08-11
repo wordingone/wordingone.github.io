@@ -82,12 +82,51 @@ body {
     position: relative;
     background: #000;
     overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+/* LiDAR Control Bar */
+.lidar-controls {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(15, 15, 30, 0.95);
+    backdrop-filter: blur(10px);
+    z-index: 10;
+}
+
+.control-btn {
+    padding: 8px 16px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(0, 0, 0, 0.8);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    backdrop-filter: blur(5px);
+}
+
+.control-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(52, 152, 219, 0.5);
+}
+
+.control-btn.active {
+    background: rgba(52, 152, 219, 0.8);
+    border-color: #3498db;
+    color: #fff;
 }
 
 /* LiDAR Board with Background Image */
 #lidar-board {
     width: 100%;
-    height: 100%;
+    flex: 1;
     position: relative;
     background-image: url('./lidar_00.png');
     background-size: cover;
@@ -103,6 +142,12 @@ body {
     background: rgba(0, 0, 0, 0.7);
     z-index: 1;
     pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+/* Hide overlay when highlighting is active */
+#lidar-board.highlighting::before {
+    opacity: 0;
 }
 
 /* Hotspot System */
@@ -114,10 +159,33 @@ body {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 2;
     opacity: 0;
-    mix-blend-mode: screen;
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+/* Hotspot mask overlay for darkening effect */
+.hotspot::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+}
+
+/* Show hotspot masks when highlighting is active */
+#lidar-board.highlighting .hotspot::before {
+    opacity: 1;
+}
+
+/* Show hotspots when highlighting is active */
+#lidar-board.highlighting .hotspot {
+    opacity: 1;
+    background: transparent;
+    border-color: rgba(52, 152, 219, 0.3);
 }
 
 /* Hotspot Debug Labels */
@@ -134,18 +202,8 @@ body {
     border: 1px solid #fff;
     font-family: monospace;
     letter-spacing: 0.5px;
-}
-
-/* Show hotspots on board hover */
-#lidar-board:hover .hotspot {
-    opacity: 1;
-    background: rgba(255, 255, 255, 0.1);
-    border-color: rgba(52, 152, 219, 0.3);
-}
-
-/* Always show labels for debugging */
-.hotspot-label {
     opacity: 1 !important;
+    z-index: 10;
 }
 
 /* Individual Hotspot Hover */
