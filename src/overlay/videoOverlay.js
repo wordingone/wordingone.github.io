@@ -15,18 +15,53 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
     let isZoomed = false;
     let zoomScale = 3.5; // Match CSS zoom scale
     
-    // Video configuration for each region - mapped to actual files
-    const regionVideos = {
-        'insula': 'videos/insula.mp4',
-        'mirror': 'videos/Mirror.mp4',
-        'archive_2': 'videos/Red Dye.mp4',
-        // All other regions will show "no video available" message
-        'index': null,
-        'exhibition-right': null,
-        'archive_1': null,
-        'circulation_2': null,
-        'circulation_1': null,
-        'altar': null
+    // Current series playback state
+    let currentSeries = null;
+    let currentVideoIndex = 0;
+    let isAutoPlaying = true;
+    
+    // Video series configuration - organized by groups
+    const videoSeries = {
+        'altar': {
+            videos: ['videos/altar_1.mp4', 'videos/altar_2.mp4', 'videos/altar_3.mp4', 'videos/altar_4.mp4'],
+            title: 'ALTAR SERIES'
+        },
+        'archive_1': {
+            videos: ['videos/archive_1.mp4', 'videos/archive_2.mp4', 'videos/archive_3.mp4', 'videos/archive_4.mp4', 'videos/archive_5.mp4', 'videos/archive_6.mp4'],
+            title: 'ARCHIVE SERIES'
+        },
+        'archive_2': {
+            videos: ['videos/archive_1.mp4', 'videos/archive_2.mp4', 'videos/archive_3.mp4', 'videos/archive_4.mp4', 'videos/archive_5.mp4', 'videos/archive_6.mp4'],
+            title: 'ARCHIVE SERIES'
+        },
+        'red_dye': {
+            videos: ['videos/Red Dye_1.mp4', 'videos/Red Dye_2.mp4'],
+            title: 'RED DYE SERIES'
+        },
+        'circulation_1': {
+            videos: ['videos/circulation_1.mp4', 'videos/circulation_2.mp4'],
+            title: 'CIRCULATION SERIES'
+        },
+        'circulation_2': {
+            videos: ['videos/circulation_1.mp4', 'videos/circulation_2.mp4'],
+            title: 'CIRCULATION SERIES'
+        },
+        'index': {
+            videos: ['videos/index_1.mp4', 'videos/index_2.mp4'],
+            title: 'INDEX SERIES'
+        },
+        'insula': {
+            videos: ['videos/insula.mp4'],
+            title: 'INSULA'
+        },
+        'mirror': {
+            videos: ['videos/Mirror.mp4'],
+            title: 'MIRROR'
+        },
+        'exhibition-right': {
+            videos: [],
+            title: 'EXHIBITION RIGHT'
+        }
     };
     
     /**
@@ -57,7 +92,7 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
     }
     
     /**
-     * Show video overlay for a specific region with frame-based positioning
+     * Show video overlay for a specific region with series support
      * @param {string} region - Region name
      * @param {HTMLElement} hotspot - Hotspot element that was clicked
      */
@@ -66,15 +101,19 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
             hideOverlay(); // Close any existing overlay
         }
         
-        console.log(`Opening frame-based video overlay for region: ${region}`);
+        console.log(`Opening video series overlay for region: ${region}`);
         
-        // Get the video file for this region
-        const videoSrc = regionVideos[region];
-        if (!videoSrc) {
-            console.log(`No video configured for region: ${region} - showing placeholder`);
+        // Get the video series for this region
+        const series = videoSeries[region];
+        if (!series || series.videos.length === 0) {
+            console.log(`No videos configured for region: ${region} - showing placeholder`);
             showNoVideoMessage(region, hotspot);
             return;
         }
+        
+        // Initialize series state
+        currentSeries = series;
+        currentVideoIndex = 0;
         
         // Get frame data before zoom
         const frameData = createRegionFrameData(hotspot);
@@ -88,53 +127,7 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
         
         // Wait for zoom animation to complete before showing video
         setTimeout(() => {
-            // Create overlay container
-            currentOverlay = document.createElement('div');
-            currentOverlay.className = 'video-overlay frame-positioned';
-            currentOverlay.innerHTML = `
-                <div class="overlay-content">
-                    <button class="overlay-close" aria-label="Close overlay">&times;</button>
-                    <div class="overlay-title">${region.replace('_', ' ').toUpperCase()}</div>
-                    <video class="overlay-video" autoplay muted loop>
-                        <source src="${videoSrc}" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                </div>
-            `;
-            
-            // Position overlay in the center of the zoomed view
-            positionOverlayInZoomedView(currentOverlay, frameData);
-            
-            // Add overlay to the body for fixed positioning
-            document.body.appendChild(currentOverlay);
-            
-            // Force reflow to ensure CSS is applied before adding active class
-            currentOverlay.offsetHeight;
-            
-            // Set up event listeners
-            const closeBtn = currentOverlay.querySelector('.overlay-close');
-            const video = currentOverlay.querySelector('.overlay-video');
-            
-            closeBtn.addEventListener('click', hideOverlay);
-            
-            // Handle video events
-            video.addEventListener('loadstart', () => {
-                console.log(`Loading video: ${videoSrc}`);
-            });
-            
-            video.addEventListener('canplay', () => {
-                console.log(`Video ready to play: ${region}`);
-            });
-            
-            video.addEventListener('error', (e) => {
-                console.error(`Video error for ${region}:`, e);
-                showVideoError(region);
-            });
-            
-            // Trigger overlay animation
-            setTimeout(() => {
-                currentOverlay.classList.add('active');
-            }, 50);
+            createVideoSeriesOverlay(frameData);
             
             isOverlayActive = true;
             
@@ -146,6 +139,206 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
             // Handle escape key
             document.addEventListener('keydown', handleEscapeKey);
         }, 1000); // Wait for zoom animation (1000ms)
+    }
+    
+    /**
+     * Create video series overlay with navigation controls
+     * @param {Object} frameData - Frame positioning data
+     */
+    function createVideoSeriesOverlay(frameData) {
+        // Create overlay container
+        currentOverlay = document.createElement('div');
+        currentOverlay.className = 'video-overlay frame-positioned series-player';
+        
+        const hasMultipleVideos = currentSeries.videos.length > 1;
+        const currentVideo = currentSeries.videos[currentVideoIndex];
+        
+        currentOverlay.innerHTML = `
+            <div class="overlay-content">
+                <button class="overlay-close" aria-label="Close overlay">&times;</button>
+                <div class="overlay-header">
+                    <div class="overlay-title">${currentSeries.title}</div>
+                    ${hasMultipleVideos ? `<div class="video-counter">${currentVideoIndex + 1} / ${currentSeries.videos.length}</div>` : ''}
+                </div>
+                <video class="overlay-video" autoplay muted ${!hasMultipleVideos ? 'loop' : ''}>
+                    <source src="${currentVideo}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                ${hasMultipleVideos ? createNavigationControls() : ''}
+            </div>
+        `;
+        
+        // Position overlay in the center of the zoomed view
+        positionOverlayInZoomedView(currentOverlay, frameData);
+        
+        // Add overlay to the body for fixed positioning
+        document.body.appendChild(currentOverlay);
+        
+        // Force reflow to ensure CSS is applied before adding active class
+        currentOverlay.offsetHeight;
+        
+        // Set up event listeners
+        setupVideoSeriesListeners();
+        
+        // Trigger overlay animation
+        setTimeout(() => {
+            currentOverlay.classList.add('active');
+        }, 50);
+    }
+    
+    /**
+     * Create navigation controls HTML
+     * @returns {string} Navigation controls HTML
+     */
+    function createNavigationControls() {
+        const hasNext = currentVideoIndex < currentSeries.videos.length - 1;
+        const hasPrev = currentVideoIndex > 0;
+        
+        return `
+            <div class="video-navigation">
+                <button class="nav-btn prev-btn" ${!hasPrev ? 'disabled' : ''} aria-label="Previous video">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="11,19 2,12 11,5 11,19"></polygon>
+                        <polygon points="22,19 13,12 22,5 22,19"></polygon>
+                    </svg>
+                </button>
+                <div class="nav-info">
+                    <div class="nav-dots">
+                        ${currentSeries.videos.map((_, index) => 
+                            `<div class="nav-dot ${index === currentVideoIndex ? 'active' : ''}" data-index="${index}"></div>`
+                        ).join('')}
+                    </div>
+                </div>
+                <button class="nav-btn next-btn" ${!hasNext ? 'disabled' : ''} aria-label="Next video">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="13,19 22,12 13,5 13,19"></polygon>
+                        <polygon points="2,19 11,12 2,5 2,19"></polygon>
+                    </svg>
+                </button>
+            </div>
+        `;
+    }
+    
+    /**
+     * Set up event listeners for video series player
+     */
+    function setupVideoSeriesListeners() {
+        const closeBtn = currentOverlay.querySelector('.overlay-close');
+        const video = currentOverlay.querySelector('.overlay-video');
+        const prevBtn = currentOverlay.querySelector('.prev-btn');
+        const nextBtn = currentOverlay.querySelector('.next-btn');
+        const navDots = currentOverlay.querySelectorAll('.nav-dot');
+        
+        // Close button
+        closeBtn.addEventListener('click', hideOverlay);
+        
+        // Video event listeners
+        video.addEventListener('loadstart', () => {
+            console.log(`Loading video: ${currentSeries.videos[currentVideoIndex]}`);
+        });
+        
+        video.addEventListener('canplay', () => {
+            console.log(`Video ready to play: ${currentVideoIndex + 1}/${currentSeries.videos.length}`);
+        });
+        
+        video.addEventListener('ended', () => {
+            if (isAutoPlaying && currentVideoIndex < currentSeries.videos.length - 1) {
+                setTimeout(() => {
+                    playNextVideo();
+                }, 500); // Brief pause between videos
+            }
+        });
+        
+        video.addEventListener('error', (e) => {
+            console.error(`Video error for ${currentSeries.title}:`, e);
+            showVideoError(currentSeries.title);
+        });
+        
+        // Navigation buttons
+        if (prevBtn) {
+            prevBtn.addEventListener('click', playPreviousVideo);
+        }
+        
+        if (nextBtn) {
+            nextBtn.addEventListener('click', playNextVideo);
+        }
+        
+        // Navigation dots
+        navDots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                playVideoAtIndex(index);
+            });
+        });
+    }
+    
+    /**
+     * Play next video in series
+     */
+    function playNextVideo() {
+        if (currentVideoIndex < currentSeries.videos.length - 1) {
+            currentVideoIndex++;
+            updateVideoPlayer();
+        }
+    }
+    
+    /**
+     * Play previous video in series
+     */
+    function playPreviousVideo() {
+        if (currentVideoIndex > 0) {
+            currentVideoIndex--;
+            updateVideoPlayer();
+        }
+    }
+    
+    /**
+     * Play video at specific index
+     * @param {number} index - Video index to play
+     */
+    function playVideoAtIndex(index) {
+        if (index >= 0 && index < currentSeries.videos.length) {
+            currentVideoIndex = index;
+            updateVideoPlayer();
+        }
+    }
+    
+    /**
+     * Update video player with current video
+     */
+    function updateVideoPlayer() {
+        if (!currentOverlay || !currentSeries) return;
+        
+        const video = currentOverlay.querySelector('.overlay-video');
+        const counter = currentOverlay.querySelector('.video-counter');
+        const prevBtn = currentOverlay.querySelector('.prev-btn');
+        const nextBtn = currentOverlay.querySelector('.next-btn');
+        const navDots = currentOverlay.querySelectorAll('.nav-dot');
+        
+        // Update video source
+        const currentVideo = currentSeries.videos[currentVideoIndex];
+        video.src = currentVideo;
+        video.load();
+        video.play();
+        
+        // Update counter
+        if (counter) {
+            counter.textContent = `${currentVideoIndex + 1} / ${currentSeries.videos.length}`;
+        }
+        
+        // Update navigation buttons
+        if (prevBtn) {
+            prevBtn.disabled = currentVideoIndex === 0;
+        }
+        if (nextBtn) {
+            nextBtn.disabled = currentVideoIndex === currentSeries.videos.length - 1;
+        }
+        
+        // Update navigation dots
+        navDots.forEach((dot, index) => {
+            dot.classList.toggle('active', index === currentVideoIndex);
+        });
+        
+        console.log(`Playing video ${currentVideoIndex + 1}/${currentSeries.videos.length}: ${currentVideo}`);
     }
     
     /**
@@ -269,6 +462,11 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
             currentRegionFrame = null;
             
             isOverlayActive = false;
+            
+            // Reset series state
+            currentSeries = null;
+            currentVideoIndex = 0;
+            isAutoPlaying = true;
             
             // Reset zoom on LiDAR board with proper cleanup
             if (isZoomed) {

@@ -34,11 +34,10 @@ export const hotspots = [
         rotation: 0,
         label: 'archive_2'
     },
-    {
-        area: 'circulation_2',
+    {        area: 'red_dye',
         coords: [1345, 346, 101, 112],
         rotation: 0.4,
-        label: 'circulation_2'
+        label: 'red_dye'
     },
     {
         area: 'circulation_1',
