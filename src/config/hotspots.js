@@ -23,10 +23,10 @@ export const hotspots = [
         label: 'exhibition-right'
     },
     {
-        area: 'archive_1',
+        area: 'archive_inside',
         coords: [354, 440, 58, 44],
         rotation: 4.2,
-        label: 'archive_1'
+        label: 'archive_inside'
     },
     {
         area: 'archive_2',
