@@ -4,9 +4,27 @@ A responsive, cinematic web experience bridging campaign narratives with a deepe
 
 ## Status (Evidence-Based)
 - Directory verified: ✅ B:\GIT\wordingone.github.io
-- Script loading mode: ✅ LOCAL - uses ./models/ paths
+- Script loading mode: ✅ MODULAR - uses ES modules with clean separation
 - LFS: ✅ DISABLED for GLB files (binary deployment)
 - Models: 10 files; pointers: 0; binary: 10
+- Video system: ✅ ACTIVE - 9 regions with overlay playback
+
+## Features
+### 🎯 Interactive LiDAR Navigation
+- **Responsive hotspots**: 9 clickable regions with precise positioning
+- **Visual feedback**: Question mark indicators on hover with pulsing animation
+- **Video overlays**: Full-screen video playback for each region
+- **Smart highlighting**: SVG mask system with feathered edges
+
+### 🏗️ 3D Architectural System
+- **GPU instancing**: 2,673 components across 5-floor tower
+- **Optimized rendering**: Baked lighting, static draw usage, geometry optimization
+- **Responsive viewport**: Adapts to model panel dimensions
+
+### 📁 Modular Architecture
+- **Core modules**: viewer, loader, instancer, UI, overlay, sync
+- **Clean APIs**: Separation of concerns with proper interfaces
+- **Maintainable**: Individual modules for easy debugging and extension
 
 ## Structure (from repo)
 ```

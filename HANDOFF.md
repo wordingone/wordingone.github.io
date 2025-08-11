@@ -181,19 +181,22 @@ SyntaxError: Unexpected token 'v', "version ht"... is not valid JSON
 
 ## Changes Since Last Handoff
 ## Changes Since Last Handoff
-- **SYSTEM MODULARIZED - CLEAN ARCHITECTURE IMPLEMENTED**
-- **Separated concerns**: Split monolithic `script.js` into logical modules
-- **Module structure**: 
-  - `src/core/viewer.js` - 3D scene, camera, renderer, controls
-  - `src/load/loadModels.js` - Asset loading with DRACO support
-  - `src/instancing/towerInstancer.js` - GPU instancing system
-  - `src/ui/lidarBoard.js` - LiDAR interface with SVG masking
-  - `src/sync/controller.js` - 3D-2D coordination
-  - `src/config/` - Data models for hotspots and assets
-- **Maintainability improvements**:
-  - Deterministic baked lighting (removed Math.random)
-  - Reusable style elements for masking
-  - Clean APIs with separation of concerns
-  - Better error handling and resource cleanup
-- **Entry point**: `main.js` wires modules together
-- **Status**: Modular system maintains all functionality while improving code organization
+- **VIDEO OVERLAY SYSTEM IMPLEMENTED - INTERACTIVE REGION EXPLORATION**
+- **New functionality**: Hotspot regions now show question marks on hover and open video overlays on click
+- **Module architecture**: Added `src/overlay/videoOverlay.js` for video management
+- **User experience**:
+  - Hover over hotspots: Question mark appears with pulsing animation
+  - Click hotspots: Full-screen video overlay with region-specific content
+  - Escape key or click outside: Close overlay and return to LiDAR view
+  - Auto-disable highlighting: When overlay opens, highlighting automatically turns off
+- **Video integration**: 
+  - Supports MP4 videos for all 9 regions (insula, index, mirror, altar, archives, circulation, exhibition)
+  - Videos stored in `/videos/` directory (e.g., `videos/insula.mp4`)
+  - Auto-play, muted, looped playback with error handling
+- **Responsive design**: Overlay adapts to mobile/desktop with proper video scaling
+- **Technical implementation**:
+  - Clean module separation with video overlay API
+  - CSS animations for smooth transitions
+  - Keyboard accessibility (ESC key support)
+  - Error handling for missing videos
+- **Status**: Core video overlay functionality complete - ready for video content

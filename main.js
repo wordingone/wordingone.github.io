@@ -3,6 +3,7 @@ import { createViewer } from './src/core/viewer.js';
 import { loadModels, hideLoading, showError } from './src/load/loadModels.js';
 import { buildTowerInstancedMeshes, processRegularModel } from './src/instancing/towerInstancer.js';
 import { initLidarBoard } from './src/ui/lidarBoard.js';
+import { createVideoOverlay } from './src/overlay/videoOverlay.js';
 import { createSync } from './src/sync/controller.js';
 import models from './src/config/models.js';
 
@@ -23,15 +24,37 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Initialize sync controller (placeholder callbacks for now)
     const sync = createSync({ viewer, lidar: null }); // Will connect lidar after init
     
-    // Initialize LiDAR board with sync callbacks
+    // Initialize video overlay system
+    const videoOverlay = createVideoOverlay(lidarBoardElement, {
+        onOverlayOpen: (region, hotspot) => {
+            console.log(`Video overlay opened for: ${region}`);
+            // Disable highlighting when overlay opens
+            if (lidar.getHighlighting()) {
+                lidar.setHighlighting(false);
+            }
+        },
+        onOverlayClose: () => {
+            console.log('Video overlay closed');
+            // Could re-enable highlighting here if desired
+        }
+    });
+    
+    // Initialize LiDAR board with video overlay integration
     const lidar = initLidarBoard(lidarBoardElement, {
         onSelect: (area, hotspot) => {
+            // Show video overlay instead of just syncing
+            videoOverlay.showOverlay(area, hotspot);
+            // Still sync for any 3D interactions
             sync.handleAreaSelect(area, hotspot);
         },
         onZoomExtents: () => {
             sync.handleZoomExtents();
         }
     });
+    
+    // Add question mark hover effects to hotspots
+    const hotspots = lidarBoardElement.querySelectorAll('.hotspot');
+    videoOverlay.addHoverEffects(hotspots);
     
     try {
         // Load all models
