@@ -155,16 +155,16 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
         const mainPanel = document.getElementById('main-panel');
         const viewportRect = mainPanel.getBoundingClientRect();
         
-        // Calculate the center of the actual visible viewport
-        const viewportCenterX = viewportRect.width / 2;
+        // Calculate position in the right 1/3 of the viewport
+        const rightThirdCenterX = viewportRect.width * 0.75; // 75% from left = center of right third
         const viewportCenterY = viewportRect.height / 2;
         
-        // Size the overlay appropriately for the zoomed view
-        const overlayWidth = Math.min(400, Math.max(200, frameData.width * 2));
-        const overlayHeight = Math.min(300, Math.max(150, frameData.height * 2));
+        // Size the overlay 50% smaller than before
+        const overlayWidth = Math.min(200, Math.max(100, frameData.width));
+        const overlayHeight = Math.min(150, Math.max(75, frameData.height));
         
-        // Position overlay at viewport center
-        const overlayX = viewportCenterX - overlayWidth / 2;
+        // Position overlay in right third
+        const overlayX = rightThirdCenterX - overlayWidth / 2;
         const overlayY = viewportCenterY - overlayHeight / 2;
         
         // Set only positional properties - let CSS classes handle visibility
@@ -179,7 +179,7 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
         overlay.style.boxShadow = '0 8px 32px rgba(0,0,0,0.6)';
         overlay.style.pointerEvents = 'auto';
         
-        console.log(`Positioned overlay at viewport center: ${overlayX.toFixed(0)}, ${overlayY.toFixed(0)} (${overlayWidth.toFixed(0)}x${overlayHeight.toFixed(0)})`);
+        console.log(`Positioned overlay in right third: ${overlayX.toFixed(0)}, ${overlayY.toFixed(0)} (${overlayWidth.toFixed(0)}x${overlayHeight.toFixed(0)})`);
         console.log(`Viewport dimensions: ${viewportRect.width.toFixed(0)}x${viewportRect.height.toFixed(0)}`);
     }
     
