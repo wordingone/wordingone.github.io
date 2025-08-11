@@ -105,22 +105,23 @@ function loadModel() {
     
     let modelsLoaded = 0;
     
-    // Load models from local directory
+    // Use local models directory - no CORS issues
+    const modelsBasePath = new URL('./models/', import.meta.url);
     const modelsToLoad = [
-        { name: 'Architectural System', file: './models/arch_module_smallest.glb', isInstanced: true },
-        { name: 'Misc Geometry', file: './models/misc geometry.glb', isInstanced: false },
-        { name: 'Altars', file: './models/altars.glb', isInstanced: false },
-        { name: 'Circulation', file: './models/circulation.glb', isInstanced: false },
-        { name: 'Distress', file: './models/Distress.glb', isInstanced: false },
-        { name: 'Embellishments', file: './models/embellishments.glb', isInstanced: false },
-        { name: 'Index', file: './models/Index.glb', isInstanced: false },
-        { name: 'Mirror', file: './models/mirror.glb', isInstanced: false },
-        { name: 'Moulage', file: './models/Moulage.glb', isInstanced: false },
-        { name: 'Robot', file: './models/robot.glb', isInstanced: false }
+        { name: 'Architectural System', file: new URL('arch_module_smallest.glb', modelsBasePath).href, isInstanced: true },
+        { name: 'Misc Geometry', file: new URL('misc geometry.glb', modelsBasePath).href, isInstanced: false },
+        { name: 'Altars', file: new URL('altars.glb', modelsBasePath).href, isInstanced: false },
+        { name: 'Circulation', file: new URL('circulation.glb', modelsBasePath).href, isInstanced: false },
+        { name: 'Distress', file: new URL('Distress.glb', modelsBasePath).href, isInstanced: false },
+        { name: 'Embellishments', file: new URL('embellishments.glb', modelsBasePath).href, isInstanced: false },
+        { name: 'Index', file: new URL('Index.glb', modelsBasePath).href, isInstanced: false },
+        { name: 'Mirror', file: new URL('mirror.glb', modelsBasePath).href, isInstanced: false },
+        { name: 'Moulage', file: new URL('Moulage.glb', modelsBasePath).href, isInstanced: false },
+        { name: 'Robot', file: new URL('robot.glb', modelsBasePath).href, isInstanced: false }
     ];
     
     const totalModels = modelsToLoad.length;
-    console.log(`Loading ${totalModels} models from local directory...`);
+    console.log(`Loading ${totalModels} models from local directory (directory cleanup complete)...`);
     
     // Load each model directly
     modelsToLoad.forEach((modelInfo, index) => {
@@ -128,7 +129,7 @@ function loadModel() {
         loader.load(
             modelInfo.file,
             function(gltf) {
-                console.log(`${modelInfo.name} loaded successfully from local directory!`);
+                console.log(`${modelInfo.name} loaded from clean directory structure!`);
                 
                 if (modelInfo.isInstanced) {
                     // Handle the main architectural instanced system
@@ -209,7 +210,7 @@ function loadModel() {
         if (modelsLoaded === totalModels) {
             hideLoading();
             needsRender = true;
-            console.log(`All ${totalModels} models loaded successfully from local directory!`);
+            console.log(`All ${totalModels} models loaded successfully - directory cleanup complete!`);
             
             // Dispose of DRACO loader resources
             dracoLoader.dispose();

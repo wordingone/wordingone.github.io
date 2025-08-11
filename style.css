@@ -89,7 +89,7 @@ body {
     width: 100%;
     height: 100%;
     position: relative;
-    background-image: url('./src/assets/image/lidar_00.png');
+    background-image: url('./lidar_00.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
