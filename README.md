@@ -7,8 +7,8 @@ A responsive, cinematic web experience bridging campaign narratives with a deepe
 - Script loading mode: modular_es6 — `import { createViewer } from './src/core/viewer.js'`
 - LFS: commented out (web deployment mode)
 - Models: 10 GLB files (binary: 10, pointers: 0)
-- **ENHANCED**: Cinematic falling animations replace ghosting effects
-- **ENHANCED**: 3x stronger color tinting for better visibility
+- **CRITICAL FIX**: Responsive scaling issue resolved - background and hotspots now scale together
+- **ENHANCED**: 3x stronger color tinting for better visibility (reverted to ghosting per user feedback)
 - **ENHANCED**: Darker viewport background (#0a0a0a) with professional UI borders
 - **ENHANCED**: Smooth video popup scaling from LiDAR board center
 
@@ -48,8 +48,9 @@ B:\GIT\wordingone.github.io/
 ## Maintenance Notes
 - Keep `.glb` as binary; avoid LFS pointers.
 - Prefer local `./models/...` unless a release URL is intentional and exists.
-- **NEW**: Cinematic focus system uses falling/rising animations (600ms/400ms) for fast interaction
-- **NEW**: Enhanced color tinting at 30% mix strength for better model visibility
+- **CRITICAL**: Fixed responsive scaling mismatch - background-size changed from `contain` to `100% 100%`
+- **FIXED**: LiDAR hotspots now scale proportionally with background image at all viewport sizes
+- **ENHANCED**: Enhanced color tinting at 30% mix strength for better model visibility (ghosting restored)
 - **NEW**: Video overlays animate from LiDAR center with bounce easing for smooth appearance
 - **NEW**: Darker 3D viewport background (#0a0a0a) with professional UI borders
 

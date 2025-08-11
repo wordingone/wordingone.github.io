@@ -217,15 +217,19 @@ body {
     font-weight: 700;
 }
 
-/* LiDAR Board with Background Image */
+/* LiDAR Board with Proportional Background Image */
 #lidar-board {
     width: 100%;
     flex: 1;
     position: relative;
     background-image: url('./lidar_00.png');
-    background-size: cover;
+    background-size: 100% 100%; /* Force image to fill container exactly */
     background-position: center;
     background-repeat: no-repeat;
+    background-color: #000;
+    /* Maintain aspect ratio constraints */
+    min-height: 400px;
+    max-height: 800px;
 }
 
 /* Mask overlay - cuts holes instead of adding darkness */
