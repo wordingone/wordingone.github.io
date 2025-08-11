@@ -3,116 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prada: Remaking</title>
+    <title>Prada: (Re)Making</title>
     <link rel="icon" href="data:,">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&family=GFS+Didot&display=swap">
     <style>
-        @font-face {
-            font-family: 'GFS Didot';
-            src: url('https://fonts.gstatic.com/s/gfsdidot/v15/Jqzh5TybZ9vZMWFssvwiF-fvaYQ.woff2') format('woff2');
-            font-weight: normal;
-            font-style: normal;
-        }
-        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
+        html {
+            scroll-behavior: smooth;
+            height: 100%;
+        }
+
         body {
-            font-family: 'Roboto', sans-serif;
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             background: #000;
             color: #fff;
-            overflow: hidden;
-            height: 100vh;
-            position: relative;
+            overflow-x: hidden;
+            overflow-y: auto;
+            height: 300vh; /* Make page actually scrollable */
+            margin: 0;
+            padding: 0;
         }
-        
+
+        /* Cover Page Container */
         .cover-container {
             position: relative;
             width: 100vw;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
+            height: 300vh; /* Extend container for scrolling */
+            background: #000;
         }
-        
-        /* Initial text that's visible */
-        .cover-text {
+
+        /* Top Section - Initially Visible, will scroll up naturally */
+        .header-section {
             position: absolute;
-            top: 30%;
+            top: 45vh; /* Center in first viewport */
             left: 50%;
             transform: translateX(-50%);
             text-align: center;
             z-index: 10;
+            width: 100%;
         }
-        
-        .cover-text h1 {
+
+        .header-text {
             font-family: 'Roboto', sans-serif;
-            font-weight: 100;
-            font-size: clamp(2rem, 5vw, 4rem);
-            letter-spacing: 2px;
-            margin-bottom: 0.5rem;
-            color: #fff;
-        }
-        
-        .cover-text h2 {
-            font-family: 'Roboto', sans-serif;
+            font-size: 24px;
             font-weight: 300;
-            font-size: clamp(1.2rem, 3vw, 2rem);
-            letter-spacing: 1px;
-            color: rgba(255, 255, 255, 0.8);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: #fff;
+            margin-bottom: 8px;
         }
-        
-        /* Logo and main title that appears on scroll */
+
+        .subtitle-text {
+            font-family: 'Roboto', sans-serif;
+            font-size: 16px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Logo Section - Positioned much lower, requires scrolling to see */
         .logo-section {
             position: absolute;
-            top: 50%;
+            top: 180vh; /* Position way down the page */
             left: 50%;
-            transform: translate(-50%, -50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            transform: translateX(-50%);
+            text-align: center;
             opacity: 0;
-            transition: all 1s ease-out;
-            z-index: 20;
-            cursor: pointer;
+            transition: opacity 1.2s ease-out;
+            z-index: 10;
+            width: 100%;
         }
-        
+
         .logo-section.visible {
             opacity: 1;
         }
-        
-        .logo-section.glow {
-            filter: drop-shadow(0 0 20px rgba(212, 175, 55, 0.5));
+
+        .logo-wrapper {
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
         }
-        
-        .logo-section:hover {
-            transform: translate(-50%, -50%) scale(1.05);
-            filter: drop-shadow(0 0 30px rgba(212, 175, 55, 0.7));
+
+        .logo-wrapper:hover {
+            transform: scale(1.05);
         }
-        
+
         .logo-image {
-            width: 120px;
+            width: 800px; /* Exact size requested */
             height: auto;
-            margin-bottom: 20px;
-            filter: brightness(1.1);
+            filter: brightness(0) invert(1); /* Make logo white */
         }
-        
-        .main-title {
+
+        .brand-text {
             font-family: 'GFS Didot', serif;
-            font-size: clamp(2.5rem, 6vw, 5rem);
-            color: #d4af37;
-            text-align: center;
-            letter-spacing: 3px;
+            font-size: 64px;
+            font-weight: 400;
+            letter-spacing: 12px;
+            text-transform: uppercase;
+            color: #fff; /* Pure white, no gold */
+            margin: 0;
             white-space: nowrap;
         }
-        
-        /* Video loading screen */
+
+        /* Video Container - Full screen overlay */
         .video-container {
             position: fixed;
             top: 0;
@@ -120,92 +123,105 @@
             width: 100vw;
             height: 100vh;
             background: #000;
+            display: none;
             z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.5s ease;
         }
-        
+
         .video-container.active {
-            opacity: 1;
-            visibility: visible;
+            display: block;
         }
-        
-        .loading-video {
+
+        .intro-video {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-        
+
+        /* Skip Button - Only shows after loading complete */
         .skip-button {
-            position: absolute;
-            top: 30px;
-            right: 30px;
-            background: rgba(0, 0, 0, 0.7);
+            position: fixed;
+            top: 40px;
+            right: 40px;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
             border: 1px solid rgba(255, 255, 255, 0.3);
             border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            display: flex;
+            cursor: pointer;
+            display: none;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
-            opacity: 0;
             transition: all 0.3s ease;
             z-index: 1001;
-            backdrop-filter: blur(10px);
         }
-        
+
         .skip-button.visible {
-            opacity: 1;
+            display: flex;
         }
-        
+
         .skip-button:hover {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.2);
             transform: scale(1.1);
         }
-        
-        /* Skip icon (double arrow) */
-        .skip-button::before {
-            content: '⏭';
-            font-size: 24px;
-            color: #fff;
+
+        /* Double arrow skip icon */
+        .skip-icon {
+            position: relative;
+            width: 20px;
+            height: 20px;
         }
-        
-        /* Loading indicator */
-        .loading-indicator {
+
+        .skip-icon::before,
+        .skip-icon::after {
+            content: '';
             position: absolute;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-color: transparent;
+        }
+
+        .skip-icon::before {
+            border-left-width: 10px;
+            border-right-width: 0;
+            border-top-width: 6px;
+            border-bottom-width: 6px;
+            border-left-color: #fff;
+            top: 4px;
+            left: 2px;
+        }
+
+        .skip-icon::after {
+            border-left-width: 10px;
+            border-right-width: 0;
+            border-top-width: 6px;
+            border-bottom-width: 6px;
+            border-left-color: #fff;
+            top: 4px;
+            left: 10px;
+        }
+
+        /* Loading Progress */
+        .loading-status {
+            position: fixed;
             bottom: 40px;
             left: 50%;
             transform: translateX(-50%);
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            z-index: 1001;
-        }
-        
-        .loading-spinner {
-            width: 20px;
-            height: 20px;
-            border: 2px solid rgba(255, 255, 255, 0.2);
-            border-top-color: #d4af37;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        
-        .loading-text {
-            font-family: 'Roboto', sans-serif;
+            color: rgba(255, 255, 255, 0.6);
             font-size: 14px;
-            color: rgba(255, 255, 255, 0.8);
+            font-family: 'Roboto', sans-serif;
+            letter-spacing: 1px;
+            display: none;
+            z-index: 1002;
         }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+
+        .loading-status.visible {
+            display: block;
         }
-        
+
         /* Scroll indicator */
         .scroll-indicator {
-            position: absolute;
+            position: fixed;
             bottom: 30px;
             left: 50%;
             transform: translateX(-50%);
@@ -213,10 +229,15 @@
             flex-direction: column;
             align-items: center;
             gap: 10px;
-            animation: pulse 2s infinite;
             z-index: 10;
+            opacity: 1;
+            transition: opacity 0.3s ease;
         }
-        
+
+        .scroll-indicator.hidden {
+            opacity: 0;
+        }
+
         .scroll-text {
             font-family: 'Roboto', sans-serif;
             font-size: 12px;
@@ -224,216 +245,258 @@
             text-transform: uppercase;
             letter-spacing: 1px;
         }
-        
+
         .scroll-arrow {
             width: 2px;
             height: 30px;
-            background: linear-gradient(to bottom, transparent, #d4af37);
+            background: linear-gradient(to bottom, transparent, #fff);
             position: relative;
+            animation: pulse 2s infinite;
         }
-        
-        .scroll-arrow::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 8px;
-            height: 8px;
-            border-right: 2px solid #d4af37;
-            border-bottom: 2px solid #d4af37;
-            transform: translateX(-50%) rotate(45deg);
-        }
-        
+
         @keyframes pulse {
             0%, 100% { opacity: 0.5; }
             50% { opacity: 1; }
         }
-        
-        /* Hide elements when video is playing */
-        .video-container.active ~ .cover-container {
-            display: none;
-        }
-        
-        /* Responsive adjustments */
+
+        /* Responsive Design */
         @media (max-width: 768px) {
+            .header-text {
+                font-size: 20px;
+                letter-spacing: 3px;
+            }
+
+            .subtitle-text {
+                font-size: 14px;
+            }
+
             .logo-image {
-                width: 80px;
+                width: 90vw;
+                max-width: 700px;
             }
-            
-            .main-title {
-                font-size: clamp(2rem, 8vw, 3rem);
-                letter-spacing: 2px;
+
+            .brand-text {
+                font-size: 48px;
+                letter-spacing: 8px;
             }
-            
+
             .skip-button {
-                width: 50px;
-                height: 50px;
                 top: 20px;
                 right: 20px;
+                width: 40px;
+                height: 40px;
             }
-            
-            .skip-button::before {
-                font-size: 20px;
+        }
+
+        @media (max-width: 480px) {
+            .header-text {
+                font-size: 18px;
+                letter-spacing: 2px;
+            }
+
+            .subtitle-text {
+                font-size: 12px;
+            }
+
+            .logo-image {
+                width: 85vw;
+                max-width: 500px;
+            }
+
+            .brand-text {
+                font-size: 32px;
+                letter-spacing: 6px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Video Loading Screen -->
-    <div class="video-container" id="videoContainer">
-        <video class="loading-video" id="loadingVideo" muted>
-            <!-- Add your video source here -->
-            <source src="./videos/loading-animation.mp4" type="video/mp4">
-        </video>
-        
-        <div class="skip-button" id="skipButton">
-            <!-- Skip icon added via CSS -->
+    <!-- Cover Page Container -->
+    <div class="cover-container" id="coverContainer">
+        <!-- Initially Visible Header - will scroll up naturally -->
+        <div class="header-section" id="headerSection">
+            <h1 class="header-text">Hyun Jun Han × Oskar Maly</h1>
+            <p class="subtitle-text">SCIARC: Peter Testa Vertical Studio Project</p>
         </div>
-        
-        <div class="loading-indicator" id="loadingIndicator">
-            <div class="loading-spinner"></div>
-            <div class="loading-text">Loading architectural models...</div>
-        </div>
-    </div>
-    
-    <!-- Cover Page Content -->
-    <div class="cover-container">
-        <!-- Initial text visible on load -->
-        <div class="cover-text">
-            <h1>Hyun Jun Han × Oskar Maly</h1>
-            <h2>SCIARC: Peter Testa Vertical Studio Project</h2>
-        </div>
-        
-        <!-- Logo + Title that appears on scroll -->
+
+        <!-- Logo Section - Appears way down the page after scrolling -->
         <div class="logo-section" id="logoSection">
-            <img src="./logo/remaking logo 1.png" alt="Prada Logo" class="logo-image">
-            <h1 class="main-title">PRADA: REMAKING</h1>
+            <div class="logo-wrapper" id="logoWrapper">
+                <img src="./logo/remaking logo 1.png" alt="Prada Logo" class="logo-image">
+                <h2 class="brand-text">Prada: (Re)Making</h2>
+            </div>
         </div>
-        
+
         <!-- Scroll indicator -->
-        <div class="scroll-indicator">
+        <div class="scroll-indicator" id="scrollIndicator">
             <div class="scroll-text">Scroll</div>
             <div class="scroll-arrow"></div>
         </div>
     </div>
-    
+
+    <!-- Video Container -->
+    <div class="video-container" id="videoContainer">
+        <video class="intro-video" id="introVideo" playsinline preload="auto">
+            <source src="./videos/complete animation.mp4" type="video/mp4">
+        </video>
+        <div class="skip-button" id="skipButton">
+            <div class="skip-icon"></div>
+        </div>
+        <div class="loading-status" id="loadingStatus">Loading architectural models...</div>
+    </div>
+
     <script>
-        let isLoading = false;
-        let isVideoPlaying = false;
-        
+        // Elements
+        const coverContainer = document.getElementById('coverContainer');
+        const logoSection = document.getElementById('logoSection');
+        const logoWrapper = document.getElementById('logoWrapper');
+        const videoContainer = document.getElementById('videoContainer');
+        const introVideo = document.getElementById('introVideo');
+        const skipButton = document.getElementById('skipButton');
+        const loadingStatus = document.getElementById('loadingStatus');
+        const scrollIndicator = document.getElementById('scrollIndicator');
+
+        let resourcesLoaded = false;
+        let videoStarted = false;
+
         // Handle scroll to reveal logo
-        let scrollTimeout;
         function handleScroll() {
-            clearTimeout(scrollTimeout);
-            scrollTimeout = setTimeout(() => {
-                const logoSection = document.getElementById('logoSection');
-                if (window.scrollY > 50) {
-                    logoSection.classList.add('visible');
-                    setTimeout(() => {
-                        logoSection.classList.add('glow');
-                    }, 500);
-                } else {
-                    logoSection.classList.remove('visible', 'glow');
-                }
-            }, 10);
-        }
-        
-        // Alternative: wheel event for more responsive feel
-        function handleWheel(e) {
-            if (e.deltaY > 0) { // Scrolling down
-                const logoSection = document.getElementById('logoSection');
+            const scrollY = window.scrollY || window.pageYOffset;
+            const viewportHeight = window.innerHeight;
+            
+            // Hide scroll indicator once user starts scrolling
+            if (scrollY > 50) {
+                scrollIndicator.classList.add('hidden');
+            } else {
+                scrollIndicator.classList.remove('hidden');
+            }
+            
+            // Show logo when it comes into view (when scrolled past 1.2 viewports)
+            if (scrollY > viewportHeight * 1.2) {
                 logoSection.classList.add('visible');
-                setTimeout(() => {
-                    logoSection.classList.add('glow');
-                }, 500);
             }
         }
-        
-        // Logo click handler
-        function handleLogoClick() {
-            if (isLoading || isVideoPlaying) return;
-            
-            isLoading = true;
-            
-            // Start loading the main application in background
-            preloadMainApplication();
-            
-            // Show video
-            playLoadingVideo();
-        }
-        
-        // Preload main application
-        function preloadMainApplication() {
-            const link = document.createElement('link');
-            link.rel = 'preload';
-            link.href = './main-app.html';
-            link.as = 'document';
-            document.head.appendChild(link);
-            
-            // Simulate loading time (replace with actual loading logic)
-            setTimeout(() => {
-                document.getElementById('skipButton').classList.add('visible');
-                document.getElementById('loadingIndicator').style.display = 'flex';
-            }, 2000);
-        }
-        
-        // Play loading video
-        function playLoadingVideo() {
-            const videoContainer = document.getElementById('videoContainer');
-            const video = document.getElementById('loadingVideo');
-            
-            videoContainer.classList.add('active');
-            isVideoPlaying = true;
-            
-            video.play().catch(e => {
-                console.log('Video autoplay failed:', e);
-                // Fallback: directly navigate to main app
-                navigateToMainApp();
-            });
-            
-            video.addEventListener('ended', navigateToMainApp);
-        }
-        
-        // Skip button handler
-        function handleSkip() {
-            navigateToMainApp();
-        }
-        
-        // Navigate to main application
-        function navigateToMainApp() {
-            // Smooth transition
-            const videoContainer = document.getElementById('videoContainer');
-            videoContainer.style.transition = 'opacity 0.5s ease';
-            videoContainer.style.opacity = '0';
-            
-            setTimeout(() => {
-                window.location.href = './main-app.html';
-            }, 500);
-        }
-        
-        // Event listeners
-        window.addEventListener('scroll', handleScroll);
-        window.addEventListener('wheel', handleWheel);
-        document.getElementById('logoSection').addEventListener('click', handleLogoClick);
-        document.getElementById('skipButton').addEventListener('click', handleSkip);
-        
-        // Keyboard shortcuts
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape' && isVideoPlaying) {
-                handleSkip();
-            }
-            if (e.key === 'Enter' && !isLoading) {
-                handleLogoClick();
+
+        // Attach scroll listener
+        window.addEventListener('scroll', handleScroll, { passive: true });
+
+        // Check scroll position on load
+        handleScroll();
+
+        // Handle logo click - start video and loading
+        logoWrapper.addEventListener('click', function() {
+            if (!videoStarted) {
+                startVideoAndLoading();
             }
         });
-        
-        // Prevent accidental refresh during loading
-        window.addEventListener('beforeunload', (e) => {
-            if (isLoading) {
-                e.preventDefault();
-                e.returnValue = '';
+
+        // Start video and begin loading process
+        function startVideoAndLoading() {
+            videoStarted = true;
+            
+            // Show video container
+            videoContainer.classList.add('active');
+            loadingStatus.classList.add('visible');
+            
+            // Force video to play with muted first (for autoplay policy)
+            introVideo.muted = true;
+            
+            // Try to play the video
+            const playPromise = introVideo.play();
+            
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    console.log('Video playing');
+                    // Start loading resources
+                    startLoadingResources();
+                }).catch(error => {
+                    console.error('Video play failed:', error);
+                    // Even if video fails, continue with loading
+                    startLoadingResources();
+                });
+            } else {
+                // Old browsers
+                introVideo.play();
+                startLoadingResources();
             }
+        }
+
+        // Simulate resource loading
+        function startLoadingResources() {
+            // Simulate loading time for models and lidar
+            let progress = 0;
+            const loadingMessages = [
+                'Loading architectural models...',
+                'Loading LiDAR interface...',
+                'Initializing 3D environment...',
+                'Preparing experience...'
+            ];
+            
+            let messageIndex = 0;
+            const loadingInterval = setInterval(() => {
+                progress += 20;
+                messageIndex = Math.min(Math.floor(progress / 25), loadingMessages.length - 1);
+                loadingStatus.textContent = loadingMessages[messageIndex];
+                
+                if (progress >= 100) {
+                    clearInterval(loadingInterval);
+                    resourcesLoaded = true;
+                    loadingStatus.textContent = 'Ready to enter';
+                    // Only show skip button after resources are loaded
+                    skipButton.classList.add('visible');
+                    
+                    // If video has already ended, proceed automatically
+                    if (introVideo.ended) {
+                        setTimeout(proceedToMainPage, 500);
+                    }
+                }
+            }, 800); // Simulate loading over ~4 seconds
+        }
+
+        // Proceed to main page without browser prompt
+        function proceedToMainPage() {
+            // Only proceed if resources are actually loaded
+            if (!resourcesLoaded) {
+                return;
+            }
+            
+            // Clear any beforeunload handlers
+            window.onbeforeunload = null;
+            
+            // Use assignment to avoid browser prompt
+            window.location.href = 'main-app.html';
+        }
+
+        // Handle skip button click
+        skipButton.addEventListener('click', function() {
+            if (resourcesLoaded) {
+                proceedToMainPage();
+            }
+        });
+
+        // Handle video end
+        introVideo.addEventListener('ended', function() {
+            if (resourcesLoaded) {
+                setTimeout(proceedToMainPage, 500);
+            }
+        });
+
+        // Keyboard support
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && videoContainer.classList.contains('active') && resourcesLoaded) {
+                proceedToMainPage();
+            }
+        });
+
+        // Prevent any beforeunload prompts
+        window.addEventListener('beforeunload', function(e) {
+            // Clear the event
+            delete e['returnValue'];
+        });
+
+        // Also prevent on pagehide
+        window.addEventListener('pagehide', function(e) {
+            delete e['returnValue'];
         });
     </script>
 </body>
