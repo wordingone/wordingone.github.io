@@ -2,7 +2,7 @@
 
 ## Meta
 Date: 2025-08-10 · Repo: B:\GIT\wordingone.github.io
-Status: TESTING - Frame-based overlay system with dynamic zoom origin
+Status: BLOCKED - Video overlay positioning failure
 
 ## Problem
 Implement frame-based video overlay system where overlays position within clicked hotspot regions during zoom animations.
@@ -37,33 +37,40 @@ videoOverlay.toggleZoom() -> manages zoom in/out transitions
 ```
 
 ## Evidence — After
-Console: Frame-based positioning system active
-Network: Overlays position within zoom regions
+Console: Overlay positioning logs show creation but CSS visibility failure
+Network: Video overlay elements created in DOM but not visible
 Files:
-| path | bytes | functionality |
-|------|------:|--------------|
-| src/overlay/videoOverlay.js | 7.8KB | Frame positioning + zoom toggle |
-| style.css | 18.2KB | Dual overlay modes + region frames |
-| main.js | 3.3KB | Integrated zoom state management |
+| path | bytes | issue |
+|------|------:|-------|
+| src/overlay/videoOverlay.js | 7.8KB | Positioning logic based on wrong viewport |
+| style.css | 18.2KB | CSS transitions not triggering properly |
+| main.js | 3.3KB | Integration working but overlay invisible |
 
 ## Results vs Criteria
-1) ✅ PASS — Video overlays position within clicked hotspot frames during zoom
-2) ✅ PASS — Zoom extents button toggles between zoomed and normal view states
-3) ✅ PASS — Overlay visibility maintained during zoom transitions
+1) ❌ FAIL — Video overlays invisible except when DevTools open
+2) ✅ PASS — Zoom extents button toggles between zoomed and normal view states  
+3) ❌ FAIL — Overlay visibility broken during zoom transitions
 
 ## Resolution
-RESOLVED — Frame-based video overlay system implemented with zoom state management
+BLOCKED — Video overlay positioning system fundamentally broken
+
+## Current Issues
+- **Overlay only visible when DevTools open**: Suggests viewport calculation error
+- **Tiny scale when visible**: Indicates coordinate system mismatch 
+- **Wrong viewport reference**: Using main-panel dimensions instead of actual visible area
+- **CSS transition conflicts**: Forced reflow not resolving visibility issues
 
 ## Changes Since Last Handoff
-- **FIXED**: Video overlay positioning issue during zoom
-- Set dynamic transform-origin to clicked region center for proper zoom behavior
-- Position overlays at viewport center after zoom animation completes
-- Added proper coordinate calculation before/after zoom transforms
-- Updated zoom extents button to reset transform-origin correctly
+- **BROKEN**: Multiple failed attempts to fix overlay positioning
+- Viewport calculation logic using wrong coordinate system 
+- CSS positioning conflicts between inline styles and class transitions
+- Forced reflow attempts did not resolve visibility timing issues
+- Overlay coordinates calculated but not displayed in correct viewport space
 
 ## Risks & Rollback
-Low risk — CSS-based positioning may need adjustment for different screen sizes · Rollback: Revert to fixed top-right overlay positioning
+High risk — Fundamental positioning system broken · Rollback: Need to completely redesign viewport calculation approach
 
 Open items:
-- [ ] Test frame positioning accuracy across different viewport sizes (owner: QA)
-- [ ] Verify overlay scaling behavior during rapid zoom transitions (owner: UX)
+- [ ] CRITICAL: Fix overlay visibility — overlays only appear when DevTools open (owner: dev)
+- [ ] CRITICAL: Correct viewport coordinate system — current logic uses wrong reference frame (owner: dev)
+- [ ] Investigate CSS transition conflicts preventing proper overlay display (owner: CSS)
