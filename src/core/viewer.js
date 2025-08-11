@@ -38,7 +38,7 @@ export function createViewer(canvasEl) {
         canvas: canvasEl,
         antialias: false,
         alpha: false,
-        powerPreference: \"high-performance\",
+        powerPreference: "high-performance",
         stencil: false
     });
     
