@@ -134,7 +134,7 @@ body {
     background-repeat: no-repeat;
 }
 
-/* Dark Overlay (Always Visible) */
+/* Dark Overlay (Hidden by default, shown when highlighting) */
 #lidar-board::before {
     content: '';
     position: absolute;
@@ -142,12 +142,13 @@ body {
     background: rgba(0, 0, 0, 0.7);
     z-index: 1;
     pointer-events: none;
+    opacity: 0;
     transition: opacity 0.3s ease;
 }
 
-/* Hide overlay when highlighting is active */
+/* Show overlay when highlighting is active */
 #lidar-board.highlighting::before {
-    opacity: 0;
+    opacity: 1;
 }
 
 /* Hotspot System */
@@ -164,21 +165,16 @@ body {
     justify-content: center;
 }
 
-/* Hotspot mask overlay for darkening effect */
+/* Hotspot mask overlay for revealing bright areas */
 .hotspot::before {
     content: '';
     position: absolute;
     inset: 0;
     background: rgba(0, 0, 0, 0.7);
     z-index: -1;
-    opacity: 0;
+    opacity: 1;
     transition: opacity 0.3s ease;
     pointer-events: none;
-}
-
-/* Show hotspot masks when highlighting is active */
-#lidar-board.highlighting .hotspot::before {
-    opacity: 1;
 }
 
 /* Show hotspots when highlighting is active */
@@ -186,6 +182,11 @@ body {
     opacity: 1;
     background: transparent;
     border-color: rgba(52, 152, 219, 0.3);
+}
+
+/* Hide individual hotspot masks when highlighting (revealing bright areas) */
+#lidar-board.highlighting .hotspot::before {
+    opacity: 0;
 }
 
 /* Hotspot Debug Labels */

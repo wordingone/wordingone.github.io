@@ -187,15 +187,10 @@ SyntaxError: Unexpected token 'v', "version ht"... is not valid JSON
   - Added control bar with Highlight and Zoom Extents buttons
   - Buttons positioned in top-right of LiDAR panel only
   - Modern dark UI matching architectural aesthetic
-- **MASK FUNCTIONALITY**: Revolutionary highlighting system
-  - Default: Dark overlay (0.7 opacity) covers entire LiDAR image
-  - Toggle ON: Dark overlay disappears, hotspot masks appear
-  - Result: Normal brightness LiDAR shows through hotspot regions only
-  - Inverse masking creates focused attention on architectural zones
-- **BUTTON STATES**: Visual feedback system
-  - Inactive: Dark with subtle border
-  - Hover: Lighter background with blue accent
-  - Active: Blue background indicates highlighting mode
-- **DEBUG LABELS**: Still visible for final positioning verification
-- **INTERACTION FLOW**: Click Highlight → Regions illuminate → Click again → Return to overview
+- **MASK FUNCTIONALITY CORRECTED**: Proper highlighting system implemented
+  - **Default**: Normal bright LiDAR image (no overlay)
+  - **Highlight ON**: Dark overlay appears covering entire image + hotspot regions reveal bright areas
+  - **Highlight OFF**: Dark overlay disappears, normal bright image returns
+  - **Logic**: Main overlay shows/hides, hotspot masks hide when highlighting to create "windows"
+- **INTERACTION FLOW FIXED**: Click Highlight → Dark overlay + bright regions → Click again → Normal bright image
 - **NEXT ACTION**: Test masking effect and remove debug labels when positioning confirmed

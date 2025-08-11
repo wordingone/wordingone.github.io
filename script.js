@@ -603,11 +603,11 @@ function initResponsiveLiDARBoard() {
         if (isHighlighting) {
             lidarBoard.classList.add('highlighting');
             highlightBtn.classList.add('active');
-            console.log('Highlighting enabled - regions revealed through masks');
+            console.log('Highlighting enabled - dark overlay appears, regions stay bright');
         } else {
             lidarBoard.classList.remove('highlighting');
             highlightBtn.classList.remove('active');
-            console.log('Highlighting disabled - dark overlay restored');
+            console.log('Highlighting disabled - normal bright image restored');
         }
     });
     
