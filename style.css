@@ -217,10 +217,21 @@ body {
     cursor: pointer;
 }
 
-/* Hotspot Labels - completely hidden */
+/* Hotspot Labels - NEVER visible */
 .hotspot-label {
-    display: none;
-    /* Completely remove labels from display */
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    /* Force labels to be completely invisible in all states */
+}
+
+/* Override any state that might try to show labels */
+.hotspot:hover .hotspot-label,
+#lidar-board.highlighting .hotspot .hotspot-label,
+.hotspot.active .hotspot-label {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
 }
 
 /* Highlighting Mode */
@@ -246,11 +257,6 @@ body {
     background: transparent;
     border: none;
     /* Keep hotspots completely invisible even during highlighting */
-}
-
-#lidar-board.highlighting .hotspot .hotspot-label {
-    display: none;
-    /* Keep labels hidden even during highlighting */
 }
 
 /* Zoom Animation - applied to the container */
