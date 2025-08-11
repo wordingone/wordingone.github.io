@@ -108,6 +108,9 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
             // Add overlay to the lidar board
             lidarBoard.appendChild(currentOverlay);
             
+            // Force reflow to ensure CSS is applied before adding active class
+            currentOverlay.offsetHeight;
+            
             // Set up event listeners
             const closeBtn = currentOverlay.querySelector('.overlay-close');
             const video = currentOverlay.querySelector('.overlay-video');
@@ -214,6 +217,9 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
             
             positionOverlayInZoomedView(currentOverlay, frameData);
             lidarBoard.appendChild(currentOverlay);
+            
+            // Force reflow to ensure CSS is applied before adding active class
+            currentOverlay.offsetHeight;
             
             const closeBtn = currentOverlay.querySelector('.overlay-close');
             closeBtn.addEventListener('click', hideOverlay);
