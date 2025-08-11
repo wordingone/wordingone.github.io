@@ -2,12 +2,12 @@ import * as THREE from 'three';
 import { createColorSystem, COLOR_STATES, REGION_COLORS } from '../visual/colorSystem.js';
 
 /**
- * Cinematic Model Focus System with Falling Animations
- * Features: Strong color tinting, dramatic falling animations, fast restoration
- * Replaces ghosting effects with dynamic model isolation
+ * Advanced Model Focus System with Enhanced Color Tinting and Ghosting
+ * Features: Strong color tinting, ghosting effects for non-focused models
+ * Back to the working ghosting approach with enhanced colors
  */
 export function createModelFocus(scene) {
-    console.log('Initializing cinematic falling animation focus system...');
+    console.log('Initializing enhanced ghosting model focus system...');
     
     // Model grouping configuration - maps regions to their related 3D models
     const modelRegionMapping = {
@@ -50,28 +50,21 @@ export function createModelFocus(scene) {
     
     // Store original states for restoration
     const originalMaterials = new Map();
-    const originalPositions = new Map(); // Store original positions for animations
     const modelObjects = new Map();
     const instancedMeshes = new Map();
     const backupInstancedMeshes = new Map();
-    
-    // Animation system
-    const animations = new Map(); // Active animations
-    const fallingDuration = 600; // ms for falling animations (fast to keep up with clicks)
-    const risingDuration = 400; // ms for rising animations (even faster restoration)
     
     // Initialize color system
     const colorSystem = createColorSystem();
     
     let currentFocusRegion = null;
     let isFocusActive = false;
-    let isAnimating = false;
 
     /**
      * Initialize the focus system by cataloging all scene objects
      */
     function initializeFocusSystem() {
-        console.log('Cataloging scene objects for cinematic falling animation system...');
+        console.log('Cataloging scene objects for enhanced ghosting focus system...');
         
         scene.traverse((object) => {
             if (object.isMesh || object.isInstancedMesh) {
@@ -83,15 +76,6 @@ export function createModelFocus(scene) {
                         originalMaterials.set(object.uuid, object.material.clone());
                     }
                     colorSystem.catalogMaterial(object);
-                }
-                
-                // Store original positions for animations
-                if (object.parent) {
-                    originalPositions.set(object.uuid, {
-                        position: object.parent.position.clone(),
-                        rotation: object.parent.rotation.clone(),
-                        scale: object.parent.scale.clone()
-                    });
                 }
                 
                 // Catalog objects by their parent scene name
@@ -118,14 +102,14 @@ export function createModelFocus(scene) {
             }
         });
         
-        console.log(`Cataloged ${originalMaterials.size} objects for cinematic falling animation system`);
+        console.log(`Cataloged ${originalMaterials.size} objects for enhanced ghosting focus system`);
     }
 
     /**
-     * Apply hover color tinting (no animations on hover, just enhanced colors)
+     * Apply hover color tinting (no ghosting on hover)
      */
     function applyHoverHighlight(regionName) {
-        if (!modelRegionMapping[regionName] || isAnimating) return;
+        if (!modelRegionMapping[regionName] || isFocusActive) return;
         
         console.log(`Applying enhanced hover color for region: ${regionName}`);
         
@@ -153,7 +137,7 @@ export function createModelFocus(scene) {
      * Remove hover highlighting
      */
     function removeHoverHighlight() {
-        if (isAnimating || isFocusActive) return;
+        if (isFocusActive) return;
         
         console.log('Removing hover colors');
         
@@ -169,21 +153,18 @@ export function createModelFocus(scene) {
     }
 
     /**
-     * Apply dramatic focus with falling animations and enhanced color
+     * Apply focus with enhanced colors and ghosting
      */
     function focusOnRegion(regionName) {
-        if (!modelRegionMapping[regionName] || isAnimating) return;
+        if (!modelRegionMapping[regionName]) return;
         
-        console.log(`Applying cinematic falling focus to region: ${regionName}`);
+        console.log(`Applying enhanced focus to region: ${regionName}`);
         
         const focusConfig = modelRegionMapping[regionName];
         const focusedModels = new Set(focusConfig.models);
         
         currentFocusRegion = regionName;
         isFocusActive = true;
-        isAnimating = true;
-        
-        const animationPromises = [];
         
         // Process all models
         modelObjects.forEach((objects, modelName) => {
@@ -191,14 +172,11 @@ export function createModelFocus(scene) {
             
             objects.forEach(object => {
                 if (shouldStay) {
-                    // Apply much stronger color tinting to focused models
+                    // Apply strong color tinting to focused models
                     colorSystem.applyRegionalTint(object, regionName, COLOR_STATES.FOCUS);
                 } else {
-                    // Animate non-focused models falling down and out of frame
-                    if (object.parent && modelName !== 'Architectural System') {
-                        const promise = animateModelFallingFast(object.parent);
-                        animationPromises.push(promise);
-                    }
+                    // Apply ghosting to non-focused models
+                    applyGhosting(object);
                 }
             });
         });
@@ -210,109 +188,32 @@ export function createModelFocus(scene) {
                 colorSystem.applyRegionalTint(instancedMesh, regionName, COLOR_STATES.FOCUS);
             });
         } else {
-            // If architectural system is not focused, animate it falling
+            // If architectural system is not focused, ghost it
             instancedMeshes.forEach((instancedMesh) => {
-                if (instancedMesh.parent) {
-                    const promise = animateModelFallingFast(instancedMesh.parent);
-                    animationPromises.push(promise);
-                }
+                applyGhosting(instancedMesh);
             });
         }
         
-        // Wait for all animations to complete
-        Promise.all(animationPromises).then(() => {
-            isAnimating = false;
-            console.log(`Cinematic falling focus complete for region: ${regionName}`);
-        });
+        console.log(`Enhanced focus complete for region: ${regionName}`);
     }
 
     /**
-     * Animate model falling down fast and out of frame (negative Y)
+     * Apply ghosting effect to object
      */
-    function animateModelFallingFast(modelParent) {
-        return new Promise((resolve) => {
-            const startPosition = modelParent.position.clone();
-            const targetY = startPosition.y - 20; // Fall 20 units down (out of frame)
-            const startTime = performance.now();
-            
-            function animateFall() {
-                const currentTime = performance.now();
-                const elapsed = currentTime - startTime;
-                const progress = Math.min(elapsed / fallingDuration, 1);
-                
-                // Fast easing out for dramatic but quick fall
-                const easedProgress = 1 - Math.pow(1 - progress, 2);
-                
-                // Update position - move downward (negative Y)
-                modelParent.position.y = THREE.MathUtils.lerp(startPosition.y, targetY, easedProgress);
-                
-                // Add slight rotation for dramatic effect
-                modelParent.rotation.x = easedProgress * 0.4;
-                modelParent.rotation.z = easedProgress * 0.3;
-                
-                // Add slight scaling down as it falls
-                const scale = THREE.MathUtils.lerp(1, 0.8, easedProgress);
-                modelParent.scale.setScalar(scale);
-                
-                if (progress < 1) {
-                    requestAnimationFrame(animateFall);
-                } else {
-                    // Make model invisible when it's fallen completely
-                    modelParent.visible = false;
-                    resolve();
-                }
+    function applyGhosting(object) {
+        if (object.material) {
+            if (Array.isArray(object.material)) {
+                object.material.forEach(material => {
+                    material.transparent = true;
+                    material.opacity = 0.15; // 15% opacity for ghosting
+                    material.needsUpdate = true;
+                });
+            } else {
+                object.material.transparent = true;
+                object.material.opacity = 0.15; // 15% opacity for ghosting
+                object.material.needsUpdate = true;
             }
-            
-            animateFall();
-        });
-    }
-
-    /**
-     * Animate model shooting back up to original position (fast restoration)
-     */
-    function animateModelRisingFast(modelParent, originalState) {
-        return new Promise((resolve) => {
-            // Make visible again before animating
-            modelParent.visible = true;
-            
-            const startPosition = modelParent.position.clone();
-            const startRotation = modelParent.rotation.clone();
-            const startScale = modelParent.scale.clone();
-            const startTime = performance.now();
-            
-            function animateRise() {
-                const currentTime = performance.now();
-                const elapsed = currentTime - startTime;
-                const progress = Math.min(elapsed / risingDuration, 1);
-                
-                // Fast easing in for quick upward motion
-                const easedProgress = Math.pow(progress, 1.5);
-                
-                // Update position - shooting upward (positive Y) back to original
-                modelParent.position.lerpVectors(startPosition, originalState.position, easedProgress);
-                
-                // Restore rotation
-                modelParent.rotation.x = THREE.MathUtils.lerp(startRotation.x, originalState.rotation.x, easedProgress);
-                modelParent.rotation.z = THREE.MathUtils.lerp(startRotation.z, originalState.rotation.z, easedProgress);
-                
-                // Restore scale
-                const targetScale = originalState.scale.x;
-                const currentScale = THREE.MathUtils.lerp(startScale.x, targetScale, easedProgress);
-                modelParent.scale.setScalar(currentScale);
-                
-                if (progress < 1) {
-                    requestAnimationFrame(animateRise);
-                } else {
-                    // Ensure exact restoration
-                    modelParent.position.copy(originalState.position);
-                    modelParent.rotation.copy(originalState.rotation);
-                    modelParent.scale.copy(originalState.scale);
-                    resolve();
-                }
-            }
-            
-            animateRise();
-        });
+        }
     }
 
     /**
@@ -374,25 +275,50 @@ export function createModelFocus(scene) {
     }
 
     /**
-     * Clear all focus effects with fast rising animations
+     * Clear all focus effects
      */
     function clearFocus() {
-        if (!isFocusActive && !isAnimating) return;
+        if (!isFocusActive) return;
         
-        console.log('Clearing focus with fast rising animations');
+        console.log('Clearing focus and restoring materials');
         
-        isAnimating = true;
-        const animationPromises = [];
-        
-        // Restore colors for all objects
+        // Restore colors and opacity for all objects
         modelObjects.forEach((objects) => {
             objects.forEach(object => {
                 colorSystem.restoreOriginalColors(object);
+                // Restore original opacity
+                if (object.material) {
+                    if (Array.isArray(object.material)) {
+                        object.material.forEach(material => {
+                            material.transparent = false;
+                            material.opacity = 1.0;
+                            material.needsUpdate = true;
+                        });
+                    } else {
+                        object.material.transparent = false;
+                        object.material.opacity = 1.0;
+                        object.material.needsUpdate = true;
+                    }
+                }
             });
         });
         
         instancedMeshes.forEach((instancedMesh) => {
             colorSystem.restoreOriginalColors(instancedMesh);
+            // Restore original opacity
+            if (instancedMesh.material) {
+                if (Array.isArray(instancedMesh.material)) {
+                    instancedMesh.material.forEach(material => {
+                        material.transparent = false;
+                        material.opacity = 1.0;
+                        material.needsUpdate = true;
+                    });
+                } else {
+                    instancedMesh.material.transparent = false;
+                    instancedMesh.material.opacity = 1.0;
+                    instancedMesh.material.needsUpdate = true;
+                }
+            }
         });
         
         // Restore architectural system instances
@@ -405,31 +331,16 @@ export function createModelFocus(scene) {
             }
         });
         
-        // Animate fallen models shooting back up quickly
-        originalPositions.forEach((originalState, objectId) => {
-            // Find the object by traversing scene
-            scene.traverse((object) => {
-                if (object.uuid === objectId && object.parent && !object.parent.visible) {
-                    const promise = animateModelRisingFast(object.parent, originalState);
-                    animationPromises.push(promise);
-                }
-            });
-        });
-        
-        // Wait for all fast rising animations
-        Promise.all(animationPromises).then(() => {
-            isAnimating = false;
-            isFocusActive = false;
-            currentFocusRegion = null;
-            console.log('All models restored with fast rising animations');
-        });
+        isFocusActive = false;
+        currentFocusRegion = null;
+        console.log('All models restored');
     }
 
     /**
      * Catalog new model for the system
      */
     function catalogNewModel(modelScene, modelName) {
-        console.log(`Cataloging new model for cinematic falling system: ${modelName}`);
+        console.log(`Cataloging new model for enhanced ghosting system: ${modelName}`);
         
         modelScene.userData.modelName = modelName;
         
@@ -443,15 +354,6 @@ export function createModelFocus(scene) {
                         originalMaterials.set(object.uuid, object.material.clone());
                     }
                     colorSystem.catalogMaterial(object);
-                }
-                
-                // Store positions
-                if (object.parent) {
-                    originalPositions.set(object.uuid, {
-                        position: object.parent.position.clone(),
-                        rotation: object.parent.rotation.clone(),
-                        scale: object.parent.scale.clone()
-                    });
                 }
                 
                 // Catalog
@@ -471,13 +373,13 @@ export function createModelFocus(scene) {
             }
         });
         
-        console.log(`✓ Model '${modelName}' cataloged for cinematic falling system`);
+        console.log(`✓ Model '${modelName}' cataloged for enhanced ghosting system`);
     }
 
     // Initialize the system
     initializeFocusSystem();
     
-    console.log('Cinematic falling animation focus system initialized');
+    console.log('Enhanced ghosting model focus system initialized');
     
     // Public API
     return {
@@ -489,7 +391,7 @@ export function createModelFocus(scene) {
         getAvailableRegions: () => Object.keys(modelRegionMapping),
         isFocused: () => isFocusActive,
         getCurrentFocus: () => currentFocusRegion,
-        isAnimating: () => isAnimating,
+        isAnimating: () => false, // No animations in ghosting system
         // Color system access
         getRegionalColor: (regionName, state) => colorSystem.getCSSColor(regionName, state),
         getColorDescription: (regionName) => colorSystem.getColorDescription(regionName),

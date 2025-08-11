@@ -8,16 +8,17 @@ Status: IN PROGRESS - Implementing critical visual and interaction improvements
 Multi-phase architectural navigation system featuring synchronized 3D models, interactive LiDAR interface, and advanced video series playback with seamless navigation controls.
 
 ## IMMEDIATE FIXES NEEDED (from latest user feedback)
-**Status**: COMPLETED - All visual and interaction improvements implemented
+**Status**: FIXING - Reverting to ghosting system and debugging video overlay
 
-**✅ RESOLVED Issues**:
+**✅ COMPLETED Issues**:
 1. **✅ Color enhanced** - Models now have 30% stronger color tinting (was 15%) + 4x stronger emissive glow
-2. **✅ Replaced ghosting with animations** - Cinematic falling/rising animations (600ms/400ms) replace opacity effects  
-3. **✅ Model isolation animations** - Non-focused models fall downward (negative Y) with rotation/scaling
-4. **✅ Fast restoration animations** - Models shoot back up quickly with smooth easing
-5. **✅ Darker model viewport** - Background changed to #0a0a0a with professional UI borders
-6. **✅ Smooth video popup** - Video overlays scale from center with bounce easing (0.6s cubic-bezier)
-7. **✅ Enhanced branding** - Complete UI/UX rebrand with WordingOne identity, gold accents, professional styling
+2. **🔄 REVERTED to ghosting** - User feedback: falling animations were "HORRIBLE", back to 15% opacity ghosting
+3. **✅ Darker model viewport** - Background changed to #0a0a0a with professional UI borders
+4. **✅ Enhanced branding** - Complete UI/UX rebrand with WordingOne identity, gold accents, professional styling
+
+**⚠️ CURRENT ISSUES**:
+- **Video overlay not appearing** - Investigating display/positioning issues after branding changes
+- **Need to test ghosting + enhanced colors** - Ensure 30% color tinting works with 15% opacity ghosting
 
 **Enhancements Implemented**:
 - Comprehensive brand system with CSS custom properties
@@ -25,16 +26,16 @@ Multi-phase architectural navigation system featuring synchronized 3D models, in
 - Professional color palette: Deep Blue (#0a0a2e), Gold (#d4af37), Interactive Blue (#3498db)
 - Enhanced typography with Inter font and SF Mono for technical elements
 - Sophisticated button styling with gradients and micro-interactions
-- Video overlay system with branded styling and smooth animations
+- **REVERTED**: Back to ghosting system per user feedback
 
 ## Current System Features
 
-### ✅ 3D Model Focus System (ENHANCED WITH ANIMATIONS)
-- **Cinematic Animations**: Falling/rising animations replace ghosting effects
+### ✅ 3D Model Focus System (REVERTED TO ENHANCED GHOSTING)
+- **Enhanced Ghosting**: 15% opacity ghosting with 30% stronger color tinting for focused models
 - **Region-Model Mapping**: Altar→ 5 models, Mirror→1 model, Index→1 model, etc.
-- **Dramatic Effects**: 600ms falling animations with rotation/scaling, 400ms fast restoration
+- **No Animations**: Clean ghosting effects without falling/rising animations (per user feedback)
 - **Archive Integration**: First floor architectural components linked to archive series
-- **Enhanced Colors**: 30% color mix strength + 4x stronger emissive glow
+- **Enhanced Colors**: 30% color mix strength + 4x stronger emissive glow for focused models
 
 ### ✅ Video Series System (SMOOTH ANIMATIONS ADDED)
 - **Sequential Playback**: Videos play automatically in series with 500ms transitions

@@ -147,9 +147,11 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
         
         // Wait for zoom animation to complete before showing video
         setTimeout(() => {
+            console.log('Creating video overlay after zoom animation');
             createVideoSeriesOverlay(frameData);
             
             isOverlayActive = true;
+            console.log('Video overlay created and overlay active set to true');
             
             // Callback for overlay opened
             if (onOverlayOpen) {
@@ -166,9 +168,14 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
      * @param {Object} frameData - Frame positioning data
      */
     function createVideoSeriesOverlay(frameData) {
+        console.log('Starting createVideoSeriesOverlay function');
+        console.log('Current series:', currentSeries);
+        console.log('Frame data:', frameData);
+        
         // Create overlay container
         currentOverlay = document.createElement('div');
         currentOverlay.className = 'video-overlay frame-positioned series-player';
+        console.log('Created overlay element with classes:', currentOverlay.className);
         
         const hasMultipleVideos = currentSeries.videos.length > 1;
         const currentVideo = currentSeries.videos[currentVideoIndex];
@@ -193,16 +200,22 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
         
         // Add overlay to the body for fixed positioning
         document.body.appendChild(currentOverlay);
+        console.log('Overlay added to document body');
+        console.log('Overlay current style:', currentOverlay.style.cssText);
         
         // Force reflow to ensure CSS is applied before adding active class
         currentOverlay.offsetHeight;
+        console.log('Forced reflow completed');
         
         // Set up event listeners
         setupVideoSeriesListeners();
         
         // Trigger overlay animation
         setTimeout(() => {
-            currentOverlay.classList.add('active');
+            if (currentOverlay) {
+                console.log('Triggering overlay active class');
+                currentOverlay.classList.add('active');
+            }
         }, 50);
     }
     
@@ -402,7 +415,7 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
             transform-origin: center center !important;
             opacity: 0 !important;
             visibility: visible !important;
-            transform: scale(0.1) !important;
+            transform: scale(0.3) !important;
             display: block !important;
         `;
         
