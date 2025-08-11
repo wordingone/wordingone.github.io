@@ -211,11 +211,7 @@ export function initLidarBoard(rootEl, callbacks = {}) {
         const area = hotspot.dataset.area;
         console.log(`Clicked on ${area} hotspot`);
         
-        // Remove active state from all hotspots
-        hotspots.forEach(h => h.classList.remove('active'));
-        
-        // Add active state to clicked hotspot
-        hotspot.classList.add('active');
+        // Don't add any visual state to the hotspot - no red highlighting
         
         // Callback for area selection
         if (onSelect) {

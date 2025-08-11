@@ -39,60 +39,63 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
             return;
         }
         
-        // Create overlay container
-        currentOverlay = document.createElement('div');
-        currentOverlay.className = 'video-overlay';
-        currentOverlay.innerHTML = `
-            <div class=\"overlay-backdrop\"></div>
-            <div class=\"overlay-content\">
-                <button class=\"overlay-close\" aria-label=\"Close overlay\">&times;</button>
-                <div class=\"overlay-title\">${region.replace('_', ' ').toUpperCase()}</div>
-                <video class=\"overlay-video\" autoplay muted loop>
-                    <source src=\"${videoSrc}\" type=\"video/mp4\">
-                    Your browser does not support the video tag.
-                </video>
-            </div>
-        `;
+        // Add zoom animation to LiDAR board
+        lidarBoard.classList.add('zooming');
         
-        // Add overlay to DOM
-        lidarBoard.appendChild(currentOverlay);
-        
-        // Set up event listeners
-        const closeBtn = currentOverlay.querySelector('.overlay-close');
-        const backdrop = currentOverlay.querySelector('.overlay-backdrop');
-        const video = currentOverlay.querySelector('.overlay-video');
-        
-        closeBtn.addEventListener('click', hideOverlay);
-        backdrop.addEventListener('click', hideOverlay);
-        
-        // Handle video events
-        video.addEventListener('loadstart', () => {
-            console.log(`Loading video: ${videoSrc}`);
-        });
-        
-        video.addEventListener('canplay', () => {
-            console.log(`Video ready to play: ${region}`);
-        });
-        
-        video.addEventListener('error', (e) => {
-            console.error(`Video error for ${region}:`, e);
-            showVideoError(region);
-        });
-        
-        // Trigger zoom animation
+        // Wait for zoom animation to complete before showing video
         setTimeout(() => {
-            currentOverlay.classList.add('active');
-        }, 50);
-        
-        isOverlayActive = true;
-        
-        // Callback for overlay opened
-        if (onOverlayOpen) {
-            onOverlayOpen(region, hotspot);
-        }
-        
-        // Handle escape key
-        document.addEventListener('keydown', handleEscapeKey);
+            // Create overlay container
+            currentOverlay = document.createElement('div');
+            currentOverlay.className = 'video-overlay';
+            currentOverlay.innerHTML = `
+                <div class="overlay-content">
+                    <button class="overlay-close" aria-label="Close overlay">&times;</button>
+                    <div class="overlay-title">${region.replace('_', ' ').toUpperCase()}</div>
+                    <video class="overlay-video" autoplay muted loop>
+                        <source src="${videoSrc}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            `;
+            
+            // Add overlay to DOM
+            lidarBoard.appendChild(currentOverlay);
+            
+            // Set up event listeners
+            const closeBtn = currentOverlay.querySelector('.overlay-close');
+            const video = currentOverlay.querySelector('.overlay-video');
+            
+            closeBtn.addEventListener('click', hideOverlay);
+            
+            // Handle video events
+            video.addEventListener('loadstart', () => {
+                console.log(`Loading video: ${videoSrc}`);
+            });
+            
+            video.addEventListener('canplay', () => {
+                console.log(`Video ready to play: ${region}`);
+            });
+            
+            video.addEventListener('error', (e) => {
+                console.error(`Video error for ${region}:`, e);
+                showVideoError(region);
+            });
+            
+            // Trigger overlay animation
+            setTimeout(() => {
+                currentOverlay.classList.add('active');
+            }, 50);
+            
+            isOverlayActive = true;
+            
+            // Callback for overlay opened
+            if (onOverlayOpen) {
+                onOverlayOpen(region, hotspot);
+            }
+            
+            // Handle escape key
+            document.addEventListener('keydown', handleEscapeKey);
+        }, 1000); // Wait for zoom animation (1000ms)
     }
     
     /**
@@ -112,6 +115,15 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
             }
             currentOverlay = null;
             isOverlayActive = false;
+            
+            // Reset zoom on LiDAR board
+            lidarBoard.classList.remove('zooming');
+            lidarBoard.classList.add('zoom-reset');
+            
+            // Remove zoom-reset class after animation
+            setTimeout(() => {
+                lidarBoard.classList.remove('zoom-reset');
+            }, 800);
             
             // Callback for overlay closed
             if (onOverlayClose) {
@@ -148,7 +160,7 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
             errorDiv.className = 'video-error';
             errorDiv.innerHTML = `
                 <p>Video not available</p>
-                <p class=\"error-detail\">Could not load video for ${region}</p>
+                <p class="error-detail">Could not load video for ${region}</p>
             `;
             
             video.parentNode.insertBefore(errorDiv, video.nextSibling);
@@ -173,19 +185,20 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
                     top: 50%;
                     left: 50%;
                     transform: translate(-50%, -50%);
-                    background: rgba(255, 255, 255, 0.9);
+                    background: rgba(255, 255, 255, 0.95);
                     color: #333;
-                    width: 24px;
-                    height: 24px;
+                    width: 32px;
+                    height: 32px;
                     border-radius: 50%;
                     display: flex;
                     align-items: center;
                     justify-content: center;
                     font-weight: bold;
-                    font-size: 14px;
+                    font-size: 18px;
                     pointer-events: none;
                     z-index: 15;
-                    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+                    border: 2px solid #3498db;
                 `;
                 
                 hotspot.appendChild(questionMark);
