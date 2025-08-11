@@ -674,19 +674,26 @@ function initResponsiveLiDARBoard() {
     function createSVGMask(holeRects, width, height) {
         // Create SVG mask - WHITE shows content, BLACK hides it
         let svg = `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">`;
-        svg += `<defs><mask id="cutoutMask">`;
+        svg += `<defs>`;
+        
+        // Add blur filter for feathered edges
+        svg += `<filter id="featherBlur">`;
+        svg += `<feGaussianBlur in="SourceGraphic" stdDeviation="8"/>`;
+        svg += `</filter>`;
+        
+        svg += `<mask id="cutoutMask">`;
         
         // White background (visible area - the overlay)
         svg += `<rect width="100%" height="100%" fill="white"/>`;
         
-        // Black rectangles (hidden areas - the holes where original image shows through)
+        // Black rectangles with feathered edges (hidden areas - holes)
         holeRects.forEach(hole => {
             const x = (hole.left / 100) * width;
             const y = (hole.top / 100) * height;
             const w = ((hole.right - hole.left) / 100) * width;
             const h = ((hole.bottom - hole.top) / 100) * height;
             
-            svg += `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="black"/>`;
+            svg += `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="black" filter="url(#featherBlur)"/>`;
         });
         
         svg += `</mask></defs>`;
