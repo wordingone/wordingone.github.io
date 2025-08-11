@@ -191,14 +191,11 @@ body {
     z-index: 10;
 }
 
-/* Individual Hotspot Hover */
+/* Individual Hotspot Hover - no white background */
 .hotspot:hover {
-    background: rgba(255, 255, 255, 0.9) !important;
-    border-color: #3498db !important;
-    box-shadow: 
-        0 0 20px rgba(52, 152, 219, 0.6),
-        inset 0 0 10px rgba(255, 255, 255, 0.3);
-    transform: scale(1.05);
+    /* No background change - only show question mark */
+    cursor: pointer;
+    transform: scale(1.02);
 }
 
 /* Remove active hotspot state - no red highlighting on click */
@@ -308,22 +305,21 @@ body {
     }
 }
 
-/* Video Overlay System - Top-right corner, no backdrop */
+/* Video Overlay System - Top-right corner, proper size */
 .video-overlay {
     position: fixed;
-    top: 0;
-    right: 0;
-    width: 400px;
-    height: 300px;
+    top: 20px;
+    right: 20px;
+    width: 480px;
+    height: 360px;
     z-index: 1000;
     opacity: 0;
     visibility: hidden;
     transform: translateX(100%);
     transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
-    margin: 20px;
     border-radius: 12px;
     overflow: hidden;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
 .video-overlay.active {
@@ -399,9 +395,9 @@ body {
     border-radius: 12px;
 }
 
-/* LiDAR zoom animation */
+/* LiDAR zoom animation - much closer zoom to focus on region */
 #lidar-board.zooming {
-    transform: scale(1.2);
+    transform: scale(3.5);
     transform-origin: center;
     transition: transform 1000ms ease-out;
 }
@@ -450,23 +446,20 @@ body {
     }
 }
 
-/* Enhanced hotspot hover for overlay functionality */
+/* Remove white hover effect on hotspots */
 #lidar-board .hotspot:hover {
-    background: rgba(255, 255, 255, 0.95) !important;
-    border: 2px solid #3498db !important;
-    box-shadow: 
-        0 0 20px rgba(52, 152, 219, 0.6),
-        inset 0 0 10px rgba(255, 255, 255, 0.3);
-    transform: scale(1.05);
+    /* No background change - remove white highlighting */
     cursor: pointer;
+    transform: scale(1.02); /* Very subtle scale only */
 }
 
-/* Responsive design for overlay - top-right corner */
+/* Responsive design for overlay - larger size */
 @media (max-width: 768px) {
     .video-overlay {
-        width: 300px;
-        height: 225px;
-        margin: 10px;
+        width: 360px;
+        height: 270px;
+        top: 15px;
+        right: 15px;
     }
     
     .overlay-title {

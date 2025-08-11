@@ -181,22 +181,17 @@ SyntaxError: Unexpected token 'v', "version ht"... is not valid JSON
 
 ## Changes Since Last Handoff
 ## Changes Since Last Handoff
-- **VIDEO OVERLAY SYSTEM IMPLEMENTED - INTERACTIVE REGION EXPLORATION**
-- **New functionality**: Hotspot regions now show question marks on hover and open video overlays on click
-- **Module architecture**: Added `src/overlay/videoOverlay.js` for video management
-- **User experience**:
-  - Hover over hotspots: Question mark appears with pulsing animation
-  - Click hotspots: Full-screen video overlay with region-specific content
-  - Escape key or click outside: Close overlay and return to LiDAR view
-  - Auto-disable highlighting: When overlay opens, highlighting automatically turns off
-- **Video integration**: 
-  - Supports MP4 videos for all 9 regions (insula, index, mirror, altar, archives, circulation, exhibition)
-  - Videos stored in `/videos/` directory (e.g., `videos/insula.mp4`)
-  - Auto-play, muted, looped playback with error handling
-- **Responsive design**: Overlay adapts to mobile/desktop with proper video scaling
-- **Technical implementation**:
-  - Clean module separation with video overlay API
-  - CSS animations for smooth transitions
-  - Keyboard accessibility (ESC key support)
-  - Error handling for missing videos
-- **Status**: Core video overlay functionality complete - ready for video content
+- **VIDEO OVERLAY FIXES ATTEMPTED - ADDRESSING ZOOM AND LAYOUT ISSUES**
+- **Zoom enhancement**: Increased LiDAR zoom from 1.2x to 3.5x for much closer region focus
+- **Video overlay sizing**: Increased from 400x300px to 480x360px to prevent cropping
+- **Video positioning**: Adjusted to fixed 20px margins from edges instead of relative positioning
+- **Hover behavior cleanup**: Removed unwanted white highlighting effect on hotspot hover
+- **Interaction refinement**: 
+  - Hotspots now only show subtle 1.02x scale on hover (no background change)
+  - Question mark remains as primary hover indicator
+  - No red highlighting on click (previously removed)
+- **Technical adjustments**:
+  - Transform-origin set to center for proper zoom focus
+  - Video container sized to standard 4:3 aspect ratio
+  - Enhanced shadow and border-radius for better visual integration
+- **Status**: Attempted fixes for zoom scale, video cropping, and hover effects

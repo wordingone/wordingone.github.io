@@ -12,8 +12,9 @@ A responsive, cinematic web experience bridging campaign narratives with a deepe
 ## Features
 ### 🎯 Interactive LiDAR Navigation
 - **Responsive hotspots**: 9 clickable regions with precise positioning
-- **Visual feedback**: Question mark indicators on hover with pulsing animation
-- **Video overlays**: Full-screen video playback for each region
+- **Subtle hover feedback**: Question mark indicators (32px) with minimal scale effect
+- **Close-up zoom**: 3.5x scale animation focuses on clicked region
+- **Video overlays**: Top-right corner playback (480x360px) without backdrop darkening
 - **Smart highlighting**: SVG mask system with feathered edges
 
 ### 🏗️ 3D Architectural System
