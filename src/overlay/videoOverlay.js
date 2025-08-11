@@ -86,7 +86,11 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
         const centerX = scaledX + (scaledWidth / 2);
         const centerY = scaledY + (scaledHeight / 2);
         
-        console.log(`Region ${hotspot.dataset.area} center: (${centerX.toFixed(1)}, ${centerY.toFixed(1)}) in ${boardRect.width.toFixed(0)}x${boardRect.height.toFixed(0)} board`);
+        console.log(`Region ${hotspot.dataset.area}:`);
+        console.log(`  Original coords: [${x}, ${y}, ${width}, ${height}]`);
+        console.log(`  Scaled coords: [${scaledX.toFixed(1)}, ${scaledY.toFixed(1)}, ${scaledWidth.toFixed(1)}, ${scaledHeight.toFixed(1)}]`);
+        console.log(`  Center: (${centerX.toFixed(1)}, ${centerY.toFixed(1)}) in ${boardRect.width.toFixed(0)}x${boardRect.height.toFixed(0)} board`);
+        console.log(`  Scale factors: ${scaleX.toFixed(3)}, ${scaleY.toFixed(3)}`);
         
         return {
             x: scaledX,
@@ -126,8 +130,16 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
         // Get frame data before zoom
         const frameData = createRegionFrameData(hotspot);
         
-        // Set zoom transform origin to the clicked region center
-        lidarBoard.style.transformOrigin = `${frameData.centerX}px ${frameData.centerY}px`;
+        // Set zoom transform origin to the clicked region center using percentages
+        const boardRect = lidarBoard.getBoundingClientRect();
+        
+        // Convert absolute coordinates to percentages for more reliable transform-origin
+        const transformOriginXPercent = (frameData.centerX / boardRect.width) * 100;
+        const transformOriginYPercent = (frameData.centerY / boardRect.height) * 100;
+        
+        console.log(`Setting transform origin to: ${transformOriginXPercent.toFixed(1)}% ${transformOriginYPercent.toFixed(1)}% for region ${region}`);
+        
+        lidarBoard.style.transformOrigin = `${transformOriginXPercent}% ${transformOriginYPercent}%`;
         
         // Start zoom animation
         lidarBoard.classList.add('zooming');
@@ -402,8 +414,16 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
         // Get frame data before zoom
         const frameData = createRegionFrameData(hotspot);
         
-        // Set zoom transform origin to the clicked region center
-        lidarBoard.style.transformOrigin = `${frameData.centerX}px ${frameData.centerY}px`;
+        // Set zoom transform origin to the clicked region center using percentages
+        const boardRect = lidarBoard.getBoundingClientRect();
+        
+        // Convert absolute coordinates to percentages for more reliable transform-origin
+        const transformOriginXPercent = (frameData.centerX / boardRect.width) * 100;
+        const transformOriginYPercent = (frameData.centerY / boardRect.height) * 100;
+        
+        console.log(`Setting transform origin to: ${transformOriginXPercent.toFixed(1)}% ${transformOriginYPercent.toFixed(1)}% for no-video region ${region}`);
+        
+        lidarBoard.style.transformOrigin = `${transformOriginXPercent}% ${transformOriginYPercent}%`;
         
         lidarBoard.classList.add('zooming');
         isZoomed = true;
