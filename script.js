@@ -604,53 +604,108 @@ function initResponsiveLiDARBoard() {
             lidarBoard.classList.add('highlighting');
             highlightBtn.classList.add('active');
             
-            // Create individual mask divs for each hotspot
-            hotspots.forEach(hotspot => {
-                const maskDiv = document.createElement('div');
-                maskDiv.className = 'hotspot-mask';
-                
-                // Copy positioning from hotspot
-                const coords = hotspot.dataset.coords.split(',').map(Number);
-                const rotation = parseFloat(hotspot.dataset.rotation || 0);
-                const [x, y, width, height] = coords;
-                
-                // Calculate responsive coordinates
-                const boardRect = lidarBoard.getBoundingClientRect();
-                const scaleX = boardRect.width / REFERENCE_WIDTH;
-                const scaleY = boardRect.height / REFERENCE_HEIGHT;
-                
-                const scaledX = x * scaleX;
-                const scaledY = y * scaleY;
-                const scaledWidth = width * scaleX;
-                const scaledHeight = height * scaleY;
-                
-                // Position the mask
-                maskDiv.style.position = 'absolute';
-                maskDiv.style.left = scaledX + 'px';
-                maskDiv.style.top = scaledY + 'px';
-                maskDiv.style.width = scaledWidth + 'px';
-                maskDiv.style.height = scaledHeight + 'px';
-                maskDiv.style.transform = `rotate(${rotation}deg)`;
-                maskDiv.style.background = 'transparent';
-                maskDiv.style.boxShadow = '0 0 0 2000px rgba(0, 0, 0, 0.7)';
-                maskDiv.style.zIndex = '5';
-                maskDiv.style.pointerEvents = 'none';
-                
-                lidarBoard.appendChild(maskDiv);
-            });
+            // Create CSS mask with holes for hotspots
+            createMaskWithHoles();
             
-            console.log('Highlighting enabled - dark overlay with bright windows');
+            console.log('Highlighting enabled - CSS mask with cutout holes');
         } else {
             lidarBoard.classList.remove('highlighting');
             highlightBtn.classList.remove('active');
             
-            // Remove all mask divs
-            const masks = lidarBoard.querySelectorAll('.hotspot-mask');
-            masks.forEach(mask => mask.remove());
+            // Remove CSS mask
+            removeMask();
             
             console.log('Highlighting disabled - normal bright image restored');
         }
     });
+    
+    function createMaskWithHoles() {
+        const boardRect = lidarBoard.getBoundingClientRect();
+        const scaleX = boardRect.width / REFERENCE_WIDTH;
+        const scaleY = boardRect.height / REFERENCE_HEIGHT;
+        
+        // Build CSS mask using polygon shapes - start with full coverage
+        let maskPaths = [];
+        
+        // Create rectangular holes for each hotspot
+        hotspots.forEach(hotspot => {
+            const coords = hotspot.dataset.coords.split(',').map(Number);
+            const [x, y, width, height] = coords;
+            
+            // Scale coordinates to current container size
+            const scaledX = (x * scaleX) / boardRect.width * 100; // Convert to percentage
+            const scaledY = (y * scaleY) / boardRect.height * 100;
+            const scaledWidth = (width * scaleX) / boardRect.width * 100;
+            const scaledHeight = (height * scaleY) / boardRect.height * 100;
+            
+            // Create a rectangular hole (white = transparent in mask)
+            const holeRect = {
+                left: scaledX,
+                top: scaledY,
+                right: scaledX + scaledWidth,
+                bottom: scaledY + scaledHeight
+            };
+            
+            maskPaths.push(holeRect);
+        });
+        
+        // Create an SVG mask with holes
+        const svgMask = createSVGMask(maskPaths, boardRect.width, boardRect.height);
+        
+        // Apply the mask to the ::before pseudo-element via CSS custom property
+        lidarBoard.style.setProperty('--mask-image', `url("data:image/svg+xml,${encodeURIComponent(svgMask)}")`);
+        
+        // Apply the mask via CSS
+        const style = document.createElement('style');
+        style.id = 'lidar-mask-style';
+        style.textContent = `
+            #lidar-board.highlighting::before {
+                mask: var(--mask-image);
+                -webkit-mask: var(--mask-image);
+                mask-repeat: no-repeat;
+                -webkit-mask-repeat: no-repeat;
+                mask-size: 100% 100%;
+                -webkit-mask-size: 100% 100%;
+            }
+        `;
+        document.head.appendChild(style);
+    }
+    
+    function createSVGMask(holeRects, width, height) {
+        // Create SVG mask with black background and white holes
+        let svg = `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">`;
+        svg += `<defs><mask id="cutoutMask">`;
+        
+        // Black background (masked area)
+        svg += `<rect width="100%" height="100%" fill="black"/>`;
+        
+        // White rectangles (holes - unmasked areas)
+        holeRects.forEach(hole => {
+            const x = (hole.left / 100) * width;
+            const y = (hole.top / 100) * height;
+            const w = ((hole.right - hole.left) / 100) * width;
+            const h = ((hole.bottom - hole.top) / 100) * height;
+            
+            svg += `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="white"/>`;
+        });
+        
+        svg += `</mask></defs>`;
+        svg += `<rect width="100%" height="100%" fill="black" mask="url(#cutoutMask)"/>`;
+        svg += `</svg>`;
+        
+        return svg;
+    }
+    
+    function removeMask() {
+        // Remove the CSS mask
+        lidarBoard.style.removeProperty('--mask-image');
+        
+        // Remove the dynamic style
+        const maskStyle = document.getElementById('lidar-mask-style');
+        if (maskStyle) {
+            maskStyle.remove();
+        }
+    }
     
     // Zoom extents functionality (placeholder)
     zoomExtentsBtn.addEventListener('click', function() {
@@ -734,6 +789,10 @@ function initResponsiveLiDARBoard() {
         clearTimeout(resizeTimeout);
         resizeTimeout = setTimeout(() => {
             positionHotspots();
+            // Recreate mask if highlighting is active
+            if (isHighlighting) {
+                createMaskWithHoles();
+            }
         }, 100); // Debounce resize events
     }
     
