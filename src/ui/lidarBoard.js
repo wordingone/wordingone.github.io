@@ -51,9 +51,15 @@ export function initLidarBoard(rootEl, callbacks = {}) {
      * Create SVG mask with holes for hotspots
      */
     function createMaskWithHoles() {
-        const boardRect = rootEl.getBoundingClientRect();
-        const scaleX = boardRect.width / REFERENCE_WIDTH;
-        const scaleY = boardRect.height / REFERENCE_HEIGHT;
+        const container = rootEl.querySelector('.lidar-container');
+        if (!container) {
+            console.error('LiDAR container not found for masking');
+            return;
+        }
+        
+        const containerRect = container.getBoundingClientRect();
+        const scaleX = containerRect.width / REFERENCE_WIDTH;
+        const scaleY = containerRect.height / REFERENCE_HEIGHT;
         
         // Build CSS mask using polygon shapes - start with full coverage
         let maskPaths = [];
@@ -64,10 +70,10 @@ export function initLidarBoard(rootEl, callbacks = {}) {
             const [x, y, width, height] = coords;
             
             // Scale coordinates to current container size
-            const scaledX = (x * scaleX) / boardRect.width * 100; // Convert to percentage
-            const scaledY = (y * scaleY) / boardRect.height * 100;
-            const scaledWidth = (width * scaleX) / boardRect.width * 100;
-            const scaledHeight = (height * scaleY) / boardRect.height * 100;
+            const scaledX = (x * scaleX) / containerRect.width * 100; // Convert to percentage
+            const scaledY = (y * scaleY) / containerRect.height * 100;
+            const scaledWidth = (width * scaleX) / containerRect.width * 100;
+            const scaledHeight = (height * scaleY) / containerRect.height * 100;
             
             // Create a rectangular hole (black = hidden in mask)
             const holeRect = {
@@ -81,10 +87,10 @@ export function initLidarBoard(rootEl, callbacks = {}) {
         });
         
         // Create an SVG mask with holes
-        const svgMask = createSVGMask(maskPaths, boardRect.width, boardRect.height);
+        const svgMask = createSVGMask(maskPaths, containerRect.width, containerRect.height);
         
-        // Apply the mask to the ::before pseudo-element via CSS custom property
-        rootEl.style.setProperty('--mask-image', `url("data:image/svg+xml,${encodeURIComponent(svgMask)}")`);
+        // Apply the mask to the container's ::before pseudo-element
+        container.style.setProperty('--mask-image', `url("data:image/svg+xml,${encodeURIComponent(svgMask)}")`);
         
         // Apply the mask via CSS (reuse single style element)
         if (!maskStyleElement) {
@@ -94,7 +100,7 @@ export function initLidarBoard(rootEl, callbacks = {}) {
         }
         
         maskStyleElement.textContent = `
-            #lidar-board.highlighting::before {
+            #lidar-board.highlighting .lidar-container::before {
                 mask: var(--mask-image);
                 -webkit-mask: var(--mask-image);
                 mask-repeat: no-repeat;
@@ -148,8 +154,10 @@ export function initLidarBoard(rootEl, callbacks = {}) {
      * Remove CSS mask
      */
     function removeMask() {
-        // Remove the CSS mask
-        rootEl.style.removeProperty('--mask-image');
+        const container = rootEl.querySelector('.lidar-container');
+        if (container) {
+            container.style.removeProperty('--mask-image');
+        }
         
         // Clear the style content but keep the element for reuse
         if (maskStyleElement) {
@@ -166,41 +174,48 @@ export function initLidarBoard(rootEl, callbacks = {}) {
     });
     
     /**
-     * Position hotspots responsively with proper state management
-     */
-    function positionHotspots() {
-        // Don't reposition during zoom transitions to avoid conflicts
-        if (rootEl.classList.contains('zooming') || rootEl.classList.contains('zoom-reset')) {
-            console.log('Skipping hotspot positioning during zoom transition');
-            return;
-        }
-        
-        const boardRect = rootEl.getBoundingClientRect();
-        const scaleX = boardRect.width / REFERENCE_WIDTH;
-        const scaleY = boardRect.height / REFERENCE_HEIGHT;
-        
-        hotspots.forEach(hotspot => {
-            const coords = hotspot.dataset.coords.split(',').map(Number);
-            const rotation = parseFloat(hotspot.dataset.rotation || 0);
-            
-            const [x, y, width, height] = coords;
-            
-            // Scale coordinates to current container size
-            const scaledX = x * scaleX;
-            const scaledY = y * scaleY;
-            const scaledWidth = width * scaleX;
-            const scaledHeight = height * scaleY;
-            
-            // Apply responsive positioning
-            hotspot.style.left = scaledX + 'px';
-            hotspot.style.top = scaledY + 'px';
-            hotspot.style.width = scaledWidth + 'px';
-            hotspot.style.height = scaledHeight + 'px';
-            hotspot.style.transform = `rotate(${rotation}deg)`;
-        });
-        
-        console.log(`Positioned ${hotspots.length} hotspots for ${boardRect.width.toFixed(0)}x${boardRect.height.toFixed(0)} container`);
+    * Position hotspots responsively within the aspect ratio container
+    */
+function positionHotspots() {
+    // Don't reposition during zoom transitions to avoid conflicts
+    if (rootEl.classList.contains('zooming') || rootEl.classList.contains('zoom-reset')) {
+    console.log('Skipping hotspot positioning during zoom transition');
+    return;
     }
+    
+    // Get the container that holds both background and hotspots
+    const container = rootEl.querySelector('.lidar-container');
+    if (!container) {
+        console.error('LiDAR container not found');
+        return;
+    }
+    
+    const containerRect = container.getBoundingClientRect();
+    const scaleX = containerRect.width / REFERENCE_WIDTH;
+    const scaleY = containerRect.height / REFERENCE_HEIGHT;
+    
+    hotspots.forEach(hotspot => {
+    const coords = hotspot.dataset.coords.split(',').map(Number);
+    const rotation = parseFloat(hotspot.dataset.rotation || 0);
+    
+    const [x, y, width, height] = coords;
+    
+    // Scale coordinates to current container size
+    const scaledX = x * scaleX;
+    const scaledY = y * scaleY;
+    const scaledWidth = width * scaleX;
+    const scaledHeight = height * scaleY;
+        
+        // Apply responsive positioning relative to container
+        hotspot.style.left = scaledX + 'px';
+        hotspot.style.top = scaledY + 'px';
+        hotspot.style.width = scaledWidth + 'px';
+        hotspot.style.height = scaledHeight + 'px';
+        hotspot.style.transform = `rotate(${rotation}deg)`;
+    });
+    
+    console.log(`Positioned ${hotspots.length} hotspots for ${containerRect.width.toFixed(0)}x${containerRect.height.toFixed(0)} container`);
+}
     
     // Add click handlers for hotspots with color integration
     hotspots.forEach(hotspot => {
@@ -257,8 +272,9 @@ export function initLidarBoard(rootEl, callbacks = {}) {
         
         resizeTimeout = setTimeout(() => {
             // Reset any transform origin issues before repositioning
-            if (!rootEl.classList.contains('zooming')) {
-                rootEl.style.transformOrigin = 'center';
+            const container = rootEl.querySelector('.lidar-container');
+            if (!rootEl.classList.contains('zooming') && container) {
+                container.style.transformOrigin = 'center';
             }
             
             positionHotspots();
@@ -277,9 +293,12 @@ export function initLidarBoard(rootEl, callbacks = {}) {
     
     // Enhanced initialization sequence
     function initializeHotspots() {
-        // Reset any transform state
-        rootEl.style.transform = '';
-        rootEl.style.transformOrigin = 'center';
+        // Reset any transform state on the container
+        const container = rootEl.querySelector('.lidar-container');
+        if (container) {
+            container.style.transform = 'translate(-50%, -50%) scale(1)';
+            container.style.transformOrigin = 'center';
+        }
         
         // Initial positioning with multiple checks
         setTimeout(positionHotspots, 50);
@@ -310,15 +329,21 @@ export function initLidarBoard(rootEl, callbacks = {}) {
         getHighlighting: () => isHighlighting,
         forceRepositioning: () => {
             // Force clean state and reposition
-            rootEl.style.transform = '';
-            rootEl.style.transformOrigin = 'center';
+            const container = rootEl.querySelector('.lidar-container');
+            if (container) {
+                container.style.transform = 'translate(-50%, -50%) scale(1)';
+                container.style.transformOrigin = 'center';
+            }
             setTimeout(positionHotspots, 10);
         },
         resetState: () => {
             // Complete state reset
             rootEl.classList.remove('zooming', 'zoom-reset', 'highlighting', 'mask-active');
-            rootEl.style.transform = '';
-            rootEl.style.transformOrigin = 'center';
+            const container = rootEl.querySelector('.lidar-container');
+            if (container) {
+                container.style.transform = 'translate(-50%, -50%) scale(1)';
+                container.style.transformOrigin = 'center';
+            }
             isResizing = false;
             clearTimeout(resizeTimeout);
             setTimeout(positionHotspots, 10);

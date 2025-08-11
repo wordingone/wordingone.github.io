@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WordingOne | Architectural Navigation System</title>
+    <title>Prada: Remaking | Architectural Navigation System</title>
     <!-- Disable favicon to prevent 404 errors -->
     <link rel="icon" href="data:,">
     <link rel="stylesheet" href="style.css">
@@ -15,7 +15,7 @@
         <div id="model-panel">
             <!-- Brand Header -->
             <div class="brand-header">
-                <div class="brand-logo">WordingOne</div>
+                <div class="brand-logo">Prada: Remaking</div>
                 <div class="brand-subtitle">Architectural Navigation</div>
             </div>
             
@@ -42,52 +42,58 @@
                 </button>
             </div>
             
-            <!-- LiDAR Board Interface -->
+            <!-- LiDAR Board Interface with proper aspect ratio container -->
             <div id="lidar-board">
-                <!-- Interactive hotspots - EXACT coordinates from Figma SVG export -->
-                <!-- Region 1: Central workspace area (rotated 1.2 degrees clockwise) -->
-                <div class="hotspot" data-area="index" data-coords="516,448,154,37" data-rotation="4.0">
-                    <span class="hotspot-label">index</span>
-                </div>
-                
-                <!-- Region 2: Upper central area (shifted down 2px) -->
-                <div class="hotspot" data-area="mirror" data-coords="818,459,104,44" data-rotation="2.9">
-                    <span class="hotspot-label">mirror</span>
-                </div>
-                
-                <!-- Region 3: Right exhibition area (rotated rect) -->
-                <div class="hotspot" data-area="exhibition-right" data-coords="1285,589,153,131" data-rotation="0.8">
-                    <span class="hotspot-label">exhibition-right</span>
-                </div>
-                
-                <!-- Region 4: Archive inside area (moved 2px right) -->
-                <div class="hotspot" data-area="archive_inside" data-coords="354,440,58,44" data-rotation="4.2">
-                    <span class="hotspot-label">archive_inside</span>
-                </div>
-                
-                <!-- Region 5: Archive center (large vertical rect) -->
-                <div class="hotspot" data-area="archive_2" data-coords="831,574,113,84" data-rotation="0">
-                    <span class="hotspot-label">archive_2</span>
-                </div>
-                
-                <!-- Region 6: Red dye area (shifted right 1px more) -->
-                <div class="hotspot" data-area="red_dye" data-coords="1345,346,101,112" data-rotation="0.4">
-                    <span class="hotspot-label">red_dye</span>
-                </div>
-                
-                <!-- Region 7: Documentation area (shifted right 5px) -->
-                <div class="hotspot" data-area="circulation_1" data-coords="1220,216,109,163" data-rotation="0.5">
-                    <span class="hotspot-label">circulation_1</span>
-                </div>
-                
-                <!-- Region 8: Digital workspace (horizontal rect) -->
-                <div class="hotspot" data-area="insula" data-coords="948,522,136,109" data-rotation="0.3">
-                    <span class="hotspot-label">insula</span>
-                </div>
-                
-                <!-- Region 9: Studio corner (moved 2px left) -->
-                <div class="hotspot" data-area="altar" data-coords="1426,455,62,42" data-rotation="-2.1">
-                    <span class="hotspot-label">altar</span>
+                <!-- Aspect ratio container that maintains proportions -->
+                <div class="lidar-container">
+                    <!-- Background image -->
+                    <div class="lidar-background"></div>
+                    
+                    <!-- Interactive hotspots - positioned relative to container -->
+                    <!-- Region 1: Central workspace area (rotated 1.2 degrees clockwise) -->
+                    <div class="hotspot" data-area="index" data-coords="516,448,154,37" data-rotation="4.0">
+                        <span class="hotspot-label">index</span>
+                    </div>
+                    
+                    <!-- Region 2: Upper central area (shifted down 2px) -->
+                    <div class="hotspot" data-area="mirror" data-coords="818,459,104,44" data-rotation="2.9">
+                        <span class="hotspot-label">mirror</span>
+                    </div>
+                    
+                    <!-- Region 3: Right exhibition area (rotated rect) -->
+                    <div class="hotspot" data-area="exhibition-right" data-coords="1285,589,153,131" data-rotation="0.8">
+                        <span class="hotspot-label">exhibition-right</span>
+                    </div>
+                    
+                    <!-- Region 4: Archive inside area (moved 2px right) -->
+                    <div class="hotspot" data-area="archive_inside" data-coords="354,440,58,44" data-rotation="4.2">
+                        <span class="hotspot-label">archive_inside</span>
+                    </div>
+                    
+                    <!-- Region 5: Archive center (large vertical rect) -->
+                    <div class="hotspot" data-area="archive_2" data-coords="831,574,113,84" data-rotation="0">
+                        <span class="hotspot-label">archive_2</span>
+                    </div>
+                    
+                    <!-- Region 6: Red dye area (shifted right 1px more) -->
+                    <div class="hotspot" data-area="red_dye" data-coords="1345,346,101,112" data-rotation="0.4">
+                        <span class="hotspot-label">red_dye</span>
+                    </div>
+                    
+                    <!-- Region 7: Documentation area (shifted right 5px) -->
+                    <div class="hotspot" data-area="circulation_1" data-coords="1220,216,109,163" data-rotation="0.5">
+                        <span class="hotspot-label">circulation_1</span>
+                    </div>
+                    
+                    <!-- Region 8: Digital workspace (horizontal rect) -->
+                    <div class="hotspot" data-area="insula" data-coords="948,522,136,109" data-rotation="0.3">
+                        <span class="hotspot-label">insula</span>
+                    </div>
+                    
+                    <!-- Region 9: Studio corner (moved 2px left) -->
+                    <div class="hotspot" data-area="altar" data-coords="1426,455,62,42" data-rotation="-2.1">
+                        <span class="hotspot-label">altar</span>
+                    </div>
                 </div>
             </div>
         </div>
