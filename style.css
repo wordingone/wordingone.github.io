@@ -305,7 +305,7 @@ body {
     }
 }
 
-/* Video Overlay System - Top-right corner, proper size */
+/* Video Overlay System - Two modes: fixed and frame-positioned */
 .video-overlay {
     position: fixed;
     top: 20px;
@@ -322,16 +322,42 @@ body {
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
+/* Frame-positioned overlays use absolute positioning within lidar board */
+.video-overlay.frame-positioned {
+    position: absolute;
+    top: 0;
+    right: auto;
+    left: 0;
+    width: 200px;
+    height: 150px;
+    transform: scale(0.8);
+    transition: all 0.3s ease;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
+}
+
 .video-overlay.active {
     opacity: 1;
     visibility: visible;
     transform: translateX(0);
 }
 
+.video-overlay.frame-positioned.active {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1);
+}
+
 .video-overlay.closing {
     opacity: 0;
     visibility: hidden;
     transform: translateX(100%);
+}
+
+.video-overlay.frame-positioned.closing {
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.8);
 }
 
 /* Remove backdrop completely */
@@ -393,6 +419,28 @@ body {
     height: 100%;
     object-fit: cover;
     border-radius: 12px;
+}
+
+/* Region frame system - invisible frames that track clicked areas */
+.region-frame {
+    position: absolute;
+    background: transparent;
+    border: 2px solid rgba(52, 152, 219, 0.3);
+    pointer-events: none;
+    z-index: 100;
+    box-sizing: border-box;
+    animation: frameHighlight 2s ease-in-out;
+}
+
+@keyframes frameHighlight {
+    0%, 100% {
+        border-color: rgba(52, 152, 219, 0.3);
+        box-shadow: none;
+    }
+    50% {
+        border-color: rgba(52, 152, 219, 0.8);
+        box-shadow: 0 0 20px rgba(52, 152, 219, 0.4);
+    }
 }
 
 /* LiDAR zoom animation - much closer zoom to focus on region */
@@ -460,6 +508,12 @@ body {
         height: 270px;
         top: 15px;
         right: 15px;
+    }
+    
+    .video-overlay.frame-positioned {
+        width: 180px;
+        height: 135px;
+        border-radius: 6px;
     }
     
     .overlay-title {

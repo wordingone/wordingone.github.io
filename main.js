@@ -48,6 +48,9 @@ document.addEventListener('DOMContentLoaded', async function() {
             sync.handleAreaSelect(area, hotspot);
         },
         onZoomExtents: () => {
+            // Use video overlay's zoom toggle for proper state management
+            videoOverlay.toggleZoom();
+            // Still sync for any 3D interactions
             sync.handleZoomExtents();
         }
     });

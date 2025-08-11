@@ -4,28 +4,9 @@ A responsive, cinematic web experience bridging campaign narratives with a deepe
 
 ## Status (Evidence-Based)
 - Directory verified: ✅ B:\GIT\wordingone.github.io
-- Script loading mode: ✅ MODULAR - uses ES modules with clean separation
-- LFS: ✅ DISABLED for GLB files (binary deployment)
+- Script loading mode: ✅ LOCAL - modular ES6 system with './models/' paths
+- LFS: ✅ DISABLED for GLB deployment (binary files served directly)
 - Models: 10 files; pointers: 0; binary: 10
-- Video system: ✅ ACTIVE - 9 regions with overlay playback
-
-## Features
-### 🎯 Interactive LiDAR Navigation
-- **Responsive hotspots**: 9 clickable regions with precise positioning
-- **Subtle hover feedback**: Question mark indicators (32px) with minimal scale effect
-- **Close-up zoom**: 3.5x scale animation focuses on clicked region
-- **Video overlays**: Top-right corner playback (480x360px) without backdrop darkening
-- **Smart highlighting**: SVG mask system with feathered edges
-
-### 🏗️ 3D Architectural System
-- **GPU instancing**: 2,673 components across 5-floor tower
-- **Optimized rendering**: Baked lighting, static draw usage, geometry optimization
-- **Responsive viewport**: Adapts to model panel dimensions
-
-### 📁 Modular Architecture
-- **Core modules**: viewer, loader, instancer, UI, overlay, sync
-- **Clean APIs**: Separation of concerns with proper interfaces
-- **Maintainable**: Individual modules for easy debugging and extension
 
 ## Structure (from repo)
 ```
@@ -33,41 +14,50 @@ wordingone.github.io/
 ├── .git/                    # Git repository with LFS objects
 ├── _ai/                     # AI control files
 │   └── wordingone_bootstrap.xml
-├── models/                  # 3D model assets (4.3MB total)
-│   ├── altars.glb          # 334KB
-│   ├── arch_module_smallest.glb # 2.5MB (main architectural model)
-│   ├── circulation.glb     # 155KB
-│   ├── Distress.glb        # 336KB
-│   ├── embellishments.glb  # 182KB
-│   ├── Index.glb           # 189KB
-│   ├── mirror.glb          # 223KB
-│   ├── misc geometry.glb   # 3KB
-│   ├── Moulage.glb         # 168KB
-│   └── robot.glb           # 130KB
+├── models/                  # 3D model assets (8.9MB total)
+│   ├── altars.glb          # 1,180 bytes
+│   ├── arch_module_smallest.glb # 2,534,936 bytes (main architectural model)
+│   ├── circulation.glb     # 35,628 bytes
+│   ├── Distress.glb        # 1,180 bytes
+│   ├── embellishments.glb  # 1,172 bytes
+│   ├── Index.glb           # 2,088 bytes
+│   ├── mirror.glb          # 237,592 bytes
+│   ├── misc geometry.glb   # 6,100,336 bytes
+│   ├── Moulage.glb         # 1,244 bytes
+│   └── robot.glb           # 1,248 bytes
+├── src/                     # Modular source architecture
+│   ├── config/models.js    # Model path configuration
+│   ├── core/viewer.js      # 3D viewer initialization
+│   ├── load/loadModels.js  # GLB loading system
+│   └── [other modules]
+├── videos/                  # Video overlay content
 ├── index.html              # Main application entry point
-├── script.js               # 3D rendering engine (27KB)
+├── main.js                 # Module orchestrator (new architecture)
+├── script.js               # Legacy rendering engine
 ├── style.css               # UI styling
+├── lidar_00.png            # LiDAR background image
 ├── README.md               # This file
 ├── HANDOFF.md              # Project documentation
-└── .gitattributes          # LFS configuration
+└── .gitattributes          # LFS configuration (disabled for GLB)
 ```
 
 ## Assets (from repo)
 | file | bytes |
 |------|------:|
+| misc geometry.glb | 6,100,336 |
 | arch_module_smallest.glb | 2,534,936 |
-| altars.glb | 334,472 |
-| Distress.glb | 336,616 |
-| embellishments.glb | 182,576 |
-| Index.glb | 189,160 |
-| mirror.glb | 223,228 |
-| circulation.glb | 155,484 |
-| Moulage.glb | 168,860 |
-| robot.glb | 130,612 |
-| misc geometry.glb | 3,416 |
+| mirror.glb | 237,592 |
+| circulation.glb | 35,628 |
+| Index.glb | 2,088 |
+| Moulage.glb | 1,244 |
+| robot.glb | 1,248 |
+| altars.glb | 1,180 |
+| Distress.glb | 1,180 |
+| embellishments.glb | 1,172 |
 
 ## Maintenance Notes
-- Keep `.glb` as binary; avoid LFS pointers.
-- Prefer local `./models/...` unless a release URL is intentional and exists.
+- Keep `.glb` as binary; avoid LFS pointers for web deployment.
+- Script uses modular ES6 architecture with local `./models/` paths.
+- All GLB files start with `glTF` binary header, confirming proper format.
 
 _Last updated: 2025-08-10_
