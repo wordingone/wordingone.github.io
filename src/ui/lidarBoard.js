@@ -29,10 +29,15 @@ export function initLidarBoard(rootEl, callbacks = {}) {
             // Create CSS mask with holes for hotspots
             createMaskWithHoles();
             
-            console.log('Highlighting enabled - CSS mask with tight feathered edges');
-            console.log('Feather radius: 3px for sharp transition');
+            // Add smooth dissolving animation after a brief delay
+            setTimeout(() => {
+                rootEl.classList.add('mask-active');
+            }, 50);
+            
+            console.log('Highlighting enabled - CSS mask with smooth dissolving animation');
+            console.log('Fade-in duration: 0.8s for smooth transition');
         } else {
-            rootEl.classList.remove('highlighting');
+            rootEl.classList.remove('highlighting', 'mask-active');
             highlightBtn.classList.remove('active');
             
             // Remove CSS mask
@@ -295,7 +300,7 @@ export function initLidarBoard(rootEl, callbacks = {}) {
         },
         resetState: () => {
             // Complete state reset
-            rootEl.classList.remove('zooming', 'zoom-reset');
+            rootEl.classList.remove('zooming', 'zoom-reset', 'highlighting', 'mask-active');
             rootEl.style.transform = '';
             rootEl.style.transformOrigin = 'center';
             isResizing = false;

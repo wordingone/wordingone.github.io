@@ -71,19 +71,31 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
         const [x, y, width, height] = coords;
         const rotation = parseFloat(hotspot.dataset.rotation || 0);
         
-        // Get current scale factors (before zoom)
+        // Get current LiDAR board dimensions
         const boardRect = lidarBoard.getBoundingClientRect();
         const scaleX = boardRect.width / 1920; // Reference width from hotspots config
         const scaleY = boardRect.height / 1080; // Reference height from hotspots config
         
+        // Calculate the actual center of the hotspot region
+        const scaledX = x * scaleX;
+        const scaledY = y * scaleY;
+        const scaledWidth = width * scaleX;
+        const scaledHeight = height * scaleY;
+        
+        // Get the absolute center coordinates relative to the board
+        const centerX = scaledX + (scaledWidth / 2);
+        const centerY = scaledY + (scaledHeight / 2);
+        
+        console.log(`Region ${hotspot.dataset.area} center: (${centerX.toFixed(1)}, ${centerY.toFixed(1)}) in ${boardRect.width.toFixed(0)}x${boardRect.height.toFixed(0)} board`);
+        
         return {
-            x: x * scaleX,
-            y: y * scaleY,
-            width: width * scaleX,
-            height: height * scaleY,
+            x: scaledX,
+            y: scaledY,
+            width: scaledWidth,
+            height: scaledHeight,
             rotation,
-            centerX: (x * scaleX) + (width * scaleX) / 2,
-            centerY: (y * scaleY) + (height * scaleY) / 2
+            centerX: centerX,
+            centerY: centerY
         };
     }
     

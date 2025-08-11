@@ -143,7 +143,13 @@ body {
     z-index: 2;
     pointer-events: none;
     /* CSS mask will be applied dynamically via JS */
-    transition: opacity 0.3s ease;
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out;
+}
+
+/* When highlighting is active, animate the overlay in */
+#lidar-board.highlighting.mask-active::before {
+    opacity: 1;
 }
 
 /* Hotspot System - Invisible masks */
