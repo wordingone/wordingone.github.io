@@ -43,7 +43,244 @@ export function createModelFocus(scene) {
             models: ['Misc Geometry'], // Insula visualization
             description: 'Insula components'
         }
-    };\n    \n    // Store original materials for restoration\n    const originalMaterials = new Map();\n    const modelObjects = new Map(); // Store references to model objects by name\n    const instancedMeshes = new Map(); // Store references to instanced meshes\n    \n    let currentFocusRegion = null;\n    let isFocusActive = false;\n    \n    /**\n     * Initialize the focus system by cataloging all scene objects\n     */\n    function initializeFocusSystem() {\n        console.log('Cataloging scene objects for focus system...');\n        \n        scene.traverse((object) => {\n            if (object.isMesh || object.isInstancedMesh) {\n                // Store original materials\n                if (object.material) {\n                    if (Array.isArray(object.material)) {\n                        originalMaterials.set(object.uuid, object.material.map(mat => mat.clone()));\n                    } else {\n                        originalMaterials.set(object.uuid, object.material.clone());\n                    }\n                }\n                \n                // Catalog objects by their parent scene name if available\n                let modelName = 'Unknown';\n                if (object.parent && object.parent.userData.modelName) {\n                    modelName = object.parent.userData.modelName;\n                } else if (object.userData.modelName) {\n                    modelName = object.userData.modelName;\n                }\n                \n                // Store references by model name\n                if (!modelObjects.has(modelName)) {\n                    modelObjects.set(modelName, []);\n                }\n                modelObjects.get(modelName).push(object);\n                \n                // Special handling for instanced meshes\n                if (object.isInstancedMesh) {\n                    instancedMeshes.set(object.uuid, object);\n                }\n            }\n        });\n        \n        console.log(`Cataloged ${originalMaterials.size} objects across ${modelObjects.size} model groups`);\n        console.log('Model groups found:', Array.from(modelObjects.keys()));\n    }\n    \n    /**\n     * Create ghosted material for unfocused objects\n     * @param {THREE.Material} originalMaterial - Original material to ghost\n     * @returns {THREE.Material} Ghosted material\n     */\n    function createGhostedMaterial(originalMaterial) {\n        const ghosted = originalMaterial.clone();\n        \n        // Apply ghosting effects\n        ghosted.transparent = true;\n        ghosted.opacity = 0.15; // Very transparent\n        ghosted.depthWrite = false; // Don't write to depth buffer for proper transparency\n        \n        // Desaturate colors\n        if (ghosted.color) {\n            const gray = ghosted.color.r * 0.299 + ghosted.color.g * 0.587 + ghosted.color.b * 0.114;\n            ghosted.color.setRGB(gray * 0.5, gray * 0.5, gray * 0.5);\n        }\n        \n        // Handle vertex colors for instanced meshes\n        if (ghosted.vertexColors) {\n            ghosted.vertexColors = false; // Disable vertex colors for ghosted state\n            ghosted.color.setRGB(0.3, 0.3, 0.3); // Set to light gray\n        }\n        \n        return ghosted;\n    }\n    \n    /**\n     * Apply focus to specific region - highlight related models, ghost others\n     * @param {string} regionName - Name of the region to focus on\n     */\n    function focusOnRegion(regionName) {\n        if (!modelRegionMapping[regionName]) {\n            console.warn(`No model mapping found for region: ${regionName}`);\n            return;\n        }\n        \n        console.log(`Applying focus to region: ${regionName}`);\n        \n        const focusConfig = modelRegionMapping[regionName];\n        const focusedModels = new Set(focusConfig.models);\n        \n        currentFocusRegion = regionName;\n        isFocusActive = true;\n        \n        // Process all cataloged objects\n        modelObjects.forEach((objects, modelName) => {\n            const shouldBeFocused = focusedModels.has(modelName);\n            \n            objects.forEach(object => {\n                if (shouldBeFocused) {\n                    // Keep original materials for focused objects\n                    restoreOriginalMaterial(object);\n                    console.log(`Focusing model: ${modelName}`);\n                } else {\n                    // Apply ghosted materials to unfocused objects\n                    applyGhostedMaterial(object);\n                }\n            });\n        });\n        \n        // Special handling for instanced meshes (architectural components)\n        if (focusedModels.has('Architectural System')) {\n            console.log('Focusing on architectural system - showing first floor only');\n            // For architectural system, we want to show only first floor for archive\n            handleArchitecturalSystemFocus(regionName);\n        }\n        \n        console.log(`Focus applied: ${focusConfig.description}`);\n    }\n    \n    /**\n     * Handle special focus behavior for architectural system\n     * @param {string} regionName - Region name for context\n     */\n    function handleArchitecturalSystemFocus(regionName) {\n        instancedMeshes.forEach((instancedMesh) => {\n            if (regionName.includes('archive')) {\n                // For archive regions, show first floor clearly, ghost upper floors\n                // This is a simplified approach - in a more complex system,\n                // we might selectively modify instance matrices\n                restoreOriginalMaterial(instancedMesh);\n                \n                // Reduce opacity slightly to differentiate from regular models\n                if (instancedMesh.material) {\n                    const material = instancedMesh.material.clone();\n                    material.transparent = true;\n                    material.opacity = 0.8;\n                    instancedMesh.material = material;\n                }\n            }\n        });\n    }\n    \n    /**\n     * Apply ghosted material to an object\n     * @param {THREE.Object3D} object - Object to apply ghosted material to\n     */\n    function applyGhostedMaterial(object) {\n        if (!object.material) return;\n        \n        const original = originalMaterials.get(object.uuid);\n        if (!original) return;\n        \n        if (Array.isArray(original)) {\n            object.material = original.map(mat => createGhostedMaterial(mat));\n        } else {\n            object.material = createGhostedMaterial(original);\n        }\n    }\n    \n    /**\n     * Restore original material to an object\n     * @param {THREE.Object3D} object - Object to restore\n     */\n    function restoreOriginalMaterial(object) {\n        if (!object.material) return;\n        \n        const original = originalMaterials.get(object.uuid);\n        if (!original) return;\n        \n        if (Array.isArray(original)) {\n            object.material = original.map(mat => mat.clone());\n        } else {\n            object.material = original.clone();\n        }\n    }\n    \n    /**\n     * Clear all focus effects and restore normal appearance\n     */\n    function clearFocus() {\n        if (!isFocusActive) return;\n        \n        console.log('Clearing focus - restoring all models to normal state');\n        \n        // Restore all objects to their original materials\n        modelObjects.forEach((objects) => {\n            objects.forEach(object => {\n                restoreOriginalMaterial(object);\n            });\n        });\n        \n        currentFocusRegion = null;\n        isFocusActive = false;\n        \n        console.log('Focus cleared - all models restored');\n    }\n    \n    /**\n     * Update model catalog after new models are added\n     * @param {THREE.Object3D} modelScene - Newly added model scene\n     * @param {string} modelName - Name of the model\n     */\n    function catalogNewModel(modelScene, modelName) {\n        console.log(`Cataloging new model: ${modelName}`);\n        \n        // Add model name to scene userData for identification\n        modelScene.userData.modelName = modelName;\n        \n        modelScene.traverse((object) => {\n            if (object.isMesh || object.isInstancedMesh) {\n                // Store original materials\n                if (object.material) {\n                    if (Array.isArray(object.material)) {\n                        originalMaterials.set(object.uuid, object.material.map(mat => mat.clone()));\n                    } else {\n                        originalMaterials.set(object.uuid, object.material.clone());\n                    }\n                }\n                \n                // Add to model catalog\n                if (!modelObjects.has(modelName)) {\n                    modelObjects.set(modelName, []);\n                }\n                modelObjects.get(modelName).push(object);\n                \n                // Store instanced mesh references\n                if (object.isInstancedMesh) {\n                    instancedMeshes.set(object.uuid, object);\n                }\n            }\n        });\n        \n        console.log(`✓ Model '${modelName}' cataloged with ${modelObjects.get(modelName).length} objects`);
+    };
+    
+    // Store original materials for restoration
+    const originalMaterials = new Map();
+    const modelObjects = new Map(); // Store references to model objects by name
+    const instancedMeshes = new Map(); // Store references to instanced meshes
+    
+    let currentFocusRegion = null;
+    let isFocusActive = false;
+    
+    /**
+     * Initialize the focus system by cataloging all scene objects
+     */
+    function initializeFocusSystem() {
+        console.log('Cataloging scene objects for focus system...');
+        
+        scene.traverse((object) => {
+            if (object.isMesh || object.isInstancedMesh) {
+                // Store original materials
+                if (object.material) {
+                    if (Array.isArray(object.material)) {
+                        originalMaterials.set(object.uuid, object.material.map(mat => mat.clone()));
+                    } else {
+                        originalMaterials.set(object.uuid, object.material.clone());
+                    }
+                }
+                
+                // Catalog objects by their parent scene name if available
+                let modelName = 'Unknown';
+                if (object.parent && object.parent.userData.modelName) {
+                    modelName = object.parent.userData.modelName;
+                } else if (object.userData.modelName) {
+                    modelName = object.userData.modelName;
+                }
+                
+                // Store references by model name
+                if (!modelObjects.has(modelName)) {
+                    modelObjects.set(modelName, []);
+                }
+                modelObjects.get(modelName).push(object);
+                
+                // Special handling for instanced meshes
+                if (object.isInstancedMesh) {
+                    instancedMeshes.set(object.uuid, object);
+                }
+            }
+        });
+        
+        console.log(`Cataloged ${originalMaterials.size} objects across ${modelObjects.size} model groups`);
+        console.log('Model groups found:', Array.from(modelObjects.keys()));
+    }
+    
+    /**
+     * Create ghosted material for unfocused objects
+     * @param {THREE.Material} originalMaterial - Original material to ghost
+     * @returns {THREE.Material} Ghosted material
+     */
+    function createGhostedMaterial(originalMaterial) {
+        const ghosted = originalMaterial.clone();
+        
+        // Apply ghosting effects
+        ghosted.transparent = true;
+        ghosted.opacity = 0.15; // Very transparent
+        ghosted.depthWrite = false; // Don't write to depth buffer for proper transparency
+        
+        // Desaturate colors
+        if (ghosted.color) {
+            const gray = ghosted.color.r * 0.299 + ghosted.color.g * 0.587 + ghosted.color.b * 0.114;
+            ghosted.color.setRGB(gray * 0.5, gray * 0.5, gray * 0.5);
+        }
+        
+        // Handle vertex colors for instanced meshes
+        if (ghosted.vertexColors) {
+            ghosted.vertexColors = false; // Disable vertex colors for ghosted state
+            ghosted.color.setRGB(0.3, 0.3, 0.3); // Set to light gray
+        }
+        
+        return ghosted;
+    }
+    
+    /**
+     * Apply focus to specific region - highlight related models, ghost others
+     * @param {string} regionName - Name of the region to focus on
+     */
+    function focusOnRegion(regionName) {
+        if (!modelRegionMapping[regionName]) {
+            console.warn(`No model mapping found for region: ${regionName}`);
+            return;
+        }
+        
+        console.log(`Applying focus to region: ${regionName}`);
+        
+        const focusConfig = modelRegionMapping[regionName];
+        const focusedModels = new Set(focusConfig.models);
+        
+        currentFocusRegion = regionName;
+        isFocusActive = true;
+        
+        // Process all cataloged objects
+        modelObjects.forEach((objects, modelName) => {
+            const shouldBeFocused = focusedModels.has(modelName);
+            
+            objects.forEach(object => {
+                if (shouldBeFocused) {
+                    // Keep original materials for focused objects
+                    restoreOriginalMaterial(object);
+                    console.log(`Focusing model: ${modelName}`);
+                } else {
+                    // Apply ghosted materials to unfocused objects
+                    applyGhostedMaterial(object);
+                }
+            });
+        });
+        
+        // Special handling for instanced meshes (architectural components)
+        if (focusedModels.has('Architectural System')) {
+            console.log('Focusing on architectural system - showing first floor only');
+            // For architectural system, we want to show only first floor for archive
+            handleArchitecturalSystemFocus(regionName);
+        }
+        
+        console.log(`Focus applied: ${focusConfig.description}`);
+    }
+    
+    /**
+     * Handle special focus behavior for architectural system
+     * @param {string} regionName - Region name for context
+     */
+    function handleArchitecturalSystemFocus(regionName) {
+        instancedMeshes.forEach((instancedMesh) => {
+            if (regionName.includes('archive')) {
+                // For archive regions, show first floor clearly, ghost upper floors
+                // This is a simplified approach - in a more complex system,
+                // we might selectively modify instance matrices
+                restoreOriginalMaterial(instancedMesh);
+                
+                // Reduce opacity slightly to differentiate from regular models
+                if (instancedMesh.material) {
+                    const material = instancedMesh.material.clone();
+                    material.transparent = true;
+                    material.opacity = 0.8;
+                    instancedMesh.material = material;
+                }
+            }
+        });
+    }
+    
+    /**
+     * Apply ghosted material to an object
+     * @param {THREE.Object3D} object - Object to apply ghosted material to
+     */
+    function applyGhostedMaterial(object) {
+        if (!object.material) return;
+        
+        const original = originalMaterials.get(object.uuid);
+        if (!original) return;
+        
+        if (Array.isArray(original)) {
+            object.material = original.map(mat => createGhostedMaterial(mat));
+        } else {
+            object.material = createGhostedMaterial(original);
+        }
+    }
+    
+    /**
+     * Restore original material to an object
+     * @param {THREE.Object3D} object - Object to restore
+     */
+    function restoreOriginalMaterial(object) {
+        if (!object.material) return;
+        
+        const original = originalMaterials.get(object.uuid);
+        if (!original) return;
+        
+        if (Array.isArray(original)) {
+            object.material = original.map(mat => mat.clone());
+        } else {
+            object.material = original.clone();
+        }
+    }
+    
+    /**
+     * Clear all focus effects and restore normal appearance
+     */
+    function clearFocus() {
+        if (!isFocusActive) return;
+        
+        console.log('Clearing focus - restoring all models to normal state');
+        
+        // Restore all objects to their original materials
+        modelObjects.forEach((objects) => {
+            objects.forEach(object => {
+                restoreOriginalMaterial(object);
+            });
+        });
+        
+        currentFocusRegion = null;
+        isFocusActive = false;
+        
+        console.log('Focus cleared - all models restored');
+    }
+    
+    /**
+     * Update model catalog after new models are added
+     * @param {THREE.Object3D} modelScene - Newly added model scene
+     * @param {string} modelName - Name of the model
+     */
+    function catalogNewModel(modelScene, modelName) {
+        console.log(`Cataloging new model: ${modelName}`);
+        
+        // Add model name to scene userData for identification
+        modelScene.userData.modelName = modelName;
+        
+        modelScene.traverse((object) => {
+            if (object.isMesh || object.isInstancedMesh) {
+                // Store original materials
+                if (object.material) {
+                    if (Array.isArray(object.material)) {
+                        originalMaterials.set(object.uuid, object.material.map(mat => mat.clone()));
+                    } else {
+                        originalMaterials.set(object.uuid, object.material.clone());
+                    }
+                }
+                
+                // Add to model catalog
+                if (!modelObjects.has(modelName)) {
+                    modelObjects.set(modelName, []);
+                }
+                modelObjects.get(modelName).push(object);
+                
+                // Store instanced mesh references
+                if (object.isInstancedMesh) {
+                    instancedMeshes.set(object.uuid, object);
+                }
+            }
+        });
+        
+        console.log(`✓ Model '${modelName}' cataloged with ${modelObjects.get(modelName).length} objects`);
         
         // Log which regions this model affects
         const affectedRegions = [];
@@ -54,4 +291,48 @@ export function createModelFocus(scene) {
         });
         if (affectedRegions.length > 0) {
             console.log(`  → Affects regions: ${affectedRegions.join(', ')}`);
-        }\n    }\n    \n    /**\n     * Get available regions for focus\n     * @returns {Array} Array of available region names\n     */\n    function getAvailableRegions() {\n        return Object.keys(modelRegionMapping);\n    }\n    \n    /**\n     * Check if focus is currently active\n     * @returns {boolean} True if focus is active\n     */\n    function isFocused() {\n        return isFocusActive;\n    }\n    \n    /**\n     * Get current focused region\n     * @returns {string|null} Current focused region or null\n     */\n    function getCurrentFocus() {\n        return currentFocusRegion;\n    }\n    \n    // Initialize the system\n    initializeFocusSystem();\n    \n    console.log('3D model focus system initialized');\n    \n    // Public API\n    return {\n        focusOnRegion,\n        clearFocus,\n        catalogNewModel,\n        getAvailableRegions,\n        isFocused,\n        getCurrentFocus,\n        // Expose mapping for debugging\n        getModelMapping: () => modelRegionMapping,\n        getModelCatalog: () => modelObjects\n    };\n}\n
+        }
+    }
+    
+    /**
+     * Get available regions for focus
+     * @returns {Array} Array of available region names
+     */
+    function getAvailableRegions() {
+        return Object.keys(modelRegionMapping);
+    }
+    
+    /**
+     * Check if focus is currently active
+     * @returns {boolean} True if focus is active
+     */
+    function isFocused() {
+        return isFocusActive;
+    }
+    
+    /**
+     * Get current focused region
+     * @returns {string|null} Current focused region or null
+     */
+    function getCurrentFocus() {
+        return currentFocusRegion;
+    }
+    
+    // Initialize the system
+    initializeFocusSystem();
+    
+    console.log('3D model focus system initialized');
+    
+    // Public API
+    return {
+        focusOnRegion,
+        clearFocus,
+        catalogNewModel,
+        getAvailableRegions,
+        isFocused,
+        getCurrentFocus,
+        // Expose mapping for debugging
+        getModelMapping: () => modelRegionMapping,
+        getModelCatalog: () => modelObjects
+    };
+}
