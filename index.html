@@ -85,6 +85,12 @@
             opacity: 1;
         }
 
+        .logo-section.locked {
+            position: fixed;
+            top: 50vh;
+            transform: translate(-50%, -50%);
+        }
+
         .logo-wrapper {
             cursor: pointer;
             transition: transform 0.3s ease;
@@ -113,110 +119,6 @@
             color: #fff; /* Pure white, no gold */
             margin: 0;
             white-space: nowrap;
-        }
-
-        /* Video Container - Full screen overlay */
-        .video-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: #000;
-            display: none;
-            z-index: 1000;
-        }
-
-        .video-container.active {
-            display: block;
-        }
-
-        .intro-video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        /* Skip Button - Only shows after loading complete */
-        .skip-button {
-            position: fixed;
-            top: 40px;
-            right: 40px;
-            width: 50px;
-            height: 50px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            cursor: pointer;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            z-index: 1001;
-        }
-
-        .skip-button.visible {
-            display: flex;
-        }
-
-        .skip-button:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: scale(1.1);
-        }
-
-        /* Double arrow skip icon */
-        .skip-icon {
-            position: relative;
-            width: 20px;
-            height: 20px;
-        }
-
-        .skip-icon::before,
-        .skip-icon::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 0;
-            border-style: solid;
-            border-color: transparent;
-        }
-
-        .skip-icon::before {
-            border-left-width: 10px;
-            border-right-width: 0;
-            border-top-width: 6px;
-            border-bottom-width: 6px;
-            border-left-color: #fff;
-            top: 4px;
-            left: 2px;
-        }
-
-        .skip-icon::after {
-            border-left-width: 10px;
-            border-right-width: 0;
-            border-top-width: 6px;
-            border-bottom-width: 6px;
-            border-left-color: #fff;
-            top: 4px;
-            left: 10px;
-        }
-
-        /* Loading Progress */
-        .loading-status {
-            position: fixed;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 14px;
-            font-family: 'Roboto', sans-serif;
-            letter-spacing: 1px;
-            display: none;
-            z-index: 1002;
-        }
-
-        .loading-status.visible {
-            display: block;
         }
 
         /* Scroll indicator */
@@ -259,6 +161,12 @@
             50% { opacity: 1; }
         }
 
+        /* Body locked state */
+        body.scroll-locked {
+            overflow: hidden;
+            height: 100vh;
+        }
+
         /* Responsive Design */
         @media (max-width: 768px) {
             .header-text {
@@ -278,13 +186,6 @@
             .brand-text {
                 font-size: 48px;
                 letter-spacing: 8px;
-            }
-
-            .skip-button {
-                top: 20px;
-                right: 20px;
-                width: 40px;
-                height: 40px;
             }
         }
 
@@ -334,32 +235,18 @@
         </div>
     </div>
 
-    <!-- Video Container -->
-    <div class="video-container" id="videoContainer">
-        <video class="intro-video" id="introVideo" playsinline preload="auto">
-            <source src="./videos/complete animation.mp4" type="video/mp4">
-        </video>
-        <div class="skip-button" id="skipButton">
-            <div class="skip-icon"></div>
-        </div>
-        <div class="loading-status" id="loadingStatus">Loading architectural models...</div>
-    </div>
-
     <script>
         // Elements
         const coverContainer = document.getElementById('coverContainer');
         const logoSection = document.getElementById('logoSection');
         const logoWrapper = document.getElementById('logoWrapper');
-        const videoContainer = document.getElementById('videoContainer');
-        const introVideo = document.getElementById('introVideo');
-        const skipButton = document.getElementById('skipButton');
-        const loadingStatus = document.getElementById('loadingStatus');
         const scrollIndicator = document.getElementById('scrollIndicator');
+        const body = document.body;
 
-        let resourcesLoaded = false;
-        let videoStarted = false;
+        let logoIsLocked = false;
+        let hasNavigated = false;
 
-        // Handle scroll to reveal logo
+        // Handle scroll to reveal logo and lock in center
         function handleScroll() {
             const scrollY = window.scrollY || window.pageYOffset;
             const viewportHeight = window.innerHeight;
@@ -371,11 +258,56 @@
                 scrollIndicator.classList.remove('hidden');
             }
             
-            // Show logo when it comes into view (when scrolled past 1.2 viewports)
+            // Calculate when logo should be visible and centered
+            const logoTargetScroll = viewportHeight * 1.8; // Logo is at 180vh, center would be at ~180vh - 50vh
+            const tolerance = 50; // pixels of tolerance for centering
+            
+            // Show logo when scrolled past 1.2 viewports
             if (scrollY > viewportHeight * 1.2) {
                 logoSection.classList.add('visible');
             }
+            
+            // Lock scroll when logo is centered in viewport
+            if (!logoIsLocked && Math.abs(scrollY - logoTargetScroll) < tolerance) {
+                lockScrollAtLogo();
+            }
         }
+
+        // Lock scroll when logo is centered
+        function lockScrollAtLogo() {
+            if (logoIsLocked || hasNavigated) return;
+            
+            logoIsLocked = true;
+            
+            // Smoothly scroll to exact center position
+            const viewportHeight = window.innerHeight;
+            const targetScroll = viewportHeight * 1.8;
+            
+            window.scrollTo({
+                top: targetScroll,
+                behavior: 'smooth'
+            });
+            
+            // After smooth scroll completes, lock the body
+            setTimeout(() => {
+                body.classList.add('scroll-locked');
+                logoSection.classList.add('locked');
+                scrollIndicator.classList.add('hidden');
+            }, 300);
+        }
+
+        // Handle logo click - navigate to main app with video
+        logoWrapper.addEventListener('click', function() {
+            if (!hasNavigated) {
+                hasNavigated = true;
+                
+                // Store flag in sessionStorage to indicate video should play
+                sessionStorage.setItem('playIntroVideo', 'true');
+                
+                // Navigate to main app
+                window.location.href = 'main-app.html';
+            }
+        });
 
         // Attach scroll listener
         window.addEventListener('scroll', handleScroll, { passive: true });
@@ -383,120 +315,31 @@
         // Check scroll position on load
         handleScroll();
 
-        // Handle logo click - start video and loading
-        logoWrapper.addEventListener('click', function() {
-            if (!videoStarted) {
-                startVideoAndLoading();
+        // Prevent scroll when locked
+        window.addEventListener('wheel', function(e) {
+            if (logoIsLocked && !hasNavigated) {
+                e.preventDefault();
             }
-        });
+        }, { passive: false });
 
-        // Start video and begin loading process
-        function startVideoAndLoading() {
-            videoStarted = true;
-            
-            // Show video container
-            videoContainer.classList.add('active');
-            loadingStatus.classList.add('visible');
-            
-            // Force video to play with muted first (for autoplay policy)
-            introVideo.muted = true;
-            
-            // Try to play the video
-            const playPromise = introVideo.play();
-            
-            if (playPromise !== undefined) {
-                playPromise.then(() => {
-                    console.log('Video playing');
-                    // Start loading resources
-                    startLoadingResources();
-                }).catch(error => {
-                    console.error('Video play failed:', error);
-                    // Even if video fails, continue with loading
-                    startLoadingResources();
-                });
-            } else {
-                // Old browsers
-                introVideo.play();
-                startLoadingResources();
+        window.addEventListener('touchmove', function(e) {
+            if (logoIsLocked && !hasNavigated) {
+                e.preventDefault();
             }
-        }
+        }, { passive: false });
 
-        // Simulate resource loading
-        function startLoadingResources() {
-            // Simulate loading time for models and lidar
-            let progress = 0;
-            const loadingMessages = [
-                'Loading architectural models...',
-                'Loading LiDAR interface...',
-                'Initializing 3D environment...',
-                'Preparing experience...'
-            ];
-            
-            let messageIndex = 0;
-            const loadingInterval = setInterval(() => {
-                progress += 20;
-                messageIndex = Math.min(Math.floor(progress / 25), loadingMessages.length - 1);
-                loadingStatus.textContent = loadingMessages[messageIndex];
-                
-                if (progress >= 100) {
-                    clearInterval(loadingInterval);
-                    resourcesLoaded = true;
-                    loadingStatus.textContent = 'Ready to enter';
-                    // Only show skip button after resources are loaded
-                    skipButton.classList.add('visible');
-                    
-                    // If video has already ended, proceed automatically
-                    if (introVideo.ended) {
-                        setTimeout(proceedToMainPage, 500);
-                    }
-                }
-            }, 800); // Simulate loading over ~4 seconds
-        }
-
-        // Proceed to main page without browser prompt
-        function proceedToMainPage() {
-            // Only proceed if resources are actually loaded
-            if (!resourcesLoaded) {
-                return;
-            }
-            
-            // Clear any beforeunload handlers
-            window.onbeforeunload = null;
-            
-            // Use assignment to avoid browser prompt
-            window.location.href = 'main-app.html';
-        }
-
-        // Handle skip button click
-        skipButton.addEventListener('click', function() {
-            if (resourcesLoaded) {
-                proceedToMainPage();
-            }
-        });
-
-        // Handle video end
-        introVideo.addEventListener('ended', function() {
-            if (resourcesLoaded) {
-                setTimeout(proceedToMainPage, 500);
-            }
-        });
-
-        // Keyboard support
+        // Keyboard support for navigation
         document.addEventListener('keydown', function(e) {
-            if (e.key === 'Escape' && videoContainer.classList.contains('active') && resourcesLoaded) {
-                proceedToMainPage();
+            // Prevent arrow key scrolling when locked
+            if (logoIsLocked && !hasNavigated && ['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End'].includes(e.key)) {
+                e.preventDefault();
             }
-        });
-
-        // Prevent any beforeunload prompts
-        window.addEventListener('beforeunload', function(e) {
-            // Clear the event
-            delete e['returnValue'];
-        });
-
-        // Also prevent on pagehide
-        window.addEventListener('pagehide', function(e) {
-            delete e['returnValue'];
+            
+            // Allow Enter or Space to trigger navigation when logo is visible and locked
+            if (logoIsLocked && !hasNavigated && (e.key === 'Enter' || e.key === ' ')) {
+                e.preventDefault();
+                logoWrapper.click();
+            }
         });
     </script>
 </body>

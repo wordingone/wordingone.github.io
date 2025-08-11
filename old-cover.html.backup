@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prada: (Re)Making</title>
+    <link rel="icon" href="data:,">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&family=GFS+Didot&display=swap">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #000;
+            color: #fff;
+            overflow-x: hidden;
+            height: 300vh; /* Make page actually scrollable */
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Cover Page Container */
+        .cover-container {
+            position: relative;
+            width: 100vw;
+            height: 300vh; /* Extend container for scrolling */
+            background: #000;
+        }
+
+        /* Top Section - Initially Visible, will scroll up naturally */
+        .header-section {
+            position: absolute;
+            top: 45vh; /* Center in first viewport */
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            z-index: 10;
+            width: 100%;
+        }
+
+        .header-text {
+            font-family: 'Roboto', sans-serif;
+            font-size: 24px;
+            font-weight: 300;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .subtitle-text {
+            font-family: 'Roboto', sans-serif;
+            font-size: 16px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Logo Section - Positioned much lower, requires scrolling to see */
+        .logo-section {
+            position: absolute;
+            top: 180vh; /* Position way down the page */
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            opacity: 0;
+            transition: opacity 1.2s ease-out;
+            z-index: 10;
+            width: 100%;
+        }
+
+        .logo-section.visible {
+            opacity: 1;
+        }
+
+        .logo-wrapper {
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .logo-wrapper:hover {
+            transform: scale(1.05);
+        }
+
+        .logo-image {
+            width: 800px; /* Exact size requested */
+            height: auto;
+            filter: brightness(0) invert(1); /* Make logo white */
+        }
+
+        .brand-text {
+            font-family: 'GFS Didot', serif;
+            font-size: 64px;
+            font-weight: 400;
+            letter-spacing: 12px;
+            text-transform: uppercase;
+            color: #fff; /* Pure white, no gold */
+            margin: 0;
+            white-space: nowrap;
+        }
+
+        /* Video Container - Full screen overlay */
+        .video-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #000;
+            display: none;
+            z-index: 1000;
+        }
+
+        .video-container.active {
+            display: block;
+        }
+
+        .intro-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Skip Button - Only shows after loading complete */
+        .skip-button {
+            position: fixed;
+            top: 40px;
+            right: 40px;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 1001;
+        }
+
+        .skip-button.visible {
+            display: flex;
+        }
+
+        .skip-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+
+        /* Double arrow skip icon */
+        .skip-icon {
+            position: relative;
+            width: 20px;
+            height: 20px;
+        }
+
+        .skip-icon::before,
+        .skip-icon::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-color: transparent;
+        }
+
+        .skip-icon::before {
+            border-left-width: 10px;
+            border-right-width: 0;
+            border-top-width: 6px;
+            border-bottom-width: 6px;
+            border-left-color: #fff;
+            top: 4px;
+            left: 2px;
+        }
+
+        .skip-icon::after {
+            border-left-width: 10px;
+            border-right-width: 0;
+            border-top-width: 6px;
+            border-bottom-width: 6px;
+            border-left-color: #fff;
+            top: 4px;
+            left: 10px;
+        }
+
+        /* Loading Progress */
+        .loading-status {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 14px;
+            font-family: 'Roboto', sans-serif;
+            letter-spacing: 1px;
+            display: none;
+            z-index: 1002;
+        }
+
+        .loading-status.visible {
+            display: block;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-text {
+                font-size: 20px;
+                letter-spacing: 3px;
+            }
+
+            .subtitle-text {
+                font-size: 14px;
+            }
+
+            .logo-image {
+                width: 90vw;
+                max-width: 700px;
+            }
+
+            .brand-text {
+                font-size: 48px;
+                letter-spacing: 8px;
+            }
+
+            .skip-button {
+                top: 20px;
+                right: 20px;
+                width: 40px;
+                height: 40px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-text {
+                font-size: 18px;
+                letter-spacing: 2px;
+            }
+
+            .subtitle-text {
+                font-size: 12px;
+            }
+
+            .logo-image {
+                width: 85vw;
+                max-width: 500px;
+            }
+
+            .brand-text {
+                font-size: 32px;
+                letter-spacing: 6px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Cover Page Container -->
+    <div class="cover-container" id="coverContainer">
+        <!-- Initially Visible Header - will scroll up naturally -->
+        <div class="header-section" id="headerSection">
+            <h1 class="header-text">Hyun Jun Han × Oskar Maly</h1>
+            <p class="subtitle-text">SCIARC: Peter Testa Vertical Studio Project</p>
+        </div>
+
+        <!-- Logo Section - Appears way down the page after scrolling -->
+        <div class="logo-section" id="logoSection">
+            <div class="logo-wrapper" id="logoWrapper">
+                <img src="./logo/remaking logo 1.png" alt="Prada Logo" class="logo-image">
+                <h2 class="brand-text">Prada: (Re)Making</h2>
+            </div>
+        </div>
+    </div>
+
+    <!-- Video Container -->
+    <div class="video-container" id="videoContainer">
+        <video class="intro-video" id="introVideo" playsinline preload="auto">
+            <source src="./videos/complete animation.mp4" type="video/mp4">
+        </video>
+        <div class="skip-button" id="skipButton">
+            <div class="skip-icon"></div>
+        </div>
+        <div class="loading-status" id="loadingStatus">Loading architectural models...</div>
+    </div>
+
+    <script>
+        // Elements
+        const coverContainer = document.getElementById('coverContainer');
+        const logoSection = document.getElementById('logoSection');
+        const logoWrapper = document.getElementById('logoWrapper');
+        const videoContainer = document.getElementById('videoContainer');
+        const introVideo = document.getElementById('introVideo');
+        const skipButton = document.getElementById('skipButton');
+        const loadingStatus = document.getElementById('loadingStatus');
+
+        let resourcesLoaded = false;
+        let videoStarted = false;
+
+        // Handle scroll to reveal logo
+        function handleScroll() {
+            const scrollY = window.scrollY || window.pageYOffset;
+            const viewportHeight = window.innerHeight;
+            
+            // Show logo when it comes into view (when scrolled past 1.5 viewports)
+            if (scrollY > viewportHeight * 1.2) {
+                logoSection.classList.add('visible');
+            }
+        }
+
+        // Attach scroll listener
+        window.addEventListener('scroll', handleScroll, { passive: true });
+
+        // Check scroll position on load
+        handleScroll();
+
+        // Handle logo click - start video and loading
+        logoWrapper.addEventListener('click', function() {
+            if (!videoStarted) {
+                startVideoAndLoading();
+            }
+        });
+
+        // Start video and begin loading process
+        function startVideoAndLoading() {
+            videoStarted = true;
+            
+            // Show video container
+            videoContainer.classList.add('active');
+            loadingStatus.classList.add('visible');
+            
+            // Force video to play with muted first (for autoplay policy)
+            introVideo.muted = true;
+            
+            // Try to play the video
+            const playPromise = introVideo.play();
+            
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    console.log('Video playing');
+                    // Start loading resources
+                    startLoadingResources();
+                }).catch(error => {
+                    console.error('Video play failed:', error);
+                    // Even if video fails, continue with loading
+                    startLoadingResources();
+                });
+            } else {
+                // Old browsers
+                introVideo.play();
+                startLoadingResources();
+            }
+        }
+
+        // Simulate resource loading
+        function startLoadingResources() {
+            // Simulate loading time for models and lidar
+            let progress = 0;
+            const loadingMessages = [
+                'Loading architectural models...',
+                'Loading LiDAR interface...',
+                'Initializing 3D environment...',
+                'Preparing experience...'
+            ];
+            
+            let messageIndex = 0;
+            const loadingInterval = setInterval(() => {
+                progress += 20;
+                messageIndex = Math.min(Math.floor(progress / 25), loadingMessages.length - 1);
+                loadingStatus.textContent = loadingMessages[messageIndex];
+                
+                if (progress >= 100) {
+                    clearInterval(loadingInterval);
+                    resourcesLoaded = true;
+                    loadingStatus.textContent = 'Ready to enter';
+                    // Only show skip button after resources are loaded
+                    skipButton.classList.add('visible');
+                    
+                    // If video has already ended, proceed automatically
+                    if (introVideo.ended) {
+                        setTimeout(proceedToMainPage, 500);
+                    }
+                }
+            }, 800); // Simulate loading over ~4 seconds
+        }
+
+        // Proceed to main page without browser prompt
+        function proceedToMainPage() {
+            // Only proceed if resources are actually loaded
+            if (!resourcesLoaded) {
+                return;
+            }
+            
+            // Clear any beforeunload handlers
+            window.onbeforeunload = null;
+            
+            // Use assignment to avoid browser prompt
+            window.location.href = 'index.html';
+        }
+
+        // Handle skip button click
+        skipButton.addEventListener('click', function() {
+            if (resourcesLoaded) {
+                proceedToMainPage();
+            }
+        });
+
+        // Handle video end
+        introVideo.addEventListener('ended', function() {
+            if (resourcesLoaded) {
+                setTimeout(proceedToMainPage, 500);
+            }
+        });
+
+        // Keyboard support
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && videoContainer.classList.contains('active') && resourcesLoaded) {
+                proceedToMainPage();
+            }
+        });
+
+        // Prevent any beforeunload prompts
+        window.addEventListener('beforeunload', function(e) {
+            // Clear the event
+            delete e['returnValue'];
+        });
+
+        // Also prevent on pagehide
+        window.addEventListener('pagehide', function(e) {
+            delete e['returnValue'];
+        });
+    </script>
+</body>
+</html>

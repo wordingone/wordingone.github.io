@@ -7,8 +7,133 @@
     <!-- Disable favicon to prevent 404 errors -->
     <link rel="icon" href="data:,">
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Video Overlay Styles */
+        .video-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #000;
+            display: none;
+            z-index: 10000;
+        }
+
+        .video-overlay.active {
+            display: block;
+        }
+
+        .intro-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Skip Button */
+        .skip-button {
+            position: fixed;
+            top: 40px;
+            right: 40px;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 10001;
+        }
+
+        .skip-button.visible {
+            display: flex;
+        }
+
+        .skip-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+
+        /* Double arrow skip icon */
+        .skip-icon {
+            position: relative;
+            width: 20px;
+            height: 20px;
+        }
+
+        .skip-icon::before,
+        .skip-icon::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-color: transparent;
+        }
+
+        .skip-icon::before {
+            border-left-width: 10px;
+            border-right-width: 0;
+            border-top-width: 6px;
+            border-bottom-width: 6px;
+            border-left-color: #fff;
+            top: 4px;
+            left: 2px;
+        }
+
+        .skip-icon::after {
+            border-left-width: 10px;
+            border-right-width: 0;
+            border-top-width: 6px;
+            border-bottom-width: 6px;
+            border-left-color: #fff;
+            top: 4px;
+            left: 10px;
+        }
+
+        /* Loading status for video overlay */
+        .video-loading-status {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 14px;
+            font-family: 'Roboto', sans-serif;
+            letter-spacing: 1px;
+            display: none;
+            z-index: 10002;
+        }
+
+        .video-loading-status.visible {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .skip-button {
+                top: 20px;
+                right: 20px;
+                width: 40px;
+                height: 40px;
+            }
+        }
+    </style>
 </head>
 <body>
+    <!-- Video Overlay - Shows on arrival from index -->
+    <div class="video-overlay" id="videoOverlay">
+        <video class="intro-video" id="introVideo" playsinline preload="auto">
+            <source src="./videos/complete animation.mp4" type="video/mp4">
+        </video>
+        <div class="skip-button" id="skipButton">
+            <div class="skip-icon"></div>
+        </div>
+        <div class="video-loading-status" id="videoLoadingStatus">Loading LiDAR and models...</div>
+    </div>
+
     <!-- Main Layout Container -->
     <div id="app-container">
         <!-- Left Panel: 3D Model Viewer (1/3 width) -->
@@ -117,6 +242,113 @@
             "three/examples/jsm/controls/OrbitControls": "https://unpkg.com/three@0.160.0/examples/jsm/controls/OrbitControls.js"
         }
     }
+    </script>
+    
+    <script>
+        // Handle video overlay on arrival from index
+        (function() {
+            const videoOverlay = document.getElementById('videoOverlay');
+            const introVideo = document.getElementById('introVideo');
+            const skipButton = document.getElementById('skipButton');
+            const videoLoadingStatus = document.getElementById('videoLoadingStatus');
+            
+            // Check if we should play the intro video
+            const shouldPlayVideo = sessionStorage.getItem('playIntroVideo');
+            
+            if (shouldPlayVideo === 'true') {
+                // Clear the flag
+                sessionStorage.removeItem('playIntroVideo');
+                
+                // Show video overlay
+                videoOverlay.classList.add('active');
+                videoLoadingStatus.classList.add('visible');
+                
+                // Start loading resources
+                let resourcesLoaded = false;
+                let videoEnded = false;
+                
+                // Simulate resource loading
+                function startLoadingResources() {
+                    let progress = 0;
+                    const loadingMessages = [
+                        'Loading LiDAR interface...',
+                        'Loading 3D models...',
+                        'Initializing environment...',
+                        'Ready to explore...'
+                    ];
+                    
+                    let messageIndex = 0;
+                    const loadingInterval = setInterval(() => {
+                        progress += 25;
+                        messageIndex = Math.min(Math.floor(progress / 25), loadingMessages.length - 1);
+                        videoLoadingStatus.textContent = loadingMessages[messageIndex];
+                        
+                        if (progress >= 100) {
+                            clearInterval(loadingInterval);
+                            resourcesLoaded = true;
+                            videoLoadingStatus.textContent = 'Ready';
+                            
+                            // Show skip button when resources are loaded
+                            skipButton.classList.add('visible');
+                            
+                            // If video already ended, close overlay
+                            if (videoEnded) {
+                                setTimeout(closeVideoOverlay, 500);
+                            }
+                        }
+                    }, 1000); // ~4 seconds total
+                }
+                
+                // Close video overlay
+                function closeVideoOverlay() {
+                    videoOverlay.classList.remove('active');
+                    skipButton.classList.remove('visible');
+                    videoLoadingStatus.classList.remove('visible');
+                    introVideo.pause();
+                    introVideo.currentTime = 0;
+                }
+                
+                // Play video
+                introVideo.muted = true; // Mute for autoplay policy
+                const playPromise = introVideo.play();
+                
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        console.log('Intro video playing');
+                        startLoadingResources();
+                    }).catch(error => {
+                        console.error('Video play failed:', error);
+                        // Still load resources even if video fails
+                        startLoadingResources();
+                    });
+                } else {
+                    introVideo.play();
+                    startLoadingResources();
+                }
+                
+                // Handle video end
+                introVideo.addEventListener('ended', function() {
+                    videoEnded = true;
+                    if (resourcesLoaded) {
+                        setTimeout(closeVideoOverlay, 500);
+                    }
+                });
+                
+                // Handle skip button
+                skipButton.addEventListener('click', function() {
+                    if (resourcesLoaded) {
+                        closeVideoOverlay();
+                    }
+                });
+                
+                // Handle escape key
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape' && videoOverlay.classList.contains('active') && resourcesLoaded) {
+                        closeVideoOverlay();
+                    }
+                });
+            }
+        })();
     </script>
     
     <script type="module" src="main.js"></script>

@@ -3,23 +3,24 @@
 A responsive, cinematic web experience bridging campaign narratives with a deeper representational layer. A 3D navigation model and a LiDAR-scanned mood board interlink to trigger videos, physical-model documentation, and scenes.
 
 ## Status (Evidence-Based)
-- Directory verified: B:\GIT\wordingone.github.io (12 files, 4 dirs)
+- Directory verified: B:\GIT\wordingone.github.io (13 files, 4 dirs)
 - Script loading mode: modular_es6 — `import { createViewer } from './src/core/viewer.js'`
 - LFS: commented out (web deployment mode)
 - Models: 10 GLB files (binary: 10, pointers: 0)
-- **FIXED**: LiDAR container with unified scaling (aspect-ratio: 1920/1080)
-- **IMPROVED**: Question marks grow 1.5x on hover without circular backgrounds
-- **OPTIMIZED**: Percentage-based hotspot positioning for consistent scaling
+- **FIXED**: Navigation flow - index.html → main-app.html with video overlay
+- **IMPROVED**: Scroll locking when logo is centered on screen
+- **OPTIMIZED**: Video plays as overlay on main app, not inline
 
 ## Structure (from repo)
 ```
 B:\GIT\wordingone.github.io/
 ├── .git/                   # Git repository data
 ├── .gitattributes          # LFS configuration (disabled for web)
-├── cover.html             # Scrollable cover with logo reveal
+├── old-cover.html.backup   # Archived old cover page
 ├── HANDOFF.md             # Project handoff documentation
 ├── README.md              # This file
-├── index.html             # Main application entry
+├── index.html             # Cover page with scroll-to-logo
+├── main-app.html          # Main application with video overlay
 ├── lidar_00.png           # LiDAR background image (1920x1080)
 ├── main.js                # Central coordination system
 ├── script.js              # Legacy/backup script
@@ -34,6 +35,14 @@ B:\GIT\wordingone.github.io/
 │   └── complete animation.mp4 # Intro loading video
 └── _ai/                   # AI assistant artifacts
 ```
+
+## Navigation Flow
+1. **Landing (index.html)**: User sees header, scrolls down to reveal logo
+2. **Scroll Lock**: When logo centers in viewport, scroll locks preventing overshooting
+3. **Click to Enter**: Clicking logo navigates to main-app.html
+4. **Video Overlay**: Complete animation plays as overlay on main app
+5. **Skip Control**: Skip button appears after resources load
+6. **Main Experience**: After video, full LiDAR and 3D model interface
 
 ## LiDAR Interface Features
 - **Unified Container**: Single scaling unit with aspect-ratio: 1920/1080
@@ -50,20 +59,15 @@ B:\GIT\wordingone.github.io/
 | arch_module_smallest.glb | 2,534,936 |
 | mirror.glb | 237,592 |
 | circulation.glb | 35,628 |
-| Index.glb | 2,088 |
-| Moulage.glb | 1,244 |
-| robot.glb | 1,248 |
-| altars.glb | 1,180 |
-| Distress.glb | 1,180 |
-| embellishments.glb | 1,172 |
+| complete animation.mp4 | ~50MB |
+| Various room videos | ~10-20MB each |
 
 ## Maintenance Notes
 - Keep `.glb` as binary; avoid LFS pointers
-- **CONTAINER SCALING**: Uses `max-width: min(100%, calc((100vh - 100px) * 1.77778))`
-- **HOTSPOT POSITIONING**: All coordinates converted to percentages for scaling
-- **QUESTION MARKS**: Base sizes: 24px desktop, 20px tablet, 18px mobile
-- **HOVER EFFECT**: transform: scale(1.5) with 0.3s ease transition
-- **NO CIRCLES**: Clean aesthetic with just question marks, no button backgrounds
-- **REFERENCE DIMENSIONS**: Based on 1920x1080 for percentage calculations
+- **NAVIGATION**: index.html → main-app.html (not circular)
+- **VIDEO TIMING**: Skip button only after resources load
+- **SCROLL LOCK**: Prevents scrolling past centered logo
+- **SESSION STORAGE**: Used to trigger video on main-app.html
+- **MOBILE SUPPORT**: Touch events handled for scroll lock
 
-_Last updated: 2025-08-11_
+_Last updated: 2025-01-28_
