@@ -638,7 +638,7 @@ function initResponsiveLiDARBoard() {
             const scaledWidth = (width * scaleX) / boardRect.width * 100;
             const scaledHeight = (height * scaleY) / boardRect.height * 100;
             
-            // Create a rectangular hole (white = transparent in mask)
+            // Create a rectangular hole (black = hidden in mask)
             const holeRect = {
                 left: scaledX,
                 top: scaledY,
@@ -672,25 +672,25 @@ function initResponsiveLiDARBoard() {
     }
     
     function createSVGMask(holeRects, width, height) {
-        // Create SVG mask with black background and white holes
+        // Create SVG mask - WHITE shows content, BLACK hides it
         let svg = `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">`;
         svg += `<defs><mask id="cutoutMask">`;
         
-        // Black background (masked area)
-        svg += `<rect width="100%" height="100%" fill="black"/>`;
+        // White background (visible area - the overlay)
+        svg += `<rect width="100%" height="100%" fill="white"/>`;
         
-        // White rectangles (holes - unmasked areas)
+        // Black rectangles (hidden areas - the holes where original image shows through)
         holeRects.forEach(hole => {
             const x = (hole.left / 100) * width;
             const y = (hole.top / 100) * height;
             const w = ((hole.right - hole.left) / 100) * width;
             const h = ((hole.bottom - hole.top) / 100) * height;
             
-            svg += `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="white"/>`;
+            svg += `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="black"/>`;
         });
         
         svg += `</mask></defs>`;
-        svg += `<rect width="100%" height="100%" fill="black" mask="url(#cutoutMask)"/>`;
+        svg += `<rect width="100%" height="100%" fill="white" mask="url(#cutoutMask)"/>`;
         svg += `</svg>`;
         
         return svg;
