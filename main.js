@@ -11,7 +11,7 @@ import models from './src/config/models.js';
 // Wait for DOM to be ready
 document.addEventListener('DOMContentLoaded', async function() {
     console.log('Starting modular architectural system...');
-    console.log('Modules: viewer, loader, instancer, lidarBoard, sync');
+    console.log('Modules: viewer, loader, instancer, lidarBoard, sync, modelFocus');
     
     // Get DOM elements
     const canvas = document.getElementById('canvas');
@@ -27,10 +27,18 @@ document.addEventListener('DOMContentLoaded', async function() {
     // Initialize sync controller (placeholder callbacks for now)
     const sync = createSync({ viewer, lidar: null }); // Will connect lidar after init
     
-    // Initialize video overlay system
+    // Initialize model focus system - MUST be after scene is created
+    let modelFocus = null; // Will be initialized after models are loaded
+    
+    // Initialize video overlay system with model focus integration
     const videoOverlay = createVideoOverlay(lidarBoardElement, {
         onOverlayOpen: (region, hotspot) => {
             console.log(`Video overlay opened for: ${region}`);
+            // Apply model focus for this region
+            if (modelFocus) {
+                modelFocus.focusOnRegion(region);
+                console.log(`Applied 3D model focus for region: ${region}`);
+            }
             // Disable highlighting when overlay opens
             if (lidar.getHighlighting()) {
                 lidar.setHighlighting(false);
@@ -40,6 +48,11 @@ document.addEventListener('DOMContentLoaded', async function() {
         },
         onOverlayClose: () => {
             console.log('Video overlay closed');
+            // Clear model focus when overlay closes
+            if (modelFocus) {
+                modelFocus.clearFocus();
+                console.log('Cleared 3D model focus - all models restored');
+            }
             // Overlay closed (via × or ESC) → show Highlight button again
             highlightBtn.style.display = 'block';
             // Force lidar board to reset state after overlay closes
@@ -109,13 +122,34 @@ document.addEventListener('DOMContentLoaded', async function() {
             }
         });
         
+        // Initialize model focus system AFTER all models are loaded and added to scene
+        modelFocus = createModelFocus(scene);
+        console.log('Model focus system initialized with all models cataloged');
+        
+        // Catalog all models for the focus system with proper name mapping
+        loadedScenes.forEach(modelResult => {
+            const { name, scene: modelScene } = modelResult;
+            // Map file names to display names for focus system
+            const displayName = mapModelName(name);
+            if (modelFocus && modelFocus.catalogNewModel) {
+                modelFocus.catalogNewModel(modelScene, displayName);
+            }
+        });
+        
         // Hide loading screen
         hideLoading(loadingElement);
         
         // Initial render
         render();
         
-        console.log('Modular system initialization complete!');
+        console.log('Modular system initialization complete with model focus integration!');
+        console.log('Available focus regions:', modelFocus ? modelFocus.getAvailableRegions() : 'None');
+        
+        // Expose modelFocus for debugging (development only)
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+            window.modelFocus = modelFocus;
+            console.log('Model focus system exposed to window.modelFocus for debugging');
+        }
         
     } catch (error) {
         console.error('Failed to initialize system:', error);
@@ -128,3 +162,25 @@ document.addEventListener('DOMContentLoaded', async function() {
         dispose();
     });
 });
+
+/**
+ * Map model file names to display names used by focus system
+ * @param {string} fileName - Original file name from models config
+ * @returns {string} Display name for focus system
+ */
+function mapModelName(fileName) {
+    const nameMapping = {
+        'Architectural System': 'Architectural System',
+        'Misc Geometry': 'Misc Geometry',
+        'Altars': 'Altars',
+        'Circulation': 'Circulation',
+        'Distress': 'Distress',
+        'Embellishments': 'Embellishments',
+        'Index': 'Index',
+        'Mirror': 'Mirror',
+        'Moulage': 'Moulage',
+        'Robot': 'Robot'
+    };
+    
+    return nameMapping[fileName] || fileName;
+}
