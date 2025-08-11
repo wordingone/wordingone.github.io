@@ -15,53 +15,42 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
             font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             background: #000;
             color: #fff;
             overflow-x: hidden;
             position: relative;
-        }
-
-        /* Scrollable Container */
-        .scroll-container {
-            height: 200vh; /* Make page scrollable */
-            position: relative;
+            min-height: 200vh; /* Force scrollable page */
         }
 
         /* Cover Page Container */
         .cover-container {
-            position: fixed;
+            position: relative;
             width: 100vw;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
+            min-height: 200vh; /* Make it scrollable */
             background: #000;
-            transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 10;
+            transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .cover-container.sliding-away {
-            transform: translateX(-100%);
+        .cover-container.hiding {
+            opacity: 0;
+            pointer-events: none;
         }
 
-        /* Top Section - Initially Visible */
+        /* Top Section - Initially Visible at top of page */
         .header-section {
-            position: fixed;
-            top: 80px;
+            position: absolute;
+            top: 40vh; /* Center in first viewport */
             left: 50%;
             transform: translateX(-50%);
             text-align: center;
-            opacity: 1;
-            transition: opacity 0.6s ease, transform 0.6s ease;
+            transition: opacity 0.6s ease;
             z-index: 11;
-        }
-
-        .header-section.scrolled-out {
-            opacity: 0;
-            transform: translateX(-50%) translateY(-50px);
         }
 
         .header-text {
@@ -82,22 +71,20 @@
             color: rgba(255, 255, 255, 0.7);
         }
 
-        /* Logo Section - Initially Hidden, Appears on Scroll */
+        /* Logo Section - Positioned lower on page, visible after scroll */
         .logo-section {
-            position: fixed;
-            top: 50%;
+            position: absolute;
+            top: 150vh; /* Position in second viewport */
             left: 50%;
-            transform: translate(-50%, -50%);
+            transform: translateX(-50%);
             text-align: center;
             opacity: 0;
-            pointer-events: none;
             transition: opacity 1.2s ease-out;
             z-index: 12;
         }
 
         .logo-section.visible {
             opacity: 1;
-            pointer-events: auto;
         }
 
         .logo-wrapper {
@@ -106,7 +93,7 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 30px;
+            gap: 40px;
         }
 
         .logo-wrapper:hover {
@@ -123,23 +110,23 @@
         }
 
         .logo-image {
-            width: 600px; /* Much larger to match text width */
+            width: 800px; /* Much larger to match text */
             height: auto;
             filter: brightness(0) invert(1);
         }
 
         .brand-text {
             font-family: 'GFS Didot', serif;
-            font-size: 48px;
+            font-size: 64px; /* Larger text */
             font-weight: 400;
-            letter-spacing: 8px;
+            letter-spacing: 12px;
             text-transform: uppercase;
             color: #fff;
             margin: 0;
             white-space: nowrap;
         }
 
-        /* Video Container */
+        /* Video Container - Full screen overlay */
         .video-container {
             position: fixed;
             top: 0;
@@ -151,9 +138,11 @@
             pointer-events: none;
             transition: opacity 0.5s ease;
             z-index: 100;
+            display: none;
         }
 
         .video-container.active {
+            display: block;
             opacity: 1;
             pointer-events: auto;
         }
@@ -263,12 +252,12 @@
 
             .logo-image {
                 width: 90vw;
-                max-width: 400px;
+                max-width: 600px;
             }
 
             .brand-text {
-                font-size: 32px;
-                letter-spacing: 6px;
+                font-size: 48px;
+                letter-spacing: 8px;
             }
 
             .skip-button {
@@ -294,17 +283,14 @@
             }
 
             .brand-text {
-                font-size: 24px;
-                letter-spacing: 4px;
+                font-size: 32px;
+                letter-spacing: 6px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Scrollable Container -->
-    <div class="scroll-container"></div>
-
-    <!-- Cover Page -->
+    <!-- Cover Page Container -->
     <div class="cover-container" id="coverContainer">
         <!-- Initially Visible Header -->
         <div class="header-section" id="headerSection">
@@ -312,7 +298,7 @@
             <p class="subtitle-text">SCIARC: Peter Testa Vertical Studio Project</p>
         </div>
 
-        <!-- Logo Section - Appears on Scroll -->
+        <!-- Logo Section - Appears after scroll -->
         <div class="logo-section" id="logoSection">
             <div class="logo-wrapper" id="logoWrapper">
                 <img src="./logo/remaking logo 1.png" alt="Prada Logo" class="logo-image">
@@ -323,7 +309,7 @@
 
     <!-- Video Container -->
     <div class="video-container" id="videoContainer">
-        <video class="intro-video" id="introVideo" preload="auto">
+        <video class="intro-video" id="introVideo" muted>
             <source src="./videos/complete animation.mp4" type="video/mp4">
         </video>
         <div class="skip-button" id="skipButton">
@@ -343,113 +329,101 @@
         const skipButton = document.getElementById('skipButton');
         const loadingStatus = document.getElementById('loadingStatus');
 
-        let hasScrolledEnough = false;
         let isVideoPlaying = false;
         let modelsLoaded = false;
         let lidarLoaded = false;
+        let scrollThreshold = window.innerHeight * 0.8; // 80% of viewport height
 
         // Handle scroll to reveal logo
         function handleScroll() {
             const scrollY = window.scrollY || window.pageYOffset;
-            const triggerPoint = 200; // Scroll amount before logo appears
             
-            if (scrollY > 100) {
-                // Start fading out header
-                headerSection.classList.add('scrolled-out');
-            } else {
-                headerSection.classList.remove('scrolled-out');
-            }
-            
-            if (scrollY > triggerPoint && !hasScrolledEnough) {
-                hasScrolledEnough = true;
+            // Show logo when scrolled past threshold
+            if (scrollY > scrollThreshold) {
                 logoSection.classList.add('visible');
                 
                 // Add glow effect after logo appears
                 setTimeout(() => {
                     logoWrapper.classList.add('glowing');
                 }, 500);
-            } else if (scrollY <= triggerPoint) {
-                hasScrolledEnough = false;
-                logoSection.classList.remove('visible');
-                logoWrapper.classList.remove('glowing');
             }
         }
 
-        // Handle logo click
+        // Handle logo click - this starts the video and loading
         logoWrapper.addEventListener('click', () => {
             if (!isVideoPlaying) {
-                playIntroVideo();
+                startVideoAndLoading();
             }
         });
 
-        // Play intro video and start loading
-        function playIntroVideo() {
+        // Start video and begin loading process
+        function startVideoAndLoading() {
             isVideoPlaying = true;
             
-            // Slide away cover
-            coverContainer.classList.add('sliding-away');
-            
             // Show video container
-            setTimeout(() => {
-                videoContainer.classList.add('active');
-                introVideo.play().catch(err => {
-                    console.error('Video playback failed:', err);
-                    // If video fails, still continue loading
-                    startLoading();
-                });
-                
+            videoContainer.classList.add('active');
+            
+            // Play video automatically
+            introVideo.play().then(() => {
+                console.log('Video started playing');
                 loadingStatus.classList.add('visible');
-                
-                // Start loading the main page
-                startLoading();
-            }, 500);
+            }).catch(err => {
+                console.error('Video autoplay failed:', err);
+                // Try playing muted
+                introVideo.muted = true;
+                introVideo.play().then(() => {
+                    console.log('Video started playing (muted)');
+                    loadingStatus.classList.add('visible');
+                });
+            });
+            
+            // Start loading the main page in background
+            startLoadingMainPage();
         }
 
         // Start loading main page resources
-        function startLoading() {
-            // Create iframe to preload main page
+        function startLoadingMainPage() {
+            // Create hidden iframe to preload main page
             const iframe = document.createElement('iframe');
             iframe.style.display = 'none';
             iframe.src = 'index.html';
+            iframe.onload = () => {
+                // Simulate checking for resources
+                setTimeout(() => {
+                    modelsLoaded = true;
+                    checkIfCanProceed();
+                }, 2000);
+            };
             document.body.appendChild(iframe);
             
-            // Monitor iframe loading
-            iframe.onload = () => {
-                // Check if iframe's content has models and lidar loaded
-                // Simulate checking with a timeout (in real implementation, would check iframe's window)
-                checkResourcesLoaded();
-            };
-            
-            // Also load critical resources directly
-            loadCriticalResources();
-        }
-
-        // Load critical resources (models and lidar image)
-        function loadCriticalResources() {
             // Load LiDAR image
             const lidarImg = new Image();
             lidarImg.onload = () => {
                 lidarLoaded = true;
                 console.log('LiDAR image loaded');
-                checkIfCanSkip();
+                checkIfCanProceed();
+            };
+            lidarImg.onerror = () => {
+                // Even if lidar fails, continue after a delay
+                setTimeout(() => {
+                    lidarLoaded = true;
+                    checkIfCanProceed();
+                }, 1000);
             };
             lidarImg.src = './lidar_00.png';
-            
-            // Simulate model loading (in real app, would track actual GLB loads)
-            // For now, we'll check after a reasonable delay
-            setTimeout(() => {
-                modelsLoaded = true;
-                console.log('Models loaded');
-                checkIfCanSkip();
-            }, 3000);
         }
 
-        // Check if all resources are loaded
-        function checkResourcesLoaded() {
-            // Update loading status
+        // Check if we can show skip button
+        function checkIfCanProceed() {
             if (modelsLoaded && lidarLoaded) {
+                // Show skip button
+                skipButton.classList.add('visible');
                 loadingStatus.textContent = 'Ready to enter';
-                checkIfCanSkip();
+                
+                // Check if video has ended
+                if (introVideo.ended) {
+                    proceedToMainPage();
+                }
             } else if (modelsLoaded) {
                 loadingStatus.textContent = 'Loading LiDAR interface...';
             } else if (lidarLoaded) {
@@ -457,45 +431,38 @@
             }
         }
 
-        // Check if skip button should be shown
-        function checkIfCanSkip() {
-            if (modelsLoaded && lidarLoaded) {
-                // Show skip button only after both are loaded
-                skipButton.classList.add('visible');
-                
-                // Also check if video has ended
-                if (introVideo.ended || introVideo.paused) {
-                    skipToMain();
-                }
-            }
-        }
-
-        // Skip to main page
-        function skipToMain() {
+        // Proceed to main page
+        function proceedToMainPage() {
             if (!modelsLoaded || !lidarLoaded) {
-                console.log('Still loading resources...');
                 return;
             }
             
-            // Fade out video
+            // Hide video with fade
             videoContainer.style.opacity = '0';
             
-            // Redirect to main page
+            // Navigate to main page after fade
             setTimeout(() => {
-                window.location.href = 'index.html';
+                // Use replace to avoid "leave site" prompt
+                window.location.replace('index.html');
             }, 500);
         }
 
         // Handle skip button click
-        skipButton.addEventListener('click', skipToMain);
+        skipButton.addEventListener('click', proceedToMainPage);
 
         // Handle video end
         introVideo.addEventListener('ended', () => {
             if (modelsLoaded && lidarLoaded) {
-                skipToMain();
+                proceedToMainPage();
             } else {
-                // Keep showing loading status until ready
+                // Keep showing loading status
                 loadingStatus.textContent = 'Finalizing load...';
+                // Check again in a moment
+                setTimeout(() => {
+                    if (modelsLoaded && lidarLoaded) {
+                        proceedToMainPage();
+                    }
+                }, 1000);
             }
         });
 
@@ -506,13 +473,18 @@
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && videoContainer.classList.contains('active')) {
                 if (modelsLoaded && lidarLoaded) {
-                    skipToMain();
+                    proceedToMainPage();
                 }
             }
         });
 
-        // Initial scroll check
-        handleScroll();
+        // Prevent beforeunload prompt
+        window.addEventListener('beforeunload', (e) => {
+            // Don't show prompt when navigating to index.html
+            if (window.location.href.includes('cover.html')) {
+                delete e['returnValue'];
+            }
+        });
     </script>
 </body>
 </html>

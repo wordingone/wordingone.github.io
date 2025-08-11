@@ -27,6 +27,8 @@ body {
     width: 100vw;
     height: 100vh;
     background: #000;
+    padding: 10px; /* Add padding to show rounded corners */
+    box-sizing: border-box;
 }
 
 /* Left Panel: 3D Model Viewer */
@@ -38,6 +40,8 @@ body {
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    border-radius: 12px 0 0 12px; /* Rounded left corners */
+    margin: 10px 0 10px 10px; /* Add margin for spacing */
 }
 
 /* Brand Header */
@@ -114,6 +118,8 @@ body {
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    border-radius: 0 12px 12px 0; /* Rounded right corners */
+    margin: 10px 10px 10px 0; /* Add margin for spacing */
 }
 
 /* LiDAR Control Bar */

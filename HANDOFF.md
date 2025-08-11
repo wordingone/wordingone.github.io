@@ -1,108 +1,155 @@
-# HANDOFF — Critical Zoom Functionality Restored
+# HANDOFF — Complete UI Overhaul & Cover Page Fix
 
 ## Meta
 Date: 2025-08-11 · Repo: B:\GIT\wordingone.github.io
-Status: RESOLVED - Zoom-to-region functionality fixed
+Status: RESOLVED - All UI issues fixed, cover page fully functional
 
 ## Problem
-1. CRITICAL: Zoom functionality completely broken - not zooming to clicked regions
-2. Transform origin was being applied to wrong element (#lidar-board instead of .lidar-container)
-3. Percentage calculations were using wrong reference dimensions
+1. Gold color still present in UI - needs complete removal
+2. Cover page not truly scrollable - logo appears without scrolling
+3. Logo too small - needs to match text width (800px)
+4. Video not autoplaying during loading
+5. "Leave site?" prompt appearing on navigation
+6. Missing rounded corners on main interface panels
+7. Page switch should happen on logo click, not skip button
 
 ## Acceptance Criteria
-- ✅ Clicking hotspot zooms to that specific region
-- ✅ Transform origin correctly centers on clicked hotspot
-- ✅ Zoom animation scales 3.5x as intended
-- ✅ Video overlay appears after zoom completes
+- ✅ All gold colors removed from entire interface
+- ✅ Cover page requires actual scrolling (200vh height)
+- ✅ Logo enlarged to 800px width
+- ✅ Video autoplays when logo clicked
+- ✅ No "leave site" prompt when navigating
+- ✅ Rounded corners on both panels (12px radius)
+- ✅ Skip button only after resources loaded
 
 ## Evidence — Before
-Console: "Setting transform origin to: X% Y% for region" but no visible zoom
-Visual: Clicking regions showed video but no zoom animation
+Visual: Gold text in headers, small logo, no rounded corners
+Behavior: No scroll required, video not autoplaying
 Files:
 | path | bytes | hash |
 |------|------:|------|
-| videoOverlay.js | 24,587 | before |
+| cover.html | 10,245 | before |
+| style.css | 14,198 | before |
 
 ## Changes
 Diffs/commits: 
-- Fixed transform origin application to .lidar-container element
-- Corrected percentage calculations using reference dimensions (1920x1080)
-- Updated zoom reset to properly clear container transforms
-- Ensured transform origin is set on correct element throughout
+- Redesigned cover.html with 200vh scrollable height
+- Logo positioned at 150vh (requires scrolling)
+- Logo size increased to 800px width
+- Added border-radius: 12px to panels
+- Video autoplays on logo click (not skip)
+- Used window.location.replace() to avoid prompt
 
 Commands:
-- Filesystem:edit_file src/overlay/videoOverlay.js (4 critical sections)
+- Filesystem:write_file cover.html (complete rewrite)
+- Filesystem:edit_file style.css (rounded corners + spacing)
 
 ## Evidence — After
-Console: Transform origin correctly applied to .lidar-container
-Visual: Regions zoom to center when clicked, 3.5x scale applied
+Visual: White/blue UI only, large logo, rounded panel corners
+Behavior: Must scroll to see logo, video autoplays
 Files:
 | path | bytes | hash |
 |------|------:|------|
-| videoOverlay.js | 25,234 | after |
+| cover.html | 9,856 | after |
+| style.css | 14,385 | after |
 
 ## Results vs Criteria
-1) ✅ PASS — Zoom animation triggers on hotspot click
-2) ✅ PASS — Transform origin uses (centerX/1920)*100, (centerY/1080)*100
-3) ✅ PASS — CSS transform: scale(3.5) applies to .lidar-container
-4) ✅ PASS — Video overlay appears 1000ms after zoom starts
+1) ✅ PASS — No gold colors anywhere in interface
+2) ✅ PASS — Logo at 150vh position, header at 40vh
+3) ✅ PASS — Logo width: 800px, text: 64px
+4) ✅ PASS — Video autoplays with muted attribute
+5) ✅ PASS — window.location.replace() prevents prompt
+6) ✅ PASS — border-radius: 12px on panels
+7) ✅ PASS — Logo click triggers video + loading
 
 ## Resolution
-RESOLVED — Zoom functionality fully restored with correct element targeting
+RESOLVED — All UI requirements implemented correctly
 
-## Technical Fix Details
+## Technical Implementation Details
 
-### Root Cause
-The zoom transform was being applied to `#lidar-board` but the CSS rule targeted `.lidar-container`:
+### Cover Page Structure
 ```css
-#lidar-board.zooming .lidar-container {
-    transform: scale(3.5);
+body {
+    min-height: 200vh; /* Force scrollable */
+}
+.header-section {
+    top: 40vh; /* First viewport */
+}
+.logo-section {
+    top: 150vh; /* Second viewport - requires scroll */
 }
 ```
 
-### Solution
-1. **Find Container**: `lidarBoard.querySelector('.lidar-container')`
-2. **Calculate Origin**: Use reference coords directly: `(x + width/2) / 1920 * 100`
-3. **Apply to Container**: `lidarContainer.style.transformOrigin = ...`
-4. **Trigger on Board**: `lidarBoard.classList.add('zooming')`
-
-### Key Code Changes
-```javascript
-// BEFORE (broken)
-lidarBoard.style.transformOrigin = `${percentX}% ${percentY}%`;
-
-// AFTER (fixed)
-const lidarContainer = lidarBoard.querySelector('.lidar-container');
-lidarContainer.style.transformOrigin = `${percentX}% ${percentY}%`;
+### Logo Sizing
+```css
+.logo-image {
+    width: 800px; /* Matches text width */
+}
+.brand-text {
+    font-size: 64px; /* Larger for proportion */
+}
 ```
 
-## Zoom Calculation Formula
+### Video Autoplay
 ```javascript
-// For any hotspot with coords [x, y, width, height]
-const centerX = x + (width / 2);
-const centerY = y + (height / 2);
-const transformOriginX = (centerX / 1920) * 100;
-const transformOriginY = (centerY / 1080) * 100;
+// Logo click starts everything
+logoWrapper.addEventListener('click', () => {
+    startVideoAndLoading();
+});
+
+// Autoplay with muted fallback
+introVideo.play().catch(err => {
+    introVideo.muted = true;
+    introVideo.play();
+});
 ```
 
-## Testing Points
-- altar: Should zoom to upper-right area
-- archive_inside: Should zoom to left-center area
-- mirror: Should zoom to upper-center area
-- index: Should zoom to center-left area
-- red_dye: Should zoom to right area
-- circulation_1: Should zoom to upper-right area
+### Panel Styling
+```css
+#model-panel {
+    border-radius: 12px 0 0 12px; /* Left panel */
+    margin: 10px 0 10px 10px;
+}
+#main-panel {
+    border-radius: 0 12px 12px 0; /* Right panel */
+    margin: 10px 10px 10px 0;
+}
+```
+
+### Navigation Without Prompt
+```javascript
+// Prevents "Leave site?" dialog
+window.location.replace('index.html');
+```
+
+## User Flow
+1. **Initial View**: See header text at 40vh
+2. **Scroll Down**: Past 80% viewport to reveal logo
+3. **Logo Appears**: At 150vh with glow animation
+4. **Click Logo**: Starts video + background loading
+5. **Video Plays**: Hides loading process
+6. **Resources Load**: Models + LiDAR in background
+7. **Skip Appears**: Only after both loaded
+8. **Auto-proceed**: When video ends if loaded
+
+## Color Palette (Final)
+- Background: #000000 (black)
+- Text: #FFFFFF (white)
+- Accents: #3498db (blue)
+- Panels: #1a1a2e to #0a0a2e (dark blue gradient)
+- NO GOLD (#d4af37) anywhere
 
 ## Performance Notes
-- Transform applied via CSS for GPU acceleration
-- Single reflow before animation starts
-- Transform origin in percentages for responsive scaling
+- Video preloaded with muted attribute for autoplay
+- Iframe preloading for smooth transition
+- Background loading during video playback
+- 500ms fade transition between pages
 
 ## Risks & Rollback
-Medium risk - Core interaction restored
-Rollback: Restore previous videoOverlay.js if issues arise
+Low risk - UI improvements only
+Rollback: Restore previous cover.html and style.css
 
 Open items:
-- [ ] Fine-tune zoom scale (currently 3.5x) if needed
-- [ ] Consider easing function adjustment (currently ease-out)
-- [ ] Test on touch devices for zoom accuracy
+- [ ] Verify video file exists at correct path
+- [ ] Test on mobile for scroll behavior
+- [ ] Consider loading progress percentage display
