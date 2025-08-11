@@ -158,7 +158,7 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
         const mainPanel = document.getElementById('main-panel');
         const viewportRect = mainPanel.getBoundingClientRect();
         
-        // Calculate position in the right 1/3 of the viewport
+        // Calculate position in the right 1/3 of the viewport  
         const rightThirdCenterX = viewportRect.width * 0.75; // 75% from left = center of right third
         const viewportCenterY = viewportRect.height / 2;
         
