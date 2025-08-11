@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prada: (Re)Making</title>
+    <link rel="icon" href="data:,">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&family=GFS+Didot&display=swap">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #000;
+            color: #fff;
+            overflow-x: hidden;
+            height: 100vh;
+            position: relative;
+        }
+
+        /* Cover Page Container */
+        .cover-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            background: #000;
+            transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .cover-container.sliding-away {
+            transform: translateX(-100%);
+        }
+
+        /* Top Section - Initially Visible */
+        .header-section {
+            padding-top: 80px;
+            text-align: center;
+            opacity: 1;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .header-text {
+            font-family: 'Roboto', sans-serif;
+            font-size: 24px;
+            font-weight: 300;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .subtitle-text {
+            font-family: 'Roboto', sans-serif;
+            font-size: 16px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Logo Section - Initially Hidden, Appears on Scroll */
+        .logo-section {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1.2s ease-out;
+        }
+
+        .logo-section.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .logo-wrapper {
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            display: inline-block;
+        }
+
+        .logo-wrapper:hover {
+            transform: scale(1.05);
+        }
+
+        .logo-wrapper.glowing {
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.5)); }
+            50% { filter: drop-shadow(0 0 40px rgba(255, 255, 255, 0.8)); }
+        }
+
+        .logo-image {
+            width: 200px;
+            height: auto;
+            margin-bottom: 30px;
+            filter: brightness(0) invert(1);
+        }
+
+        .brand-text {
+            font-family: 'GFS Didot', serif;
+            font-size: 48px;
+            font-weight: 400;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            color: #fff;
+            margin: 0;
+        }
+
+        /* Scroll Indicator */
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+
+        .scroll-indicator.hidden {
+            opacity: 0;
+        }
+
+        .scroll-arrow {
+            width: 30px;
+            height: 30px;
+            border-right: 2px solid rgba(255, 255, 255, 0.5);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.5);
+            transform: rotate(45deg);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0) rotate(45deg); }
+            40% { transform: translateY(-10px) rotate(45deg); }
+            60% { transform: translateY(-5px) rotate(45deg); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Video Container */
+        .video-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: #000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+            z-index: 100;
+        }
+
+        .video-container.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .intro-video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Skip Button */
+        .skip-button {
+            position: absolute;
+            top: 40px;
+            right: 40px;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 101;
+        }
+
+        .skip-button.visible {
+            opacity: 1;
+        }
+
+        .skip-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+
+        .skip-icon {
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 12px solid #fff;
+            transform: rotate(90deg);
+            margin-left: 3px;
+        }
+
+        .skip-icon::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-top: 12px solid #fff;
+            transform: translate(-11px, 6px);
+        }
+
+        /* Loading Progress */
+        .loading-progress {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.1);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: 102;
+        }
+
+        .loading-progress.visible {
+            opacity: 1;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #fff 0%, rgba(255, 255, 255, 0.8) 100%);
+            width: 0;
+            transition: width 0.3s ease;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .header-text {
+                font-size: 20px;
+                letter-spacing: 3px;
+            }
+
+            .subtitle-text {
+                font-size: 14px;
+            }
+
+            .logo-image {
+                width: 150px;
+            }
+
+            .brand-text {
+                font-size: 36px;
+                letter-spacing: 6px;
+            }
+
+            .skip-button {
+                top: 20px;
+                right: 20px;
+                width: 40px;
+                height: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Cover Page -->
+    <div class="cover-container" id="coverContainer">
+        <!-- Initially Visible Header -->
+        <div class="header-section">
+            <h1 class="header-text">Hyun Jun Han × Oskar Maly</h1>
+            <p class="subtitle-text">SCIARC: Peter Testa Vertical Studio Project</p>
+        </div>
+
+        <!-- Logo Section - Appears on Scroll -->
+        <div class="logo-section" id="logoSection">
+            <div class="logo-wrapper" id="logoWrapper">
+                <img src="./logo/remaking logo 1.png" alt="Prada Logo" class="logo-image">
+                <h2 class="brand-text">Prada: (Re)Making</h2>
+            </div>
+        </div>
+
+        <!-- Scroll Indicator -->
+        <div class="scroll-indicator" id="scrollIndicator">
+            <div class="scroll-arrow"></div>
+        </div>
+    </div>
+
+    <!-- Video Container -->
+    <div class="video-container" id="videoContainer">
+        <video class="intro-video" id="introVideo" preload="auto">
+            <source src="./videos/intro.mp4" type="video/mp4">
+        </video>
+        <div class="skip-button" id="skipButton">
+            <div class="skip-icon"></div>
+        </div>
+        <div class="loading-progress" id="loadingProgress">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+    </div>
+
+    <script>
+        // Elements
+        const coverContainer = document.getElementById('coverContainer');
+        const logoSection = document.getElementById('logoSection');
+        const logoWrapper = document.getElementById('logoWrapper');
+        const scrollIndicator = document.getElementById('scrollIndicator');
+        const videoContainer = document.getElementById('videoContainer');
+        const introVideo = document.getElementById('introVideo');
+        const skipButton = document.getElementById('skipButton');
+        const loadingProgress = document.getElementById('loadingProgress');
+        const progressFill = document.getElementById('progressFill');
+
+        let hasScrolled = false;
+        let isLoading = false;
+        let loadingInterval = null;
+
+        // Handle scroll to reveal logo
+        function handleScroll() {
+            if (hasScrolled) return;
+            
+            const scrollY = window.scrollY || window.pageYOffset;
+            
+            if (scrollY > 50) {
+                hasScrolled = true;
+                logoSection.classList.add('visible');
+                scrollIndicator.classList.add('hidden');
+                
+                // Add glow effect after logo appears
+                setTimeout(() => {
+                    logoWrapper.classList.add('glowing');
+                }, 500);
+            }
+        }
+
+        // Handle logo click
+        logoWrapper.addEventListener('click', () => {
+            // Start video playback
+            playIntroVideo();
+        });
+
+        // Play intro video
+        function playIntroVideo() {
+            // Slide away cover
+            coverContainer.classList.add('sliding-away');
+            
+            // Show video container
+            setTimeout(() => {
+                videoContainer.classList.add('active');
+                introVideo.play();
+                
+                // Show skip button after 1 second
+                setTimeout(() => {
+                    skipButton.classList.add('visible');
+                }, 1000);
+                
+                // Start loading the main page
+                startLoading();
+            }, 500);
+        }
+
+        // Start loading main page
+        function startLoading() {
+            isLoading = true;
+            loadingProgress.classList.add('visible');
+            
+            // Create iframe to preload main page
+            const iframe = document.createElement('iframe');
+            iframe.style.display = 'none';
+            iframe.src = 'index.html';
+            document.body.appendChild(iframe);
+            
+            // Simulate loading progress
+            let progress = 0;
+            loadingInterval = setInterval(() => {
+                progress += Math.random() * 15;
+                if (progress > 90) progress = 90;
+                progressFill.style.width = progress + '%';
+            }, 300);
+            
+            // Handle iframe load
+            iframe.onload = () => {
+                clearInterval(loadingInterval);
+                progressFill.style.width = '100%';
+                
+                // Allow skip after loading
+                setTimeout(() => {
+                    if (videoContainer.classList.contains('active')) {
+                        skipToMain();
+                    }
+                }, 500);
+            };
+        }
+
+        // Skip to main page
+        function skipToMain() {
+            // Fade out video
+            videoContainer.style.opacity = '0';
+            
+            // Redirect to main page
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 500);
+        }
+
+        // Handle skip button click
+        skipButton.addEventListener('click', skipToMain);
+
+        // Handle video end
+        introVideo.addEventListener('ended', skipToMain);
+
+        // Listen for scroll
+        window.addEventListener('scroll', handleScroll);
+
+        // Keyboard support
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && videoContainer.classList.contains('active')) {
+                skipToMain();
+            }
+        });
+
+        // Prevent default scroll on arrow keys
+        window.addEventListener('keydown', (e) => {
+            if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', ' '].includes(e.key)) {
+                e.preventDefault();
+            }
+        });
+    </script>
+</body>
+</html>

@@ -3,20 +3,20 @@
 A responsive, cinematic web experience bridging campaign narratives with a deeper representational layer. A 3D navigation model and a LiDAR-scanned mood board interlink to trigger videos, physical-model documentation, and scenes.
 
 ## Status (Evidence-Based)
-- Directory verified: B:\GIT\wordingone.github.io (10 files, 3 dirs)
+- Directory verified: B:\GIT\wordingone.github.io (12 files, 4 dirs)
 - Script loading mode: modular_es6 — `import { createViewer } from './src/core/viewer.js'`
 - LFS: commented out (web deployment mode)
 - Models: 10 GLB files (binary: 10, pointers: 0)
-- **CRITICAL FLEXBOX FIX**: Proper aspect ratio container with flexbox centering and smart scaling calculations
-- **HOVER QUESTION MARKS**: Large question marks (28px) appear on hover with drop shadows for clean interaction
-- **BRAND UPDATE**: Changed to "Prada: Remaking" with improved design system
-- **ENHANCED**: Cross-device responsive design with vertical centering when space available
+- **NEW**: Cover page with scroll-reveal Prada branding
+- **FIXED**: LiDAR container scaling with proper aspect ratio calculations
+- **ENHANCED**: Background-size 'cover' for better image scaling
 
 ## Structure (from repo)
 ```
 B:\GIT\wordingone.github.io/
 ├── .git/                   # Git repository data
 ├── .gitattributes          # LFS configuration (disabled for web)
+├── cover.html             # NEW: Cover page with logo reveal
 ├── HANDOFF.md             # Project handoff documentation
 ├── README.md              # This file
 ├── index.html             # Main application entry
@@ -25,11 +25,21 @@ B:\GIT\wordingone.github.io/
 ├── script.js              # Legacy/backup script
 ├── script_broken_backup.js # Backup file
 ├── style.css              # Enhanced UI styling
+├── logo/                  # Logo assets directory
+│   └── remaking logo 1.png # Prada logo image
 ├── models/                # 3D architectural assets (10 GLB files)
 ├── src/                   # Modular ES6 source code
 ├── videos/                # Video series content (26 MP4 files)
 └── _ai/                   # AI assistant artifacts
 ```
+
+## Cover Page Features
+- **Scroll-reveal Design**: Initial text at top, logo appears on scroll
+- **Typography System**: Roboto for headers, GFS Didot for Prada branding
+- **Interactive Logo**: Glows and scales 5% on hover
+- **Video Integration**: Plays intro.mp4 as loading mechanism
+- **Smart Loading**: Preloads main page while video plays
+- **Skip Controls**: Icon-only skip button (no text per requirements)
 
 ## Assets (from repo)
 | file | bytes |
@@ -48,11 +58,10 @@ B:\GIT\wordingone.github.io/
 ## Maintenance Notes
 - Keep `.glb` as binary; avoid LFS pointers.
 - Prefer local `./models/...` unless a release URL is intentional and exists.
-- **FLEXBOX ARCHITECTURE**: LiDAR interface uses flexbox centering with smart `min()` calculations for width/height
-- **HOVER SYSTEM**: Question marks (28px) with drop shadows appear on hover, responsive sizing for mobile
-- **INTERACTION DESIGN**: Clean floating question marks with 0.3s transitions, no visible containers
-- **BRAND**: Interface branded as "Prada: Remaking" with professional design system
-- **DEVICE SUPPORT**: Touch-friendly design with responsive question mark sizing (28px→24px→22px)
-- **ACCESSIBILITY**: High contrast white question marks with dual drop shadows for visibility
+- **LIDAR SCALING**: Container uses `max-width: calc((100vh - 120px) * 1.77778)` for proper aspect ratio
+- **COVER PAGE**: Access via cover.html, automatically redirects to index.html after interaction
+- **VIDEO LOADING**: Add intro.mp4 to videos/ directory for full functionality
+- **FONT LOADING**: Uses Google Fonts CDN for Roboto and GFS Didot
+- **RESPONSIVE**: Cover page adapts to mobile with smaller typography
 
 _Last updated: 2025-08-11_
