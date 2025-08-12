@@ -547,7 +547,7 @@ body {
     right: 24px;
     width: 600px;
     height: auto; /* Auto height to accommodate wrapper */
-    z-index: 1000;
+    z-index: 99999; /* MOBILE FIX: Ensure highest z-index to prevent any overlap issues */
     opacity: 0;
     visibility: hidden;
     transform: scale(0.95) translateY(10px);
@@ -609,7 +609,7 @@ body {
     justify-content: space-between;
     align-items: center;
     position: relative;
-    z-index: 2;
+    z-index: 100000; /* MOBILE FIX: Ensure header is above all elements */
 }
 
 /* Title Bar Subtle Glow */
@@ -880,7 +880,7 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    z-index: 2000;
+    z-index: 200000; /* MOBILE FIX: Highest z-index for loading screen */
     transition: opacity var(--transition-slow);
 }
 

@@ -13,6 +13,17 @@ document.addEventListener('DOMContentLoaded', async function() {
     console.log('Starting modular architectural system...');
     console.log('Modules: viewer, loader, instancer, lidarBoard, sync, modelFocus');
     
+    // MOBILE FIX: Force loading screen dismissal after max timeout
+    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    const maxLoadingTime = isMobile ? 5000 : 10000; // 5s on mobile, 10s on desktop
+    const loadingFallbackTimer = setTimeout(() => {
+        console.warn('Loading timeout reached, forcing dismissal');
+        const loadingElement = document.getElementById('loading');
+        if (loadingElement && loadingElement.style.display !== 'none') {
+            hideLoading(loadingElement);
+        }
+    }, maxLoadingTime);
+    
     // Get DOM elements
     const canvas = document.getElementById('canvas');
     const loadingElement = document.getElementById('loading');
@@ -176,6 +187,7 @@ document.addEventListener('DOMContentLoaded', async function() {
         });
         
         // Hide loading screen
+        clearTimeout(loadingFallbackTimer); // Clear the fallback timer
         hideLoading(loadingElement);
         
         // Show onboarding overlay after loading

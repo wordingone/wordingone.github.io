@@ -99,7 +99,17 @@
         .logo-section.locked {
             position: fixed;
             top: 50vh;
+            left: 50%;
             transform: translate(-50%, -50%);
+        }
+        
+        /* Mobile-specific centering fix */
+        @media (max-width: 768px) {
+            .logo-section.locked {
+                top: 50%;
+                top: 50vh;
+                top: 50dvh; /* Dynamic viewport height for better mobile support */
+            }
         }
 
         /* Logo wrapper - make it tappable on mobile */
@@ -369,7 +379,15 @@
                 // Lock the body
                 body.classList.add('scroll-locked');
                 logoSection.classList.add('locked');
-                scrollIndicator.classList.add('hidden');
+                
+            // MOBILE FIX: Ensure proper centering on mobile viewports
+            if (window.innerWidth <= 768) {
+                // Force recalculation of position on mobile
+                logoSection.style.top = '50%';
+                logoSection.style.transform = 'translate(-50%, -50%)';
+            }
+            
+            scrollIndicator.classList.add('hidden');
                 
                 // Change scroll indicator to click mode before hiding
                 scrollIndicator.classList.add('click-mode');

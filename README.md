@@ -1,5 +1,18 @@
 # PRADA: (RE)MAKING — Architectural Web Experience
 
+## ⚠️ MOBILE ISSUES IDENTIFIED (2025-08-12)
+
+### Critical Mobile Bugs
+Based on screen recording analysis from `src/debug/screen_recording_stills_mobile/`:
+
+1. **Loading Screen Stuck** - Prevents site access on mobile devices
+2. **Logo Off-Center** - Misaligned on mobile viewports
+3. **Video Overlay Broken** - Fails after pressing highlights button
+
+See [HANDOFF.md](./HANDOFF.md) for detailed issue tracking and fix implementation.
+
+---
+
 ## Overview
 
 An immersive, cinematic web platform showcasing an architectural proposal for Prada's upcycling-focused extension at their Montevarchi Logistics Center. The project, developed at SCI-Arc under Peter Testa's vertical studio, reimagines fashion production through visible, interconnected processes housed in a contemporary insula typology.
@@ -108,12 +121,24 @@ Each hotspot maps to specific architectural program:
 - **Mobile**: Dramatically scaled magnifier, 44×44px tap targets
 - **Landscape**: Hides 3D panel to maximize LiDAR view
 
+## Known Mobile Issues (Active Investigation)
+
+### Critical Bugs
+1. **Loading Screen** - May not dismiss on some mobile devices
+2. **Logo Alignment** - Centering calculations incorrect on small viewports
+3. **Video Overlay** - Z-index conflicts after highlight button interaction
+
+### Temporary Workarounds
+- Refresh page if loading persists > 5 seconds
+- Use landscape orientation for better experience
+- Disable browser's "Desktop Site" mode
+
 ## Installation & Development
 
 ### Prerequisites
 - Modern browser with WebGL 2.0 support
 - JavaScript modules (ES6) capability
-- 100MB+ for optimal video streaming
+- 100MB+ bandwidth for optimal video streaming
 
 ### Local Development
 ```bash
@@ -128,15 +153,13 @@ npx serve -s .
 # Access at http://localhost:8000
 ```
 
-### Mobile Enhancements
-To enable mobile optimizations, add to HTML:
-```html
-<!-- Viewport meta -->
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+### Mobile Testing
+```bash
+# Use ngrok for mobile device testing
+ngrok http 8000
 
-<!-- Responsive additions -->
-<link rel="stylesheet" href="mobile/responsive.additions.css">
-<script type="module" src="mobile/responsive.additions.js"></script>
+# Or use Chrome DevTools device emulation
+# Settings > More tools > Device toolbar (Ctrl+Shift+M)
 ```
 
 ## Browser Support
@@ -180,10 +203,11 @@ The insula typology—traditionally a Roman apartment block around a courtyard�
 - Magnifier cursor requires pointer-events: none on hotspots
 - Frame (rounded corners) must persist during zoom
 
-### Known Issues
-- Safari may require user interaction for video autoplay
-- Mobile magnifier requires aggressive scaling (60-80px)
-- Intro video uses contain (not cover) to prevent cropping
+### Active Issues
+- **P0**: Mobile loading screen dismissal
+- **P0**: Video overlay z-index on mobile
+- **P1**: Logo centering on small viewports
+- **P2**: Touch event optimization
 
 ### Future Enhancements
 - Progressive video quality based on connection speed
@@ -194,5 +218,6 @@ The insula typology—traditionally a Roman apartment block around a courtyard�
 ---
 
 **Repository**: [github.com/wordingone/wordingone.github.io](https://github.com/wordingone/wordingone.github.io)  
+**Issues**: [Mobile fixes in progress](./HANDOFF.md)  
 **License**: Copyright 2025 Hyun Jun Han & Oskar Maly. All rights reserved.  
-**Last Updated**: August 12, 2025
+**Last Updated**: August 12, 2025 21:30 PST
