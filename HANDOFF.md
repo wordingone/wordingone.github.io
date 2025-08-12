@@ -158,7 +158,19 @@ const { chromium } = require('playwright');
 
 ## Changes Since Last Handoff
 
-### 2025-08-12 20:05 PST (latest) - FINAL BUG FIX
+### 2025-08-12 20:10 PST (latest) - CRITICAL ZOOM FIX
+- **Fixed Zoom Animation Glitches**
+  - Removed box-shadow from .lidar-container to prevent visual glitches during zoom
+  - Moved gradient background directly to #lidar-board styles
+  - Added will-change: transform for smooth transitions
+  - Added transform: translateZ(0) to force GPU acceleration
+  - Added backface-visibility: hidden to prevent flashing
+  - Kept rounded corners (16px) on lidar-container for visual frame
+  - Dark gradient background persists during zoom without scaling
+  - Eliminated all flashing/glitching when clicking regions or reset view
+  - Performance optimized with GPU acceleration hints
+
+### 2025-08-12 20:05 PST - FINAL BUG FIX
 - **Fixed Index Page Scroll Bug**
   - Fixed glitchy overlay issue where header text appeared below logo when fully scrolled
   - Added opacity transition to hide header text when scroll is locked
