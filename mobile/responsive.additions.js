@@ -376,6 +376,162 @@
     checkScrollLock();
   }
 
+  // ============================================
+  // MOBILE FIX: Dynamic overlay management
+  // ============================================
+  
+  function mobileOverlayFixes() {
+    // Only apply fixes on mobile
+    if (!window.matchMedia('(max-width: 768px)').matches) return;
+    
+    // Fix 1: Ensure overlay covers everything during load
+    const videoOverlay = document.getElementById('videoOverlay');
+    const loadingElement = document.getElementById('loading');
+    
+    if (videoOverlay && videoOverlay.classList.contains('active')) {
+      // Lock body scroll while overlay is active
+      document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
+      
+      // Ensure overlay has highest z-index
+      videoOverlay.style.zIndex = '999999';
+      
+      // Hide any project brief or onboarding panels
+      const projectBrief = document.querySelector('.project-brief, .onboarding-panel');
+      if (projectBrief) {
+        projectBrief.style.visibility = 'hidden';
+        projectBrief.style.pointerEvents = 'none';
+      }
+    }
+    
+    // Monitor overlay state changes
+    const observer = new MutationObserver(function(mutations) {
+      mutations.forEach(function(mutation) {
+        if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+          const target = mutation.target;
+          if (target.id === 'videoOverlay' || target.classList.contains('video-overlay')) {
+            if (target.classList.contains('active')) {
+              // Lock scroll
+              document.body.style.overflow = 'hidden';
+              document.body.style.position = 'fixed';
+              document.body.style.width = '100%';
+              
+              // Hide background content
+              const projectBrief = document.querySelector('.project-brief, .onboarding-panel');
+              if (projectBrief) {
+                projectBrief.style.visibility = 'hidden';
+                projectBrief.style.pointerEvents = 'none';
+              }
+            } else {
+              // Unlock scroll
+              document.body.style.overflow = '';
+              document.body.style.position = '';
+              document.body.style.width = '';
+              
+              // Restore visibility of hidden elements
+              const projectBrief = document.querySelector('.project-brief, .onboarding-panel');
+              if (projectBrief) {
+                projectBrief.style.visibility = '';
+                projectBrief.style.pointerEvents = '';
+              }
+            }
+          }
+        }
+      });
+    });
+    
+    // Observe overlay elements
+    if (videoOverlay) {
+      observer.observe(videoOverlay, { attributes: true });
+    }
+    
+    const overlays = document.querySelectorAll('.video-overlay');
+    overlays.forEach(overlay => {
+      observer.observe(overlay, { attributes: true });
+    });
+  }
+  
+  // Fix 2: Ensure logo centering on scroll lock
+  function mobileLogoCenteringFix() {
+    if (!window.matchMedia('(max-width: 768px)').matches) return;
+    
+    window.addEventListener('scroll', function() {
+      const logoSection = document.querySelector('.logo-section');
+      if (logoSection && logoSection.classList.contains('locked')) {
+        // Force recenter on mobile
+        logoSection.style.top = '0';
+        logoSection.style.bottom = '0';
+        logoSection.style.display = 'flex';
+        logoSection.style.alignItems = 'center';
+        logoSection.style.justifyContent = 'center';
+      }
+    });
+  }
+  
+  // Fix 3: Video popup responsive handling
+  function mobileVideoPopupFix() {
+    if (!window.matchMedia('(max-width: 768px)').matches) return;
+    
+    document.addEventListener('click', function(e) {
+      // Check if a hotspot was clicked
+      if (e.target.closest('.hotspot')) {
+        setTimeout(function() {
+          const activeOverlay = document.querySelector('.video-overlay.active');
+          if (activeOverlay) {
+            // Ensure proper mobile layout
+            const video = activeOverlay.querySelector('.overlay-video, .intro-video');
+            const description = activeOverlay.querySelector('.video-description-panel');
+            
+            if (video) {
+              // Force contain fit for mobile
+              video.style.objectFit = 'contain';
+              video.style.width = '100%';
+              video.style.height = '100%';
+            }
+            
+            if (description) {
+              // Ensure description doesn't overlap
+              description.style.position = 'relative';
+              description.style.marginTop = '10px';
+            }
+            
+            // Lock body scroll
+            document.body.style.overflow = 'hidden';
+            document.body.style.position = 'fixed';
+            document.body.style.width = '100%';
+          }
+        }, 100);
+      }
+    });
+    
+    // Cleanup on close
+    document.addEventListener('click', function(e) {
+      if (e.target.closest('.overlay-close')) {
+        // Restore body scroll
+        document.body.style.overflow = '';
+        document.body.style.position = '';
+        document.body.style.width = '';
+      }
+    });
+  }
+  
+  // Handle orientation changes
+  function handleOrientationChange() {
+    window.addEventListener('orientationchange', function() {
+      if (window.matchMedia('(max-width: 768px)').matches) {
+        // Recalculate heights after orientation change
+        setTimeout(function() {
+          const activeOverlay = document.querySelector('.video-overlay.active');
+          if (activeOverlay) {
+            const vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
+          }
+        }, 100);
+      }
+    });
+  }
+
   // ==========================================
   // Initialization
   // ==========================================
@@ -396,6 +552,12 @@
     fixMagnifierCursor();
     fixVideoDescriptionContainers();
     manageScrollLock();
+    
+    // Apply mobile-specific fixes
+    mobileOverlayFixes();
+    mobileLogoCenteringFix();
+    mobileVideoPopupFix();
+    handleOrientationChange();
     
     // Re-apply on orientation change
     window.addEventListener('orientationchange', () => {
