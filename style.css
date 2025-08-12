@@ -379,8 +379,15 @@ body {
 }
 
 /* Magnifying Lens Effect for LiDAR Board */
-#lidar-board {
-    cursor: none; /* Hide default cursor in LiDAR area */
+#lidar-board:not(.highlighting):not(.zooming):not(.zoom-reset) {
+    cursor: none; /* Hide default cursor only when magnifier is active */
+}
+
+/* Show normal cursor when highlighting or zoomed */
+#lidar-board.highlighting,
+#lidar-board.zooming,
+#lidar-board.zoom-reset {
+    cursor: default !important;
 }
 
 /* Custom Cursor Design - Clean and Seamless */
@@ -434,13 +441,29 @@ body {
 
 /* Hide magnifier when highlighting */
 #lidar-board.highlighting .magnifier-cursor {
-    display: none;
+    display: none !important;
 }
 
 /* Hide during zoom */
 #lidar-board.zooming .magnifier-cursor,
 #lidar-board.zoom-reset .magnifier-cursor {
-    display: none;
+    display: none !important;
+}
+
+/* Ensure magnifier is visible in normal state */
+#lidar-board:not(.highlighting):not(.zooming):not(.zoom-reset) .magnifier-cursor.active {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Disable hotspot pointer events when not highlighting */
+#lidar-board:not(.highlighting) .hotspot {
+    pointer-events: none;
+}
+
+#lidar-board.highlighting .hotspot {
+    pointer-events: auto;
 }
 
 /* Hide Labels */
@@ -492,7 +515,7 @@ body {
     top: 24px;
     right: 24px;
     width: 600px;
-    height: 530px; /* Increased to accommodate description */
+    height: auto; /* Auto height to accommodate wrapper */
     z-index: 1000;
     opacity: 0;
     visibility: hidden;
@@ -500,13 +523,19 @@ body {
     transition: all 240ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
     border-radius: 20px;
     overflow: visible; /* Allow description to extend below */
-    background: rgba(15, 15, 18, 0.95);
-    backdrop-filter: blur(24px) saturate(1.2);
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    box-shadow: 
-        0 24px 48px rgba(0, 0, 0, 0.5),
-        0 0 0 1px rgba(255, 255, 255, 0.05) inset,
-        0 0 80px rgba(142, 169, 255, 0.1);
+    background: transparent; /* Wrapper handles background */
+    backdrop-filter: none;
+    border: none;
+    box-shadow: none;
+}
+
+/* Video Container Wrapper - Flexbox for proper separation */
+.video-container-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+    height: auto;
 }
 
 .video-overlay.closing {
@@ -515,15 +544,22 @@ body {
     transition: all 200ms ease;
 }
 
-/* Overlay Content */
+/* Overlay Content - Video container only */
 .overlay-content {
     position: relative;
     width: 100%;
-    height: 100%;
+    height: 450px; /* Fixed height for video container */
     display: flex;
     flex-direction: column;
     border-radius: 20px;
     overflow: hidden;
+    background: rgba(15, 15, 18, 0.95);
+    backdrop-filter: blur(24px) saturate(1.2);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 
+        0 24px 48px rgba(0, 0, 0, 0.5),
+        0 0 0 1px rgba(255, 255, 255, 0.05) inset,
+        0 0 80px rgba(142, 169, 255, 0.1);
 }
 
 /* Premium Glass Title Bar */
@@ -707,12 +743,10 @@ body {
     transform: scale(1.2);
 }
 
-/* Video Description Panel - Elegant Typography */
+/* Video Description Panel - Separate container below video */
 .video-description-panel {
-    position: absolute;
-    bottom: -80px; /* Positioned below the video container */
-    left: 0;
-    right: 0;
+    position: relative; /* Relative positioning in flex layout */
+    width: 100%;
     padding: 20px 24px;
     background: linear-gradient(180deg, 
         rgba(15, 15, 18, 0.98) 0%, 
@@ -724,17 +758,13 @@ body {
     box-shadow: 
         0 12px 32px rgba(0, 0, 0, 0.4),
         0 0 0 1px rgba(255, 255, 255, 0.03) inset;
-    opacity: 0;
-    transform: translateY(10px);
-    transition: all 320ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    transition-delay: 200ms;
+    opacity: 1; /* Always visible when present */
+    transform: none; /* No transform needed */
+    transition: none;
     z-index: 5; /* Below video controls but above background */
 }
 
-.video-overlay.active .video-description-panel {
-    opacity: 1;
-    transform: translateY(0);
-}
+/* Description panel animation handled by overlay container */
 
 .video-description-text {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;

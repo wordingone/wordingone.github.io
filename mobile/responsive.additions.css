@@ -1,0 +1,450 @@
+/* ================================================
+   RESPONSIVE ADDITIONS - Mobile Enablement Layer
+   Non-destructive, additive-only mobile support
+   ================================================ */
+
+/* 
+   IMPORTANT: This file provides additive mobile support without
+   modifying existing desktop behavior. Include AFTER style.css.
+   
+   Add to HTML:
+   <link rel="stylesheet" href="mobile/responsive.additions.css">
+*/
+
+/* ==========================================
+   Container Queries & Safe Viewport Setup
+   ========================================== */
+
+/* Safe viewport enablement documentation:
+   Add to HTML <head>:
+   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+*/
+
+/* Container wrapper for scoped responsive behavior */
+@supports (container-type: inline-size) {
+  .app-container-wrapper {
+    container-type: inline-size;
+    container-name: app;
+  }
+}
+
+/* ==========================================
+   Touch Target Sizing (44x44 minimum)
+   ========================================== */
+
+@media (any-pointer: coarse) {
+  /* Ensure all interactive elements meet 44x44 minimum */
+  .control-btn,
+  .nav-btn,
+  .overlay-close,
+  .onboarding-close,
+  .hotspot::after {
+    min-width: 44px;
+    min-height: 44px;
+  }
+  
+  /* Adjust padding for better touch targets */
+  .control-btn {
+    padding: 12px 20px;
+  }
+  
+  /* Larger hotspot touch areas on mobile */
+  .hotspot {
+    min-width: 44px;
+    min-height: 44px;
+  }
+  
+  .hotspot::after {
+    width: 36px;
+    height: 36px;
+    font-size: 16px;
+  }
+}
+
+/* ==========================================
+   Mobile-Safe Heights (svh units)
+   ========================================== */
+
+@supports (height: 100svh) {
+  @media (max-width: 768px) {
+    body {
+      height: 100svh;
+    }
+    
+    #app-container {
+      height: 100svh;
+    }
+    
+    .onboarding-overlay {
+      height: 100svh;
+    }
+  }
+}
+
+/* Fallback for older browsers */
+@supports not (height: 100svh) {
+  @media (max-width: 768px) {
+    body {
+      height: 100vh;
+      height: -webkit-fill-available;
+    }
+    
+    #app-container {
+      height: 100vh;
+      height: -webkit-fill-available;
+    }
+  }
+}
+
+/* ==========================================
+   Aspect Ratio Shells (CLS Prevention)
+   ========================================== */
+
+/* Prevent layout shift for media elements */
+.lidar-container {
+  contain: layout size;
+}
+
+.lidar-background {
+  aspect-ratio: 16/9;
+  contain: layout size;
+}
+
+.overlay-video {
+  aspect-ratio: 16/9;
+  contain: layout size;
+}
+
+/* Loading skeleton with proper aspect ratio */
+.media-skeleton {
+  aspect-ratio: inherit;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.05) 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
+  animation: skeleton-shimmer 2s ease-in-out infinite;
+}
+
+@keyframes skeleton-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+/* ==========================================
+   Reduced Motion Support
+   ========================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  /* Disable non-essential animations */
+  .magnifier-cursor,
+  .magnifier-content,
+  .progress-bar,
+  .control-btn::before,
+  .nav-btn,
+  .hotspot::after {
+    animation: none !important;
+    transition: opacity 200ms ease !important;
+  }
+  
+  /* Instant transitions for essential interactions */
+  .video-overlay,
+  .onboarding-overlay,
+  #lidar-board.zooming .lidar-container,
+  #lidar-board.zoom-reset .lidar-container {
+    transition-duration: 200ms !important;
+  }
+  
+  /* Remove decorative animations */
+  @keyframes shimmer { to { background-position: 0; } }
+  @keyframes spin { to { transform: none; } }
+  @keyframes skeleton-shimmer { to { background-position: 0; } }
+}
+
+/* ==========================================
+   Mobile Layout Adjustments
+   ========================================== */
+
+@container app (max-width: 768px) {
+  /* Stack panels vertically on mobile */
+  #app-container {
+    flex-direction: column;
+  }
+  
+  #model-panel {
+    width: 100%;
+    height: 40%;
+  }
+  
+  #main-panel {
+    width: 100%;
+    height: 60%;
+  }
+  
+  /* Adjust overlay positioning */
+  .video-overlay {
+    width: calc(100% - 32px);
+    max-width: none;
+    left: 16px;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%) scale(0.95);
+  }
+  
+  .video-overlay.active {
+    transform: translateY(-50%) scale(1);
+  }
+}
+
+/* ==========================================
+   Pointer-Aware Visibility
+   ========================================== */
+
+/* Show touch-friendly controls on coarse pointer devices */
+@media (any-pointer: coarse) {
+  /* Always show hotspot indicators on touch devices */
+  .hotspot::after {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  
+  /* Make controls more prominent */
+  .lidar-controls {
+    background: rgba(24, 24, 28, 0.8);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+  }
+  
+  /* Disable hover-only effects */
+  .hotspot:hover::after {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+}
+
+/* ==========================================
+   Performance Optimizations
+   ========================================== */
+
+/* Reduce GPU load on mobile */
+@media (max-width: 768px) {
+  /* Simplify blur effects */
+  .glass,
+  .lidar-controls,
+  .overlay-header,
+  .video-overlay {
+    backdrop-filter: blur(10px);
+  }
+  
+  /* Reduce shadow complexity */
+  * {
+    box-shadow: none !important;
+  }
+  
+  .glass,
+  .video-overlay {
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3) !important;
+  }
+}
+
+/* GPU memory optimization for low-end devices */
+@media (max-width: 768px) and (max-resolution: 2dppx) {
+  /* Use lower resolution backgrounds */
+  .lidar-background,
+  .magnifier-content {
+    image-rendering: optimizeSpeed;
+  }
+}
+
+/* ==========================================
+   Responsive Typography
+   ========================================== */
+
+@container app (max-width: 480px) {
+  :root {
+    --text-xs: 10px;
+    --text-sm: 11px;
+    --text-base: 13px;
+    --text-lg: 18px;
+  }
+  
+  /* Adjust specific text elements */
+  .brand-logo {
+    font-size: 11px;
+  }
+  
+  .overlay-title {
+    font-size: 12px;
+  }
+  
+  .video-description-text {
+    font-size: 11px;
+    line-height: 1.5;
+  }
+}
+
+/* ==========================================
+   Orientation Support
+   ========================================== */
+
+@media (orientation: landscape) and (max-height: 500px) {
+  /* Optimize for landscape mobile */
+  #model-panel {
+    display: none; /* Hide 3D panel in landscape to save space */
+  }
+  
+  #main-panel {
+    height: 100%;
+  }
+  
+  .lidar-controls {
+    top: 8px;
+    right: 8px;
+  }
+  
+  .video-overlay {
+    height: calc(100% - 32px);
+    max-height: none;
+  }
+}
+
+/* ==========================================
+   Dark Mode Support
+   ========================================== */
+
+@media (prefers-color-scheme: dark) {
+  /* Already dark by default, ensure consistency */
+  :root {
+    color-scheme: dark;
+  }
+}
+
+/* Light mode adjustments if needed */
+@media (prefers-color-scheme: light) {
+  /* Override dark theme for users preferring light mode */
+  body {
+    background: #f0f0f5;
+    color: #1a1a1f;
+  }
+  
+  .glass {
+    background: rgba(255, 255, 255, 0.7);
+    border-color: rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Invert critical UI elements */
+  .brand-logo,
+  .overlay-title,
+  .control-btn {
+    color: #1a1a1f;
+  }
+}
+
+/* ==========================================
+   Scroll Behavior Improvements
+   ========================================== */
+
+@media (any-pointer: coarse) {
+  /* Momentum scrolling for touch devices */
+  .onboarding-content,
+  .video-description-panel {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+  
+  /* Prevent overscroll bounce on body */
+  body {
+    overscroll-behavior: none;
+  }
+}
+
+/* ==========================================
+   Focus Improvements for Keyboard Nav
+   ========================================== */
+
+@media (any-pointer: fine) {
+  /* Enhanced focus states for desktop keyboard navigation */
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+}
+
+/* ==========================================
+   Loading State Optimizations
+   ========================================== */
+
+@media (max-width: 768px) {
+  /* Simpler loading animation on mobile */
+  .spinner {
+    width: 36px;
+    height: 36px;
+    animation: spin 1.5s linear infinite;
+  }
+  
+  .loading-progress {
+    width: 240px;
+  }
+}
+
+/* ==========================================
+   Responsive Grid Adjustments
+   ========================================== */
+
+@container app (max-width: 640px) {
+  .control-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  
+  .control-item {
+    padding: 12px;
+  }
+}
+
+/* ==========================================
+   Safe Area Insets (for notched devices)
+   ========================================== */
+
+@supports (padding: env(safe-area-inset-top)) {
+  @media (max-width: 768px) {
+    .brand-header {
+      padding-top: max(18px, env(safe-area-inset-top));
+    }
+    
+    .lidar-controls {
+      top: max(24px, env(safe-area-inset-top));
+      right: max(24px, env(safe-area-inset-right));
+    }
+    
+    .onboarding-panel {
+      margin: env(safe-area-inset-top) env(safe-area-inset-right) 
+              env(safe-area-inset-bottom) env(safe-area-inset-left);
+    }
+  }
+}
+
+/* ==========================================
+   Print Styles (bonus)
+   ========================================== */
+
+@media print {
+  /* Hide interactive elements */
+  .lidar-controls,
+  .video-overlay,
+  .onboarding-overlay,
+  #loading {
+    display: none !important;
+  }
+  
+  /* Optimize for printing */
+  body {
+    background: white;
+    color: black;
+  }
+  
+  #app-container {
+    flex-direction: column;
+  }
+}

@@ -160,17 +160,19 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
         const currentVideo = currentSeries.videos[currentVideoIndex];
         
         currentOverlay.innerHTML = `
-            <div class="overlay-content">
-                <button class="overlay-close" aria-label="Close overlay">&times;</button>
-                <div class="overlay-header">
-                    <div class="overlay-title">${currentSeries.title}</div>
-                    ${hasMultipleVideos ? `<div class="video-counter">${currentVideoIndex + 1} / ${currentSeries.videos.length}</div>` : ''}
+            <div class="video-container-wrapper">
+                <div class="overlay-content">
+                    <button class="overlay-close" aria-label="Close overlay">&times;</button>
+                    <div class="overlay-header">
+                        <div class="overlay-title">${currentSeries.title}</div>
+                        ${hasMultipleVideos ? `<div class="video-counter">${currentVideoIndex + 1} / ${currentSeries.videos.length}</div>` : ''}
+                    </div>
+                    <video class="overlay-video" autoplay muted ${!hasMultipleVideos ? 'loop' : ''}>
+                        <source src="${currentVideo}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    ${hasMultipleVideos ? createNavigationControls() : ''}
                 </div>
-                <video class="overlay-video" autoplay muted ${!hasMultipleVideos ? 'loop' : ''}>
-                    <source src="${currentVideo}" type="video/mp4">
-                    Your browser does not support the video tag.
-                </video>
-                ${hasMultipleVideos ? createNavigationControls() : ''}
                 ${currentSeries.description ? `
                     <div class="video-description-panel">
                         <p class="video-description-text">${currentSeries.description}</p>
