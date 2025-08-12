@@ -158,7 +158,25 @@ const { chromium } = require('playwright');
 
 ## Changes Since Last Handoff
 
-### 2025-08-12 20:20 PST (latest) - SCROLL TO CLICK INDICATOR
+### 2025-08-12 20:25 PST (latest) - CRITICAL MOBILE FIXES
+- **Fixed Mobile Magnifier Position**
+  - Added touch event support (touchstart, touchmove, touchend)
+  - Fixed position calculation for touch coordinates
+  - Prevented scrolling during magnification with preventDefault
+  - Magnifier now follows touch position accurately on mobile
+  - Size automatically adjusts (80px on mobile, 225px on desktop)
+- **Fixed Horizontal Scrolling on Index Page**
+  - Added overflow-x: hidden to both html and body elements
+  - Set width: 100% and max-width: 100vw on body
+  - Prevents any horizontal overflow on mobile devices
+- **Fixed Logo Click on Mobile**
+  - Added touchend event listener for mobile tap support
+  - Added touch-action: manipulation for better response
+  - Removed iOS tap highlight with -webkit-tap-highlight-color
+  - preventDefault on touch events to avoid conflicts
+  - Logo is now properly clickable when centered on mobile
+
+### 2025-08-12 20:20 PST - SCROLL TO CLICK INDICATOR
 - **Enhanced Scroll Indicator**
   - Scroll indicator now changes from "SCROLL" to "CLICK" when logo is centered
   - Arrow transforms into circular click icon with center dot

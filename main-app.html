@@ -592,10 +592,10 @@
             document.body.appendChild(magnifier);
             
             let isActive = false;
-            const magnifierSize = 225; // 1.5x larger
-            const magnification = 3; // 3x magnification (1.5x stronger)
+            const magnifierSize = window.innerWidth <= 768 ? 80 : 225; // Smaller on mobile
+            const magnification = 3; // 3x magnification
             
-            // Handle mouse enter/leave
+            // Handle mouse/touch enter/leave
             lidarBoard.addEventListener('mouseenter', function(e) {
                 if (!lidarBoard.classList.contains('highlighting') && 
                     !lidarBoard.classList.contains('zooming')) {
@@ -609,25 +609,48 @@
                 magnifier.classList.remove('active');
             });
             
+            // Handle touch start
+            lidarBoard.addEventListener('touchstart', function(e) {
+                if (!lidarBoard.classList.contains('highlighting') && 
+                    !lidarBoard.classList.contains('zooming')) {
+                    isActive = true;
+                    magnifier.classList.add('active');
+                }
+            });
+            
+            // Handle touch end
+            lidarBoard.addEventListener('touchend', function(e) {
+                isActive = false;
+                magnifier.classList.remove('active');
+            });
+            
             // Handle mouse movement
             lidarBoard.addEventListener('mousemove', function(e) {
                 if (!isActive) return;
-                
-                // Position magnifier at cursor
-                const x = e.clientX;
-                const y = e.clientY;
-                
-                magnifier.style.left = (x - magnifierSize/2) + 'px'; // Center the magnifier
+                updateMagnifierPosition(e.clientX, e.clientY);
+            });
+            
+            // Handle touch movement
+            lidarBoard.addEventListener('touchmove', function(e) {
+                if (!isActive) return;
+                e.preventDefault(); // Prevent scrolling while magnifying
+                const touch = e.touches[0];
+                updateMagnifierPosition(touch.clientX, touch.clientY);
+            });
+            
+            // Update magnifier position and background
+            function updateMagnifierPosition(x, y) {
+                // Position magnifier at cursor/touch
+                magnifier.style.left = (x - magnifierSize/2) + 'px';
                 magnifier.style.top = (y - magnifierSize/2) + 'px';
                 
                 // Calculate position relative to LiDAR container
                 if (lidarContainer) {
                     const rect = lidarContainer.getBoundingClientRect();
-                    const relX = (e.clientX - rect.left) / rect.width;
-                    const relY = (e.clientY - rect.top) / rect.height;
+                    const relX = (x - rect.left) / rect.width;
+                    const relY = (y - rect.top) / rect.height;
                     
                     // Calculate the magnified background position
-                    // Center point should align with cursor position
                     const sourceWidth = 1920;
                     const sourceHeight = 1080;
                     const scale = 1.5; // Scale factor for magnification
@@ -642,7 +665,7 @@
                     magnifierContent.style.backgroundPosition = `-${bgX}px -${bgY}px`;
                     magnifierContent.style.backgroundSize = `${bgWidth}px ${bgHeight}px`;
                 }
-            });
+            }
             
             // Disable during highlighting or zoom
             const observer = new MutationObserver(function(mutations) {
