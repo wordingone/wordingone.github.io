@@ -158,7 +158,21 @@ const { chromium } = require('playwright');
 
 ## Changes Since Last Handoff
 
-### 2025-08-12 20:10 PST (latest) - CRITICAL ZOOM FIX
+### 2025-08-12 20:15 PST (latest) - ROLLBACK & POSITION FIX
+- **Rolled Back Frame Changes**
+  - Completely reverted all border/frame persistence changes that caused glitching
+  - Removed gradient background from #lidar-board
+  - Removed border-radius and shadow from .lidar-container
+  - Removed GPU acceleration hints (will-change, translateZ, backface-visibility)
+  - Restored original simple structure that worked without glitches
+  - Kept rounded corners only on .lidar-background element (16px)
+  - Background remains simple var(--ink) color
+- **Fixed Red Dye Region Position**
+  - Moved red_dye hotspot 20 pixels to the right (from 1310 to 1330)
+  - Now properly separated from circulation region
+  - No overlap between interactive regions
+
+### 2025-08-12 20:10 PST - CRITICAL ZOOM FIX
 - **Fixed Zoom Animation Glitches**
   - Removed box-shadow from .lidar-container to prevent visual glitches during zoom
   - Moved gradient background directly to #lidar-board styles
