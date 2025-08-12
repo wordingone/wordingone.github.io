@@ -383,12 +383,12 @@ body {
     display: none !important;
 }
 
-/* Highlighting Mode with Scrim */
+/* Highlighting Mode with Stronger Scrim */
 #lidar-board.highlighting .lidar-container::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.28);
+    background: rgba(0, 0, 0, 0.65); /* Increased from 0.28 to 0.65 for stronger darkening */
     z-index: 2;
     pointer-events: none;
     opacity: 0;

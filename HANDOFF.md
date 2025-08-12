@@ -70,7 +70,20 @@ Files:
 RESOLVED — All acceptance criteria met with enhanced UX features
 
 ## Changes Since Last Handoff
-### 2025-08-11 17:45 PST (latest)
+### 2025-08-11 17:55 PST (latest)
+- **Highlighting & Content Improvements**
+  - Increased highlighting darkness from 28% to 65% opacity for better contrast
+  - Highlighted regions now stand out much more clearly
+  - Moved red_dye hotspot 35px to the left for better positioning
+  - Created comprehensive HOTSPOT_CONTENT_MAP.md documenting:
+    - All 9 hotspots with exact locations and data
+    - Associated video content for each region
+    - 3D model focus mappings
+    - Suggested descriptive text for each area
+    - Technical implementation notes
+    - Future enhancement suggestions
+
+### 2025-08-11 17:45 PST
 - **Premium UI/UX Enhancements**
   - Added enhanced progress bar with shimmer animation and percentage display
   - Progress bar now accurately tracks model loading (0-100%)
