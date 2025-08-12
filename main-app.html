@@ -591,6 +591,8 @@
             document.body.appendChild(magnifier);
             
             let isActive = false;
+            const magnifierSize = 225; // 1.5x larger
+            const magnification = 3; // 3x magnification (1.5x stronger)
             
             // Handle mouse enter/leave
             lidarBoard.addEventListener('mouseenter', function(e) {
@@ -614,8 +616,8 @@
                 const x = e.clientX;
                 const y = e.clientY;
                 
-                magnifier.style.left = (x - 75) + 'px'; // Center the 150px magnifier
-                magnifier.style.top = (y - 75) + 'px';
+                magnifier.style.left = (x - magnifierSize/2) + 'px'; // Center the magnifier
+                magnifier.style.top = (y - magnifierSize/2) + 'px';
                 
                 // Calculate position relative to LiDAR container
                 if (lidarContainer) {
@@ -623,12 +625,12 @@
                     const relX = (e.clientX - rect.left) / rect.width;
                     const relY = (e.clientY - rect.top) / rect.height;
                     
-                    // Position background for magnification (2x zoom)
-                    const bgX = relX * 1920 * 2 - 150; // 1920 is reference width
-                    const bgY = relY * 1080 * 2 - 150; // 1080 is reference height
+                    // Position background for magnification
+                    const bgX = relX * 2880 - (magnifierSize * magnification / 2); // 2880 = 1920 * 1.5
+                    const bgY = relY * 1620 - (magnifierSize * magnification / 2); // 1620 = 1080 * 1.5
                     
                     magnifierContent.style.backgroundPosition = `-${bgX}px -${bgY}px`;
-                    magnifierContent.style.backgroundSize = `${1920 * 2}px ${1080 * 2}px`;
+                    magnifierContent.style.backgroundSize = `2880px 1620px`;
                 }
             });
             

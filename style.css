@@ -383,23 +383,21 @@ body {
     cursor: none; /* Hide default cursor in LiDAR area */
 }
 
-/* Custom Cursor Design */
+/* Custom Cursor Design - Clean and Seamless */
 .magnifier-cursor {
     position: fixed;
-    width: 150px;
-    height: 150px;
+    width: 225px; /* 1.5x larger (was 150px) */
+    height: 225px;
     border-radius: 50%;
     pointer-events: none;
     z-index: 1000;
     opacity: 0;
     transition: opacity 200ms ease;
     overflow: hidden;
-    border: 2px solid rgba(142, 169, 255, 0.4);
+    border: none; /* No border for seamless look */
     box-shadow: 
-        0 0 0 1px rgba(255, 255, 255, 0.2),
-        0 8px 32px rgba(0, 0, 0, 0.4),
-        inset 0 0 20px rgba(142, 169, 255, 0.1);
-    backdrop-filter: blur(1px);
+        0 12px 40px rgba(0, 0, 0, 0.5),
+        0 4px 12px rgba(0, 0, 0, 0.3); /* Clean drop shadow only */
 }
 
 .magnifier-cursor.active {
@@ -409,45 +407,34 @@ body {
 /* Magnified Content */
 .magnifier-content {
     position: absolute;
-    width: 300px; /* 2x magnification */
-    height: 300px;
+    width: 675px; /* 3x magnification (225px * 3) */
+    height: 675px;
     transform-origin: center;
     background-image: url('./lidar_00.png');
-    background-size: 1920px 1080px;
+    background-size: 2880px 1620px; /* 1.5x reference size for stronger magnification */
     background-repeat: no-repeat;
     border-radius: 50%;
+    image-rendering: crisp-edges; /* Sharper magnification */
+    image-rendering: -webkit-optimize-contrast;
 }
 
-/* Center Crosshair */
+/* Center Crosshair - More Subtle */
 .magnifier-cursor::after {
     content: '+';
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 20px;
-    color: rgba(142, 169, 255, 0.6);
-    font-weight: 300;
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+    font-size: 16px;
+    color: rgba(255, 255, 255, 0.3);
+    font-weight: 200;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+    mix-blend-mode: difference; /* Adapts to background */
 }
 
-/* Glass Ring Effect */
+/* Remove the glass ring effect for cleaner look */
 .magnifier-cursor::before {
-    content: '';
-    position: absolute;
-    inset: -1px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, 
-        transparent 0%, 
-        rgba(255, 255, 255, 0.05) 50%, 
-        transparent 100%
-    );
-    animation: rotate-sheen 8s linear infinite;
-}
-
-@keyframes rotate-sheen {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    display: none;
 }
 
 /* Hide magnifier when highlighting */
