@@ -158,7 +158,24 @@ const { chromium } = require('playwright');
 
 ## Changes Since Last Handoff
 
-### 2025-08-12 19:50 PST (latest)
+### 2025-08-12 19:55 PST (latest)
+- **Additional UI Refinements**
+  - Magnifier cursor dramatically scaled down for mobile:
+    - 80px on tablets (was 225px)
+    - 60px on phones (was 225px)
+    - Magnification content scales proportionally
+  - Video container wrapper made invisible:
+    - Transparent background, no borders or shadows
+    - Video and description appear as separate floating elements
+    - 20px gap maintained between elements
+  - LiDAR board framing preserved during zoom:
+    - Dark gradient background always visible
+    - Rounded corners (16px) on lidar-container
+    - Shadow effect for depth
+    - Frame scales with content during zoom
+  - All changes non-destructive to existing functionality
+
+### 2025-08-12 19:50 PST
 - **Surgical Fixes to Main Codebase**
   - Fixed magnifier cursor visibility:
     - Cursor now properly shows as default when highlighting or zoomed

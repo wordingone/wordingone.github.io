@@ -426,6 +426,37 @@
 }
 
 /* ==========================================
+   Magnifier Cursor Mobile Scaling
+   ========================================== */
+
+/* Dramatically reduce magnifier size on mobile */
+@media (max-width: 768px) {
+  .magnifier-cursor {
+    width: 80px !important; /* Reduced from 225px */
+    height: 80px !important;
+  }
+  
+  .magnifier-content {
+    width: 240px !important; /* 3x magnification of 80px */
+    height: 240px !important;
+    background-size: calc(100vw * 1.5) calc(100vh * 1.5) !important;
+  }
+}
+
+/* Even smaller on very small screens */
+@media (max-width: 480px) {
+  .magnifier-cursor {
+    width: 60px !important;
+    height: 60px !important;
+  }
+  
+  .magnifier-content {
+    width: 180px !important;
+    height: 180px !important;
+  }
+}
+
+/* ==========================================
    Print Styles (bonus)
    ========================================== */
 
