@@ -3,13 +3,11 @@
 A responsive, cinematic web experience bridging campaign narratives with a deeper representational layer. A 3D navigation model and a LiDAR-scanned mood board interlink to trigger videos, physical-model documentation, and scenes.
 
 ## Status (Evidence-Based)
-- Directory verified: B:\GIT\wordingone.github.io (13 files, 4 dirs)
+- Directory verified: ✅ (2025-08-11)
 - Script loading mode: modular_es6 — `import { createViewer } from './src/core/viewer.js'`
-- LFS: commented out (web deployment mode)
+- LFS: disabled (web deployment mode)
 - Models: 10 GLB files (binary: 10, pointers: 0)
-- **FIXED**: Navigation flow - index.html → main-app.html with video overlay
-- **IMPROVED**: Scroll locking when logo is centered on screen
-- **OPTIMIZED**: Video plays as overlay on main app, not inline
+- Videos: 26 MP4 files
 
 ## Structure (from repo)
 ```
@@ -29,28 +27,43 @@ B:\GIT\wordingone.github.io/
 ├── logo/                  # Logo assets directory
 │   └── remaking logo 1.png # Prada logo image
 ├── models/                # 3D architectural assets (10 GLB files)
+│   ├── altars.glb
+│   ├── arch_module_smallest.glb (2.5MB - instanced)
+│   ├── circulation.glb
+│   ├── Distress.glb
+│   ├── embellishments.glb
+│   ├── Index.glb
+│   ├── mirror.glb
+│   ├── misc geometry.glb (6.1MB)
+│   ├── Moulage.glb
+│   └── robot.glb
 ├── src/                   # Modular ES6 source code
-│   └── ui/lidarBoard.js  # Percentage-based positioning
-├── videos/                # Video series content (26 MP4 files)
-│   └── complete animation.mp4 # Intro loading video
+│   ├── config/
+│   │   └── models.js      # Model configuration
+│   ├── core/
+│   │   └── viewer.js      # 3D viewer initialization
+│   ├── focus/
+│   │   └── modelFocus.js  # Model highlight/focus system
+│   ├── instancing/
+│   │   └── towerInstancer.js # GPU instancing for architecture
+│   ├── load/
+│   │   └── loadModels.js  # GLB loader
+│   ├── overlay/
+│   │   └── videoOverlay.js # Video overlay system
+│   ├── sync/
+│   │   └── controller.js  # Sync between 2D/3D views
+│   └── ui/
+│       └── lidarBoard.js  # Percentage-based positioning
+├── videos/                # Video series content (26 files)
+│   ├── complete animation.mp4 # Intro loading video (~50MB)
+│   ├── altar_*.mp4        # Altar series (4 files)
+│   ├── archive_*.mp4      # Archive series (7 files)
+│   ├── circulation_*.mp4  # Circulation series (2 files)
+│   ├── index_*.mp4        # Index series (2 files)
+│   └── [various scene files]
 └── _ai/                   # AI assistant artifacts
+    └── wordingone_bootstrap.xml # Controller configuration
 ```
-
-## Navigation Flow
-1. **Landing (index.html)**: User sees header, scrolls down to reveal logo
-2. **Scroll Lock**: When logo centers in viewport, scroll locks preventing overshooting
-3. **Click to Enter**: Clicking logo navigates to main-app.html
-4. **Video Overlay**: Complete animation plays as overlay on main app
-5. **Skip Control**: Skip button appears after resources load
-6. **Main Experience**: After video, full LiDAR and 3D model interface
-
-## LiDAR Interface Features
-- **Unified Container**: Single scaling unit with aspect-ratio: 1920/1080
-- **Percentage Positioning**: Hotspots use % values (x/1920*100, y/1080*100)
-- **Clean Question Marks**: No circular backgrounds, just scaling text
-- **Hover Growth**: 1.5x scale on desktop, 1.4x tablet, 1.3x mobile
-- **Consistent Scaling**: Image and hotspots scale together as one unit
-- **Background Size**: 100% 100% for exact container fit
 
 ## Assets (from repo)
 | file | bytes |
@@ -63,11 +76,10 @@ B:\GIT\wordingone.github.io/
 | Various room videos | ~10-20MB each |
 
 ## Maintenance Notes
-- Keep `.glb` as binary; avoid LFS pointers
-- **NAVIGATION**: index.html → main-app.html (not circular)
-- **VIDEO TIMING**: Skip button only after resources load
-- **SCROLL LOCK**: Prevents scrolling past centered logo
-- **SESSION STORAGE**: Used to trigger video on main-app.html
-- **MOBILE SUPPORT**: Touch events handled for scroll lock
+- Keep `.glb` as binary; avoid LFS pointers for web deployment
+- Prefer local `./models/...` paths (ES6 module imports)
+- GPU instancing active for architectural system
+- Model focus system provides hover/click highlighting
+- All videos served directly (no streaming/CDN)
 
-_Last updated: 2025-01-28_
+_Last updated: 2025-08-11_

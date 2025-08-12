@@ -48,15 +48,15 @@
             z-index: 10001;
         }
 
-        /* Sound Button */
+        /* Sound Button - INVISIBLE */
         .sound-button {
             position: fixed;
             top: 40px;
             right: 100px;
             width: 50px;
             height: 50px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: transparent;
+            border: none;
             border-radius: 50%;
             cursor: pointer;
             display: none;
@@ -64,6 +64,7 @@
             justify-content: center;
             transition: all 0.3s ease;
             z-index: 10001;
+            opacity: 0; /* Completely invisible */
         }
 
         .sound-button.visible {
@@ -71,8 +72,7 @@
         }
 
         .sound-button:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: scale(1.1);
+            /* No hover effect since it's invisible */
         }
 
         .sound-button.muted .sound-icon::after {
@@ -336,37 +336,68 @@
                 // Start loading resources
                 let resourcesLoaded = false;
                 let videoEnded = false;
+                let lidarImageLoaded = false;
+                
+                // Check if LiDAR board image has loaded
+                function checkLidarImageLoad() {
+                    const lidarBackground = document.querySelector('.lidar-background');
+                    if (lidarBackground) {
+                        // Create a test image to check if the background image is loaded
+                        const testImg = new Image();
+                        testImg.onload = function() {
+                            console.log('LiDAR board image fully loaded');
+                            lidarImageLoaded = true;
+                            checkResourcesComplete();
+                        };
+                        testImg.onerror = function() {
+                            console.error('LiDAR board image failed to load');
+                            lidarImageLoaded = true; // Still allow skip even if image fails
+                            checkResourcesComplete();
+                        };
+                        // Extract the URL from the CSS background-image
+                        testImg.src = './lidar_00.png';
+                    }
+                }
+                
+                // Check if all resources are ready
+                function checkResourcesComplete() {
+                    if (resourcesLoaded && lidarImageLoaded) {
+                        console.log('All resources loaded - showing skip button');
+                        videoLoadingStatus.textContent = 'Ready';
+                        skipButton.classList.add('visible');
+                        
+                        // If video already ended, close overlay
+                        if (videoEnded) {
+                            setTimeout(closeVideoOverlay, 500);
+                        }
+                    }
+                }
                 
                 // Simulate resource loading
                 function startLoadingResources() {
+                    // Start checking for LiDAR image
+                    checkLidarImageLoad();
+                    
                     let progress = 0;
                     const loadingMessages = [
                         'Loading LiDAR interface...',
                         'Loading 3D models...',
                         'Initializing environment...',
-                        'Ready to explore...'
+                        'Preparing experience...'
                     ];
                     
                     let messageIndex = 0;
                     const loadingInterval = setInterval(() => {
-                        progress += 25;
+                        progress += 20; // Slower to give LiDAR time to load
                         messageIndex = Math.min(Math.floor(progress / 25), loadingMessages.length - 1);
                         videoLoadingStatus.textContent = loadingMessages[messageIndex];
                         
                         if (progress >= 100) {
                             clearInterval(loadingInterval);
                             resourcesLoaded = true;
-                            videoLoadingStatus.textContent = 'Ready';
-                            
-                            // Show skip button when resources are loaded
-                            skipButton.classList.add('visible');
-                            
-                            // If video already ended, close overlay
-                            if (videoEnded) {
-                                setTimeout(closeVideoOverlay, 500);
-                            }
+                            checkResourcesComplete();
                         }
-                    }, 1000); // ~4 seconds total
+                    }, 1200); // ~6 seconds total to allow for LiDAR image
                 }
                 
                 // Close video overlay
