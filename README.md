@@ -2,6 +2,22 @@
 
 A responsive, cinematic web experience bridging campaign narratives with a deeper representational layer. A 3D navigation model and a LiDAR-scanned mood board interlink to trigger videos, physical-model documentation, and scenes.
 
+## Recent Updates (2025-08-11)
+
+### Visual Enhancements
+- **Liquid Glass UI System**: Premium glass morphism design throughout
+- **Magnifying Lens**: 2x magnification cursor for LiDAR board exploration
+- **Enhanced Progress Bar**: Shimmer animation with accurate percentage tracking
+- **Video Descriptions**: Contextual text for all 9 interactive regions
+- **Onboarding Overlay**: Project brief and control instructions on first visit
+
+### Technical Features
+- 10 GLB models with GPU instancing for architecture
+- 26 MP4 videos organized in thematic series
+- Model focus system with hover/click highlighting
+- Responsive design for all screen sizes
+- Motion preference support for accessibility
+
 ## Status (Evidence-Based)
 - Directory verified: ✅ (2025-08-11)
 - Script loading mode: modular_es6 — `import { createViewer } from './src/core/viewer.js'`

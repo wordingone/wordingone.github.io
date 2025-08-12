@@ -70,7 +70,38 @@ Files:
 RESOLVED — All acceptance criteria met with enhanced UX features
 
 ## Changes Since Last Handoff
-### 2025-08-11 18:10 PST (latest)
+### 2025-08-11 18:25 PST (latest)
+- **Major UI/UX Enhancements**
+  - **Fixed Model Series Aspect Ratio**:
+    - Changed video object-fit from cover to contain for Model videos
+    - Added specific CSS targeting for exhibition-right region
+    - Model videos now display correctly without cropping
+  - **Magnifying Lens Effect**:
+    - Added elegant magnifying glass cursor for LiDAR board
+    - 2x magnification in 150px circular lens
+    - Glass design with blue accent border and subtle glow
+    - Animated sheen effect that rotates continuously
+    - Center crosshair for precision
+    - Automatically disabled during highlighting or zoom
+    - Smooth fade in/out transitions
+  - **Onboarding Overlay**:
+    - Premium glass panel with project brief and controls
+    - Displays after loading completes (once per session)
+    - Full project description from SCI-Arc studio
+    - Visual control guide with icons and descriptions
+    - Elegant typography with Inter font
+    - Glass morphism design with 40px backdrop blur
+    - Smooth scale and fade animations
+    - Close with X button, Begin button, or Escape key
+  - **Project Brief Content**:
+    - PRADA: (RE)MAKING title
+    - Vertical studio details (Peter Testa, SCI-Arc)
+    - Insula typology explanation
+    - Key spaces description
+    - Technical development notes
+    - Credits: Hyun Jun Han × Oskar Maly
+
+### 2025-08-11 18:10 PST
 - **Fixed Model Series & Added Descriptions**
   - Fixed Model Series videos not playing (corrected filenames with spaces: "Model 1.mp4" not "Model_1.mp4")
   - Added elegant text descriptions below each video overlay

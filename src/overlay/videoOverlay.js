@@ -154,6 +154,7 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
         // Create overlay container
         currentOverlay = document.createElement('div');
         currentOverlay.className = 'video-overlay frame-positioned series-player';
+        currentOverlay.setAttribute('data-region', region); // Add region for CSS targeting
         
         const hasMultipleVideos = currentSeries.videos.length > 1;
         const currentVideo = currentSeries.videos[currentVideoIndex];

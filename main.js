@@ -178,6 +178,39 @@ document.addEventListener('DOMContentLoaded', async function() {
         // Hide loading screen
         hideLoading(loadingElement);
         
+        // Show onboarding overlay after loading
+        setTimeout(() => {
+            const onboarding = document.getElementById('onboarding-overlay');
+            if (onboarding && !sessionStorage.getItem('onboardingShown')) {
+                onboarding.classList.add('active');
+                setTimeout(() => {
+                    onboarding.classList.add('visible');
+                }, 50);
+                
+                // Set up close handlers
+                const closeBtn = onboarding.querySelector('.onboarding-close');
+                const startBtn = onboarding.querySelector('.onboarding-start');
+                
+                const closeOnboarding = () => {
+                    onboarding.classList.remove('visible');
+                    setTimeout(() => {
+                        onboarding.classList.remove('active');
+                        sessionStorage.setItem('onboardingShown', 'true');
+                    }, 400);
+                };
+                
+                closeBtn.addEventListener('click', closeOnboarding);
+                startBtn.addEventListener('click', closeOnboarding);
+                
+                // Close on Escape key
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape' && onboarding.classList.contains('visible')) {
+                        closeOnboarding();
+                    }
+                });
+            }
+        }, 500);
+        
         // Initial render
         render();
         

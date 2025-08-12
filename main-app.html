@@ -304,6 +304,68 @@
         </div>
     </div>
     
+    <!-- Onboarding Overlay -->
+    <div id="onboarding-overlay" class="onboarding-overlay">
+        <div class="onboarding-backdrop"></div>
+        <div class="onboarding-panel">
+            <button class="onboarding-close" aria-label="Close onboarding">&times;</button>
+            
+            <div class="onboarding-header">
+                <h1 class="onboarding-title">PRADA: (RE)MAKING</h1>
+                <p class="onboarding-subtitle">Architectural Navigation System</p>
+            </div>
+            
+            <div class="onboarding-content">
+                <div class="onboarding-section">
+                    <h2>Project Brief</h2>
+                    <p>Vertical studio project at SCI-Arc led by Peter Testa, proposing an upcycling-focused extension to Prada's Montevarchi Logistics Center.</p>
+                    <p>The design adapts the insula typology, stacking production vertically around a central courtyard to make processes—archiving, material treatment, and garment transformation—visible and interconnected.</p>
+                    <p>Key spaces include a data-driven archive at the base, public exhibition areas, dyeing/distressing stations, and elevated "altars" for designer–visitor interaction.</p>
+                    <p class="onboarding-meta">Developed through Cinema 4D scene construction and LiDAR-based mapping, combining campaign-style presentation with architectural process documentation.</p>
+                </div>
+                
+                <div class="onboarding-controls">
+                    <h2>Navigation Controls</h2>
+                    <div class="control-grid">
+                        <div class="control-item">
+                            <div class="control-icon">🖱️</div>
+                            <div class="control-text">
+                                <strong>3D Model</strong>
+                                <span>Drag to rotate • Scroll to zoom</span>
+                            </div>
+                        </div>
+                        <div class="control-item">
+                            <div class="control-icon">🔍</div>
+                            <div class="control-text">
+                                <strong>LiDAR Board</strong>
+                                <span>Hover for magnification • Click hotspots for videos</span>
+                            </div>
+                        </div>
+                        <div class="control-item">
+                            <div class="control-icon">◉</div>
+                            <div class="control-text">
+                                <strong>Highlight Mode</strong>
+                                <span>Reveals interactive regions</span>
+                            </div>
+                        </div>
+                        <div class="control-item">
+                            <div class="control-icon">⟲</div>
+                            <div class="control-text">
+                                <strong>Reset View</strong>
+                                <span>Returns to default perspective</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="onboarding-footer">
+                    <p class="onboarding-credits">Hyun Jun Han × Oskar Maly • SCI-Arc 2025</p>
+                    <button class="onboarding-start">Begin Exploration</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
     <!-- Enhanced Loading Screen -->
     <div id="loading">
         <div class="spinner"></div>
@@ -511,5 +573,80 @@
     </script>
     
     <script type="module" src="main.js"></script>
+    
+    <!-- Magnifying Lens Effect Script -->
+    <script>
+        (function() {
+            const lidarBoard = document.getElementById('lidar-board');
+            const lidarContainer = document.querySelector('.lidar-container');
+            
+            // Create magnifier element
+            const magnifier = document.createElement('div');
+            magnifier.className = 'magnifier-cursor';
+            
+            const magnifierContent = document.createElement('div');
+            magnifierContent.className = 'magnifier-content';
+            magnifier.appendChild(magnifierContent);
+            
+            document.body.appendChild(magnifier);
+            
+            let isActive = false;
+            
+            // Handle mouse enter/leave
+            lidarBoard.addEventListener('mouseenter', function(e) {
+                if (!lidarBoard.classList.contains('highlighting') && 
+                    !lidarBoard.classList.contains('zooming')) {
+                    isActive = true;
+                    magnifier.classList.add('active');
+                }
+            });
+            
+            lidarBoard.addEventListener('mouseleave', function(e) {
+                isActive = false;
+                magnifier.classList.remove('active');
+            });
+            
+            // Handle mouse movement
+            lidarBoard.addEventListener('mousemove', function(e) {
+                if (!isActive) return;
+                
+                // Position magnifier at cursor
+                const x = e.clientX;
+                const y = e.clientY;
+                
+                magnifier.style.left = (x - 75) + 'px'; // Center the 150px magnifier
+                magnifier.style.top = (y - 75) + 'px';
+                
+                // Calculate position relative to LiDAR container
+                if (lidarContainer) {
+                    const rect = lidarContainer.getBoundingClientRect();
+                    const relX = (e.clientX - rect.left) / rect.width;
+                    const relY = (e.clientY - rect.top) / rect.height;
+                    
+                    // Position background for magnification (2x zoom)
+                    const bgX = relX * 1920 * 2 - 150; // 1920 is reference width
+                    const bgY = relY * 1080 * 2 - 150; // 1080 is reference height
+                    
+                    magnifierContent.style.backgroundPosition = `-${bgX}px -${bgY}px`;
+                    magnifierContent.style.backgroundSize = `${1920 * 2}px ${1080 * 2}px`;
+                }
+            });
+            
+            // Disable during highlighting or zoom
+            const observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    if (mutation.attributeName === 'class') {
+                        if (lidarBoard.classList.contains('highlighting') || 
+                            lidarBoard.classList.contains('zooming')) {
+                            isActive = false;
+                            magnifier.classList.remove('active');
+                        }
+                    }
+                });
+            });
+            
+            observer.observe(lidarBoard, { attributes: true });
+        })();
+    </script>
 </body>
 </html>
