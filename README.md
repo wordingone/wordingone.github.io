@@ -99,3 +99,4 @@ B:\GIT\wordingone.github.io/
 - All videos served directly (no streaming/CDN)
 
 _Last updated: 2025-08-11_
+<!-- Force GitHub Pages rebuild to clear custom domain cache -->
