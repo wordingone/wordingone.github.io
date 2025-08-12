@@ -8,6 +8,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&family=GFS+Didot&display=swap">
+    <!-- Mobile Support -->
+    <link rel="stylesheet" href="mobile/responsive.additions.css">
     <style>
         * {
             margin: 0;
@@ -107,8 +109,7 @@
         @media (max-width: 768px) {
             .logo-section.locked {
                 top: 50%;
-                top: 50vh;
-                top: 50dvh; /* Dynamic viewport height for better mobile support */
+                transform: translate(-50%, -50%);
             }
         }
 
@@ -381,11 +382,7 @@
                 logoSection.classList.add('locked');
                 
             // MOBILE FIX: Ensure proper centering on mobile viewports
-            if (window.innerWidth <= 768) {
-                // Force recalculation of position on mobile
-                logoSection.style.top = '50%';
-                logoSection.style.transform = 'translate(-50%, -50%)';
-            }
+            // Removed inline styles - handled by CSS now
             
             scrollIndicator.classList.add('hidden');
                 
@@ -472,5 +469,7 @@
             }
         });
     </script>
+    <!-- Mobile Support Script -->
+    <script src="mobile/responsive.additions.js"></script>
 </body>
 </html>
