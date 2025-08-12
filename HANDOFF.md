@@ -158,7 +158,39 @@ const { chromium } = require('playwright');
 
 ## Changes Since Last Handoff
 
-### 2025-08-12 19:55 PST (latest)
+### 2025-08-12 20:05 PST (latest) - FINAL BUG FIX
+- **Fixed Index Page Scroll Bug**
+  - Fixed glitchy overlay issue where header text appeared below logo when fully scrolled
+  - Added opacity transition to hide header text when scroll is locked
+  - Set header opacity to 0 and pointer-events to none when body has scroll-locked class
+  - Increased logo section z-index to 20 (higher than header's z-index of 10)
+  - Added pointer-events: none to hidden scroll indicator
+  - Smooth fade-out transition (0.6s) prevents jarring visual glitch
+  - Header text now properly disappears before logo locks in center
+  - No other changes to functionality
+
+### 2025-08-12 20:00 PST - FINALIZED
+- **Final Adjustments & Documentation**
+  - Fixed intro video cropping:
+    - Changed object-fit from cover to contain
+    - Added black background for letterboxing
+    - Ensures complete animation video is fully visible
+  - Completely revamped README.md:
+    - Full architectural explanation of website
+    - Detailed technical implementation guide
+    - Complete content inventory (models, videos, regions)
+    - Visual design system documentation
+    - Browser support and performance targets
+    - Academic context and design philosophy
+    - Installation and development instructions
+  - All features tested and verified:
+    - Magnifier scales properly on mobile (60-80px)
+    - Video/description containers appear as separate floating elements
+    - LiDAR frame persists during zoom with rounded corners
+    - Intro video displays without cropping
+  - Project ready for deployment
+
+### 2025-08-12 19:55 PST
 - **Additional UI Refinements**
   - Magnifier cursor dramatically scaled down for mobile:
     - 80px on tablets (was 225px)

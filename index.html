@@ -40,7 +40,7 @@
             background: #000;
         }
 
-        /* Top Section - Initially Visible, will scroll up naturally */
+        /* Header Section - Initially Visible, will scroll up naturally */
         .header-section {
             position: absolute;
             top: 45vh; /* Center in first viewport */
@@ -49,6 +49,13 @@
             text-align: center;
             z-index: 10;
             width: 100%;
+            transition: opacity 0.6s ease;
+        }
+        
+        /* Hide header when logo is locked */
+        body.scroll-locked .header-section {
+            opacity: 0;
+            pointer-events: none;
         }
 
         .header-text {
@@ -78,7 +85,7 @@
             text-align: center;
             opacity: 0;
             transition: opacity 1.2s ease-out;
-            z-index: 10;
+            z-index: 20; /* Higher z-index than header */
             width: 100%;
         }
 
@@ -139,6 +146,7 @@
 
         .scroll-indicator.hidden {
             opacity: 0;
+            pointer-events: none;
         }
 
         .scroll-text {
