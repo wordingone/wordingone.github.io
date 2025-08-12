@@ -625,12 +625,21 @@
                     const relX = (e.clientX - rect.left) / rect.width;
                     const relY = (e.clientY - rect.top) / rect.height;
                     
-                    // Position background for magnification
-                    const bgX = relX * 2880 - (magnifierSize * magnification / 2); // 2880 = 1920 * 1.5
-                    const bgY = relY * 1620 - (magnifierSize * magnification / 2); // 1620 = 1080 * 1.5
+                    // Calculate the magnified background position
+                    // Center point should align with cursor position
+                    const sourceWidth = 1920;
+                    const sourceHeight = 1080;
+                    const scale = 1.5; // Scale factor for magnification
+                    
+                    const bgWidth = sourceWidth * scale;
+                    const bgHeight = sourceHeight * scale;
+                    
+                    // Calculate background position to center on cursor
+                    const bgX = (relX * bgWidth) - (magnifierSize * magnification / 2);
+                    const bgY = (relY * bgHeight) - (magnifierSize * magnification / 2);
                     
                     magnifierContent.style.backgroundPosition = `-${bgX}px -${bgY}px`;
-                    magnifierContent.style.backgroundSize = `2880px 1620px`;
+                    magnifierContent.style.backgroundSize = `${bgWidth}px ${bgHeight}px`;
                 }
             });
             

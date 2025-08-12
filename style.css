@@ -398,6 +398,7 @@ body {
     box-shadow: 
         0 12px 40px rgba(0, 0, 0, 0.5),
         0 4px 12px rgba(0, 0, 0, 0.3); /* Clean drop shadow only */
+    background: transparent; /* Ensure no background color */
 }
 
 .magnifier-cursor.active {
@@ -409,27 +410,21 @@ body {
     position: absolute;
     width: 675px; /* 3x magnification (225px * 3) */
     height: 675px;
-    transform-origin: center;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /* Center the magnified content */
     background-image: url('./lidar_00.png');
     background-size: 2880px 1620px; /* 1.5x reference size for stronger magnification */
     background-repeat: no-repeat;
     border-radius: 50%;
     image-rendering: crisp-edges; /* Sharper magnification */
     image-rendering: -webkit-optimize-contrast;
+    will-change: background-position; /* Optimize for smooth updates */
 }
 
-/* Center Crosshair - More Subtle */
+/* Remove crosshair for cleaner magnification */
 .magnifier-cursor::after {
-    content: '+';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-size: 16px;
-    color: rgba(255, 255, 255, 0.3);
-    font-weight: 200;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
-    mix-blend-mode: difference; /* Adapts to background */
+    display: none;
 }
 
 /* Remove the glass ring effect for cleaner look */
