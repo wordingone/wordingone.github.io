@@ -8,8 +8,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&family=GFS+Didot&display=swap">
-    <!-- Mobile Support -->
-    <link rel="stylesheet" href="mobile/responsive.additions.css">
     <style>
         * {
             margin: 0;
@@ -17,57 +15,46 @@
             box-sizing: border-box;
         }
 
-        html {
-            scroll-behavior: smooth;
-            height: 100%;
-            overflow-x: hidden; /* Prevent horizontal scroll */
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            overflow-x: hidden;
         }
 
         body {
             font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
             background: #000;
             color: #fff;
-            overflow-x: hidden; /* Prevent horizontal scroll */
-            overflow-y: auto;
-            height: 300vh; /* Make page actually scrollable */
-            margin: 0;
-            padding: 0;
-            position: relative;
-            width: 100%; /* Ensure body doesn't exceed viewport */
-            max-width: 100vw; /* Prevent overflow */
+            min-height: 100vh;
         }
 
-        /* Cover Page Container */
-        .cover-container {
-            position: relative;
-            width: 100vw;
-            height: 300vh; /* Extend container for scrolling */
-            background: #000;
-        }
-
-        /* Header Section - Initially Visible, will scroll up naturally */
-        .header-section {
-            position: absolute;
-            top: 45vh; /* Center in first viewport */
-            left: 50%;
-            transform: translateX(-50%);
-            text-align: center;
-            z-index: 10;
+        /* Simple single-page scroll layout */
+        .page-container {
             width: 100%;
-            transition: opacity 0.6s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
         }
-        
-        /* Hide header when logo is locked */
-        body.scroll-locked .header-section {
-            opacity: 0;
-            pointer-events: none;
+
+        /* First screen - Header */
+        .header-screen {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
         }
 
         .header-text {
             font-family: 'Roboto', sans-serif;
-            font-size: 24px;
+            font-size: clamp(18px, 4vw, 24px);
             font-weight: 300;
-            letter-spacing: 4px;
+            letter-spacing: clamp(2px, 0.5vw, 4px);
             text-transform: uppercase;
             color: #fff;
             margin-bottom: 8px;
@@ -75,79 +62,85 @@
 
         .subtitle-text {
             font-family: 'Roboto', sans-serif;
-            font-size: 16px;
+            font-size: clamp(12px, 3vw, 16px);
             font-weight: 300;
             letter-spacing: 2px;
             color: rgba(255, 255, 255, 0.7);
         }
 
-        /* Logo Section - Positioned much lower, requires scrolling to see */
-        .logo-section {
-            position: absolute;
-            top: 150vh; /* Reduced from 180vh to avoid needing extra scroll */
-            left: 50%;
-            transform: translateX(-50%);
-            text-align: center;
-            opacity: 0;
-            transition: opacity 1.2s ease-out;
-            z-index: 20; /* Higher z-index than header */
+        /* Second screen - Logo */
+        .logo-screen {
             width: 100%;
-        }
-
-        .logo-section.visible {
-            opacity: 1;
-        }
-
-        .logo-section.locked {
-            position: fixed;
-            top: 50vh;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-        
-        /* Mobile-specific centering fix */
-        @media (max-width: 768px) {
-            .logo-section.locked {
-                top: 50%;
-                transform: translate(-50%, -50%);
-            }
-        }
-
-        /* Logo wrapper - make it tappable on mobile */
-        .logo-wrapper {
-            cursor: pointer;
-            transition: transform 0.3s ease;
-            display: inline-flex;
+            min-height: 100vh;
+            display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 40px;
-            -webkit-tap-highlight-color: transparent; /* Remove tap highlight on iOS */
-            touch-action: manipulation; /* Improve touch response */
+            justify-content: center;
+            padding: 20px;
+            cursor: pointer;
+            opacity: 0;
+            animation: fadeIn 1s ease-out forwards;
+            animation-delay: 0.5s;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        .logo-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: clamp(20px, 4vh, 40px);
+            transition: transform 0.3s ease;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
         }
 
         .logo-wrapper:hover {
             transform: scale(1.05);
         }
 
+        .logo-wrapper:active {
+            transform: scale(0.98);
+        }
+
         .logo-image {
-            width: 800px; /* Exact size requested */
+            width: min(90vw, 800px);
             height: auto;
-            filter: brightness(0) invert(1); /* Make logo white */
+            filter: brightness(0) invert(1);
         }
 
         .brand-text {
             font-family: 'GFS Didot', serif;
-            font-size: 64px;
+            font-size: clamp(24px, 6vw, 64px);
             font-weight: 400;
-            letter-spacing: 12px;
+            letter-spacing: clamp(6px, 1.5vw, 12px);
             text-transform: uppercase;
-            color: #fff; /* Pure white, no gold */
+            color: #fff;
             margin: 0;
-            white-space: nowrap;
+            text-align: center;
+            word-wrap: break-word;
+            max-width: 90vw;
         }
 
-        /* Scroll indicator */
-        .scroll-indicator {
+        /* Click indicator */
+        .click-hint {
+            margin-top: 40px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 0.8; }
+        }
+
+        /* Smooth scroll indicator */
+        .scroll-down {
             position: fixed;
             bottom: 30px;
             left: 50%;
@@ -161,314 +154,122 @@
             transition: opacity 0.3s ease;
         }
 
-        .scroll-indicator.hidden {
+        .scroll-down.hidden {
             opacity: 0;
             pointer-events: none;
         }
 
         .scroll-text {
-            font-family: 'Roboto', sans-serif;
             font-size: 12px;
             color: rgba(255, 255, 255, 0.6);
             text-transform: uppercase;
             letter-spacing: 1px;
-            transition: opacity 0.3s ease;
-        }
-        
-        /* Change text when logo is locked */
-        .scroll-indicator.click-mode .scroll-text::after {
-            content: 'CLICK';
-        }
-        
-        .scroll-indicator.click-mode .scroll-text span {
-            display: none;
         }
 
         .scroll-arrow {
             width: 2px;
             height: 30px;
             background: linear-gradient(to bottom, transparent, #fff);
-            position: relative;
-            animation: pulse 2s infinite;
-            transition: all 0.3s ease;
-        }
-        
-        /* Change arrow to click pointer when logo is locked */
-        .scroll-indicator.click-mode .scroll-arrow {
-            width: 20px;
-            height: 20px;
-            background: none;
-            border: 2px solid rgba(255, 255, 255, 0.6);
-            border-radius: 50%;
-            animation: pulse-click 2s infinite;
-        }
-        
-        .scroll-indicator.click-mode .scroll-arrow::after {
-            content: '';
-            position: absolute;
-            width: 6px;
-            height: 6px;
-            background: rgba(255, 255, 255, 0.6);
-            border-radius: 50%;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            animation: scroll-pulse 2s infinite;
         }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 0.5; }
-            50% { opacity: 1; }
-        }
-        
-        @keyframes pulse-click {
+        @keyframes scroll-pulse {
             0%, 100% { 
                 opacity: 0.5;
-                transform: scale(1);
+                transform: translateY(0);
             }
             50% { 
                 opacity: 1;
-                transform: scale(1.1);
-            }
-        }
-
-        /* Body locked state - completely prevent scrolling */
-        body.scroll-locked {
-            overflow: hidden !important;
-            height: 100vh !important;
-            position: fixed !important;
-            width: 100% !important;
-            top: 0 !important;
-            left: 0 !important;
-        }
-        
-        /* Cover container when locked */
-        body.scroll-locked .cover-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            transform: translateY(0) !important;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .header-text {
-                font-size: 20px;
-                letter-spacing: 3px;
-            }
-
-            .subtitle-text {
-                font-size: 14px;
-            }
-
-            .logo-image {
-                width: 90vw;
-                max-width: 700px;
-            }
-
-            .brand-text {
-                font-size: 48px;
-                letter-spacing: 8px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .header-text {
-                font-size: 18px;
-                letter-spacing: 2px;
-            }
-
-            .subtitle-text {
-                font-size: 12px;
-            }
-
-            .logo-image {
-                width: 85vw;
-                max-width: 500px;
-            }
-
-            .brand-text {
-                font-size: 32px;
-                letter-spacing: 6px;
+                transform: translateY(5px);
             }
         }
     </style>
 </head>
 <body>
-    <!-- Cover Page Container -->
-    <div class="cover-container" id="coverContainer">
-        <!-- Initially Visible Header - will scroll up naturally -->
-        <div class="header-section" id="headerSection">
+    <div class="page-container">
+        <!-- First screen with header -->
+        <div class="header-screen" id="headerScreen">
             <h1 class="header-text">Hyun Jun Han × Oskar Maly</h1>
             <p class="subtitle-text">SCIARC: Peter Testa Vertical Studio Project</p>
         </div>
 
-        <!-- Logo Section - Appears way down the page after scrolling -->
-        <div class="logo-section" id="logoSection">
+        <!-- Second screen with logo -->
+        <div class="logo-screen" id="logoScreen">
             <div class="logo-wrapper" id="logoWrapper">
                 <img src="./logo/remaking logo 1.png" alt="Prada Logo" class="logo-image">
                 <h2 class="brand-text">Prada: (Re)Making</h2>
             </div>
+            <div class="click-hint">Click to Enter</div>
         </div>
 
         <!-- Scroll indicator -->
-        <div class="scroll-indicator" id="scrollIndicator">
-            <div class="scroll-text"><span>Scroll</span></div>
+        <div class="scroll-down" id="scrollIndicator">
+            <div class="scroll-text">Scroll</div>
             <div class="scroll-arrow"></div>
         </div>
     </div>
 
     <script>
-        // Elements
-        const coverContainer = document.getElementById('coverContainer');
-        const logoSection = document.getElementById('logoSection');
+        // Simple and reliable navigation
         const logoWrapper = document.getElementById('logoWrapper');
+        const logoScreen = document.getElementById('logoScreen');
         const scrollIndicator = document.getElementById('scrollIndicator');
-        const body = document.body;
-
-        let logoIsLocked = false;
-        let hasNavigated = false;
-
-        // Handle scroll to reveal logo and lock in center
-        function handleScroll() {
+        
+        // Check if logo is in view
+        function checkScroll() {
             const scrollY = window.scrollY || window.pageYOffset;
-            const viewportHeight = window.innerHeight;
+            const windowHeight = window.innerHeight;
             
-            // Hide scroll indicator once user starts scrolling
-            if (scrollY > 50) {
+            // Hide scroll indicator when logo is visible
+            if (scrollY > windowHeight * 0.5) {
                 scrollIndicator.classList.add('hidden');
             } else {
                 scrollIndicator.classList.remove('hidden');
             }
-            
-            // Calculate when logo should be visible and centered
-            // Logo is positioned at 180vh, so to center it we need to scroll to 180vh - 50vh = 130vh
-            const logoTargetScroll = viewportHeight * 1.3; // Changed from 1.8 to 1.3 for proper centering
-            const tolerance = 50; // pixels of tolerance for centering
-            
-            // Show logo when scrolled past 1.0 viewports (earlier reveal)
-            if (scrollY > viewportHeight * 1.0) {
-                logoSection.classList.add('visible');
-            }
-            
-            // Lock scroll when logo is centered in viewport
-            if (!logoIsLocked && scrollY > (logoTargetScroll - tolerance) && scrollY < (logoTargetScroll + tolerance)) {
-                lockScrollAtLogo();
-            }
         }
-
-        // Lock scroll when logo is centered
-        function lockScrollAtLogo() {
-            if (logoIsLocked || hasNavigated) return;
-            
-            logoIsLocked = true;
-            
-            // Smoothly scroll to exact center position
-            const viewportHeight = window.innerHeight;
-            const targetScroll = viewportHeight * 1.3; // Changed from 1.8 to 1.3 to match detection
-            
-            window.scrollTo({
-                top: targetScroll,
-                behavior: 'smooth'
-            });
-            
-            // After smooth scroll completes, lock the body and adjust container
-            setTimeout(() => {
-                // Store current scroll position
-                const currentScroll = window.scrollY;
-                
-                // Lock the body
-                body.classList.add('scroll-locked');
-                logoSection.classList.add('locked');
-                
-            // MOBILE FIX: Ensure proper centering on mobile viewports
-            // Removed inline styles - handled by CSS now
-            
-            scrollIndicator.classList.add('hidden');
-                
-                // Change scroll indicator to click mode before hiding
-                scrollIndicator.classList.add('click-mode');
-                scrollIndicator.classList.remove('hidden');
-                
-                // Adjust the container position to compensate for fixed positioning
-                coverContainer.style.transform = `translateY(-${currentScroll}px)`;
-                
-                // Force body to top (visually stays in same place due to transform)
-                window.scrollTo(0, 0);
-            }, 300);
+        
+        // Handle navigation
+        function navigateToMain(e) {
+            if (e) e.preventDefault();
+            sessionStorage.setItem('playIntroVideo', 'true');
+            window.location.href = 'main-app.html';
         }
-
-        /* Handle logo click - navigate to main app with video */
-        logoWrapper.addEventListener('click', handleLogoClick);
-        logoWrapper.addEventListener('touchend', handleLogoClick); // Add touch support
         
-        function handleLogoClick(e) {
-            e.preventDefault(); // Prevent default touch behavior
-            if (!hasNavigated && logoIsLocked) {
-                hasNavigated = true;
-                
-                // Hide the click indicator
-                scrollIndicator.classList.add('hidden');
-                
-                // Store flag in sessionStorage to indicate video should play
-                sessionStorage.setItem('playIntroVideo', 'true');
-                
-                // Navigate to main app
-                window.location.href = 'main-app.html';
-            }
-        }
-
-        // Attach scroll listener
-        window.addEventListener('scroll', handleScroll, { passive: true });
-
-        // Check scroll position on load
-        handleScroll();
-
-        // Prevent ALL scroll mechanisms when locked
-        window.addEventListener('wheel', function(e) {
-            if (logoIsLocked && !hasNavigated) {
-                e.preventDefault();
-                e.stopPropagation();
-                return false;
-            }
-        }, { passive: false });
-
-        window.addEventListener('touchmove', function(e) {
-            if (logoIsLocked && !hasNavigated) {
-                e.preventDefault();
-                e.stopPropagation();
-                return false;
-            }
-        }, { passive: false });
+        // Add click handlers - works immediately when logo appears
+        logoWrapper.addEventListener('click', navigateToMain);
+        logoWrapper.addEventListener('touchend', navigateToMain);
         
-        // Also prevent touch scroll on the document
-        document.addEventListener('touchstart', function(e) {
-            if (logoIsLocked && !hasNavigated) {
-                e.preventDefault();
-            }
-        }, { passive: false });
-        
-        // Prevent scroll via scrollbar drag
-        window.addEventListener('scroll', function(e) {
-            if (logoIsLocked && !hasNavigated && window.scrollY !== 0) {
-                window.scrollTo(0, 0);
-            }
-        }, { passive: false });
-
-        // Keyboard support for navigation
-        document.addEventListener('keydown', function(e) {
-            // Prevent arrow key scrolling when locked
-            if (logoIsLocked && !hasNavigated && ['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', 'Home', 'End'].includes(e.key)) {
-                e.preventDefault();
-            }
-            
-            // Allow Enter or Space to trigger navigation when logo is visible and locked
-            if (logoIsLocked && !hasNavigated && (e.key === 'Enter' || e.key === ' ')) {
-                e.preventDefault();
-                logoWrapper.click();
+        // Also allow clicking anywhere on the logo screen
+        logoScreen.addEventListener('click', function(e) {
+            if (e.target === logoScreen) {
+                navigateToMain(e);
             }
         });
+        
+        // Keyboard support
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                const logoRect = logoScreen.getBoundingClientRect();
+                const isLogoVisible = logoRect.top < window.innerHeight && logoRect.bottom > 0;
+                if (isLogoVisible) {
+                    e.preventDefault();
+                    navigateToMain();
+                }
+            }
+        });
+        
+        // Monitor scroll
+        window.addEventListener('scroll', checkScroll, { passive: true });
+        checkScroll();
+        
+        // Auto-scroll to logo after a moment
+        setTimeout(() => {
+            const logoPosition = logoScreen.offsetTop;
+            window.scrollTo({
+                top: logoPosition,
+                behavior: 'smooth'
+            });
+        }, 3000);
     </script>
     <!-- Mobile Support Script -->
     <script src="mobile/responsive.additions.js"></script>

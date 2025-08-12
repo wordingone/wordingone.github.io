@@ -147,31 +147,29 @@
 
 /* FIX: Issue 3 - Hotspot video popup layout (mobile) */
 @media (max-width: 768px) {
-  /* Full viewport popup - override desktop positioning */
+  /* Full viewport popup - override ALL desktop positioning */
   .video-overlay {
     position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    bottom: 0 !important;
-    width: 100vw !important;
-    width: 100dvw !important;
-    height: 100vh !important;
-    height: 100dvh !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: 90vw !important;
+    height: auto !important;
     max-width: none !important;
-    max-height: none !important;
-    transform: none !important;
-    border-radius: 0 !important;
+    max-height: 85vh !important;
+    border-radius: 12px !important;
+    right: auto !important;
+    bottom: auto !important;
   }
   
   .video-overlay.active {
     display: flex !important;
     flex-direction: column !important;
-    padding: env(safe-area-inset-top) 0 env(safe-area-inset-bottom) 0 !important;
-    background: rgba(0, 0, 0, 0.95) !important;
+    background: rgba(0, 0, 0, 0.98) !important;
     z-index: 999999 !important;
     opacity: 1 !important;
     visibility: visible !important;
+    transform: translate(-50%, -50%) !important;
   }
 
   /* Video container wrapper */
@@ -289,6 +287,29 @@
 /* ==========================================
    Original responsive additions below
    ========================================== */
+
+/* CRITICAL: Force hotspot sizing on mobile */
+@media screen and (max-width: 768px) {
+  .hotspot::after {
+    width: 20px !important;
+    height: 20px !important;
+    font-size: 10px !important;
+  }
+  
+  /* Ensure hotspots remain clickable */
+  .hotspot {
+    min-width: 44px !important;
+    min-height: 44px !important;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .hotspot::after {
+    width: 16px !important;
+    height: 16px !important;
+    font-size: 8px !important;
+  }
+}
 
 /* Container Queries & Safe Viewport Setup */
 @supports (container-type: inline-size) {
