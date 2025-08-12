@@ -55,8 +55,8 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
             title: 'MIRROR'
         },
         'exhibition-right': {
-            videos: [],
-            title: 'EXHIBITION RIGHT'
+            videos: ['videos/Model_1.mp4', 'videos/Model_2.mp4', 'videos/Model_3.mp4', 'videos/Model_4.mp4'],
+            title: 'MODEL SERIES'
         }
     };
     

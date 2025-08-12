@@ -25,6 +25,9 @@ export async function loadModels(models, callbacks = {}) {
     
     console.log(`Loading ${totalModels} models from local directory...`);
     
+    // Update progress bar
+    updateProgressBar(0);
+    
     // Create promises for all model loads
     const loadPromises = models.map((modelInfo, index) => {
         return new Promise((resolve, reject) => {
@@ -42,6 +45,10 @@ export async function loadModels(models, callbacks = {}) {
                     
                     loadedScenes.push(result);
                     modelsLoaded++;
+                    
+                    // Update progress bar
+                    const overallProgress = (modelsLoaded / totalModels) * 100;
+                    updateProgressBar(overallProgress);
                     
                     // Progress callback
                     if (onProgress) {
@@ -90,15 +97,38 @@ export async function loadModels(models, callbacks = {}) {
 }
 
 /**
+ * Update progress bar with percentage
+ * @param {number} percent - Progress percentage (0-100)
+ */
+function updateProgressBar(percent) {
+    const progressBar = document.querySelector('.progress-bar');
+    const percentageText = document.querySelector('.loading-percentage');
+    
+    if (progressBar) {
+        progressBar.style.width = `${percent}%`;
+    }
+    
+    if (percentageText) {
+        percentageText.textContent = `${Math.round(percent)}%`;
+    }
+}
+
+/**
  * Hide loading UI element
  * @param {HTMLElement} loadingElement - Loading element to hide
  */
 export function hideLoading(loadingElement) {
     if (loadingElement) {
-        loadingElement.classList.add('hidden');
+        // Complete the progress bar first
+        updateProgressBar(100);
+        
+        // Then hide after a brief delay
         setTimeout(() => {
-            loadingElement.style.display = 'none';
-        }, 500);
+            loadingElement.classList.add('hidden');
+            setTimeout(() => {
+                loadingElement.style.display = 'none';
+            }, 500);
+        }, 300);
     }
 }
 
