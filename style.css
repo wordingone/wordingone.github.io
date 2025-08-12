@@ -402,6 +402,23 @@ body {
     pointer-events: none;
 }
 
+/* Mobile-specific hotspot sizing */
+@media (max-width: 768px) {
+    .hotspot::after {
+        width: 20px;
+        height: 20px;
+        font-size: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hotspot::after {
+        width: 18px;
+        height: 18px;
+        font-size: 9px;
+    }
+}
+
 .hotspot:hover::after {
     opacity: 1;
     transform: scale(1);

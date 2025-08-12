@@ -84,7 +84,7 @@
         /* Logo Section - Positioned much lower, requires scrolling to see */
         .logo-section {
             position: absolute;
-            top: 180vh; /* Position way down the page */
+            top: 150vh; /* Reduced from 180vh to avoid needing extra scroll */
             left: 50%;
             transform: translateX(-50%);
             text-align: center;
@@ -343,16 +343,17 @@
             }
             
             // Calculate when logo should be visible and centered
-            const logoTargetScroll = viewportHeight * 1.8; // Logo is at 180vh, center would be at ~180vh - 50vh
+            // Logo is positioned at 180vh, so to center it we need to scroll to 180vh - 50vh = 130vh
+            const logoTargetScroll = viewportHeight * 1.3; // Changed from 1.8 to 1.3 for proper centering
             const tolerance = 50; // pixels of tolerance for centering
             
-            // Show logo when scrolled past 1.2 viewports
-            if (scrollY > viewportHeight * 1.2) {
+            // Show logo when scrolled past 1.0 viewports (earlier reveal)
+            if (scrollY > viewportHeight * 1.0) {
                 logoSection.classList.add('visible');
             }
             
             // Lock scroll when logo is centered in viewport
-            if (!logoIsLocked && Math.abs(scrollY - logoTargetScroll) < tolerance) {
+            if (!logoIsLocked && scrollY > (logoTargetScroll - tolerance) && scrollY < (logoTargetScroll + tolerance)) {
                 lockScrollAtLogo();
             }
         }
@@ -365,7 +366,7 @@
             
             // Smoothly scroll to exact center position
             const viewportHeight = window.innerHeight;
-            const targetScroll = viewportHeight * 1.8;
+            const targetScroll = viewportHeight * 1.3; // Changed from 1.8 to 1.3 to match detection
             
             window.scrollTo({
                 top: targetScroll,
