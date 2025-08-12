@@ -158,7 +158,18 @@ const { chromium } = require('playwright');
 
 ## Changes Since Last Handoff
 
-### 2025-08-12 20:15 PST (latest) - ROLLBACK & POSITION FIX
+### 2025-08-12 20:20 PST (latest) - SCROLL TO CLICK INDICATOR
+- **Enhanced Scroll Indicator**
+  - Scroll indicator now changes from "SCROLL" to "CLICK" when logo is centered
+  - Arrow transforms into circular click icon with center dot
+  - Uses CSS ::after pseudo-element to swap text content
+  - Smooth transition animation (0.3s) for all changes
+  - Click icon pulses with scale animation instead of opacity
+  - Indicator remains visible when logo is locked to guide user
+  - Disappears only when user clicks to navigate
+  - Logo click now only works when locked (prevents accidental navigation)
+
+### 2025-08-12 20:15 PST - ROLLBACK & POSITION FIX
 - **Rolled Back Frame Changes**
   - Completely reverted all border/frame persistence changes that caused glitching
   - Removed gradient background from #lidar-board

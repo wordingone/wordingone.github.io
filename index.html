@@ -155,6 +155,16 @@
             color: rgba(255, 255, 255, 0.6);
             text-transform: uppercase;
             letter-spacing: 1px;
+            transition: opacity 0.3s ease;
+        }
+        
+        /* Change text when logo is locked */
+        .scroll-indicator.click-mode .scroll-text::after {
+            content: 'CLICK';
+        }
+        
+        .scroll-indicator.click-mode .scroll-text span {
+            display: none;
         }
 
         .scroll-arrow {
@@ -163,11 +173,45 @@
             background: linear-gradient(to bottom, transparent, #fff);
             position: relative;
             animation: pulse 2s infinite;
+            transition: all 0.3s ease;
+        }
+        
+        /* Change arrow to click pointer when logo is locked */
+        .scroll-indicator.click-mode .scroll-arrow {
+            width: 20px;
+            height: 20px;
+            background: none;
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            animation: pulse-click 2s infinite;
+        }
+        
+        .scroll-indicator.click-mode .scroll-arrow::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
         }
 
         @keyframes pulse {
             0%, 100% { opacity: 0.5; }
             50% { opacity: 1; }
+        }
+        
+        @keyframes pulse-click {
+            0%, 100% { 
+                opacity: 0.5;
+                transform: scale(1);
+            }
+            50% { 
+                opacity: 1;
+                transform: scale(1.1);
+            }
         }
 
         /* Body locked state - completely prevent scrolling */
@@ -253,7 +297,7 @@
 
         <!-- Scroll indicator -->
         <div class="scroll-indicator" id="scrollIndicator">
-            <div class="scroll-text">Scroll</div>
+            <div class="scroll-text"><span>Scroll</span></div>
             <div class="scroll-arrow"></div>
         </div>
     </div>
@@ -321,6 +365,10 @@
                 logoSection.classList.add('locked');
                 scrollIndicator.classList.add('hidden');
                 
+                // Change scroll indicator to click mode before hiding
+                scrollIndicator.classList.add('click-mode');
+                scrollIndicator.classList.remove('hidden');
+                
                 // Adjust the container position to compensate for fixed positioning
                 coverContainer.style.transform = `translateY(-${currentScroll}px)`;
                 
@@ -331,8 +379,11 @@
 
         // Handle logo click - navigate to main app with video
         logoWrapper.addEventListener('click', function() {
-            if (!hasNavigated) {
+            if (!hasNavigated && logoIsLocked) {
                 hasNavigated = true;
+                
+                // Hide the click indicator
+                scrollIndicator.classList.add('hidden');
                 
                 // Store flag in sessionStorage to indicate video should play
                 sessionStorage.setItem('playIntroVideo', 'true');
