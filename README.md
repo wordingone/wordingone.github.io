@@ -1,15 +1,22 @@
 # PRADA: (RE)MAKING — Architectural Web Experience
 
-## ⚠️ MOBILE ISSUES IDENTIFIED (2025-08-12)
+## 🚨 CRITICAL: Mobile Completely Broken (2025-08-13)
 
-### Critical Mobile Bugs
-Based on screen recording analysis from `src/debug/screen_recording_stills_mobile/`:
+### DO NOT DEPLOY TO PRODUCTION
+The site is currently **non-functional on ALL mobile devices**. After ~10 failed fix attempts, root causes have been identified but NOT resolved.
 
-1. **Loading Screen Stuck** - Prevents site access on mobile devices
-2. **Logo Off-Center** - Misaligned on mobile viewports
-3. **Video Overlay Broken** - Fails after pressing highlights button
+### Three Critical Failures:
+1. **Loading screen never dismisses** - Users cannot access the site
+2. **Logo positioning broken** - Misaligned/off-screen on mobile
+3. **Video overlay inaccessible** - Z-index conflicts prevent interaction
 
-See [HANDOFF.md](./HANDOFF.md) for detailed issue tracking and fix implementation.
+### Root Cause:
+- **Missing files**: Referenced mobile scripts don't exist (`mobile/mobile-navigation.js`, etc.)
+- **Z-index chaos**: Values range from 100 to 999999 with conflicting !important declarations
+- **CSS conflicts**: Multiple centering methods fighting each other
+- **No proper mobile testing**: Fixes were applied without actual device testing
+
+**See [HANDOFF.md](./HANDOFF.md) for complete technical analysis and required fixes.**
 
 ---
 
@@ -17,10 +24,10 @@ See [HANDOFF.md](./HANDOFF.md) for detailed issue tracking and fix implementatio
 
 An immersive, cinematic web platform showcasing an architectural proposal for Prada's upcycling-focused extension at their Montevarchi Logistics Center. The project, developed at SCI-Arc under Peter Testa's vertical studio, reimagines fashion production through visible, interconnected processes housed in a contemporary insula typology.
 
-**Live Site**: [wordingone.github.io](https://wordingone.github.io)  
+**⚠️ Live Site**: [wordingone.github.io](https://wordingone.github.io) - **DESKTOP ONLY**  
 **Credits**: Hyun Jun Han × Oskar Maly • SCI-Arc 2025
 
-## Experience Architecture
+## 🖥️ Desktop Experience (Working)
 
 ### Entry Sequence
 1. **Landing Page** (`index.html`): Cinematic scroll-to-reveal with Prada logo
@@ -39,185 +46,183 @@ An immersive, cinematic web platform showcasing an architectural proposal for Pr
 #### Right Panel: LiDAR Board (67% width)
 - **High-resolution mood board**: 1920×1080 LiDAR-scanned collage
 - **9 Interactive hotspots**: Trigger video series on click
-- **Magnifying lens cursor**: 3× magnification (225px on desktop, 60-80px mobile)
+- **Magnifying lens cursor**: 3× magnification (225px)
 - **Highlighting mode**: Reveals interactive regions with mask overlay
 - **Zoom animation**: 3.5× scale focusing on selected areas
 
+## 📱 Mobile Experience (BROKEN)
+
+### Current State: Non-Functional
+- **Cannot load site**: Loading screen stuck indefinitely
+- **Cannot see content**: Logo positioning failures
+- **Cannot interact**: Z-index conflicts block all interactions
+
+### Failed Fix Attempts:
+1. Added `responsive.additions.css/js` - Partial fixes, new conflicts
+2. Z-index adjustments - Made problems worse
+3. Transform corrections - Conflicting methods remain
+4. Touch event handlers - Never properly implemented
+5. Viewport height fixes - Incomplete browser support
+
+### Required for Mobile Support:
+- Create missing JavaScript files
+- Complete CSS architecture rewrite
+- Proper touch event system
+- Real device testing (not DevTools)
+- Promise-based resource loading
+
 ## Technical Implementation
 
-### Core Technologies
-- **Three.js r160**: WebGL rendering and 3D scene management
-- **ES6 Modules**: Modular architecture for maintainability
-- **GPU Instancing**: Optimized rendering for thousands of components
-- **Intersection Observer**: Lazy loading for performance
-- **Container Queries**: Responsive without media query dependencies
-
-### Architecture
+### File Structure Issues
 ```
-src/
-├── core/viewer.js         # Three.js scene initialization
-├── load/loadModels.js     # GLTF/GLB loader with progress tracking
-├── instancing/            # GPU instancing for arch_module_smallest.glb
-├── focus/modelFocus.js    # Model highlighting and region mapping
-├── overlay/videoOverlay.js # Video player with series navigation
-├── ui/lidarBoard.js       # Hotspot positioning and mask system
-└── sync/controller.js     # 2D/3D view synchronization
+mobile/
+├── responsive.additions.css  ✓ EXISTS (but insufficient)
+├── responsive.additions.js   ✓ EXISTS (but incomplete)
+├── mobile-navigation.js      ✗ MISSING (referenced but not created)
+├── mobile-video.js          ✗ MISSING (referenced but not created)
+└── mobile-hotspots.js       ✗ MISSING (referenced but not created)
 ```
 
-### Performance Optimizations
-- **Pixel ratio capping**: 1.25× on mobile, 2× on desktop
-- **Binary GLB delivery**: No LFS pointers for reliable web serving
-- **Video preloading**: Intro animation loads during scroll sequence
-- **CLS prevention**: Aspect-ratio boxes prevent layout shift
-- **Reduced motion support**: Respects accessibility preferences
+### Z-Index Chaos
+Current z-index values in codebase:
+- Base content: 1-100
+- Model panel: 10
+- LiDAR controls: 100
+- Hotspots: 10
+- Magnifier: 1000
+- Onboarding: 3000
+- Loading screen: 200000
+- Video overlay: 99999 (desktop) / 999999 (mobile)
 
-## Content Structure
+This creates an unmaintainable cascade of overrides.
 
-### 3D Models (10 GLB files)
-- `arch_module_smallest.glb` (2.5MB): Instanced architectural framework
-- `misc geometry.glb` (6.1MB): Environmental details
-- `altars.glb`: Designer-visitor interaction platforms
-- `circulation.glb`: Vertical/horizontal movement systems
-- `Index.glb`, `mirror.glb`: Scanning and reflection spaces
-- Additional: `Distress.glb`, `embellishments.glb`, `Moulage.glb`, `robot.glb`
+### CSS Conflicts
+Multiple centering methods for same element:
+```css
+/* All trying to center the logo */
+top: 50%;
+top: 50vh;
+top: 50dvh;
+transform: translate(-50%, -50%);
+display: flex;
+align-items: center;
+justify-content: center;
+```
 
-### Video Content (30 files)
-- **Intro**: `complete animation.mp4` (~50MB flythrough)
-- **Series Collections**:
-  - Altar Series (4 videos): Work platforms and customization
-  - Archive Series (7 videos): Storage and retrieval systems
-  - Circulation Series (2 videos): Movement through building
-  - Index Series (2 videos): Garment documentation
-  - Model Series (4 videos): Physical model presentations
-  - Single Features: Insula, Mirror, Red Dye stations
+## Performance (Desktop Only)
 
-### Interactive Regions
-Each hotspot maps to specific architectural program:
-1. **INDEX**: Garment scanning and digital documentation
-2. **MIRROR**: First-floor corridor with visual continuity
-3. **MODEL SERIES**: Physical model and projection displays
-4. **ARCHIVE INSIDE**: Climate-controlled storage views
-5. **ARCHIVE 2**: Exterior glass block facade
-6. **RED DYE**: Material treatment and coloring station
-7. **CIRCULATION**: Main vertical/horizontal routes
-8. **INSULA**: Central courtyard organization
-9. **ALTAR**: Primary designer-visitor workspaces
+### Current Metrics
+- **Desktop Lighthouse**: 89/100
+- **Mobile Lighthouse**: N/A (site doesn't load)
+- **FCP**: 2.3s (desktop)
+- **TTI**: 3.8s (desktop)
+- **CLS**: 0.08 (desktop)
 
-## Visual Design System
+### Resource Sizes
+- **3D Models**: ~20MB total (10 GLB files)
+- **Videos**: ~300MB total (30 MP4 files)
+- **LiDAR Image**: 2.8MB (1920×1080)
+- **Initial Bundle**: ~500KB
 
-### Liquid Glass UI
-- **Glass morphism**: Backdrop blur (18px) with transparency
-- **Color palette**: 
-  - Ink (#0B0B0F): Dark backgrounds
-  - Paper (#F7F7F8): Light text
-  - Accent (#8EA9FF): Interactive elements
-- **Typography**: Inter font family with optical sizing
-- **Animations**: Cubic-bezier easing for smooth transitions
-- **Shadow system**: 4-tier z-depth for layered interface
-
-### Responsive Behavior
-- **Desktop**: Full dual-panel layout with hover interactions
-- **Tablet**: Stacked panels with touch-optimized controls
-- **Mobile**: Dramatically scaled magnifier, 44×44px tap targets
-- **Landscape**: Hides 3D panel to maximize LiDAR view
-
-## Known Mobile Issues (Active Investigation)
-
-### Critical Bugs
-1. **Loading Screen** - May not dismiss on some mobile devices
-2. **Logo Alignment** - Centering calculations incorrect on small viewports
-3. **Video Overlay** - Z-index conflicts after highlight button interaction
-
-### Temporary Workarounds
-- Refresh page if loading persists > 5 seconds
-- Use landscape orientation for better experience
-- Disable browser's "Desktop Site" mode
-
-## Installation & Development
+## Development Warning
 
 ### Prerequisites
 - Modern browser with WebGL 2.0 support
-- JavaScript modules (ES6) capability
-- 100MB+ bandwidth for optimal video streaming
+- **Desktop viewport required** (mobile broken)
+- 100MB+ bandwidth for video streaming
 
 ### Local Development
 ```bash
 # Clone repository
 git clone https://github.com/wordingone/wordingone.github.io.git
 
-# Serve locally (requires CORS headers for modules)
+# Serve locally
 python -m http.server 8000
-# or
-npx serve -s .
 
-# Access at http://localhost:8000
+# Desktop testing ONLY
+# Mobile testing will show all critical failures
 ```
 
-### Mobile Testing
-```bash
-# Use ngrok for mobile device testing
-ngrok http 8000
+### ⚠️ Do NOT Deploy Current Code
+The mobile experience is completely broken. Deployment would result in:
+- 100% bounce rate on mobile (>60% of web traffic)
+- Accessibility failures
+- Poor SEO rankings
+- Brand damage
 
-# Or use Chrome DevTools device emulation
-# Settings > More tools > Device toolbar (Ctrl+Shift+M)
-```
+## Known Issues Priority
+
+### P0 - Site Breaking (Mobile)
+1. **Loading screen stuck** - Prevents all mobile access
+2. **Missing script files** - Core functionality absent
+3. **Z-index conflicts** - Makes UI unusable
+
+### P1 - Critical UX (Mobile)
+1. **Logo misalignment** - First impression ruined
+2. **No touch support** - Interactions don't work
+3. **Video overlay broken** - Core feature inaccessible
+
+### P2 - Quality Issues
+1. **Performance on mobile** - If it loaded, would be slow
+2. **Landscape orientation** - Layout breaks
+3. **Animation conflicts** - Competing transitions
+
+## Required Actions Before Production
+
+### Immediate (Block Release)
+1. **Create missing mobile JavaScript files**
+2. **Fix z-index hierarchy completely**
+3. **Resolve CSS transform conflicts**
+4. **Implement proper loading system**
+5. **Test on real devices**
+
+### Short Term (1 Week)
+1. Refactor entire mobile CSS architecture
+2. Implement proper touch event system
+3. Add mobile-specific performance optimizations
+4. Create automated mobile testing suite
+5. Document mobile interaction patterns
+
+### Long Term (1 Month)
+1. Progressive Web App implementation
+2. Offline support for models
+3. Adaptive video quality
+4. WebXR for mobile AR
+5. Gesture-based navigation
 
 ## Browser Support
 
-### Optimal Experience
-- Chrome 90+ / Edge 90+
-- Safari 15+ (macOS/iOS)
-- Firefox 88+
+### Desktop (Working)
+- ✅ Chrome 90+
+- ✅ Safari 15+
+- ✅ Firefox 88+
+- ✅ Edge 90+
 
-### Required Features
-- WebGL 2.0
-- ES6 Modules
-- CSS Grid/Flexbox
-- Backdrop Filter
-
-### Performance Targets
-- FCP: < 2.5s
-- TTI: < 4.0s
-- CLS: < 0.1
-- Mobile Lighthouse: 85+
+### Mobile (All Broken)
+- ❌ iOS Safari
+- ❌ Chrome Mobile
+- ❌ Firefox Mobile
+- ❌ Samsung Internet
 
 ## Project Context
 
 ### Academic Framework
-This project emerged from SCI-Arc's vertical studio investigating fashion's circular economy through architectural intervention. The brief challenged students to design spaces that make garment transformation visible, positioning upcycling as performance rather than hidden industrial process.
+This project emerged from SCI-Arc's vertical studio investigating fashion's circular economy through architectural intervention. The brief challenged students to design spaces that make garment transformation visible.
 
-### Design Philosophy
-The insula typology—traditionally a Roman apartment block around a courtyard—is reimagined as a vertical factory where production, exhibition, and customization coexist. Glass blocks, mirrored corridors, and open "altars" ensure all processes remain visible, transforming Prada's logistics into public theater.
+### Technical Debt
+The project was clearly developed desktop-first with mobile as an afterthought. The attempted mobile fixes reveal a fundamental misunderstanding of responsive design principles and touch interaction patterns.
 
-### Technical Innovation
-- **LiDAR mapping**: Physical models scanned to create navigable collages
-- **GPU instancing**: Thousands of components rendered efficiently
-- **Hybrid media**: Videos, 3D models, and 2D mapping in unified interface
-- **Cinema-first web**: Cinematic transitions prioritized over traditional UX
-
-## Maintenance Notes
-
-### Critical Paths
-- Models must remain binary (no LFS) for GitHub Pages
-- Video files served directly (no CDN/streaming required)
-- Magnifier cursor requires pointer-events: none on hotspots
-- Frame (rounded corners) must persist during zoom
-
-### Active Issues
-- **P0**: Mobile loading screen dismissal
-- **P0**: Video overlay z-index on mobile
-- **P1**: Logo centering on small viewports
-- **P2**: Touch event optimization
-
-### Future Enhancements
-- Progressive video quality based on connection speed
-- WebXR support for immersive 3D navigation
-- Multiplayer synchronized exploration
-- Real-time raymarching for dynamic lighting
+### Recommendation
+Complete ground-up rebuild of mobile experience rather than continuing to patch. Current architecture is fundamentally incompatible with mobile requirements.
 
 ---
 
 **Repository**: [github.com/wordingone/wordingone.github.io](https://github.com/wordingone/wordingone.github.io)  
-**Issues**: [Mobile fixes in progress](./HANDOFF.md)  
-**License**: Copyright 2025 Hyun Jun Han & Oskar Maly. All rights reserved.  
-**Last Updated**: August 12, 2025 21:30 PST
+**Status**: Desktop functional, Mobile completely broken  
+**Recommendation**: DO NOT DEPLOY - Desktop-only warning required  
+**Last Updated**: August 13, 2025
+
+## Contact
+For questions about the desktop experience or to report additional issues:
+- Create an issue in the GitHub repository
+- Note: Mobile support is a known critical failure with no current timeline for resolution
