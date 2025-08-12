@@ -24,39 +24,48 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
     const videoSeries = {
         'altar': {
             videos: ['videos/altar_1.mp4', 'videos/altar_2.mp4', 'videos/altar_3.mp4', 'videos/altar_4.mp4'],
-            title: 'ALTAR SERIES'
+            title: 'ALTAR SERIES',
+            description: 'The primary work platforms for direct interaction between designers and visitors. Garments are altered, repaired, or customized in an open, visible setting.'
         },
         'archive_inside': {
             videos: ['videos/archive_inside.mp4'],
-            title: 'ARCHIVE INSIDE'
+            title: 'ARCHIVE INSIDE',
+            description: 'Views of the archive inside the archive. Items are stored in a controlled environment, ready to be retrieved for alteration or display.'
         },
         'archive_2': {
             videos: ['videos/archive_1.mp4', 'videos/archive_2.mp4', 'videos/archive_3.mp4', 'videos/archive_4.mp4', 'videos/archive_5.mp4', 'videos/archive_6.mp4'],
-            title: 'ARCHIVE SERIES'
+            title: 'ARCHIVE SERIES',
+            description: 'The exterior view of the archive, where the visitor first meets the building. The glass blocks both obscure and tease of the archive.'
         },
         'red_dye': {
             videos: ['videos/Red Dye.mp4'],
-            title: 'RED DYE'
+            title: 'RED DYE',
+            description: 'The dyeing station where garments are recolored or treated to change their material properties. Used for both restoration and creative alteration.'
         },
         'circulation_1': {
             videos: ['videos/circulation_1.mp4', 'videos/circulation_2.mp4'],
-            title: 'CIRCULATION SERIES'
+            title: 'CIRCULATION SERIES',
+            description: 'Main vertical and horizontal circulation routes. Connects the courtyard, work areas, and archive, enabling movement of people, garments, and equipment.'
         },
         'index': {
             videos: ['videos/index_1.mp4', 'videos/index_2.mp4'],
-            title: 'INDEX SERIES'
+            title: 'INDEX SERIES',
+            description: 'Garments are scanned, measured, and documented in detail. Each item\'s physical characteristics are converted into digital records that guide repair, modification, and design decisions.'
         },
         'insula': {
             videos: ['videos/insula.mp4'],
-            title: 'INSULA'
+            title: 'INSULA',
+            description: 'The overall insula layout. Organizes the building around a central courtyard, with production, storage, and exhibition spaces positioned for visibility and accessibility.'
         },
         'mirror': {
             videos: ['videos/Mirror.mp4'],
-            title: 'MIRROR'
+            title: 'MIRROR',
+            description: 'A mirrored corridor on the first floor provides visual continuity through the building. It reflects movement and activity, introducing visitors to the processes that will appear later at the altars.'
         },
         'exhibition-right': {
-            videos: ['videos/Model_1.mp4', 'videos/Model_2.mp4', 'videos/Model_3.mp4', 'videos/Model_4.mp4'],
-            title: 'MODEL SERIES'
+            videos: ['videos/Model 1.mp4', 'videos/Model 2.mp4', 'videos/Model 3.mp4', 'videos/Model 4.mp4'],
+            title: 'MODEL SERIES',
+            description: 'The physical model as well as the actual presentation of the project being filmed, using projections, resin casted model, as well as a Pepper\'s ghost hologram.'
         }
     };
     
@@ -161,6 +170,11 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
                     Your browser does not support the video tag.
                 </video>
                 ${hasMultipleVideos ? createNavigationControls() : ''}
+                ${currentSeries.description ? `
+                    <div class="video-description-panel">
+                        <p class="video-description-text">${currentSeries.description}</p>
+                    </div>
+                ` : ''}
             </div>
         `;
         
@@ -195,7 +209,7 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
         
         // Position overlay at a fixed location in viewport
         const overlayWidth = 600;
-        const overlayHeight = 450;
+        const overlayHeight = 530; // Increased to accommodate description
         
         // Fixed position: right side of viewport, vertically centered
         const overlayX = viewportWidth - overlayWidth - 40;
@@ -208,11 +222,11 @@ export function createVideoOverlay(lidarBoard, callbacks = {}) {
             width: ${overlayWidth}px !important;
             height: ${overlayHeight}px !important;
             z-index: 10000 !important;
-            border-radius: 8px !important;
-            overflow: hidden !important;
+            border-radius: 20px !important;
+            overflow: visible !important;
             box-shadow: 0 8px 32px rgba(0,0,0,0.8) !important;
             pointer-events: auto !important;
-            background: #000 !important;
+            background: rgba(15, 15, 18, 0.95) !important;
             display: block !important;
         `;
     }

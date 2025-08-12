@@ -70,7 +70,32 @@ Files:
 RESOLVED — All acceptance criteria met with enhanced UX features
 
 ## Changes Since Last Handoff
-### 2025-08-11 17:55 PST (latest)
+### 2025-08-11 18:10 PST (latest)
+- **Fixed Model Series & Added Descriptions**
+  - Fixed Model Series videos not playing (corrected filenames with spaces: "Model 1.mp4" not "Model_1.mp4")
+  - Added elegant text descriptions below each video overlay
+  - Descriptions appear with smooth animation (320ms cubic-bezier)
+  - Typography: Inter font, 13px, 1.7 line height, subtle opacity
+  - Description panel features:
+    - Glass morphism design with backdrop blur
+    - Positioned 80px below video container
+    - Subtle glow line at top
+    - Proper z-depth layering (z-index: 5)
+    - Responsive adjustments for mobile
+  - Added descriptions for all 9 hotspots:
+    - INDEX: Garment scanning and documentation
+    - MIRROR: Visual continuity through building
+    - MODEL SERIES: Physical model presentation
+    - ARCHIVE INSIDE: Controlled storage views
+    - ARCHIVE 2: Exterior glass block facade
+    - RED DYE: Material treatment station
+    - CIRCULATION: Vertical/horizontal routes
+    - INSULA: Central courtyard layout
+    - ALTAR: Designer-visitor work platforms
+  - Increased overlay height from 450px to 530px to accommodate descriptions
+  - Maintained premium glass aesthetic throughout
+
+### 2025-08-11 17:55 PST
 - **Highlighting & Content Improvements**
   - Increased highlighting darkness from 28% to 65% opacity for better contrast
   - Highlighted regions now stand out much more clearly
