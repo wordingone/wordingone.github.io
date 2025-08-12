@@ -685,7 +685,7 @@
             observer.observe(lidarBoard, { attributes: true });
         })();
     </script>
-    <!-- Mobile Support Script -->
-    <script src="mobile/responsive.additions.js"></script>
+    <!-- Mobile Support Script - MUST load last to override -->
+    <script defer src="mobile/responsive.additions.js"></script>
 </body>
 </html>

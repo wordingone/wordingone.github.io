@@ -3,442 +3,126 @@
    Non-destructive, additive-only mobile support
    ================================================ */
 
-/* ROLLBACK: Remove the three FIX blocks below to restore previous behavior */
+/* CRITICAL FIX: Override JavaScript inline styles for mobile */
 
-/* 
-   IMPORTANT: This file provides additive mobile support without
-   modifying existing desktop behavior. Include AFTER style.css.
-   
-   Add to HTML:
-   <link rel="stylesheet" href="mobile/responsive.additions.css">
-*/
-
-/* FIX: Issue 1 - Loader overlay coverage (mobile) */
-@media (max-width: 768px) {
-  .video-overlay,
-  #videoOverlay {
-    position: fixed !important;
-    inset: 0 !important;
-    width: 100vw !important;
-    width: 100dvw !important;
-    height: 100vh !important;
-    height: 100dvh !important;
-    height: -webkit-fill-available !important;
-    max-width: none !important;
-    max-height: none !important;
-    z-index: 999999 !important;
-    display: flex !important;
-    flex-direction: column !important;
-    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
-    margin: 0 !important;
-    transform: none !important;
-    background: rgba(0, 0, 0, 0.98) !important;
-    pointer-events: auto !important;
-  }
-
-  .video-overlay.active,
-  #videoOverlay.active {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-  }
-
-  /* Block interaction beneath */
-  body:has(.video-overlay.active) *:not(.video-overlay):not(.video-overlay *),
-  body:has(#videoOverlay.active) *:not(#videoOverlay):not(#videoOverlay *) {
-    pointer-events: none !important;
-  }
-
-  /* Ensure intro video is contained */
-  .intro-video {
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: contain !important;
-    aspect-ratio: 16/9;
-    background: #000 !important;
-  }
-
-  /* Hide project brief when overlay active */
-  .video-overlay.active ~ .project-brief,
-  #videoOverlay.active ~ .project-brief,
-  .video-overlay.active ~ .onboarding-panel,
-  #videoOverlay.active ~ .onboarding-panel {
-    visibility: hidden !important;
-  }
-}
-
-/* FIX: Issue 2 - Landing logo centering & scale (mobile) */
-@media (max-width: 768px) {
-  /* Prevent horizontal scroll */
-  .cover-container {
-    overflow-x: hidden !important;
-    max-width: 100vw !important;
-  }
-
-  .logo-section {
-    position: fixed !important;
-    inset: 0 !important;
-    width: 100vw !important;
-    width: 100dvw !important;
-    height: 100vh !important;
-    height: 100svh !important;
-    height: 100dvh !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
-    margin: 0 !important;
-    transform: none !important;
-  }
-
-  .logo-section.locked {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    transform: none !important;
-  }
-
-  .logo-wrapper {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    gap: clamp(16px, 4vh, 32px) !important;
-    width: 90% !important;
-    max-width: 500px !important;
-    padding: 0 20px !important;
-  }
-
-  .logo-image {
-    width: clamp(180px, 65vw, 350px) !important;
-    height: auto !important;
-    object-fit: contain !important;
-    display: block !important;
-  }
-
-  .brand-text {
-    font-size: clamp(20px, 6vw, 42px) !important;
-    letter-spacing: clamp(3px, 0.8vw, 7px) !important;
-    text-align: center !important;
-    white-space: normal !important;
-    word-wrap: break-word !important;
-    max-width: 85vw !important;
-    line-height: 1.2 !important;
-  }
-
-  .header-section {
-    position: absolute !important;
-    top: 10vh !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    width: 85% !important;
-    text-align: center !important;
-  }
-
-  .header-text {
-    font-size: clamp(14px, 3.5vw, 18px) !important;
-  }
-
-  .subtitle-text {
-    font-size: clamp(11px, 2.8vw, 14px) !important;
-  }
-}
-
-/* FIX: Issue 3 - Hotspot video popup layout (mobile) */
-@media (max-width: 768px) {
-  /* Full viewport popup - override ALL desktop positioning */
-  .video-overlay {
-    position: fixed !important;
-    top: 50% !important;
-    left: 50% !important;
-    transform: translate(-50%, -50%) !important;
-    width: 90vw !important;
-    height: auto !important;
-    max-width: none !important;
-    max-height: 85vh !important;
-    border-radius: 12px !important;
-    right: auto !important;
-    bottom: auto !important;
-  }
-  
-  .video-overlay.active {
-    display: flex !important;
-    flex-direction: column !important;
-    background: rgba(0, 0, 0, 0.98) !important;
-    z-index: 999999 !important;
-    opacity: 1 !important;
-    visibility: visible !important;
-    transform: translate(-50%, -50%) !important;
-  }
-
-  /* Video container wrapper */
-  .video-container-wrapper,
-  .overlay-content {
-    width: 100% !important;
-    height: auto !important;
-    display: flex !important;
-    flex-direction: column !important;
-    padding: 0 !important;
-    max-height: 100% !important;
-    overflow: hidden !important;
-  }
-
-  /* Video area with aspect preservation */
-  .overlay-video {
-    width: 100% !important;
-    height: 50vh !important;
-    max-height: 50vh !important;
-    object-fit: contain !important;
-    background: #000 !important;
-    flex-shrink: 0 !important;
-  }
-
-  /* Description panel below video */
-  .video-description-panel {
-    position: relative !important;
-    width: 100% !important;
-    max-height: 25vh !important;
-    overflow-y: auto !important;
-    -webkit-overflow-scrolling: touch !important;
-    padding: 12px 16px !important;
-    margin: 0 !important;
-    background: rgba(15, 15, 18, 0.98) !important;
-    border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
-    transform: none !important;
-    bottom: auto !important;
-    flex-shrink: 0 !important;
-  }
-
-  /* Transport controls - bottom center */
-  .video-navigation {
-    position: fixed !important;
-    bottom: calc(env(safe-area-inset-bottom) + 20px) !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    z-index: 1000000 !important;
-    background: rgba(0, 0, 0, 0.9) !important;
-    border-radius: 24px !important;
-    padding: 8px 12px !important;
-  }
-
-  /* Close button - top right */
-  .overlay-close {
-    position: fixed !important;
-    top: calc(env(safe-area-inset-top) + 12px) !important;
-    right: calc(env(safe-area-inset-right) + 12px) !important;
-    width: 44px !important;
-    height: 44px !important;
-    min-width: 44px !important;
-    min-height: 44px !important;
-    z-index: 1000000 !important;
-    background: rgba(255, 255, 255, 0.15) !important;
-    border-radius: 50% !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-  }
-
-  /* Navigation buttons - ensure tap targets */
-  .nav-btn,
-  .skip-button,
-  .sound-button {
-    width: 44px !important;
-    height: 44px !important;
-    min-width: 44px !important;
-    min-height: 44px !important;
-  }
-
-  /* Header adjustments */
-  .overlay-header {
-    padding: 12px 60px 12px 16px !important;
-    min-height: 48px !important;
-    flex-shrink: 0 !important;
-  }
-
-  .overlay-title {
-    font-size: 14px !important;
-  }
-
-  /* Landscape adjustments */
-  @media (orientation: landscape) {
-    .overlay-video {
-      height: 70vh !important;
-      max-height: 70vh !important;
-    }
-
-    .video-description-panel {
-      max-height: 15vh !important;
-    }
-  }
-}
-
-/* Body scroll lock helper classes */
-@media (max-width: 768px) {
-  body.overlay-active {
-    overflow: hidden !important;
-    position: fixed !important;
-    width: 100% !important;
-    height: 100% !important;
-    touch-action: none !important;
-  }
-}
-
-/* ==========================================
-   Original responsive additions below
-   ========================================== */
-
-/* CRITICAL: Force hotspot sizing on mobile */
+/* Issue 1: Force smaller hotspot circles on mobile */
 @media screen and (max-width: 768px) {
+  /* Override the ::after pseudo-element circles */
+  #lidar-board.highlighting .hotspot::after,
   .hotspot::after {
-    width: 20px !important;
-    height: 20px !important;
-    font-size: 10px !important;
+    width: 18px !important;
+    height: 18px !important;
+    font-size: 9px !important;
+    line-height: 18px !important;
+    padding: 0 !important;
   }
   
-  /* Ensure hotspots remain clickable */
+  /* Maintain tap target size */
   .hotspot {
-    min-width: 44px !important;
-    min-height: 44px !important;
+    min-width: 44px;
+    min-height: 44px;
   }
 }
 
 @media screen and (max-width: 480px) {
+  #lidar-board.highlighting .hotspot::after,
   .hotspot::after {
     width: 16px !important;
     height: 16px !important;
     font-size: 8px !important;
+    line-height: 16px !important;
   }
 }
 
-/* Container Queries & Safe Viewport Setup */
-@supports (container-type: inline-size) {
-  .app-container-wrapper {
-    container-type: inline-size;
-    container-name: app;
-  }
-}
-
-/* Touch Target Sizing (44x44 minimum) */
-@media (any-pointer: coarse) {
-  .control-btn,
-  .nav-btn,
-  .overlay-close,
-  .onboarding-close,
-  .hotspot::after {
-    min-width: 44px;
-    min-height: 44px;
+/* Issue 2: Fix video overlay positioning on mobile */
+@media screen and (max-width: 768px) {
+  /* Override JavaScript inline styles with !important */
+  .video-overlay {
+    position: fixed !important;
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: calc(100vw - 40px) !important;
+    max-width: 400px !important;
+    height: auto !important;
+    max-height: 80vh !important;
+    border-radius: 12px !important;
+    overflow: visible !important;
   }
   
-  .control-btn {
-    padding: 12px 20px;
+  .video-overlay.active {
+    transform: translate(-50%, -50%) !important;
   }
   
-  .hotspot {
-    min-width: 44px;
-    min-height: 44px;
+  /* Ensure content fits */
+  .video-container-wrapper {
+    width: 100% !important;
+    height: auto !important;
+    max-height: 80vh !important;
+    overflow-y: auto !important;
   }
   
-  .hotspot::after {
-    width: 36px;
-    height: 36px;
-    font-size: 16px;
-  }
-}
-
-/* Mobile-Safe Heights (svh units) */
-@supports (height: 100svh) {
-  @media (max-width: 768px) {
-    body {
-      height: 100svh;
-    }
-    
-    #app-container {
-      height: 100svh;
-    }
-    
-    .onboarding-overlay {
-      height: 100svh;
-    }
-  }
-}
-
-/* Fallback for older browsers */
-@supports not (height: 100svh) {
-  @media (max-width: 768px) {
-    body {
-      height: 100vh;
-      height: -webkit-fill-available;
-    }
-    
-    #app-container {
-      height: 100vh;
-      height: -webkit-fill-available;
-    }
-  }
-}
-
-/* Aspect Ratio Shells (CLS Prevention) */
-.lidar-container {
-  contain: layout size;
-}
-
-.lidar-background {
-  aspect-ratio: 16/9;
-  contain: layout size;
-}
-
-.overlay-video {
-  aspect-ratio: 16/9;
-  contain: layout size;
-}
-
-/* Reduced Motion Support */
-@media (prefers-reduced-motion: reduce) {
-  .magnifier-cursor,
-  .magnifier-content,
-  .progress-bar,
-  .control-btn::before,
-  .nav-btn,
-  .hotspot::after {
-    animation: none !important;
-    transition: opacity 200ms ease !important;
+  .overlay-content {
+    height: auto !important;
+    max-height: 60vh !important;
   }
   
-  .video-overlay,
-  .onboarding-overlay,
-  #lidar-board.zooming .lidar-container,
-  #lidar-board.zoom-reset .lidar-container {
-    transition-duration: 200ms !important;
+  .overlay-video {
+    max-height: 40vh !important;
+    width: 100% !important;
+    object-fit: contain !important;
   }
   
-  @keyframes shimmer { to { background-position: 0; } }
-  @keyframes spin { to { transform: none; } }
-  @keyframes skeleton-shimmer { to { background-position: 0; } }
+  /* Fix description panel */
+  .video-description-panel {
+    position: relative !important;
+    max-height: 20vh !important;
+    overflow-y: auto !important;
+    padding: 12px !important;
+    margin-top: 8px !important;
+  }
+  
+  /* Fix navigation controls */
+  .video-navigation {
+    position: relative !important;
+    bottom: auto !important;
+    left: auto !important;
+    transform: none !important;
+    margin: 10px auto !important;
+    width: fit-content !important;
+  }
 }
 
-/* Magnifier Cursor Mobile Scaling */
-@media (max-width: 768px) {
-  .magnifier-cursor {
-    width: 80px !important;
-    height: 80px !important;
-  }
-  
-  .magnifier-content {
-    width: 240px !important;
-    height: 240px !important;
-    background-size: calc(100vw * 1.5) calc(100vh * 1.5) !important;
+/* Small mobile adjustments */
+@media screen and (max-width: 480px) {
+  .video-overlay {
+    width: calc(100vw - 20px) !important;
+    max-width: none !important;
   }
 }
 
-@media (max-width: 480px) {
-  .magnifier-cursor {
-    width: 60px !important;
-    height: 60px !important;
+/* Body scroll lock helper */
+body.video-overlay-active {
+  overflow: hidden !important;
+  position: fixed !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* Ensure highest z-index on mobile */
+@media screen and (max-width: 768px) {
+  .video-overlay {
+    z-index: 999999 !important;
   }
   
-  .magnifier-content {
-    width: 180px !important;
-    height: 180px !important;
+  .overlay-close {
+    position: absolute !important;
+    top: 8px !important;
+    right: 8px !important;
+    width: 36px !important;
+    height: 36px !important;
+    min-width: 36px !important;
+    min-height: 36px !important;
+    z-index: 1000000 !important;
   }
 }
