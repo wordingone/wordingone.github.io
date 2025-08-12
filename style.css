@@ -1,9 +1,43 @@
 /* ============================================
-   PRADA: REMAKING ARCHITECTURAL NAVIGATION SYSTEM
-   Responsive LiDAR Interface with Proper Scaling
+   PRADA: (RE)MAKING - LIQUID GLASS UI SYSTEM
+   Enhanced Visual Strategy with Glass Morphism
    ============================================ */
 
-/* Reset and Base Styles */
+/* Design Tokens */
+:root {
+    /* Color System */
+    --ink: #0B0B0F;
+    --paper: #F7F7F8;
+    --accent: #8EA9FF;
+    --danger: #FF6257;
+    --hairline: rgba(255, 255, 255, 0.12);
+    
+    /* Glass Material System */
+    --glass-bg: rgba(24, 24, 28, 0.35);
+    --glass-blur: 18px;
+    --glass-stroke: rgba(255, 255, 255, 0.24);
+    --glass-highlight: rgba(255, 255, 255, 0.06);
+    --glass-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    
+    /* Z-Depth Shadows */
+    --shadow-1: 0 2px 8px rgba(0, 0, 0, 0.25);
+    --shadow-2: 0 4px 16px rgba(0, 0, 0, 0.30);
+    --shadow-3: 0 8px 24px rgba(0, 0, 0, 0.35);
+    --shadow-4: 0 16px 48px rgba(0, 0, 0, 0.40);
+    
+    /* Typography Scale */
+    --text-xs: 11px;
+    --text-sm: 13px;
+    --text-base: 15px;
+    --text-lg: 24px;
+    
+    /* Motion */
+    --transition-fast: 120ms ease;
+    --transition-base: 200ms ease;
+    --transition-slow: 400ms ease;
+}
+
+/* Reset with Enhanced Base */
 * {
     margin: 0;
     padding: 0;
@@ -12,13 +46,23 @@
 
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    background: #000;
-    color: #ffffff;
+    background: var(--ink);
+    color: var(--paper);
     overflow: hidden;
     height: 100vh;
     position: relative;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: "tnum" 1; /* Tabular numbers */
+}
+
+/* Glass Material Mixin */
+.glass {
+    background: var(--glass-bg);
+    -webkit-backdrop-filter: saturate(1.2) blur(var(--glass-blur));
+    backdrop-filter: saturate(1.2) blur(var(--glass-blur));
+    box-shadow: var(--glass-shadow), inset 0 1px 0 var(--glass-highlight);
+    border: 1px solid var(--glass-stroke);
 }
 
 /* Main Application Container */
@@ -26,47 +70,82 @@ body {
     display: flex;
     width: 100vw;
     height: 100vh;
-    background: #000;
-    padding: 10px; /* Add padding to show rounded corners */
-    box-sizing: border-box;
+    background: var(--ink);
+    position: relative;
+}
+
+/* Vertical Glass Spine Separator */
+#app-container::after {
+    content: '';
+    position: absolute;
+    left: 33.333%;
+    top: 0;
+    width: 1px;
+    height: 100%;
+    background: linear-gradient(
+        180deg,
+        transparent 0%,
+        var(--hairline) 10%,
+        var(--hairline) 90%,
+        transparent 100%
+    );
+    z-index: 100;
+    pointer-events: none;
 }
 
 /* Left Panel: 3D Model Viewer */
 #model-panel {
     width: 33.333%;
     position: relative;
-    background: linear-gradient(135deg, #1a1a2e 0%, #0a0a2e 100%);
-    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    background: linear-gradient(135deg, #0D0D14 0%, #060614 100%);
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    border-radius: 12px 0 0 12px; /* Rounded left corners */
-    margin: 10px 0 10px 10px; /* Add margin for spacing */
 }
 
-/* Brand Header */
+/* Enhanced Brand Header */
 .brand-header {
-    padding: 16px 20px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(20px);
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--hairline);
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    position: relative;
+    z-index: 10;
+}
+
+.brand-header::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        var(--accent) 50%, 
+        transparent 100%
+    );
+    opacity: 0.3;
 }
 
 .brand-logo {
-    font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', monospace;
-    font-size: 14px;
-    font-weight: 600;
-    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+    font-size: var(--text-sm);
+    font-weight: 700;
+    color: var(--paper);
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: -0.01em;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .brand-subtitle {
-    font-size: 11px;
-    color: rgba(255, 255, 255, 0.6);
+    font-size: var(--text-xs);
+    color: rgba(255, 255, 255, 0.5);
     font-weight: 400;
-    margin-top: 2px;
-    letter-spacing: 1px;
+    margin-top: 4px;
+    letter-spacing: 0.5px;
     text-transform: uppercase;
 }
 
@@ -76,118 +155,156 @@ body {
     display: block;
 }
 
-/* Model Info Overlay */
+/* Enhanced Model Info Card */
 #model-info {
     position: absolute;
-    bottom: 20px;
-    left: 20px;
-    background: rgba(0, 0, 0, 0.8);
-    padding: 12px 16px;
-    border-radius: 8px;
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    bottom: 24px;
+    left: 24px;
+    padding: 16px;
+    border-radius: 12px;
     z-index: 10;
     pointer-events: none;
+    min-width: 200px;
+}
+
+#model-info.glass {
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-stroke);
+    box-shadow: var(--shadow-3);
 }
 
 #model-info h3 {
-    font-size: 12px;
+    font-size: var(--text-xs);
     font-weight: 600;
-    margin-bottom: 4px;
-    color: #3498db;
+    margin-bottom: 8px;
+    color: var(--accent);
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
 }
 
 #model-info p {
-    font-size: 10px;
-    color: rgba(255, 255, 255, 0.7);
-    line-height: 1.4;
-    margin-bottom: 2px;
-}
-
-#model-info p:last-child {
-    margin-bottom: 0;
+    font-size: var(--text-xs);
+    color: rgba(255, 255, 255, 0.6);
+    line-height: 1.5;
+    margin-bottom: 4px;
+    font-variant-numeric: tabular-nums;
 }
 
 /* Right Panel: LiDAR Interface */
 #main-panel {
     width: 66.667%;
     position: relative;
-    background: #000;
+    background: var(--ink);
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    border-radius: 0 12px 12px 0; /* Rounded right corners */
-    margin: 10px 10px 10px 0; /* Add margin for spacing */
 }
 
-/* LiDAR Control Bar */
+/* Floating Glass Toolbar */
 .lidar-controls {
+    position: absolute;
+    top: 24px;
+    right: 24px;
     display: flex;
-    justify-content: flex-end;
     align-items: center;
-    gap: 12px;
-    padding: 16px 20px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(20px);
-    z-index: 10;
+    gap: 8px;
+    padding: 8px;
+    border-radius: 999px;
+    z-index: 100;
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-stroke);
+    box-shadow: var(--shadow-3);
 }
 
+/* Enhanced Button System */
 .control-btn {
-    padding: 8px 16px;
-    border-radius: 6px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    background: rgba(0, 0, 0, 0.6);
-    color: #ffffff;
-    font-size: 12px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--paper);
+    font-size: var(--text-sm);
     font-weight: 500;
-    font-family: 'SF Mono', monospace;
+    font-family: 'Inter', sans-serif;
     cursor: pointer;
-    transition: all 0.2s ease;
-    backdrop-filter: blur(10px);
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
+    transition: all var(--transition-fast);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Button hover sheen effect */
+.control-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 255, 255, 0.1) 50%,
+        transparent 100%
+    );
+    transition: left 900ms ease;
+}
+
+.control-btn:hover::before {
+    left: 100%;
 }
 
 .control-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: #3498db;
     transform: translateY(-1px);
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+    background: rgba(255, 255, 255, 0.05);
 }
 
+.control-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+}
+
+.control-btn svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+/* Toggle State */
 .control-btn.active {
-    background: #3498db;
-    border-color: #3498db;
-    color: #ffffff;
+    background: rgba(142, 169, 255, 0.28);
+    border-color: rgba(142, 169, 255, 0.55);
+    color: var(--paper);
 }
 
-/* LiDAR Board with Proper Flexbox Centering */
+/* LiDAR Board Container */
 #lidar-board {
     flex: 1;
     position: relative;
-    background: #000;
+    background: var(--ink);
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 20px;
+    padding: 24px;
 }
 
-/* Proper aspect ratio container with flexbox centering */
+/* Aspect Ratio Container */
 .lidar-container {
     position: relative;
-    /* Use object-fit approach for better scaling */
     width: 100%;
-    max-width: min(100%, calc((100vh - 100px) * 1.77778));
+    max-width: min(100%, calc((100vh - 120px) * 1.77778));
     aspect-ratio: 1920 / 1080;
     margin: auto;
-    /* This container will scale as one unit */
     display: block;
 }
 
-/* Use img tag for better scaling control */
+/* LiDAR Background */
 .lidar-background {
     position: absolute;
     top: 0;
@@ -199,11 +316,10 @@ body {
     background-position: center;
     background-repeat: no-repeat;
     z-index: 1;
-    /* Ensure image fills container exactly */
     object-fit: fill;
 }
 
-/* Hotspots - clean invisible regions with hover question marks */
+/* Glass Pin Hotspots */
 .hotspot {
     position: absolute;
     background: transparent;
@@ -214,189 +330,200 @@ body {
     align-items: center;
     justify-content: center;
     pointer-events: auto;
-    /* Remove any transform that might interfere with positioning */
     transform-origin: center;
 }
 
-/* Question mark - always visible but scales on hover */
+/* Glass Pin Visual */
 .hotspot::after {
     content: '?';
-    font-size: 24px;
-    font-weight: 700;
-    color: white;
-    text-shadow: 0 4px 8px rgba(0, 0, 0, 0.8), 0 2px 4px rgba(0, 0, 0, 0.6);
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-stroke);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--paper);
     opacity: 0;
-    transform: scale(1);
-    transition: all 0.3s ease;
+    transform: scale(0.9);
+    transition: all var(--transition-base);
     pointer-events: none;
-    z-index: 20;
-    display: block;
 }
 
 .hotspot:hover::after {
     opacity: 1;
-    transform: scale(1.5);
+    transform: scale(1);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.45),
+                0 0 0 1px rgba(142, 169, 255, 0.3);
 }
 
-/* Hotspot Labels - NEVER visible */
+/* Hide Labels */
 .hotspot-label {
     display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
-    /* Force labels to be completely invisible in all states */
 }
 
-/* Override any state that might try to show labels */
-.hotspot:hover .hotspot-label,
-#lidar-board.highlighting .hotspot .hotspot-label,
-.hotspot.active .hotspot-label {
-    display: none !important;
-    visibility: hidden !important;
-    opacity: 0 !important;
-}
-
-/* Highlighting Mode */
+/* Highlighting Mode with Scrim */
 #lidar-board.highlighting .lidar-container::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0, 0, 0, 0.28);
     z-index: 2;
     pointer-events: none;
     opacity: 0;
-    transition: opacity 0.8s ease-in-out;
+    transition: opacity var(--transition-slow);
 }
 
 #lidar-board.highlighting.mask-active .lidar-container::before {
     opacity: 1;
 }
 
-/* When highlighting is active, show question marks and make hotspots clickable */
 #lidar-board.highlighting .hotspot::after {
-    opacity: 1;
-    transform: scale(1);
+    opacity: 0.8;
+    transform: scale(0.95);
 }
 
 #lidar-board.highlighting .hotspot:hover::after {
-    transform: scale(1.5);
+    opacity: 1;
+    transform: scale(1.1);
+    background: rgba(142, 169, 255, 0.15);
 }
 
-/* Zoom Animation - applied to the container */
+/* Zoom Animations */
 #lidar-board.zooming .lidar-container {
     transform: scale(3.5);
-    transition: transform 1000ms ease-out;
+    transition: transform 1000ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 #lidar-board.zoom-reset .lidar-container {
     transform: scale(1);
-    transition: transform 800ms ease-in-out;
+    transition: transform 800ms cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-/* Video Overlay System */
+/* Enhanced Video Overlay Panel */
 .video-overlay {
     position: fixed;
     top: 24px;
     right: 24px;
-    width: 480px;
-    height: 360px;
+    width: 520px;
+    height: 380px;
     z-index: 1000;
     opacity: 0;
     visibility: hidden;
-    transform: translateX(100%);
-    transition: opacity 0.4s ease, visibility 0.4s ease, transform 0.4s ease;
-    border-radius: 12px;
+    transform: scale(0.98) translateX(20px);
+    transition: all var(--transition-base);
+    border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 16px 64px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.1);
-    background: #000;
+    background: var(--glass-bg);
+    backdrop-filter: blur(var(--glass-blur));
+    border: 1px solid var(--glass-stroke);
+    box-shadow: var(--shadow-4), inset 0 1px 0 var(--glass-highlight);
 }
 
 .video-overlay.active {
     opacity: 1;
     visibility: visible;
-    transform: translateX(0);
+    transform: scale(1) translateX(0);
 }
 
-.overlay-backdrop {
-    display: none; /* Remove backdrop for cleaner design */
-}
-
+/* Overlay Content */
 .overlay-content {
     position: relative;
     width: 100%;
     height: 100%;
-    background: #000;
-    border-radius: 12px;
-    overflow: hidden;
     display: flex;
     flex-direction: column;
+    border-radius: 16px;
+    overflow: hidden;
 }
 
+/* Glass Title Bar */
+.overlay-header {
+    padding: 16px 20px;
+    background: rgba(24, 24, 28, 0.5);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--hairline);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+/* Title Bar Glow */
+.overlay-header::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        var(--accent) 50%,
+        transparent 100%
+    );
+    opacity: 0.5;
+}
+
+.overlay-title {
+    color: var(--accent);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Glass Close Button */
 .overlay-close {
     position: absolute;
-    top: 12px;
-    right: 12px;
-    background: rgba(0, 0, 0, 0.8);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    top: 16px;
+    right: 16px;
     width: 32px;
     height: 32px;
     border-radius: 50%;
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-stroke);
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 16px;
-    font-weight: bold;
-    color: #ffffff;
+    color: var(--paper);
     cursor: pointer;
-    pointer-events: auto;
-    transition: all 0.2s ease;
+    transition: all var(--transition-fast);
     z-index: 10;
-    backdrop-filter: blur(10px);
 }
 
 .overlay-close:hover {
-    background: rgba(255, 255, 255, 0.1);
     transform: scale(1.1);
-}
-
-.overlay-header {
-    position: relative;
-    padding: 16px 20px;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 5;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(20px);
-}
-
-.overlay-title {
-    color: #3498db;
-    font-size: 13px;
-    font-weight: 600;
-    font-family: 'SF Mono', monospace;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
 .overlay-video {
     width: 100%;
     flex: 1;
     object-fit: cover;
+    background: #000;
 }
 
 /* Loading Screen */
 #loading {
     position: fixed;
     inset: 0;
-    background: #000;
+    background: var(--ink);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    z-index: 1000;
-    transition: opacity 0.5s ease;
+    z-index: 2000;
+    transition: opacity var(--transition-slow);
 }
 
 #loading.hidden {
@@ -405,13 +532,13 @@ body {
 }
 
 .spinner {
-    width: 40px;
-    height: 40px;
-    border: 2px solid rgba(255, 255, 255, 0.1);
-    border-top-color: #3498db;
+    width: 48px;
+    height: 48px;
+    border: 2px solid var(--hairline);
+    border-top-color: var(--accent);
     border-radius: 50%;
     animation: spin 1s linear infinite;
-    margin-bottom: 16px;
+    margin-bottom: 24px;
 }
 
 @keyframes spin {
@@ -419,199 +546,29 @@ body {
 }
 
 #loading p {
-    font-size: 14px;
-    color: rgba(255, 255, 255, 0.8);
-    margin-bottom: 20px;
+    font-size: var(--text-sm);
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 24px;
+    letter-spacing: 0.5px;
 }
 
 .loading-progress {
-    width: 200px;
+    width: 240px;
     height: 2px;
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--hairline);
     border-radius: 1px;
     overflow: hidden;
 }
 
 .progress-bar {
     height: 100%;
-    background: #3498db;
+    background: linear-gradient(90deg, var(--accent), #A4B9FF);
     width: 0;
     transition: width 0.3s ease;
     border-radius: 1px;
 }
 
-/* Responsive Design - Mobile First */
-@media (max-width: 1024px) {
-    #app-container {
-        flex-direction: column;
-    }
-    
-    #model-panel {
-        width: 100%;
-        height: 40vh;
-        border-right: none;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    
-    #main-panel {
-        width: 100%;
-        height: 60vh;
-    }
-    
-    #lidar-board {
-        padding: 15px;
-    }
-    
-    .lidar-container {
-        /* Adjust sizing for tablet landscape */
-        width: min(100%, calc((60vh - 100px) * 16 / 9));
-        height: min(100%, calc(100vw * 9 / 16));
-    }
-    
-    .video-overlay {
-        width: 90vw;
-        height: 50vh;
-        max-width: 400px;
-        top: 50%;
-        right: 50%;
-        transform: translate(50%, -50%) translateX(100%);
-    }
-    
-    .video-overlay.active {
-        transform: translate(50%, -50%) translateX(0);
-    }
-}
-
-@media (max-width: 768px) {
-    .brand-header {
-        padding: 12px 16px;
-    }
-    
-    .brand-logo {
-        font-size: 12px;
-    }
-    
-    .brand-subtitle {
-        font-size: 10px;
-    }
-    
-    .lidar-controls {
-        padding: 12px 16px;
-        gap: 8px;
-    }
-    
-    .control-btn {
-        padding: 6px 12px;
-        font-size: 11px;
-    }
-    
-    #model-panel {
-        height: 35vh;
-    }
-    
-    #main-panel {
-        height: 65vh;
-    }
-    
-    #lidar-board {
-        padding: 12px;
-    }
-    
-    .lidar-container {
-        /* Adjust for mobile portrait */
-        width: min(100%, calc((65vh - 80px) * 16 / 9));
-        height: min(100%, calc((100vw - 24px) * 9 / 16));
-    }
-    
-    #model-info {
-        bottom: 12px;
-        left: 12px;
-        padding: 8px 12px;
-    }
-    
-    #model-info h3 {
-        font-size: 10px;
-    }
-    
-    #model-info p {
-        font-size: 9px;
-    }
-    
-    .hotspot::after {
-        font-size: 20px;
-    }
-    
-    .hotspot:hover::after {
-        transform: scale(1.4);
-    }
-    
-    .video-overlay {
-        width: 95vw;
-        height: 60vh;
-        max-width: none;
-    }
-}
-
-@media (max-width: 480px) {
-    .brand-header {
-        padding: 10px 12px;
-    }
-    
-    .lidar-controls {
-        padding: 10px 12px;
-    }
-    
-    .control-btn {
-        padding: 6px 10px;
-        font-size: 10px;
-    }
-    
-    #lidar-board {
-        padding: 8px;
-    }
-    
-    .lidar-container {
-        /* Very small screens */
-        width: min(100%, calc((65vh - 60px) * 16 / 9));
-        height: min(100%, calc((100vw - 16px) * 9 / 16));
-    }
-    
-    .hotspot::after {
-        font-size: 18px;
-    }
-    
-    .hotspot:hover::after,
-    .hotspot:active::after {
-        transform: scale(1.3);
-    }
-    
-    .hotspot-label {
-        font-size: 9px;
-        padding: 2px 6px;
-    }
-}
-
-/* Focus states for accessibility */
-.control-btn:focus,
-.hotspot:focus,
-.overlay-close:focus {
-    outline: 2px solid #3498db;
-    outline-offset: 2px;
-}
-
-/* High contrast mode support */
-@media (prefers-contrast: high) {
-    .hotspot {
-        border: 2px solid #ffffff;
-    }
-    
-    #model-info {
-        background: #000;
-        border: 2px solid #fff;
-    }
-}
-
-/* Reduced motion support */
+/* Motion Preference Support */
 @media (prefers-reduced-motion: reduce) {
     *,
     *::before,
@@ -619,5 +576,130 @@ body {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
+    }
+    
+    .control-btn::before {
+        display: none;
+    }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 1024px) {
+    #app-container {
+        flex-direction: column;
+    }
+    
+    #app-container::after {
+        display: none;
+    }
+    
+    #model-panel {
+        width: 100%;
+        height: 40vh;
+        border-bottom: 1px solid var(--hairline);
+    }
+    
+    #main-panel {
+        width: 100%;
+        height: 60vh;
+    }
+    
+    .lidar-controls {
+        top: 16px;
+        right: 16px;
+        padding: 6px;
+    }
+    
+    .control-btn {
+        padding: 8px 14px;
+        font-size: var(--text-xs);
+    }
+    
+    .video-overlay {
+        width: calc(100vw - 48px);
+        max-width: 480px;
+        height: 60vh;
+        top: 50%;
+        right: 50%;
+        transform: translate(50%, -50%) scale(0.98);
+    }
+    
+    .video-overlay.active {
+        transform: translate(50%, -50%) scale(1);
+    }
+}
+
+@media (max-width: 768px) {
+    :root {
+        --text-xs: 10px;
+        --text-sm: 12px;
+        --text-base: 14px;
+        --text-lg: 20px;
+    }
+    
+    .brand-header {
+        padding: 16px 20px;
+    }
+    
+    .lidar-controls {
+        gap: 6px;
+        padding: 4px;
+    }
+    
+    .control-btn {
+        padding: 6px 12px;
+    }
+    
+    #model-info {
+        bottom: 16px;
+        left: 16px;
+        padding: 12px;
+        min-width: auto;
+    }
+    
+    .hotspot::after {
+        width: 24px;
+        height: 24px;
+        font-size: 12px;
+    }
+    
+    .video-overlay {
+        width: calc(100vw - 32px);
+        height: 50vh;
+        border-radius: 12px;
+    }
+}
+
+/* Focus States for Accessibility */
+.control-btn:focus-visible,
+.hotspot:focus-visible,
+.overlay-close:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+    :root {
+        --glass-stroke: rgba(255, 255, 255, 0.5);
+        --hairline: rgba(255, 255, 255, 0.3);
+    }
+    
+    .hotspot::after {
+        border: 2px solid #ffffff;
+    }
+}
+
+/* Fallback for No Backdrop Filter Support */
+@supports not (backdrop-filter: blur(1px)) {
+    .glass,
+    .lidar-controls,
+    .overlay-header,
+    #model-info.glass,
+    .hotspot::after,
+    .overlay-close,
+    .video-overlay {
+        background: rgba(24, 24, 28, 0.88);
+        backdrop-filter: none;
     }
 }

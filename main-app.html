@@ -6,6 +6,9 @@
     <title>Prada: Remaking | Architectural Navigation System</title>
     <!-- Disable favicon to prevent 404 errors -->
     <link rel="icon" href="data:,">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
     <link rel="stylesheet" href="style.css">
     <style>
         /* Video Overlay Styles */
@@ -209,14 +212,14 @@
         <div id="model-panel">
             <!-- Brand Header -->
             <div class="brand-header">
-                <div class="brand-logo">Prada: Remaking</div>
-                <div class="brand-subtitle">Architectural Navigation</div>
+                <div class="brand-logo">PRADA: (RE)MAKING</div>
+                <div class="brand-subtitle">Architectural Navigation System</div>
             </div>
             
             <canvas id="canvas"></canvas>
             
             <!-- Model Info Overlay -->
-            <div id="model-info">
+            <div id="model-info" class="glass">
                 <h3>3D Navigation Model</h3>
                 <p>5-Floor Architectural System</p>
                 <p>Mouse: rotate | Wheel: zoom</p>
@@ -229,10 +232,18 @@
             <!-- LiDAR Control Bar -->
             <div class="lidar-controls">
                 <button id="btnHighlight" type="button" class="control-btn">
-                    Highlight
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5"/>
+                        <circle cx="8" cy="8" r="3" fill="currentColor"/>
+                    </svg>
+                    <span class="btn-text">Highlight</span>
                 </button>
                 <button id="btnZoomExtents" type="button" class="control-btn">
-                    Zoom Extents
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M2 8C2 4.68629 4.68629 2 8 2C11.3137 2 14 4.68629 14 8C14 11.3137 11.3137 14 8 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        <path d="M6 12L2 12L2 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span class="btn-text">Reset View</span>
                 </button>
             </div>
             
