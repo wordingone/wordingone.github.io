@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="The research method as it is written down in the public repositories: frozen criteria, receipts, refusals and named successors.">
+<title>How I work - Hyun Jun Han</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+<a class="site" href="index.html">Hyun Jun (Jun) Han</a>
+<nav aria-label="Main"><ul><li><a href="index.html">Home</a></li><li><a href="projects/index.html">Projects</a></li><li><a href="method.html" aria-current="page">How I work</a></li><li><a href="writing.html">Writing</a></li><li><a href="cv.html">CV</a></li></ul></nav>
+</header>
+<main id="main">
+<h1>How I work</h1>
+<p>Most of the code and most of the experiment runs in these projects were done by AI coding agents. My job is to set the questions, the rules a result must pass, and the review. Because agents are fast and confident, the method is built so that a claim cannot get ahead of its evidence. This page describes that method as the public repositories record it; each part links to where it is written down or used. Most examples come from <a href="projects/ember.html">Ember</a> (pinned to commit <code>df2a2d6</code>).</p>
+
+<h2>1. Freeze the test before the run</h2>
+<p>Each hypothesis in Ember's research log moves through recorded stages (among them observed, explained, predicted, running, measured, ruled and closed). At the "predicted" stage it gets a refutation criterion, written before any number exists. The log states the rule: <a href="https://github.com/wordingone/ember/blob/df2a2d69603ffe8c1eca0faa54eb44837a0bd9b3/docs/domains/lab/research/index.html">"a criterion is never amended after the numbers arrive, so the successor freezes its own before it is authored."</a> The log's export currently holds <a href="https://github.com/wordingone/ember/blob/df2a2d69603ffe8c1eca0faa54eb44837a0bd9b3/docs/domains/lab/research/export/research-index.json">456 rulings SUPPORTED, 402 REFUTED and 100 INCONCLUSIVE</a> (counted from the export file). The Search used the same idea at a larger grain: a fixed set of constraints that any candidate learner had to meet (<a href="projects/the-search.html">The Search</a>).</p>
+
+<h2>2. Receipts</h2>
+<p>A claim counts only if it points to a receipt: a stored record of a run that actually executed. Ember's repo map calls its receipts folder <a href="https://github.com/wordingone/ember/blob/df2a2d69603ffe8c1eca0faa54eb44837a0bd9b3/AGENTS.md#L17">"ground truth for all board verdicts"</a>, and the index lists <a href="https://github.com/wordingone/ember/blob/df2a2d69603ffe8c1eca0faa54eb44837a0bd9b3/receipts/CLAIMS.md#L9">1,022 rows</a>. The research pages are regenerated from the records and <a href="https://github.com/wordingone/ember/blob/df2a2d69603ffe8c1eca0faa54eb44837a0bd9b3/docs/domains/lab/research/method.html">"a validation failure produces no page at all"</a>. Not every receipt is public: the research pages name private receipts as plain text rather than links, and this site marks numbers it cannot link.</p>
+
+<h2>3. Refusals</h2>
+<p>The default answer is no. A training checkpoint that a ruling does not accept is <a href="https://github.com/wordingone/ember/blob/df2a2d69603ffe8c1eca0faa54eb44837a0bd9b3/docs/domains/governance/authority/CONTINUITY.md#L157">refused and credits nothing</a> to the model's lineage. A benchmark score at chance is recorded with <a href="https://github.com/wordingone/ember/blob/df2a2d69603ffe8c1eca0faa54eb44837a0bd9b3/docs/domains/governance/authority/CONTINUITY.md#L288-L289">"no capability, sufficiency, or comparison claim"</a>. A measuring tool that cannot confirm what it measured refuses to report: after the profiling error described on the <a href="projects/ember.html">Ember page</a>, the replacement probe <a href="https://github.com/wordingone/ember/blob/df2a2d69603ffe8c1eca0faa54eb44837a0bd9b3/docs/domains/lab/research/export/research-index.json">"refuses to census if captured is false"</a>.</p>
+
+<h2>4. Named successors</h2>
+<p>When a test fails or a tool turns out to be wrong, it is not quietly patched. A new, named item replaces it, with its own frozen criterion, and the old one stays in the record. For example, a measurement split that did not hold was <a href="https://github.com/wordingone/ember/blob/df2a2d69603ffe8c1eca0faa54eb44837a0bd9b3/docs/domains/lab/research/export/research-index.json">"frozen in a named successor rather than patched into this instrument"</a>; structured entries carry a <code>successor</code> field pointing to the next hypothesis.</p>
+
+<h2>5. Correct the public record</h2>
+<p>When a claim in a public repository turns out to be stronger than its evidence, the correction is written next to it. In The Search, the line "R3 solved by composition" now carries a note that it is <a href="https://github.com/wordingone/the-search/blob/0c1a96402bfd6606c18029fa62c801500258544d/docs/PAPER.md#L7">superseded</a>, because the test did not measure a gain in task performance. In gemma-architect, the hackathon write-up is marked a <a href="https://github.com/wordingone/gemma-architect/blob/3f43ee6feb4187154b4ce7d3f86c9e484cec5b6a/submission/README.md#L1">historical draft whose claims were not independently verified</a>.</p>
+
+<h2>Limits of the method</h2>
+<p>In The Search, the review of each experiment was done by agents, <a href="https://github.com/wordingone/the-search/blob/0c1a96402bfd6606c18029fa62c801500258544d/docs/paper.tex#L1833">"not by independent human reviewers"</a>. Frozen criteria stop moving goalposts; they do not make a badly chosen criterion good. None of this work has been peer reviewed.</p>
+</main>
+<footer>
+<p>Contact: <a href="https://github.com/wordingone">github.com/wordingone</a>. Most code in these projects was written by AI coding agents under my direction and review. Numbers link to the public file or commit they come from; anything not linked is marked.</p>
+</footer>
+</body>
+</html>

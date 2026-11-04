@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="An experimental CAD workbench that runs in the browser, with an in-browser Gemma 4 model that turns prompts into editable geometry.">
+<title>WEB-CAD - Hyun Jun Han</title>
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header>
+<a class="site" href="../index.html">Hyun Jun (Jun) Han</a>
+<nav aria-label="Main"><ul><li><a href="../index.html">Home</a></li><li><a href="../projects/index.html" aria-current="page">Projects</a></li><li><a href="../method.html">How I work</a></li><li><a href="../writing.html">Writing</a></li><li><a href="../cv.html">CV</a></li></ul></nav>
+</header>
+<main id="main">
+<h1>WEB-CAD</h1>
+<p class="meta">April-June 2026 (forked from <a href="gemma-architect.html">gemma-architect</a> on 2026-05-24). Live: <a href="https://wordingone.github.io/WEB-CAD/">wordingone.github.io/WEB-CAD</a>. Code: <a href="https://github.com/wordingone/WEB-CAD">github.com/wordingone/WEB-CAD</a> (links pinned to commit <code>c672cb9</code>). <!-- cv:webcad --></p>
+<p class="role"><strong>Role:</strong> I designed and directed it; most of the code was written by AI coding agents under my review (1,396 of the 1,783 commits on master carry an AI (Claude) co-author trailer). <!-- cv:authorship --></p>
+
+<h2>What it is</h2>
+<p>In the README's words, <a href="https://github.com/wordingone/WEB-CAD/blob/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/README.md#L3">"a free browser-based experimental CAD workbench"</a> that <a href="https://github.com/wordingone/WEB-CAD/blob/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/README.md#L13">"runs entirely in the browser: no server, no API key, no install"</a>, and is <a href="https://github.com/wordingone/WEB-CAD/blob/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/README.md#L13">"not a production replacement for Rhino, Revit, or ArchiCAD"</a>.</p>
+
+<h2>What was built</h2>
+<ul>
+<li><span class="tag p">Implemented</span> An in-browser AI agent using <a href="https://github.com/wordingone/WEB-CAD/blob/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/README.md#L116">Gemma 4 E4B-it through Transformers.js and WebGPU</a> that turns prompts into editable geometry.</li>
+<li><span class="tag p">Implemented</span> NURBS surfaces with <a href="https://github.com/wordingone/WEB-CAD/blob/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/README.md#L24">IFC4 round-trip export</a>; the README's NURBS code is <a href="https://github.com/wordingone/WEB-CAD/blob/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/README.md#L118">pure JavaScript</a>.</li>
+<li><span class="tag p">Implemented</span> A separate C++ geometry kernel compiled to WebAssembly (<a href="https://github.com/wordingone/WEB-CAD/tree/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/kern">kern/</a>: booleans, fillet, chamfer, loft).</li>
+<li><span class="tag p">Implemented</span> An <a href="https://github.com/wordingone/WEB-CAD/blob/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/README.md#L50">MCP server</a> that lets coding agents drive the geometry tools.</li>
+</ul>
+
+<h2>What was measured</h2>
+<ul>
+<li><span class="tag m">Measured</span> C++ kernel against OpenCASCADE: <a href="https://github.com/wordingone/WEB-CAD/blob/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/docs/kern-parity-report.md#L115">7/7 box boolean cases matched in volume within 0.1%</a>, and a <a href="https://github.com/wordingone/WEB-CAD/blob/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/docs/kern-parity-report.md#L116">60/60 robustness fuzz</a> with no crash. Scope is narrow: <a href="https://github.com/wordingone/WEB-CAD/blob/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/docs/kern-parity-report.md#L118">box/box booleans only</a>; the NURBS check was <a href="https://github.com/wordingone/WEB-CAD/blob/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/docs/kern-parity-report.md#L117">skipped, so not verified</a>. The run log the report names is not in the repository.</li>
+<li><span class="tag m">Measured</span> In-browser decode speed: <a href="https://github.com/wordingone/WEB-CAD/blob/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/docs/measurements/baseline-tps-2026-05-25.json#L11">median 2.13 tokens/s</a> (<a href="https://github.com/wordingone/WEB-CAD/blob/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/docs/measurements/baseline-tps-2026-05-25.json#L14-L15">range 1.96-2.23</a>) over <a href="https://github.com/wordingone/WEB-CAD/blob/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/docs/measurements/baseline-tps-2026-05-25.json#L6">25 prompts</a> on WebGPU, measured on the <a href="https://github.com/wordingone/WEB-CAD/blob/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/docs/measurements/baseline-tps-2026-05-25.json#L3">gemma-architect deployment</a>. The file does not record the hardware.</li>
+</ul>
+
+<h2>What is open</h2>
+<p>The README's <a href="https://github.com/wordingone/WEB-CAD/blob/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/README.md#L102">known limitations</a> include <a href="https://github.com/wordingone/WEB-CAD/blob/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/README.md#L105">"AI agent accuracy varies"</a> and that WebGPU is required for the AI. At about 2 tokens/s the live model is slow, and the bundled demos come from a prompt cache rather than live generation (see <a href="gemma-architect.html">gemma-architect</a>). Two bundled WebAssembly files have <a href="https://github.com/wordingone/WEB-CAD/blob/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/THIRD_PARTY_NOTICES.md#L37">unknown provenance</a> in the third-party notices.</p>
+</main>
+<footer>
+<p>Contact: <a href="https://github.com/wordingone">github.com/wordingone</a>. Most code in these projects was written by AI coding agents under my direction and review. Numbers link to the public file or commit they come from; anything not linked is marked.</p>
+</footer>
+</body>
+</html>
