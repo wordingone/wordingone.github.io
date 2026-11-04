@@ -207,11 +207,11 @@ main{position:relative;z-index:3;pointer-events:none}
 
 /* ---------- text pages (project pages, CV, text version): same system, no canvas ---------- */
 .page{background:#000}
-.page .hud{background:var(--top-fade)}
+.page .hud{background:linear-gradient(180deg,#000 0%,#000 78%,rgba(0,0,0,0) 100%)}
 .page main{pointer-events:auto;max-width:44rem;padding:132px var(--gutter) 64px;margin:0}
 .page h1{font:400 clamp(40px,5vw,68px)/1.04 var(--serif);color:var(--ink);margin:0 0 14px}
-.page h2{font:400 11px/1.4 var(--sans);letter-spacing:var(--track);text-transform:uppercase;color:var(--accent);margin:46px 0 14px;padding-top:14px;border-top:1px solid var(--hair)}
-.page h3{font:400 26px/1.2 var(--serif);color:var(--ink);margin:30px 0 8px}
+.page h2{font:400 30px/1.15 var(--serif);color:var(--ink);margin:46px 0 14px;padding-top:18px;border-top:1px solid var(--hair)}
+.page h3{font:400 11px/1.4 var(--sans);letter-spacing:var(--track);text-transform:uppercase;color:var(--accent);margin:30px 0 8px}
 .page p,.page li,.page dd{font-size:16px;color:var(--ink-2)}
 .page p+p{margin-top:12px}
 .page ul,.page ol{padding-left:0;list-style:none;display:grid;gap:10px}
