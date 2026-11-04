@@ -129,7 +129,7 @@ The LiDAR interface contains 9 interactive hotspots, each linked to specific 3D 
 
 ## Additional Video Content
 `complete animation.mp4` is used for the intro (`main-app.html:201`). Seven other videos that were never assigned to hotspots
-(`250331 Scene 01`, `250411 Lift`, `250412 Altar 01`, `250413 Altar 02 1`, `250413 Rotation Om - Slow Motion`,
+(`250331 Scene 01`, `250411 Lift`, `250412 Altar 01`, `250413 Altar 02 1`, `250413 Rotation Om.Mp4 - Slow Motion`,
 `Jun Combo`, and one other) were removed from the served site; they remain in git history.
 
 ---

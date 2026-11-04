@@ -1,7 +1,7 @@
 # HANDOFF — Mobile & Desktop Fixes Applied
 
 ## Meta
-Date: 2025-08-13 · Repo: B:\GIT\wordingone.github.io
+Date: 2025-08-13 · Repo: the repository root
 Status: **FIXES APPLIED - TESTING REQUIRED**
 Updated: 2025-08-13 (Latest Fix)
 
