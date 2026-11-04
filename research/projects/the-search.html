@@ -2,43 +2,51 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
-<meta name="description" content="More than 1,000 agent-run experiments on whether a learning system can improve itself by criteria it generates. Results mostly negative.">
+<meta name="description" content="&quot;Can a system improve itself by criteria it generates?&quot; A falsification study: more than 1,000 experiments. In its first era, no learned action selection beat random actions.">
+<meta name="theme-color" content="#000000">
 <title>The Search - Hyun Jun Han</title>
-<link rel="stylesheet" href="../style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%23000'/%3E%3Cpath d='M8 1v14' stroke='%23fff' stroke-width='1'/%3E%3Ccircle cx='8' cy='5' r='1.6' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="preload" href="../world/fonts/gfs-didot-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../world/fonts/roboto-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../world/world.css">
 </head>
-<body>
+<body class="page">
 <a class="skip" href="#main">Skip to content</a>
-<header>
-<a class="site" href="../index.html">Hyun Jun (Jun) Han</a>
-<nav aria-label="Main"><ul><li><a href="../index.html">Home</a></li><li><a href="../projects/index.html" aria-current="page">Projects</a></li><li><a href="../method.html">How I work</a></li><li><a href="../writing.html">Writing</a></li><li><a href="../cv.html">CV</a></li></ul></nav>
+<header class="hud">
+  <a class="hud-name" href="../index.html">Hyun Jun Han</a>
+  <button class="hud-menu" type="button" aria-expanded="false" aria-controls="stations">Index</button>
+  <nav id="stations" aria-label="Places in this site">
+    <ol><li><a href="../index.html#question"><span>00</span>Question</a></li><li><a href="../index.html#ember"><span>01</span>Ember</a></li><li><a href="../index.html#the-search"><span>02</span>The Search</a></li><li><a href="../index.html#web-cad"><span>03</span>WEB-CAD</a></li><li><a href="../index.html#in-progress"><span>04</span>In progress</a></li><li><a href="../index.html#method"><span>05</span>Method</a></li></ol>
+    <p class="hud-aux"><a href="../cv.html">CV</a><a href="../text.html">Text version</a></p>
+  </nav>
 </header>
 <main id="main">
+<p class="eyebrow">March&ndash;June 2026 &middot; Concluded</p>
 <h1>The Search</h1>
-<p class="meta">March-June 2026. Concluded. <a href="https://github.com/wordingone/the-search">github.com/wordingone/the-search</a> (all links below pinned to commit <code>0c1a964</code>). </p>
-<p class="role"><strong>Role:</strong> I directed an agent team (Claude Opus and Claude Sonnet) and set the constraints, approval gates and evaluation of findings. LLM agents implemented and ran the experiment scripts; the review of each experiment was also done by agents, not by independent human reviewers (<a href="https://github.com/wordingone/the-search/blob/0c1a96402bfd6606c18029fa62c801500258544d/docs/paper.tex#L1833">paper, "Author Attribution and Disclosure"</a>). </p>
-
-<h2>What it is</h2>
-<p>A long experimental record on one question: <a href="https://github.com/wordingone/the-search/blob/0c1a96402bfd6606c18029fa62c801500258544d/README.md#L9">"Can a system improve itself by criteria it generates?"</a> The first era used <a href="https://github.com/wordingone/the-search/blob/0c1a96402bfd6606c18029fa62c801500258544d/README.md#L42">ARC-AGI-3 game environments</a> and <a href="https://github.com/wordingone/the-search/blob/0c1a96402bfd6606c18029fa62c801500258544d/README.md#L44">MBPP</a>; the second era used <a href="https://github.com/wordingone/the-search/blob/0c1a96402bfd6606c18029fa62c801500258544d/docs/STAGE_MAP.md#L17">ARC-AGI-1 program synthesis</a>. Candidate learners were judged against a written set of constraints (R1-R6 in the paper; R0 was added and R1 rescoped by an amendment in May 2026).</p>
-
-<h2>What was built</h2>
-<p>Experiment scripts and logs for more than 1,000 experiments: the paper says <a href="https://github.com/wordingone/the-search/blob/0c1a96402bfd6606c18029fa62c801500258544d/docs/paper.tex#L80">"1000+ experiments across 14 architecture families"</a>, and experiment step numbers in <code>experiments/</code> run up to 1399. (A summary file counts <a href="https://github.com/wordingone/the-search/blob/0c1a96402bfd6606c18029fa62c801500258544d/docs/STAGE_MAP.md#L19">792 experiments</a> for the first era alone.) Plus a manuscript, <a href="https://github.com/wordingone/the-search/blob/0c1a96402bfd6606c18029fa62c801500258544d/docs/paper.pdf">docs/paper.pdf</a> (unpublished, not peer reviewed).</p>
-
-<h2>What was measured</h2>
-<ul>
-<li><span class="tag m">Measured</span> Best score from the README's "R2-compliant" learners, which did not satisfy the full constraint set (R4 is marked "Not satisfied"): <a href="https://github.com/wordingone/the-search/blob/0c1a96402bfd6606c18029fa62c801500258544d/README.md#L23">"~1e-5 to 1e-4 depending on game draw (Steps 1349-1366)"</a>; game-draw variance dominated the differences between architectures.</li>
-<li><span class="tag m">Measured</span> <a href="https://github.com/wordingone/the-search/blob/0c1a96402bfd6606c18029fa62c801500258544d/docs/STAGE_MAP.md#L19">No learned action selection beat random actions</a> in the first era.</li>
-<li><span class="tag m">Measured</span> Transfer: <a href="https://github.com/wordingone/the-search/blob/0c1a96402bfd6606c18029fa62c801500258544d/README.md#L37">"Zero genuine transfer across all substrates tested"</a>; a 100-draw paired test with fixed random seeds gave <a href="https://github.com/wordingone/the-search/blob/0c1a96402bfd6606c18029fa62c801500258544d/README.md#L58">0-0-100 ties, p=1.0 (Step 1377)</a>.</li>
-<li><span class="tag m">Measured</span> Second era: the reach ladder closed at <a href="https://github.com/wordingone/the-search/blob/0c1a96402bfd6606c18029fa62c801500258544d/docs/STAGE_MAP.md#L47">D=10/200 held-out ARC-AGI-1 tasks</a>, with 185 of 200 runs ending because the search budget ran out.</li>
-</ul>
-
-<h2>What is open</h2>
-<p>The paper's own conclusion: <a href="https://github.com/wordingone/the-search/blob/0c1a96402bfd6606c18029fa62c801500258544d/docs/paper.tex#L88">"Whether a substrate exists inside all six walls remains open."</a> An earlier claim in the repo that one constraint (R3) was "solved by composition" has been marked superseded: the test measured a representation change against a provisional threshold, not a gain in task performance (<a href="https://github.com/wordingone/the-search/blob/0c1a96402bfd6606c18029fa62c801500258544d/docs/PAPER.md#L7">note in docs/PAPER.md</a>). Two planned stages were never run (<a href="https://github.com/wordingone/the-search/blob/0c1a96402bfd6606c18029fa62c801500258544d/docs/STAGE_MAP.md#L60">STAGE_MAP</a>).</p>
-<p class="meta">Note: the repository README still describes the first era as active work; the summary file <a href="https://github.com/wordingone/the-search/blob/0c1a96402bfd6606c18029fa62c801500258544d/docs/STAGE_MAP.md#L17">STAGE_MAP.md</a> records the second era as concluded in June 2026, while its four-faces milestone is still listed as open.</p>
+<p class="lede"><a href="https://github.com/wordingone/the-search/blob/0c1a96402bfd6606c18029fa62c801500258544d/README.md#L9">&ldquo;Can a system improve itself by criteria it generates?&rdquo;</a> A falsification study: more than 1,000 experiments. In its first era, no learned action selection beat random actions.</p>
+<p class="meta">March&ndash;June 2026. Concluded. <a href="https://github.com/wordingone/the-search">Code</a> &middot; <a href="https://github.com/wordingone/the-search/blob/0c1a96402bfd6606c18029fa62c801500258544d/docs/paper.pdf">Manuscript (unpublished, not peer reviewed)</a></p>
+    <p>One question, asked of a long run of learner designs: can a system improve itself by criteria it generates? It is a direct form of the question of how intelligence develops. The first era used <a href="https://github.com/wordingone/the-search/blob/0c1a96402bfd6606c18029fa62c801500258544d/README.md#L42">ARC-AGI-3 game environments</a> and <a href="https://github.com/wordingone/the-search/blob/0c1a96402bfd6606c18029fa62c801500258544d/README.md#L44">MBPP</a>; the second used <a href="https://github.com/wordingone/the-search/blob/0c1a96402bfd6606c18029fa62c801500258544d/docs/STAGE_MAP.md#L17">ARC-AGI-1 program synthesis</a>. Every design was judged against a written set of six constraints, amended once mid-study (May 2026).</p>
+    <h3>What was built</h3>
+    <p><a href="https://github.com/wordingone/the-search/blob/0c1a96402bfd6606c18029fa62c801500258544d/docs/paper.tex#L80">&ldquo;1000+ experiments across 14 architecture families&rdquo;</a>, with scripts and logs, and a manuscript.</p>
+    <h3>What was found</h3>
+    <p>In the first era, <a href="https://github.com/wordingone/the-search/blob/0c1a96402bfd6606c18029fa62c801500258544d/docs/STAGE_MAP.md#L19">no learned action selection beat random actions</a>.</p>
+    <p>The best designs, which met only part of the constraint set, scored <a href="https://github.com/wordingone/the-search/blob/0c1a96402bfd6606c18029fa62c801500258544d/README.md#L23">about 1e-5 to 1e-4 depending on the game draw</a>; the draw mattered more than the architecture.</p>
+    <p>Transfer was <a href="https://github.com/wordingone/the-search/blob/0c1a96402bfd6606c18029fa62c801500258544d/README.md#L37">zero</a>: a paired test over 100 fixed draws gave <a href="https://github.com/wordingone/the-search/blob/0c1a96402bfd6606c18029fa62c801500258544d/README.md#L58">0 wins, 0 losses, 100 ties (p = 1.0)</a>.</p>
+    <p>In the second era the search reached <a href="https://github.com/wordingone/the-search/blob/0c1a96402bfd6606c18029fa62c801500258544d/docs/STAGE_MAP.md#L47">10 of 200 held-out ARC-AGI-1 tasks</a>; 185 of the 200 runs ended because the search budget ran out.</p>
+    <h3>What is open</h3>
+    <p>The paper's conclusion: <a href="https://github.com/wordingone/the-search/blob/0c1a96402bfd6606c18029fa62c801500258544d/docs/paper.tex#L88">whether any design satisfies all six constraints &ldquo;remains open&rdquo;</a>. An earlier claim that one constraint was &ldquo;solved by composition&rdquo; is <a href="https://github.com/wordingone/the-search/blob/0c1a96402bfd6606c18029fa62c801500258544d/docs/PAPER.md#L7">marked superseded</a>: that test measured a change in representation, not a gain in task performance. The experiments were <a href="https://github.com/wordingone/the-search/blob/0c1a96402bfd6606c18029fa62c801500258544d/docs/paper.tex#L1833">not reviewed by independent humans</a>.</p>
+    <p class="foot">Links pinned to commit 0c1a964.</p>
+<h2>More detail</h2>
+<p>Experiment step numbers in the repository run up to 1399; a summary file counts <a href="https://github.com/wordingone/the-search/blob/0c1a96402bfd6606c18029fa62c801500258544d/docs/STAGE_MAP.md#L19">792 experiments in the first era alone</a>.</p>
+<p>The best scores came from designs that met only part of the constraint set (the README marks one constraint &ldquo;Not satisfied&rdquo;), in steps 1349&ndash;1366. The transfer test is step 1377.</p>
+<p>The constraint set was amended once, in May 2026: one constraint was added and one was narrowed. Two planned stages were <a href="https://github.com/wordingone/the-search/blob/0c1a96402bfd6606c18029fa62c801500258544d/docs/STAGE_MAP.md#L60">never run</a>.</p>
 </main>
-<footer>
-<p>Contact: <a href="https://github.com/wordingone">github.com/wordingone</a>. <a href="../method.html#authorship">How this work was built</a>. Most numbers link to the public file or commit they come from; commit counts were computed from the repositories' git history.</p>
+<footer class="colophon">
+  <p>Hyun Jun Han, 2026. <a href="../index.html">3D version</a></p>
+  <p><a href="../index.html#authorship">Authorship</a></p>
 </footer>
+<script>(function(){var b=document.querySelector('.hud-menu'),r=document.documentElement;b.addEventListener('click',function(){var o=!r.classList.contains('menu-open');r.classList.toggle('menu-open',o);b.setAttribute('aria-expanded',String(o));});addEventListener('keydown',function(e){if(e.key==='Escape'){r.classList.remove('menu-open');b.setAttribute('aria-expanded','false');}});})();</script>
 </body>
 </html>

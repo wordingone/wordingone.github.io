@@ -2,45 +2,48 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
-<meta name="description" content="An experimental CAD workbench that runs in the browser, with an in-browser Gemma 4 model that turns prompts into editable geometry.">
+<meta name="description" content="A CAD workbench that &quot;runs entirely in the browser: no server, no API key, no install&quot;, where a small language model turns a prompt into geometry you can keep editing.">
+<meta name="theme-color" content="#000000">
 <title>WEB-CAD - Hyun Jun Han</title>
-<link rel="stylesheet" href="../style.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%23000'/%3E%3Cpath d='M8 1v14' stroke='%23fff' stroke-width='1'/%3E%3Ccircle cx='8' cy='5' r='1.6' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="preload" href="../world/fonts/gfs-didot-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="../world/fonts/roboto-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="../world/world.css">
 </head>
-<body>
+<body class="page">
 <a class="skip" href="#main">Skip to content</a>
-<header>
-<a class="site" href="../index.html">Hyun Jun (Jun) Han</a>
-<nav aria-label="Main"><ul><li><a href="../index.html">Home</a></li><li><a href="../projects/index.html" aria-current="page">Projects</a></li><li><a href="../method.html">How I work</a></li><li><a href="../writing.html">Writing</a></li><li><a href="../cv.html">CV</a></li></ul></nav>
+<header class="hud">
+  <a class="hud-name" href="../index.html">Hyun Jun Han</a>
+  <button class="hud-menu" type="button" aria-expanded="false" aria-controls="stations">Index</button>
+  <nav id="stations" aria-label="Places in this site">
+    <ol><li><a href="../index.html#question"><span>00</span>Question</a></li><li><a href="../index.html#ember"><span>01</span>Ember</a></li><li><a href="../index.html#the-search"><span>02</span>The Search</a></li><li><a href="../index.html#web-cad"><span>03</span>WEB-CAD</a></li><li><a href="../index.html#in-progress"><span>04</span>In progress</a></li><li><a href="../index.html#method"><span>05</span>Method</a></li></ol>
+    <p class="hud-aux"><a href="../cv.html">CV</a><a href="../text.html">Text version</a></p>
+  </nav>
 </header>
 <main id="main">
+<p class="eyebrow">April&ndash;June 2026</p>
 <h1>WEB-CAD</h1>
-<p class="meta">April-June 2026 (forked from <a href="gemma-architect.html">gemma-architect</a> on 2026-05-24). Live: <a href="https://wordingone.github.io/WEB-CAD/">wordingone.github.io/WEB-CAD</a>. Code: <a href="https://github.com/wordingone/WEB-CAD">github.com/wordingone/WEB-CAD</a> (links pinned to commit <code>c672cb9</code>). </p>
-<p class="role"><strong>Role:</strong> I designed and directed it.</p>
-
-<h2>What it is</h2>
-<p>In the README's words, <a href="https://github.com/wordingone/WEB-CAD/blob/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/README.md#L3">"a free browser-based experimental CAD workbench"</a> that <a href="https://github.com/wordingone/WEB-CAD/blob/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/README.md#L13">"runs entirely in the browser: no server, no API key, no install"</a>, and is <a href="https://github.com/wordingone/WEB-CAD/blob/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/README.md#L13">"not a production replacement for Rhino, Revit, or ArchiCAD"</a>.</p>
-
-<h2>What was built</h2>
-<ul>
-<li><span class="tag p">Implemented</span> An in-browser AI agent using <a href="https://github.com/wordingone/WEB-CAD/blob/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/README.md#L116">Gemma 4 E4B-it through Transformers.js and WebGPU</a> that turns prompts into editable geometry.</li>
-<li><span class="tag p">Implemented</span> NURBS surfaces with <a href="https://github.com/wordingone/WEB-CAD/blob/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/README.md#L24">IFC4 round-trip export</a>; the README's NURBS code is <a href="https://github.com/wordingone/WEB-CAD/blob/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/README.md#L118">pure JavaScript</a>.</li>
-<li><span class="tag p">Implemented</span> A separate C++ geometry kernel compiled to WebAssembly (<a href="https://github.com/wordingone/WEB-CAD/tree/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/kern">kern/</a>: booleans, fillet, chamfer, loft).</li>
-<li><span class="tag p">Implemented</span> An <a href="https://github.com/wordingone/WEB-CAD/blob/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/README.md#L50">MCP server</a> that lets coding agents drive the geometry tools.</li>
-</ul>
-
-<h2>What was measured</h2>
-<ul>
-<li><span class="tag m">Measured</span> C++ kernel against OpenCASCADE: <a href="https://github.com/wordingone/WEB-CAD/blob/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/docs/kern-parity-report.md#L115">7/7 box boolean cases matched in volume within 0.1%</a>, and a <a href="https://github.com/wordingone/WEB-CAD/blob/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/docs/kern-parity-report.md#L116">60/60 robustness fuzz</a> with no crash. Scope is narrow: <a href="https://github.com/wordingone/WEB-CAD/blob/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/docs/kern-parity-report.md#L118">box/box booleans only</a>; the NURBS check was <a href="https://github.com/wordingone/WEB-CAD/blob/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/docs/kern-parity-report.md#L117">skipped, so not verified</a>. The run log the report names is not in the repository.</li>
-<li><span class="tag m">Measured</span> In-browser decode speed: <a href="https://github.com/wordingone/WEB-CAD/blob/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/docs/measurements/baseline-tps-2026-05-25.json#L11">median 2.13 tokens/s</a> (<a href="https://github.com/wordingone/WEB-CAD/blob/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/docs/measurements/baseline-tps-2026-05-25.json#L14-L15">range 1.96-2.23</a>) over <a href="https://github.com/wordingone/WEB-CAD/blob/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/docs/measurements/baseline-tps-2026-05-25.json#L6">25 prompts</a> on WebGPU, measured on the <a href="https://github.com/wordingone/WEB-CAD/blob/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/docs/measurements/baseline-tps-2026-05-25.json#L3">gemma-architect deployment</a>. The file does not record the hardware.</li>
-</ul>
-
-<h2>What is open</h2>
-<p>The README's <a href="https://github.com/wordingone/WEB-CAD/blob/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/README.md#L102">known limitations</a> include <a href="https://github.com/wordingone/WEB-CAD/blob/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/README.md#L105">"AI agent accuracy varies"</a> and that WebGPU is required for the AI. At about 2 tokens/s the live model is slow, and the bundled demos come from a prompt cache rather than live generation (see <a href="gemma-architect.html">gemma-architect</a>). Two bundled WebAssembly files have <a href="https://github.com/wordingone/WEB-CAD/blob/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/THIRD_PARTY_NOTICES.md#L37">unknown provenance</a> in the third-party notices.</p>
+<p class="lede">A CAD workbench that <a href="https://github.com/wordingone/WEB-CAD/blob/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/README.md#L13">&ldquo;runs entirely in the browser: no server, no API key, no install&rdquo;</a>, where a small language model turns a prompt into geometry you can keep editing.</p>
+<p class="meta">April&ndash;June 2026. <a href="https://wordingone.github.io/WEB-CAD/">Live demo</a> &middot; <a href="https://github.com/wordingone/WEB-CAD">Code</a></p>
+    <p>An experimental workbench, <a href="https://github.com/wordingone/WEB-CAD/blob/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/README.md#L13">&ldquo;not a production replacement for Rhino, Revit, or ArchiCAD&rdquo;</a>. It grew out of <a href="https://github.com/wordingone/gemma-architect">gemma-architect</a>, an entry to the Gemma 4 Good Hackathon whose bundled demos are answered from <a href="https://github.com/wordingone/gemma-architect/blob/3f43ee6feb4187154b4ce7d3f86c9e484cec5b6a/README.md#L75">a 60-row prompt cache</a>, not generated live.</p>
+    <h3>What was built</h3>
+    <p>An in-browser agent using <a href="https://github.com/wordingone/WEB-CAD/blob/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/README.md#L116">Gemma 4 E4B-it through Transformers.js and WebGPU</a>; NURBS surfaces with <a href="https://github.com/wordingone/WEB-CAD/blob/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/README.md#L24">IFC4 export</a>; a <a href="https://github.com/wordingone/WEB-CAD/tree/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/kern">C++ geometry kernel compiled to WebAssembly</a> (booleans, fillet, chamfer, loft); and an <a href="https://github.com/wordingone/WEB-CAD/blob/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/README.md#L50">MCP server</a> that lets coding agents drive the geometry tools.</p>
+    <h3>What was measured</h3>
+    <p>The C++ kernel against OpenCASCADE: <a href="https://github.com/wordingone/WEB-CAD/blob/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/docs/kern-parity-report.md#L115">7 of 7 box/box boolean cases matched in volume within 0.1%</a>, and <a href="https://github.com/wordingone/WEB-CAD/blob/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/docs/kern-parity-report.md#L116">60 of 60 robustness fuzz cases ran without a crash</a>. Only box/box booleans were tested; the NURBS check was <a href="https://github.com/wordingone/WEB-CAD/blob/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/docs/kern-parity-report.md#L117">skipped</a>.</p>
+    <p>In-browser decoding ran at a <a href="https://github.com/wordingone/WEB-CAD/blob/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/docs/measurements/baseline-tps-2026-05-25.json#L11">median 2.13 tokens per second</a> (range 1.96&ndash;2.23, 25 prompts, WebGPU, on the gemma-architect deployment); the file does not record the hardware.</p>
+    <h3>What is open</h3>
+    <p>The README lists <a href="https://github.com/wordingone/WEB-CAD/blob/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/README.md#L105">&ldquo;AI agent accuracy varies&rdquo;</a> among its known limits, and the AI needs WebGPU. At about 2 tokens per second the live model is slow.</p>
+    <p class="foot">Links pinned to commit c672cb9.</p>
+<h2>More detail</h2>
+<p>gemma-architect, the hackathon entry WEB-CAD grew from, was built for the <a href="https://github.com/wordingone/gemma-architect/blob/3f43ee6feb4187154b4ce7d3f86c9e484cec5b6a/README.md#L9-L10">Gemma 4 Good Hackathon (Kaggle and Google DeepMind)</a>, deadline 2026-05-18. It ran <a href="https://github.com/wordingone/gemma-architect/blob/3f43ee6feb4187154b4ce7d3f86c9e484cec5b6a/README.md#L5-L6">Gemma 4 E4B-it, stock and not fine-tuned, with the replicad geometry kernel and web-ifc, in a single browser tab</a>: the model writes a short geometry program, and the browser meshes it with OpenCASCADE and can export IFC4.</p>
+<p>Its own tests: <a href="https://github.com/wordingone/gemma-architect/blob/3f43ee6feb4187154b4ce7d3f86c9e484cec5b6a/README.md#L96">9 of 9 bundled demos pass a self-test without a browser</a>, and <a href="https://github.com/wordingone/gemma-architect/blob/3f43ee6feb4187154b4ce7d3f86c9e484cec5b6a/README.md#L98">19 of 19 rows of a small design-language corpus compile</a>. Some rows of its prompt cache come from an earlier fine-tuned Gemma 3 model's outputs. Its write-up is marked a <a href="https://github.com/wordingone/gemma-architect/blob/3f43ee6feb4187154b4ce7d3f86c9e484cec5b6a/submission/README.md#L1">historical draft whose claims were not independently verified</a>; IFC import, for example, was checked only by re-parsing, not in Revit or ArchiCAD.</p>
 </main>
-<footer>
-<p>Contact: <a href="https://github.com/wordingone">github.com/wordingone</a>. <a href="../method.html#authorship">How this work was built</a>. Most numbers link to the public file or commit they come from; commit counts were computed from the repositories' git history.</p>
+<footer class="colophon">
+  <p>Hyun Jun Han, 2026. <a href="../index.html">3D version</a></p>
+  <p><a href="../index.html#authorship">Authorship</a></p>
 </footer>
+<script>(function(){var b=document.querySelector('.hud-menu'),r=document.documentElement;b.addEventListener('click',function(){var o=!r.classList.contains('menu-open');r.classList.toggle('menu-open',o);b.setAttribute('aria-expanded',String(o));});addEventListener('keydown',function(e){if(e.key==='Escape'){r.classList.remove('menu-open');b.setAttribute('aria-expanded','false');}});})();</script>
 </body>
 </html>
