@@ -26,8 +26,8 @@
 
   <!-- CONSTANTS -->
   <paths>
-    <repo_root>B:\GIT\wordingone.github.io</repo_root>
-    <control_dir>B:\GIT\wordingone.github.io\_ai</control_dir>
+    <repo_root>the repository root</repo_root>
+    <control_dir>_ai (under the repository root)</control_dir>
     <readme>README.md</readme>
     <handoff>HANDOFF.md</handoff>
   </paths>
@@ -62,8 +62,8 @@
     <ask>
       <![CDATA[
       Please paste one of:
-      • PowerShell JSON: Get-ChildItem -Recurse -File "B:\GIT\wordingone.github.io" | Select FullName,Length,LastWriteTime | ConvertTo-Json -Depth 6
-      • Or: cmd /c tree "B:\GIT\wordingone.github.io" /F
+      • PowerShell JSON: Get-ChildItem -Recurse -File "." | Select FullName,Length,LastWriteTime | ConvertTo-Json -Depth 6
+      • Or: cmd /c tree . /F
       ]]>
     </ask>
     <then>Wait silently for the listing. Do NOT generate README/HANDOFF until listing is provided.</then>
@@ -80,7 +80,7 @@
     <![CDATA[
 STATUS: <created|updated|nochange|blocked>
 EVIDENCE:
-- repo_root: B:\GIT\wordingone.github.io
+- repo_root: the repository root
 - readme: <created|updated|present|missing>
 - handoff: <created|updated|present|missing> (mtime: <ts>)
 - models: <n> files; pointers: <k>; binary: <m>
@@ -152,7 +152,7 @@ _Last updated: {{date}}_
 # HANDOFF — Verification-First
 
 ## Meta
-Date: {{date}} · Repo: B:\GIT\wordingone.github.io
+Date: {{date}} · Repo: the repository root
 Status: DO NOT MARK RESOLVED WITHOUT EVIDENCE
 
 ## Problem
