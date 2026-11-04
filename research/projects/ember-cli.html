@@ -17,7 +17,6 @@
 <main id="main">
 <h1>ember-cli</h1>
 <p class="meta">2026. Part of <a href="ember.html">Ember</a>: code in <a href="https://github.com/wordingone/ember/tree/df2a2d69603ffe8c1eca0faa54eb44837a0bd9b3/src/ember/infrastructure/tools/ember-cli">src/ember/infrastructure/tools/ember-cli</a>. The open-weights mode is on the branch <a href="https://github.com/wordingone/ember/tree/feat/ember-cli-open-weights-mode">feat/ember-cli-open-weights-mode</a>, not on master and not released. </p>
-<p class="role"><strong>Role:</strong> I directed and reviewed; AI coding agents wrote the code. The branch commit says so: <a href="https://github.com/wordingone/ember/commit/e555de431bc7b7bde86362a218f93c888870f936">"Code was written by AI coding agents under operator direction and review."</a> </p>
 
 <h2>What it is</h2>
 <p>Ember's README describes it as <a href="https://github.com/wordingone/ember/blob/df2a2d69603ffe8c1eca0faa54eb44837a0bd9b3/README.md#L20">"the command-line tool used to run and watch the training"</a>. It is an agent tool in the terminal (TypeScript on Bun, with a React/Ink text interface): a model reads and edits files, runs shell commands and reports back.</p>
@@ -31,7 +30,7 @@
 <h2>What was measured</h2>
 <ul>
 <li><span class="tag m">Observed (one machine)</span> On one 24 GiB RTX 4090, the setup selected a 27B-parameter model at 4-bit (16.4 GiB file) with an estimated 21.2 GiB GPU memory (<a href="https://github.com/wordingone/ember/blob/e555de431bc7b7bde86362a218f93c888870f936/docs/ember-cli/INSTALL.md#L112">dry-run example in the install guide</a>). Calibration on that card <a href="https://github.com/wordingone/ember/blob/e555de431bc7b7bde86362a218f93c888870f936/docs/ember-cli/INSTALL.md#L142-L144">selected a 131,072-token context by default, and 262,144 with less headroom</a>. The guide states that its hardware table for other cards is <a href="https://github.com/wordingone/ember/blob/e555de431bc7b7bde86362a218f93c888870f936/docs/ember-cli/INSTALL.md#L329">"computed, not measured on each card size"</a>.</li>
-<li><span class="tag m">Tested</span> Three waves of blind tests run by AI agents (UI, file operations, shell, web, long sessions, computer use) produced the fixes in the branch commit. For the computer-use tests, the agents drove the real terminal window through a console harness, not the operator's mouse and keyboard (<a href="https://github.com/wordingone/ember/commit/e555de431bc7b7bde86362a218f93c888870f936">commit message, "Testing disclosure"</a>). No pass/fail tally is published.</li>
+<li><span class="tag m">Tested</span> Three waves of automated blind tests (UI, file operations, shell, web, long sessions, computer use) produced the fixes in the branch commit. For the computer-use tests, the tests drove the real terminal window through a console harness, not the operator's mouse and keyboard (<a href="https://github.com/wordingone/ember/commit/e555de431bc7b7bde86362a218f93c888870f936">commit message, "Testing disclosure"</a>). No pass/fail tally is published.</li>
 <li class="meta">No speed (tokens per second) measurement is published; numbers of that kind in the test files are fixtures, not measurements.</li>
 </ul>
 
@@ -39,7 +38,7 @@
 <p>Findings from the blind tests that are not yet fixed are tracked in three open issues: <a href="https://github.com/wordingone/ember/issues/2379">#2379 (file operations)</a>, <a href="https://github.com/wordingone/ember/issues/2380">#2380 (shell)</a> and <a href="https://github.com/wordingone/ember/issues/2381">#2381 (UI/UX and web)</a>. One shell finding is that a command which starts a background process on Windows can block until the timeout; the cause is <a href="https://github.com/wordingone/ember/blob/e555de431bc7b7bde86362a218f93c888870f936/src/ember/infrastructure/tools/ember-cli/src/tools/bash-tool.ts#L253-L254">described in the code</a>. <a href="https://github.com/wordingone/ember/issues/2378">#2378</a> (exiting must stop the model server and free the GPU) is open. The branch has not been merged into master. (Issue states read 2026-11-04.)</p>
 </main>
 <footer>
-<p>Contact: <a href="https://github.com/wordingone">github.com/wordingone</a>. Most code in these projects was written by AI coding agents under my direction and review. Most numbers link to the public file or commit they come from; commit counts were computed from the repositories' git history.</p>
+<p>Contact: <a href="https://github.com/wordingone">github.com/wordingone</a>. <a href="../index.html#authorship">Authorship</a>. Most numbers link to the public file or commit they come from.</p>
 </footer>
 </body>
 </html>
