@@ -1,7 +1,11 @@
+/* Self-hosted fonts (SIL OFL 1.1; see fonts/LICENSE.md). Latin subsets only. */
+@font-face{font-family:'Roboto';font-style:normal;font-weight:300 500;font-display:swap;src:url(fonts/roboto-latin-var.woff2) format('woff2')}
+@font-face{font-family:'GFS Didot';font-style:normal;font-weight:400;font-display:optional;src:url(fonts/gfs-didot-latin.woff2) format('woff2')}
 /* Research world. Visual language follows the root site (wordingone.github.io):
    black field, Roboto 300 in wide-tracked uppercase for labels, GFS Didot for display,
    hairlines and frosted glass instead of boxes, periwinkle accent #8ea9ff used sparingly. */
 :root{
+  color-scheme:dark;
   --bg:#000; --ink:#fff; --ink-2:rgba(255,255,255,.78); --ink-3:rgba(255,255,255,.56);
   --hair:rgba(255,255,255,.14); --hair-2:rgba(255,255,255,.26);
   --accent:#8ea9ff; --glass:rgba(10,10,14,.72);
@@ -27,9 +31,9 @@ b{font-weight:500;color:var(--ink)}
 .veil{position:fixed;inset:0;z-index:1;pointer-events:none;
   background:linear-gradient(90deg,rgba(0,0,0,.82) 0%,rgba(0,0,0,.55) 30%,rgba(0,0,0,0) 56%)}
 #labels{position:fixed;inset:0;z-index:2;pointer-events:none;overflow:hidden}
-.tag{position:absolute;left:0;top:0;font:400 10px/1.4 var(--sans);letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.82);white-space:nowrap;will-change:transform,opacity;opacity:0;padding-left:14px}
+.tag{position:absolute;left:0;top:0;font:400 11px/1.4 var(--sans);letter-spacing:.22em;text-transform:uppercase;color:rgba(255,255,255,.82);white-space:nowrap;will-change:transform,opacity;opacity:0;padding-left:14px}
 .tag::before{content:"";position:absolute;left:0;top:.7em;width:9px;height:1px;background:rgba(255,255,255,.6)}
-.tag.dim{color:rgba(255,255,255,.5)}
+.tag.dim{color:rgba(255,255,255,.66)}
 .tag.dim::before{background:rgba(255,255,255,.35)}
 .tag.accent{color:var(--accent)}.tag.accent::before{background:var(--accent)}
 .tag.left{padding-left:0;padding-right:14px;transform-origin:right}
@@ -43,7 +47,7 @@ b{font-weight:500;color:var(--ink)}
 #stations{display:flex;flex-direction:column;align-items:flex-end;gap:14px}
 #stations ol{list-style:none;display:flex;gap:26px}
 #stations ol a{font:400 11px/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3);text-decoration:none;display:inline-flex;gap:8px;padding:6px 0;border-bottom:1px solid transparent;transition:color .3s,border-color .3s}
-#stations ol a span{color:rgba(255,255,255,.32);font-size:10px}
+#stations ol a span{color:rgba(255,255,255,.58);font-size:10px}
 #stations ol a:hover,#stations ol a[aria-current="true"]{color:var(--ink)}
 #stations ol a[aria-current="true"]{border-bottom-color:var(--accent)}
 #stations ol a[aria-current="true"] span{color:var(--accent)}
@@ -76,8 +80,7 @@ main{position:relative;z-index:3;pointer-events:none}
 .kicker{font:400 11px/1.4 var(--sans);letter-spacing:var(--track);text-transform:uppercase;color:var(--ink-3);margin:44px 0 16px;padding-top:14px;border-top:1px solid var(--hair)}
 .plate-first .kicker{margin-top:30px}
 
-.slot:empty{display:none}
-.slot-photo img{width:88px;height:88px;object-fit:cover;filter:grayscale(1);margin-bottom:18px}
+.status{font:300 14px/1.5 var(--sans);color:var(--ink-2);margin:-8px 0 22px;max-width:30rem}
 
 .contact{display:flex;flex-wrap:wrap;gap:8px 26px;margin-top:4px}
 .contact a{font:400 11px/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;text-decoration:none;color:var(--ink);padding:8px 0;border-bottom:1px solid var(--hair-2)}
@@ -98,7 +101,7 @@ main{position:relative;z-index:3;pointer-events:none}
 .works a:hover .w-title{color:var(--accent)}
 .works a:hover{color:var(--ink-2)}
 .update{margin-top:18px;font-size:13px;color:var(--ink-3)}
-.scroll-cue{position:absolute;right:0;bottom:-40px;font:400 10px/1 var(--sans);letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.45)}
+.scroll-cue{position:absolute;right:0;bottom:-40px;font:400 10px/1 var(--sans);letter-spacing:.24em;text-transform:uppercase;color:rgba(255,255,255,.62)}
 
 .open{appearance:none;background:none;border:0;border-bottom:1px solid var(--ink);color:var(--ink);font:400 11px/1 var(--sans);letter-spacing:.22em;text-transform:uppercase;padding:10px 0;cursor:pointer;text-decoration:none;display:inline-block;transition:color .25s,border-color .25s}
 .open:hover{color:var(--accent);border-color:var(--accent)}
@@ -129,6 +132,11 @@ main{position:relative;z-index:3;pointer-events:none}
 .panel-open .plate{opacity:.16;transition:opacity .6s}
 .panel-open #stations{opacity:0;transition:opacity .4s}
 .veil{transition:background .8s}
+@media (min-width:761px){
+  [data-at="0"] .veil{background:
+    linear-gradient(0deg,rgba(0,0,0,.95) 0%,rgba(0,0,0,.9) 42%,rgba(0,0,0,0) 60%),
+    linear-gradient(90deg,rgba(0,0,0,.82) 0%,rgba(0,0,0,.55) 30%,rgba(0,0,0,0) 56%)}
+}
 .plate{transition:opacity .6s}
 .panel{position:fixed;top:0;right:0;bottom:0;width:min(560px,100vw);z-index:30;background:var(--glass);-webkit-backdrop-filter:blur(22px) saturate(1.2);backdrop-filter:blur(22px) saturate(1.2);border-left:1px solid var(--hair);display:flex;flex-direction:column;transform:translateX(102%);transition:transform .7s cubic-bezier(.2,.8,.2,1)}
 .panel.is-open{transform:none}
@@ -170,7 +178,7 @@ main{position:relative;z-index:3;pointer-events:none}
   :root{--gutter:20px}
   body{font-size:15.5px}
   .veil{background:linear-gradient(0deg,rgba(0,0,0,.92) 0%,rgba(0,0,0,.78) 42%,rgba(0,0,0,0) 72%)}
-  .hud{padding-top:16px;background:linear-gradient(180deg,rgba(0,0,0,.7),rgba(0,0,0,0));padding-bottom:18px}
+  .hud{padding-top:16px;background:linear-gradient(180deg,rgba(0,0,0,.96) 0%,rgba(0,0,0,.85) 55%,rgba(0,0,0,0) 100%);padding-bottom:22px}
   .hud-menu{display:block;pointer-events:auto;appearance:none;background:none;border:0;border-bottom:1px solid var(--hair-2);color:var(--ink);font:400 11px/1 var(--sans);letter-spacing:.22em;text-transform:uppercase;padding:6px 0;cursor:pointer}
   #stations{position:fixed;inset:0;background:rgba(0,0,0,.94);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);padding:84px 20px 24px;align-items:flex-start;justify-content:flex-start;gap:30px;opacity:0;visibility:hidden;transition:opacity .35s,visibility .35s;pointer-events:auto;z-index:-1}
   .menu-open #stations{opacity:1;visibility:visible}
@@ -181,7 +189,8 @@ main{position:relative;z-index:3;pointer-events:none}
   .rail{right:8px;height:24vh;top:auto;bottom:20px;transform:none}
   .station{min-height:140vh;align-items:flex-end;padding:96px 20px 48px}
   #question{padding-top:96px;padding-bottom:40px}
-  .plate-first{display:block;padding-top:34vh}
+  .plate-first{display:block;padding-top:21vh}
+  .menu-open .hud{background:none}
   .display{font-size:44px;max-width:none}
   .title{font-size:44px}
   .scroll-cue{display:none}
@@ -189,9 +198,39 @@ main{position:relative;z-index:3;pointer-events:none}
   .panel-bar{padding:18px 20px}
   .panel-body{padding:24px 20px 60px}
   .panel-body .story-title{font-size:38px}
-  .tag{font-size:9px;letter-spacing:.18em}
+  .tag{font-size:11px;letter-spacing:.16em}
   [data-at="5"] .veil,[data-at="4"] .veil{background:linear-gradient(0deg,rgba(0,0,0,.94) 0%,rgba(0,0,0,.86) 60%,rgba(0,0,0,.3) 100%)}
 }
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{transition-duration:.01ms!important;animation:none!important}
+}
+
+/* ---------- text pages (project pages, CV, text version): same system, no canvas ---------- */
+.page{background:#000}
+.page .hud{background:var(--top-fade)}
+.page main{pointer-events:auto;max-width:44rem;padding:132px var(--gutter) 64px;margin:0}
+.page h1{font:400 clamp(40px,5vw,68px)/1.04 var(--serif);color:var(--ink);margin:0 0 14px}
+.page h2{font:400 11px/1.4 var(--sans);letter-spacing:var(--track);text-transform:uppercase;color:var(--accent);margin:46px 0 14px;padding-top:14px;border-top:1px solid var(--hair)}
+.page h3{font:400 26px/1.2 var(--serif);color:var(--ink);margin:30px 0 8px}
+.page p,.page li,.page dd{font-size:16px;color:var(--ink-2)}
+.page p+p{margin-top:12px}
+.page ul,.page ol{padding-left:0;list-style:none;display:grid;gap:10px}
+.page .meta{font-size:13px;color:var(--ink-3);margin-bottom:24px}
+.page .lede{color:var(--ink)}
+.page .method{margin-top:10px}
+.page .directions{font-size:15px}
+.page .foot{margin-top:56px;padding-top:14px;border-top:1px solid var(--hair);font-size:13px;color:var(--ink-3)}
+.page .colophon{background:none}
+@media (max-width:760px){.page main{padding-top:96px}}
+
+/* short desktop screens (e.g. 1280x800): keep directions and all three works on the first screen */
+@media (min-width:761px) and (max-height:860px){
+  #question{padding-top:92px;padding-bottom:28px}
+  .display{font-size:clamp(36px,4vw,56px);margin-bottom:18px}
+  .status{margin-bottom:16px}
+  .plate-first .kicker{margin-top:22px;margin-bottom:12px}
+  .works a{padding:7px 0 9px}
+  .w-title{font-size:19px}
+  .directions{gap:7px}
+  .update{margin-top:10px}
 }

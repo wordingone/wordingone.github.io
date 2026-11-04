@@ -202,7 +202,7 @@ function build() {
     el.className = 'tag' + (opts.cls ? ' ' + opts.cls : '');
     el.textContent = text;
     labelLayer.appendChild(el);
-    labels.push({ el, obj, station, min: opts.min ?? 0.45, offset: opts.offset || new THREE.Vector3(), left: (opts.cls || '').includes('left') });
+    labels.push({ el, obj, station, min: opts.min ?? 0.45, maxY: opts.maxY ?? 1, phone: opts.phone ?? true, center: opts.center || null, offset: opts.offset || new THREE.Vector3(), left: (opts.cls || '').includes('left') });
     return el;
   }
   const lineMat = (o = 0.4, c = 0xffffff) => new THREE.LineBasicMaterial({ color: c, transparent: true, opacity: o, depthWrite: false });
@@ -220,10 +220,11 @@ function build() {
   /* ==== 00 the question: a seed with four direction orbits ==== */
   {
     const g = new THREE.Group(); g.position.copy(S[0]); scene.add(g);
+    const fitPhone = () => g.scale.setScalar(innerWidth <= 760 ? 0.62 : 1); fitPhone(); addEventListener('resize', fitPhone);
     const seed = sprite(3.4, WHITE, 0.95); g.add(seed);
     const core = new THREE.Mesh(new THREE.IcosahedronGeometry(0.22, 1), new THREE.MeshBasicMaterial({ color: 0xffffff }));
     g.add(core);
-    const names = ['Credit assignment', 'Verified accretion', 'Developmental environment', 'Adaptive compute'];
+    const names = ['Credit assignment', 'Learning from verified experience', 'Developmental environment', 'Adaptive compute'];
     const rings = [];
     names.forEach((nm, k) => {
       const R = 2.4 + k * 1.35, pts = [];
@@ -234,7 +235,8 @@ function build() {
       const pivot = new THREE.Group(); pivot.add(bead); holder.add(pivot);
       g.add(holder);
       rings.push({ pivot, speed: 0.07 + 0.03 * (3 - k), bead });
-      tag(String(k + 1).padStart(2, '0') + '  ' + nm, bead, 0, { min: 0.6, cls: k === 1 ? 'accent' : 'dim' });
+      // on phones these repeat the Directions list just below, so they are hidden there; on desktop they stay above the text columns
+      tag(String(k + 1).padStart(2, '0') + '  ' + nm, bead, 0, { min: 0.6, cls: k === 1 ? 'accent' : 'dim', maxY: 0.46, phone: false, center: g });
     });
     pickTarget(g, 3, 0);
     places.push({ group: g, update(t, f) { rings.forEach((r, k) => { r.pivot.rotation.y = t * r.speed + k * 1.7; }); seed.material.opacity = 0.55 + 0.4 * f; g.rotation.y = t * 0.01; } });
@@ -277,7 +279,7 @@ function build() {
     const base = new THREE.Object3D(); base.position.copy(pts[0]); g.add(base);
     const top = new THREE.Object3D(); top.position.copy(cand); g.add(top);
     tag('33 hourly checkpoints kept · ≈6.06 B token positions', base, 1, { min: 0.5 });
-    tag('Next candidate refused · nothing credited', top, 1, { min: 0.5, cls: 'dim' });
+    tag('Next checkpoint rejected · not kept', top, 1, { min: 0.5, cls: 'dim' });
     pickTarget(g, 7.5, 1);
     places.push({ group: g, update(t, f) {
       const head = (t * 5.2) % (K + 12);
@@ -404,7 +406,7 @@ function build() {
       p.position.y = 3.4 - k * 0.5; g.add(p); plates.push(p);
     }
     const topTag = new THREE.Object3D(); topTag.position.set(3, 3.8, 2); g.add(topTag);
-    tag('Every number traces to a run', topTag, 5, { min: 0.5 });
+    tag('Every number traces to a run', topTag, 5, { min: 0.5, phone: false });
     pickTarget(g, 5, 5);
     places.push({ group: g, update(t, f) { plates.forEach((p, k) => { p.rotation.y = Math.sin(t * 0.12 + k * 0.09) * 0.5 + k * 0.035; }); } });
   }
@@ -455,7 +457,7 @@ function build() {
   }
   function viewTarget() {
     const w = innerWidth, h = innerHeight;
-    if (w <= 760) { view.tx = 0; view.ty = state.p < 0.6 ? h * 0.27 : h * 0.2; return; }
+    if (w <= 760) { view.tx = 0; view.ty = state.p < 0.6 ? h * 0.35 : h * 0.2; return; }
     view.ty = 0;
     const base = -w * 0.17, withPanel = w > 1100 ? w * 0.12 : 0;
     // the first screen keeps the seed high and right, above the two text columns
@@ -479,13 +481,25 @@ function build() {
   const STORY = [null, 'ember', 'the-search', 'web-cad', null, null];
   canvas.addEventListener('click', e => {
     const s = pick(e);
-    if (s < 0) { closeStory(); return; }
+    if (s < 0) { if (innerWidth > 760) closeStory(); return; }
+    if (state.panel && innerWidth <= 760) return;
     go(s, { open: STORY[s] });
   });
 
   /* ---- loop ---- */
-  let last = performance.now(), t = 0, frames = 0, slow = 0, running = true;
-  const v = new THREE.Vector3();
+  let last = performance.now(), t = 0, frames = 0, slow = 0, running = true, scheduled = false;
+  // idle: after 5 s with no input and nothing settling, drop to about 4 fps (battery)
+  let lastActive = performance.now();
+  const wake = () => { lastActive = performance.now(); };
+  ['scroll', 'pointermove', 'pointerdown', 'wheel', 'touchstart', 'keydown', 'resize'].forEach(ev => addEventListener(ev, wake, { passive: true }));
+  function schedule() {
+    if (scheduled || !running) return;
+    scheduled = true;
+    const idle = performance.now() - lastActive > 5000 && Math.abs(state.target - state.p) < 1e-3 && Math.abs(state.panel - state.panelEase) < 1e-3;
+    if (idle) setTimeout(() => requestAnimationFrame(f), 250); else requestAnimationFrame(f);
+    function f(now) { scheduled = false; frame(now); }
+  }
+  const v = new THREE.Vector3(), cv = new THREE.Vector3();
   state.p = state.target = progressFromScroll();
   function frame(now) {
     if (!running) return;
@@ -523,18 +537,21 @@ function build() {
     const w = innerWidth, h = innerHeight;
     for (const L of labels) {
       const f = focus(L.station);
-      const o = f < L.min ? 0 : Math.min(1, (f - L.min) / 0.25) * (state.panelEase > 0.5 && w <= 1100 ? 0 : 1);
+      const phoneHide = !L.phone && w <= 760;
+      const o = (f < L.min || phoneHide) ? 0 : Math.min(1, (f - L.min) / 0.25) * (state.panelEase > 0.5 && w <= 1100 ? 0 : 1);
       if (o <= 0.001) { if (L.el.style.opacity !== '0') L.el.style.opacity = '0'; continue; }
       L.obj.getWorldPosition(v); v.project(camera);
       if (v.z > 1) { L.el.style.opacity = '0'; continue; }
       const x = (v.x * 0.5 + 0.5) * w, y = (-v.y * 0.5 + 0.5) * h;
       const lw = L.w || (L.w = L.el.offsetWidth || 200);
-      const flip = x + 10 + lw > w - (w > 760 ? 70 : 12);
+      let flip = x + 10 + lw > w - (w > 760 ? 70 : 12);
+      if (L.center) { L.center.getWorldPosition(cv); cv.project(camera); if (x < (cv.x * 0.5 + 0.5) * w) flip = true; }
       const edge = Math.min(1, Math.max(0, (y - 96) / 40), Math.max(0, (h - 24 - y) / 40));
       L.el.classList.toggle('left', flip);
       L.el.style.opacity = (o * edge).toFixed(3);
       const tx = flip ? x - 10 - lw : x + 10;
-      if (tx < 8) { L.el.style.opacity = '0'; continue; }
+      // never let a label land on the text column
+      if (tx < 8 || y > h * L.maxY || (L.center && w > 760 && tx < w * 0.42)) { L.el.style.opacity = '0'; continue; }
       L.el.style.transform = `translate3d(${tx.toFixed(1)}px,${(y - 7).toFixed(1)}px,0)`;
     }
 
@@ -548,11 +565,11 @@ function build() {
     if (++frames < 150 && frames > 30) { if (dt > 0.024) slow++; if (frames === 149 && slow > 60 && dpr > 1) { dpr = 1; renderer.setPixelRatio(1); resize(); } }
 
     if (frames === 2) root.classList.add('ready');
-    requestAnimationFrame(frame);
+    schedule();
   }
   document.addEventListener('visibilitychange', () => {
     running = !document.hidden;
-    if (running) { last = performance.now(); requestAnimationFrame(frame); }
+    if (running) { last = performance.now(); wake(); schedule(); }
   });
   addEventListener('load', measure);
   document.fonts?.ready.then(measure);
@@ -560,5 +577,5 @@ function build() {
   // deep link: #ember etc.
   const startIdx = sections.findIndex(s => '#' + s.id === location.hash);
   if (startIdx > 0) { measure(); scrollTo(0, anchorFor(startIdx)); state.p = startIdx; }
-  requestAnimationFrame(frame);
+  schedule();
 }
