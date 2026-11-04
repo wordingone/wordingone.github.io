@@ -17,7 +17,7 @@
 <main id="main">
 <h1>ember-cli</h1>
 <p class="meta">2026. Part of <a href="ember.html">Ember</a>: code in <a href="https://github.com/wordingone/ember/tree/df2a2d69603ffe8c1eca0faa54eb44837a0bd9b3/src/ember/infrastructure/tools/ember-cli">src/ember/infrastructure/tools/ember-cli</a>. The open-weights mode is on the branch <a href="https://github.com/wordingone/ember/tree/feat/ember-cli-open-weights-mode">feat/ember-cli-open-weights-mode</a>, not on master and not released. </p>
-<p class="role"><strong>Role:</strong> I directed and reviewed; AI coding agents wrote the code. The branch commit says so: <a href="https://github.com/wordingone/ember/commit/e555de431bc7b7bde86362a218f93c888870f936">"Code was written by AI coding agents under operator direction and review."</a> </p>
+<p class="role"><strong>Role:</strong> I directed and reviewed it.</p>
 
 <h2>What it is</h2>
 <p>Ember's README describes it as <a href="https://github.com/wordingone/ember/blob/df2a2d69603ffe8c1eca0faa54eb44837a0bd9b3/README.md#L20">"the command-line tool used to run and watch the training"</a>. It is an agent tool in the terminal (TypeScript on Bun, with a React/Ink text interface): a model reads and edits files, runs shell commands and reports back.</p>
@@ -39,7 +39,7 @@
 <p>Findings from the blind tests that are not yet fixed are tracked in three open issues: <a href="https://github.com/wordingone/ember/issues/2379">#2379 (file operations)</a>, <a href="https://github.com/wordingone/ember/issues/2380">#2380 (shell)</a> and <a href="https://github.com/wordingone/ember/issues/2381">#2381 (UI/UX and web)</a>. One shell finding is that a command which starts a background process on Windows can block until the timeout; the cause is <a href="https://github.com/wordingone/ember/blob/e555de431bc7b7bde86362a218f93c888870f936/src/ember/infrastructure/tools/ember-cli/src/tools/bash-tool.ts#L253-L254">described in the code</a>. <a href="https://github.com/wordingone/ember/issues/2378">#2378</a> (exiting must stop the model server and free the GPU) is open. The branch has not been merged into master. (Issue states read 2026-11-04.)</p>
 </main>
 <footer>
-<p>Contact: <a href="https://github.com/wordingone">github.com/wordingone</a>. Most code in these projects was written by AI coding agents under my direction and review. Most numbers link to the public file or commit they come from; commit counts were computed from the repositories' git history.</p>
+<p>Contact: <a href="https://github.com/wordingone">github.com/wordingone</a>. <a href="../method.html#authorship">How this work was built</a>. Most numbers link to the public file or commit they come from; commit counts were computed from the repositories' git history.</p>
 </footer>
 </body>
 </html>
