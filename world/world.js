@@ -413,9 +413,13 @@ async function build() {
 
   /* ---- input: scroll approaches, then throttles; the pointer steers; keys too ---- */
   const spacer = $('.spacer');
+  // on a phone the entry plate is taller than the screen: the approach starts only once the plate
+  // (directions and the three works) is mostly scrolled through, so it is read before it fades
+  const qSec = $('#question');
+  function approachStart() { return isSmall() ? Math.max(0, qSec.offsetTop + qSec.offsetHeight - innerHeight * 0.3) : 0; }
   function approachProgress() {
-    const max = Math.max(1, document.documentElement.scrollHeight - innerHeight);
-    return Math.min(1, scrollY / max);
+    const max = Math.max(1, document.documentElement.scrollHeight - innerHeight), s = Math.min(approachStart(), max - 1);
+    return Math.min(1, Math.max(0, (scrollY - s) / (max - s)));
   }
   const wake = () => { fly.lastInput = performance.now(); if (state.entered) fly.auto = false; };
   addEventListener('wheel', e => {
