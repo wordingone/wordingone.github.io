@@ -52,6 +52,7 @@
   <button class="takeoff" type="button">Take off <span class="k">esc</span></button>
 </div>
 <p id="live" class="sr" aria-live="polite"></p>
+<p class="transit" aria-hidden="true">Keep scrolling: the question becomes a world. Three places ahead are built from the projects' own records.</p>
 <main id="main">
 
 <section class="station" id="question" data-station="0" aria-labelledby="q-title">
@@ -221,7 +222,7 @@
       <p class="quiet">No checkpoint shown is an accepted model. The dim band behind is <span id="f-off"></span> hours run and not kept. Numbers are read from the hour receipts at load. <button class="open story-btn" type="button" data-story="ember">Read the story</button> &middot; <a href="projects/ember.html">Full page</a></p>
     </div>
     <div class="term" id="term" aria-label="Replay of recorded training receipts">
-      <div class="term-bar"><span>Replay &middot; recorded receipts of hour <span id="f-headstamp"></span>, the head of the kept lineage &middot; not live</span><button class="term-play" type="button" aria-label="Play or pause">&#9654;&#10074;&#10074;</button></div>
+      <div class="term-bar"><span>Replay &middot; recorded receipts of hour <span id="f-headstamp"></span>, the head of the kept lineage &middot; not live<br><span class="term-note">loss = per-step value on one packed batch, not a smoothed curve</span></span><button class="term-play" type="button" aria-label="Play or pause">&#9654;&#10074;&#10074;</button></div>
       <div class="term-body"></div>
       <input id="scrub" class="scrub" type="range" min="0" max="100" value="0" aria-label="Scrub the replay">
     </div>
@@ -233,7 +234,8 @@
   <div class="landing-text landing-side">
     <h2 id="land-search-title" class="title">Where the search went, and where it ended</h2>
     <p class="lede">Every point is one experiment: <span id="s-scripts"></span> first-era scripts (March 2026), wound by step number, then the second era's <span id="s-stages"></span> staged gates at the end of the line. Point at one to read it.</p>
-    <p class="quiet">Blue passed its gate; white was killed, flat or left open. The line stops at the hollow mark: <span id="s-end"></span>. <button class="open story-btn" type="button" data-story="the-search">Read the story</button> &middot; <a href="projects/the-search.html">Full page</a></p>
+    <p class="plain">In plain words: of the final idea's three tests, one passed, one was stopped, one failed, and the search ended there.</p>
+    <p class="quiet legend"><span class="sw sw-blue"></span>passed its gate <span class="sw"></span>killed, flat or left open. The line stops at the hollow mark. Codes: <span id="s-end"></span>. <button class="open story-btn" type="button" data-story="the-search">Read the story</button> &middot; <a href="projects/the-search.html">Full page</a></p>
   </div>
   <div id="exp-card" class="card" hidden></div>
 </section>
@@ -241,7 +243,7 @@
 <section class="landing" id="land-web-cad" hidden aria-labelledby="land-webcad-title">
   <div class="landing-bar"><p class="eyebrow"><span class="num">03</span> WEB-CAD &middot; landed</p><div class="landing-actions"><a class="open" href="https://wordingone.github.io/WEB-CAD/" target="_blank" rel="noopener">Open full</a><button class="open fly-btn" type="button" data-fly="web-cad">Fly</button><button class="open takeoff-inline" type="button">Take off</button></div></div>
   <div class="landing-frame">
-    <div class="frame-gate"><div><p>The tool runs in this frame on request. Opening it downloads its in-browser language model (about 5 GB) and needs WebGPU; the drawing viewer works without it.</p><button class="open" type="button" id="webcad-run">Run WEB-CAD here</button></div></div>
+    <div class="frame-gate"><div><p>The tool runs in this frame on request. Opening it downloads its in-browser model (about 5 GB) and needs WebGPU; the drawing viewer works without it.</p><button class="open" type="button" id="webcad-run">Run WEB-CAD here</button></div></div>
     <iframe title="WEB-CAD, the live tool" data-src="https://wordingone.github.io/WEB-CAD/" allow="cross-origin-isolated"></iframe>
   </div>
   <p class="quiet landing-foot">The cloud you landed on is the <span id="w-points"></span> vertices of the two sample buildings the tool ships with. <button class="open story-btn" type="button" data-story="web-cad">Read the story</button> &middot; <a href="projects/web-cad.html">Full page</a></p>

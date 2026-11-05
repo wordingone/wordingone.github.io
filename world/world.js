@@ -208,7 +208,7 @@ async function build() {
   };
 
   let letters = null;
-  const plate0 = $('#question .plate');
+  const plate0 = $('#question .plate'), transit = $('.transit');
   /* ==== the letters: the thesis sentence sampled into points ==== */
   {
     const c = document.createElement('canvas'); c.width = 1400; c.height = 420;
@@ -631,6 +631,7 @@ async function build() {
     const ap = approachProgress();
     state.p += (ap - state.p) * (reduce ? 1 : 1 - Math.exp(-dt * 4));
     if (!state.entered && ap >= 0.985) enter();
+    transit.classList.toggle('on', !state.entered && state.p > 0.12 && state.p < 0.97);
     if (letters) { const q = THREE.MathUtils.clamp(state.p, 0, 1); letters.mat.uniforms.uFade.value = THREE.MathUtils.smoothstep(q, 0.025, 0.15); if (plate0 && !state.entered) plate0.style.opacity = 1 - THREE.MathUtils.smoothstep(q, 0.015, 0.13); }
 
     if (!state.entered) {
