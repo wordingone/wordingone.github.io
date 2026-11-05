@@ -727,8 +727,9 @@ async function build() {
       if (o <= 0.01) { if (L.el.style.opacity !== '0') L.el.style.opacity = '0'; continue; }
       vv.copy(L.pos).project(camera);
       if (vv.z > 1) { L.el.style.opacity = '0'; continue; }
-      const x = (vv.x * 0.5 + 0.5) * w, y = (-vv.y * 0.5 + 0.5) * h;
+      let x = (vv.x * 0.5 + 0.5) * w; const y = (-vv.y * 0.5 + 0.5) * h;
       if (x < 20 || x > w - 20 || y < 80 || y > h - 40) { L.el.style.opacity = '0'; continue; }
+      x = Math.min(x, w - 24 - (L.el.offsetWidth || 120)); // keep the label inside the viewport
       L.el.style.opacity = o.toFixed(3);
       L.el.style.transform = `translate3d(${x.toFixed(1)}px,${y.toFixed(1)}px,0)`;
     }
