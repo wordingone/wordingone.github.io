@@ -326,6 +326,8 @@ main{position:relative;z-index:3;pointer-events:none}
 .landing-frame.running iframe{display:block}
 .landing-frame.running .frame-gate{display:none}
 .frame-gate{height:100%;display:grid;place-items:center;text-align:center;padding:24px}
+.frame-gate>div{background:rgba(0,0,0,.74);padding:20px 24px 22px;border-radius:2px}
+.landing .quiet .open{margin-left:10px}
 .frame-gate p{max-width:38rem;color:var(--ink-2);font-size:14px;line-height:1.6;margin:0 0 18px}
 .frame-gate .open{font-size:12px}
 .entered .colophon{display:none}
