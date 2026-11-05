@@ -263,6 +263,7 @@ main{position:relative;z-index:3;pointer-events:none}
 .hint .seen{color:var(--accent)}
 .prompt-wrap{display:none;margin-top:12px;align-items:center;gap:18px}
 .near .prompt-wrap{display:flex}
+@media (hover:hover) and (pointer:fine){.near .prompt-wrap{position:fixed;left:var(--px,50vw);top:var(--py,50vh);transform:translate(18px,22px);margin:0;pointer-events:none}.near .prompt-wrap .land{pointer-events:auto}.near .prompt{font-size:18px}}
 .prompt{font:400 22px/1.2 var(--serif);color:var(--ink)}
 .land{pointer-events:auto;appearance:none;background:none;border:1px solid var(--ink);color:var(--ink);font:400 11px/1 var(--sans);letter-spacing:.22em;text-transform:uppercase;padding:10px 16px;cursor:pointer;transition:background .2s,color .2s}
 .land:hover{background:var(--ink);color:#000}

@@ -374,13 +374,15 @@ async function build() {
     const pts = [];
     const stroke = (a, b, n, jitter) => { for (let i = 0; i < n; i++) { const t = i / (n - 1); pts.push(a.x + (b.x - a.x) * t + (Math.random() - .5) * jitter, a.y + (b.y - a.y) * t + (Math.random() - .5) * jitter, a.z + (b.z - a.z) * t + (Math.random() - .5) * jitter); } };
     const V = (x, y, z) => new THREE.Vector3(x, y, z);
-    stroke(V(0, 0, 0.9), V(0, 0, -0.9), 40, 0.08);           // body
-    stroke(V(0, 0, 0.1), V(2.4, 0.5, -0.4), 60, 0.1);        // wings
-    stroke(V(0, 0, 0.1), V(-2.4, 0.5, -0.4), 60, 0.1);
-    stroke(V(2.4, 0.5, -0.4), V(1.5, 0.3, -0.9), 20, 0.08);
-    stroke(V(-2.4, 0.5, -0.4), V(-1.5, 0.3, -0.9), 20, 0.08);
-    stroke(V(0, 0, -0.9), V(0.5, 0.05, -1.5), 12, 0.06); stroke(V(0, 0, -0.9), V(-0.5, 0.05, -1.5), 12, 0.06);
+    stroke(V(0, 0, -0.9), V(0, 0, 0.9), 40, 0.08);           // body, head toward -z (forward)
+    stroke(V(0, 0, -0.1), V(2.4, 0.5, 0.4), 60, 0.1);        // wings, swept back
+    stroke(V(0, 0, -0.1), V(-2.4, 0.5, 0.4), 60, 0.1);
+    stroke(V(2.4, 0.5, 0.4), V(1.5, 0.3, 0.9), 20, 0.08);
+    stroke(V(-2.4, 0.5, 0.4), V(-1.5, 0.3, 0.9), 20, 0.08);
+    stroke(V(0, 0, 0.9), V(0.5, 0.05, 1.5), 12, 0.06); stroke(V(0, 0, 0.9), V(-0.5, 0.05, 1.5), 12, 0.06); // tail
+    const birdBase = new Float32Array(pts);
     const g = new THREE.BufferGeometry(); g.setAttribute('position', new THREE.BufferAttribute(new Float32Array(pts), 3));
+    bird.userData.base = birdBase; bird.userData.geo = g;
     const m = new THREE.PointsMaterial({ map: glowTex, size: 0.13, transparent: true, opacity: 0.85, depthWrite: false, blending: THREE.AdditiveBlending, color: 0xffffff, sizeAttenuation: true });
     bird.add(new THREE.Points(g, m));
     bird.visible = false; bird.userData.mat = m;
@@ -419,9 +421,10 @@ async function build() {
   addEventListener('wheel', e => {
     if (!state.entered || state.landed || state.panel) return;
     e.preventDefault();
-    fly.speed = THREE.MathUtils.clamp(fly.speed + (e.deltaY > 0 ? 6 : -6), -10, 70); wake();
+    fly.speed = THREE.MathUtils.clamp(fly.speed + (e.deltaY > 0 ? -6 : 6), -10, 70); wake();
   }, { passive: false });
   addEventListener('pointermove', e => {
+    root.style.setProperty('--px', e.clientX + 'px'); root.style.setProperty('--py', e.clientY + 'px');
     if (!state.entered || state.landed) return;
     const r = canvas.getBoundingClientRect();
     fly.steerX = ((e.clientX - r.left) / r.width) * 2 - 1;
@@ -682,6 +685,12 @@ async function build() {
       bird.position.copy(fly.pos);
       bird.quaternion.setFromEuler(new THREE.Euler(fly.pitch, fly.yaw, -fly.vyaw * 0.6, 'YXZ'));
       bird.userData.mat.opacity = 0.5 + 0.35 * Math.min(1, Math.abs(fly.speed) / 40);
+      if (!reduce) { // wing beat: slow glide when fast, quicker beats when slow
+        const base = bird.userData.base, arr = bird.userData.geo.attributes.position.array, rate = 3 + 6 * (1 - Math.min(1, Math.abs(fly.speed) / 50));
+        const ph = Math.sin(t * rate);
+        for (let i = 0; i < arr.length; i += 3) { const x = base[i]; const r = Math.min(1, Math.abs(x) / 2.4); arr[i + 1] = base[i + 1] + ph * r * r * 0.9; arr[i] = x * (1 - 0.08 * Math.abs(ph) * r); }
+        bird.userData.geo.attributes.position.needsUpdate = true;
+      }
       camPos.copy(fly.pos).addScaledVector(dir, -9).addScaledVector(up, 2.6);
       camera.position.lerp(camPos, reduce ? 1 : 1 - Math.exp(-dt * 6));
       camLook.copy(fly.pos).addScaledVector(dir, 30);

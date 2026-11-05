@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="robots" content="noindex, nofollow">
+<meta name="robots" content="index, follow">
 <meta name="description" content="Hyun Jun Han (M.Arch, SCI-Arc). Research on how intelligence develops: credit assignment, verified learning, developmental environments for agents.">
 <meta property="og:title" content="Hyun Jun Han: How does intelligence develop?">
 <meta property="og:description" content="Hyun Jun Han (M.Arch, SCI-Arc). Research on how intelligence develops: credit assignment, verified learning, developmental environments for agents.">
@@ -213,14 +213,12 @@
   <div class="landing-grid">
     <div class="landing-text">
       <h2 id="land-ember-title" class="title">A plane of training steps</h2>
-      <p class="lede">Every point below is one recorded training step of a language model trained from scratch on one RTX 4090: its position is when it ran and what its loss was; its brightness is how fast it ran.</p>
+      <p class="lede">Every point is one recorded training step: when it ran, its loss, and, as brightness, how fast it ran. One RTX 4090, from scratch.</p>
       <dl class="facts">
-        <dt>Hours plotted</dt><dd><span id="f-hours"></span> governed hours on the kept lineage, and <span id="f-off"></span> more that were run and not kept (the dim band behind)</dd>
-        <dt>Steps plotted</dt><dd><span id="f-points"></span> of <span id="f-updates"></span> recorded updates (every 12th); <span id="f-positions"></span> token positions applied over these hours</dd>
-        <dt>Speed at the head hour</dt><dd><span id="f-headp10"></span> positions/s at the tenth-percentile step, <span id="f-headoverall"></span> overall including the checkpoint write; the best hour on the lineage reached <span id="f-bestp10"></span>. The project's bar is 80,000 and was not met.</dd>
-        <dt>What this is not</dt><dd>No checkpoint from these hours is an accepted Ember model, and no benchmark of the kept chain is published. The chain the project counts is 33 checkpoints deep (6.06 B positions); the receipts plotted here cover the last 31 of those hours.</dd>
+        <dt>Kept lineage</dt><dd><span id="f-hours"></span> hours; <span id="f-points"></span> of <span id="f-updates"></span> steps plotted; <span id="f-positions"></span> token positions</dd>
+        <dt>Speed</dt><dd><span id="f-headp10"></span> positions/s at the head hour (<span id="f-headoverall"></span> overall); best hour <span id="f-bestp10"></span>; the bar was 80,000, not met</dd>
       </dl>
-      <p class="quiet">Numbers are read at load time from the hour receipts (hour-result.json: complete_step_p10_positions_per_second, overall_measured_positions_per_second, applied_positions, measured_updates). <button class="open story-btn" type="button" data-story="ember">Read the story</button> &middot; <a href="projects/ember.html">Full page</a></p>
+      <p class="quiet">No checkpoint shown is an accepted model. The dim band behind is <span id="f-off"></span> hours run and not kept. Numbers are read from the hour receipts at load. <button class="open story-btn" type="button" data-story="ember">Read the story</button> &middot; <a href="projects/ember.html">Full page</a></p>
     </div>
     <div class="term" id="term" aria-label="Replay of recorded training receipts">
       <div class="term-bar"><span>Replay &middot; recorded receipts of hour <span id="f-headstamp"></span>, the head of the kept lineage &middot; not live</span><button class="term-play" type="button" aria-label="Play or pause">&#9654;&#10074;&#10074;</button></div>
@@ -234,9 +232,8 @@
   <div class="landing-bar"><p class="eyebrow"><span class="num">02</span> The Search &middot; landed</p><div class="landing-actions"><button class="open fly-btn" type="button" data-fly="the-search">Fly</button><button class="open takeoff-inline" type="button">Take off</button></div></div>
   <div class="landing-text landing-side">
     <h2 id="land-search-title" class="title">Where the search went, and where it ended</h2>
-    <p class="lede">Every point is one experiment. The body of points is the first era (<span id="s-scripts"></span> experiment scripts recovered from the repository's history, March 2026, wound in order of their step number); the short column at the end of the line is the second era's <span id="s-stages"></span> staged gates. Point at a point to read it.</p>
-    <p>The line is the route the search took at the end: the reach ladder, then the four-faces gates. It stops at the hollow mark. <span id="s-end"></span>.</p>
-    <p class="quiet">Blue points passed their gate; white ones were killed, flat, or left open. The paper's own count is 1,000+ experiments across 14 families; the cloud shows only what could be recovered as a script or a staged row. <button class="open story-btn" type="button" data-story="the-search">Read the story</button> &middot; <a href="projects/the-search.html">Full page</a></p>
+    <p class="lede">Every point is one experiment: <span id="s-scripts"></span> first-era scripts (March 2026), wound by step number, then the second era's <span id="s-stages"></span> staged gates at the end of the line. Point at one to read it.</p>
+    <p class="quiet">Blue passed its gate; white was killed, flat or left open. The line stops at the hollow mark: <span id="s-end"></span>. <button class="open story-btn" type="button" data-story="the-search">Read the story</button> &middot; <a href="projects/the-search.html">Full page</a></p>
   </div>
   <div id="exp-card" class="card" hidden></div>
 </section>
@@ -247,7 +244,7 @@
     <div class="frame-gate"><div><p>The tool runs in this frame on request. Opening it downloads its in-browser language model (about 5 GB) and needs WebGPU; the drawing viewer works without it.</p><button class="open" type="button" id="webcad-run">Run WEB-CAD here</button></div></div>
     <iframe title="WEB-CAD, the live tool" data-src="https://wordingone.github.io/WEB-CAD/" allow="cross-origin-isolated"></iframe>
   </div>
-  <p class="quiet landing-foot">The frame above holds the tool itself; the cloud you landed on is the <span id="w-points"></span> vertices of two sample building files it ships with. The in-browser model needs WebGPU and runs at about two tokens per second. <button class="open story-btn" type="button" data-story="web-cad">Read the story</button> &middot; <a href="projects/web-cad.html">Full page</a></p>
+  <p class="quiet landing-foot">The cloud you landed on is the <span id="w-points"></span> vertices of the two sample buildings the tool ships with. <button class="open story-btn" type="button" data-story="web-cad">Read the story</button> &middot; <a href="projects/web-cad.html">Full page</a></p>
 </section>
 
 <footer class="colophon">
