@@ -1,0 +1,5657 @@
+{
+"schema": "site-search-cloud-v1",
+"sources": {
+"scripts": "git history of run_step*.py (first docstring line)",
+"findings": "README.md confirmed findings table",
+"stages": "docs/STAGE_MAP.md Era II tables",
+"headings": "docs/RESEARCH_STATE.md experiment headings"
+},
+"era1_scripts_recovered": 575,
+"paper_claim": "1000+ experiments across 14 architecture families (docs/paper.tex)",
+"era1_readme_claim": "792 experiments (docs/STAGE_MAP.md)",
+"era2_end": "Concluded 2026-06: reach ladder closed at D=10/200 (stage 1k); F1 PASS; F2 KILL (#20); F3 Part A FAIL (median_reduction=0.0, 2/10)",
+"experiments": [
+{
+"era": 1,
+"id": "Step 100 cifar100_topk",
+"step": 100,
+"date": "2026-03-14",
+"title": "Step 100 -- Top-K Class Vote on CIFAR-100.",
+"file": "experiments/foldcore-steps/run_step100_cifar100_topk.py",
+"commit": "c32df325"
+},
+{
+"era": 1,
+"id": "Step 101 cifar100",
+"step": 101,
+"date": "2026-03-15",
+"title": "Step 101 -- Spawn-Only Codebook (lr=0) on CIFAR-100.",
+"file": "experiments/foldcore-steps/run_step101_cifar100.py",
+"commit": "3d5ef831"
+},
+{
+"era": 1,
+"id": "Step 101 pmnist",
+"step": 101,
+"date": "2026-03-14",
+"title": "Step 101 -- Spawn-Only Codebook (lr=0) on P-MNIST.",
+"file": "experiments/foldcore-steps/run_step101_pmnist.py",
+"commit": "c32df325"
+},
+{
+"era": 1,
+"id": "Step 102 self_routing",
+"step": 102,
+"date": "2026-03-14",
+"title": "Step 102 -- Self-Routing Codebook. Targeting Separation 4: System/State.",
+"file": "experiments/foldcore-steps/run_step102_self_routing.py",
+"commit": "c32df325"
+},
+{
+"era": 1,
+"id": "Step 103 resonance",
+"step": 103,
+"date": "2026-03-14",
+"title": "Step 103 -- Resonance Equation. Non-codebook substrate test.",
+"file": "experiments/foldcore-steps/run_step103_resonance.py",
+"commit": "c32df325"
+},
+{
+"era": 1,
+"id": "Step 103 tier1",
+"step": 103,
+"date": "2026-03-15",
+"title": "Step 103 Tier 1 -- 2 tasks, timing check.\"\"\"",
+"file": "experiments/foldcore-steps/run_step103_tier1.py",
+"commit": "3d5ef831"
+},
+{
+"era": 1,
+"id": "Step 104 accumulated_op",
+"step": 104,
+"date": "2026-03-14",
+"title": "Step 104 -- Accumulated Outer Product substrate. P-MNIST full 10-task.",
+"file": "experiments/foldcore-steps/run_step104_accumulated_op.py",
+"commit": "c32df325"
+},
+{
+"era": 1,
+"id": "Step 105 lsh_counting",
+"step": 105,
+"date": "2026-03-14",
+"title": "Step 105 -- LSH Counting substrate. P-MNIST full 10-task.",
+"file": "experiments/foldcore-steps/run_step105_lsh_counting.py",
+"commit": "c32df325"
+},
+{
+"era": 1,
+"id": "Step 106 unified_process",
+"step": 106,
+"date": "2026-03-15",
+"title": "Step 106 -- Unified Process (S1-compliant). P-MNIST full 10-task.",
+"file": "experiments/foldcore-steps/run_step106_unified_process.py",
+"commit": "3d5ef831"
+},
+{
+"era": 1,
+"id": "Step 63 anomaly",
+"step": 63,
+"date": "2026-03-15",
+"title": "Step 63 (v2): FluxCore as unsupervised anomaly detector on River CreditCard.",
+"file": "experiments/foldcore-steps/run_step63_anomaly.py",
+"commit": "3d5ef831"
+},
+{
+"era": 1,
+"id": "Step 63 elec2",
+"step": 63,
+"date": "2026-03-15",
+"title": "Step 63: FluxCore vs. River baselines on Electricity (Elec2) benchmark.",
+"file": "experiments/foldcore-steps/run_step63_elec2.py",
+"commit": "3d5ef831"
+},
+{
+"era": 1,
+"id": "Step 65 permuted_mnist",
+"step": 65,
+"date": "2026-03-15",
+"title": "Step 65: Permuted-MNIST continual learning benchmark with FluxCore.",
+"file": "experiments/foldcore-steps/run_step65_permuted_mnist.py",
+"commit": "3d5ef831"
+},
+{
+"era": 1,
+"id": "Step 66 split_cifar100",
+"step": 66,
+"date": "2026-03-15",
+"title": "Step 66: Split-CIFAR-100 continual learning benchmark with FluxCore.",
+"file": "experiments/foldcore-steps/run_step66_split_cifar100.py",
+"commit": "3d5ef831"
+},
+{
+"era": 1,
+"id": "Step 66 b_gpu",
+"step": 66,
+"date": "2026-03-15",
+"title": "Step 66b (GPU) \u2014 Spawn threshold sweep on Split-CIFAR-100.",
+"file": "experiments/foldcore-steps/run_step66b_gpu.py",
+"commit": "3d5ef831"
+},
+{
+"era": 1,
+"id": "Step 66 b_threshold_sweep",
+"step": 66,
+"date": "2026-03-15",
+"title": "Step 66b: Spawn threshold sweep on Split-CIFAR-100 (frozen ResNet-18 features).",
+"file": "experiments/foldcore-steps/run_step66b_threshold_sweep.py",
+"commit": "3d5ef831"
+},
+{
+"era": 1,
+"id": "Step 71 gpu",
+"step": 71,
+"date": "2026-03-15",
+"title": "Step 71 (GPU) \u2014 Gradient-derived update rule for FluxCore codebook.",
+"file": "experiments/foldcore-steps/run_step71_gpu.py",
+"commit": "3d5ef831"
+},
+{
+"era": 1,
+"id": "Step 71 gradient_update",
+"step": 71,
+"date": "2026-03-15",
+"title": "Step 71: Gradient-derived update rule for FluxCore codebook.",
+"file": "experiments/foldcore-steps/run_step71_gradient_update.py",
+"commit": "3d5ef831"
+},
+{
+"era": 1,
+"id": "Step 72 soft_retrieval",
+"step": 72,
+"date": "2026-03-15",
+"title": "Step 72 \u2014 Soft retrieval in classify().",
+"file": "experiments/foldcore-steps/run_step72_soft_retrieval.py",
+"commit": "3d5ef831"
+},
+{
+"era": 1,
+"id": "Step 73 atomic_fold",
+"step": 73,
+"date": "2026-03-15",
+"title": "Step 73 \u2014 AtomicFold benchmark.",
+"file": "experiments/foldcore-steps/run_step73_atomic_fold.py",
+"commit": "3d5ef831"
+},
+{
+"era": 1,
+"id": "Step 73 b_cifar_tau01",
+"step": 73,
+"date": "2026-03-15",
+"title": "Step 73b \u2014 AtomicFold CIFAR-100, tau=0.01 slice only.",
+"file": "experiments/foldcore-steps/run_step73b_cifar_tau01.py",
+"commit": "3d5ef831"
+},
+{
+"era": 1,
+"id": "Step 74 eigenfold",
+"step": 74,
+"date": "2026-03-15",
+"title": "Step 74 \u2014 EigenFold proof-of-concept.",
+"file": "experiments/foldcore-steps/run_step74_eigenfold.py",
+"commit": "3d5ef831"
+},
+{
+"era": 1,
+"id": "Step 75 diag",
+"step": 75,
+"date": "2026-03-15",
+"title": "Diagnose delta distribution for EigenFold on P-MNIST.\"\"\"",
+"file": "experiments/foldcore-steps/run_step75_diag.py",
+"commit": "3d5ef831"
+},
+{
+"era": 1,
+"id": "Step 75 eigenfold_pmnist",
+"step": 75,
+"date": "2026-03-15",
+"title": "Step 75 \u2014 EigenFold on P-MNIST, 2 tasks.",
+"file": "experiments/foldcore-steps/run_step75_eigenfold_pmnist.py",
+"commit": "3d5ef831"
+},
+{
+"era": 1,
+"id": "Step 75 b_eigenfold_calibrated",
+"step": 75,
+"date": "2026-03-15",
+"title": "Step 75b \u2014 EigenFold P-MNIST, calibrated threshold.",
+"file": "experiments/foldcore-steps/run_step75b_eigenfold_calibrated.py",
+"commit": "3d5ef831"
+},
+{
+"era": 1,
+"id": "Step 76 eigenfold_vs_cosine",
+"step": 76,
+"date": "2026-03-15",
+"title": "Step 76 \u2014 EigenFold vs cosine nearest-prototype head-to-head.",
+"file": "experiments/foldcore-steps/run_step76_eigenfold_vs_cosine.py",
+"commit": "3d5ef831"
+},
+{
+"era": 1,
+"id": "Step 77 collective",
+"step": 77,
+"date": "2026-03-15",
+"title": "Step 77 \u2014 Collective classification test.",
+"file": "experiments/foldcore-steps/run_step77_collective.py",
+"commit": "3d5ef831"
+},
+{
+"era": 1,
+"id": "Step 78 landscape",
+"step": 78,
+"date": "2026-03-15",
+"title": "Step 78 \u2014 Map eigenform landscape of Phi(M) = tanh(alpha*M + beta*M^2/k).",
+"file": "experiments/foldcore-steps/run_step78_landscape.py",
+"commit": "3d5ef831"
+},
+{
+"era": 1,
+"id": "Step 79 basin_probe",
+"step": 79,
+"date": "2026-03-15",
+"title": "Step 79 \u2014 Basin-assignment classification probe.",
+"file": "experiments/foldcore-steps/run_step79_basin_probe.py",
+"commit": "3d5ef831"
+},
+{
+"era": 1,
+"id": "Step 79 b_basin_crossing",
+"step": 79,
+"date": "2026-03-15",
+"title": "Step 79b \u2014 Basin crossing threshold sweep + class-dependent crossing.",
+"file": "experiments/foldcore-steps/run_step79b_basin_crossing.py",
+"commit": "3d5ef831"
+},
+{
+"era": 1,
+"id": "Step 80 k8_landscape",
+"step": 80,
+"date": "2026-03-15",
+"title": "Step 80 -- k=8 landscape + basin routing.",
+"file": "experiments/foldcore-steps/run_step80_k8_landscape.py",
+"commit": "3d5ef831"
+},
+{
+"era": 1,
+"id": "Step 81 coupled_cells",
+"step": 81,
+"date": "2026-03-15",
+"title": "Step 81 -- Coupled RK cells, true eigenform init.",
+"file": "experiments/foldcore-steps/run_step81_coupled_cells.py",
+"commit": "3d5ef831"
+},
+{
+"era": 1,
+"id": "Step 82 composition_table",
+"step": 82,
+"date": "2026-03-15",
+"title": "Step 82 -- Eigenform algebra: composition table.",
+"file": "experiments/foldcore-steps/run_step82_composition_table.py",
+"commit": "3d5ef831"
+},
+{
+"era": 1,
+"id": "Step 83 full_algebra",
+"step": 83,
+"date": "2026-03-15",
+"title": "Step 83 -- Full composition algebra + generators.",
+"file": "experiments/foldcore-steps/run_step83_full_algebra.py",
+"commit": "3d5ef831"
+},
+{
+"era": 1,
+"id": "Step 84 algebra_structure",
+"step": 84,
+"date": "2026-03-15",
+"title": "Step 84 -- Eigenform algebra structure: families, closed sub-algebras, orbits.",
+"file": "experiments/foldcore-steps/run_step84_algebra_structure.py",
+"commit": "3d5ef831"
+},
+{
+"era": 1,
+"id": "Step 85 subalgebra",
+"step": 85,
+"date": "2026-03-15",
+"title": "Step 85 -- Sub-algebra verification and second-generation composition.",
+"file": "experiments/foldcore-steps/run_step85_subalgebra.py",
+"commit": "3d5ef831"
+},
+{
+"era": 1,
+"id": "Step 86 sequence_encoding",
+"step": 86,
+"date": "2026-03-15",
+"title": "Step 86 -- Sequence encoding test.",
+"file": "experiments/foldcore-steps/run_step86_sequence_encoding.py",
+"commit": "3d5ef831"
+},
+{
+"era": 1,
+"id": "Step 87 chaining_test",
+"step": 87,
+"date": "2026-03-15",
+"title": "Step 87 -- High-convergence composition + chaining test.",
+"file": "experiments/foldcore-steps/run_step87_chaining_test.py",
+"commit": "3d5ef831"
+},
+{
+"era": 1,
+"id": "Step 88 param_sweep",
+"step": 88,
+"date": "2026-03-15",
+"title": "Step 88 -- Parameter sweep for denser eigenform landscape.",
+"file": "experiments/foldcore-steps/run_step88_param_sweep.py",
+"commit": "3d5ef831"
+},
+{
+"era": 1,
+"id": "Step 89 sequence_encoder",
+"step": 89,
+"date": "2026-03-15",
+"title": "Step 89 -- Chaining + sequence encoding at alpha=1.1, beta=0.5.",
+"file": "experiments/foldcore-steps/run_step89_sequence_encoder.py",
+"commit": "3d5ef831"
+},
+{
+"era": 1,
+"id": "Step 90 k16_landscape",
+"step": 90,
+"date": "2026-03-15",
+"title": "Step 90 -- k=16 landscape scan, final scale test.",
+"file": "experiments/foldcore-steps/run_step90_k16_landscape.py",
+"commit": "3d5ef831"
+},
+{
+"era": 1,
+"id": "Step 91 spectral_eigenform",
+"step": 91,
+"date": "2026-03-15",
+"title": "Step 91 -- New eigenform equation: normalized spectral self-interaction.",
+"file": "experiments/foldcore-steps/run_step91_spectral_eigenform.py",
+"commit": "3d5ef831"
+},
+{
+"era": 1,
+"id": "Step 92 composition_formulas",
+"step": 92,
+"date": "2026-03-15",
+"title": "Step 92 -- Three composition formulas for spectral eigenforms.",
+"file": "experiments/foldcore-steps/run_step92_composition_formulas.py",
+"commit": "3d5ef831"
+},
+{
+"era": 1,
+"id": "Step 93 sequence_encoding",
+"step": 93,
+"date": "2026-03-15",
+"title": "Step 93 -- Sequence encoding with Formula C + spectral eigenform.",
+"file": "experiments/foldcore-steps/run_step93_sequence_encoding.py",
+"commit": "3d5ef831"
+},
+{
+"era": 1,
+"id": "Step 94 scale_alphabet",
+"step": 94,
+"date": "2026-03-15",
+"title": "Step 94 -- Scale the alphabet: 8 EFs, test discrimination.",
+"file": "experiments/foldcore-steps/run_step94_scale_alphabet.py",
+"commit": "3d5ef831"
+},
+{
+"era": 1,
+"id": "Step 95 spectral_pmnist",
+"step": 95,
+"date": "2026-03-15",
+"title": "Step 95 -- P-MNIST benchmark with spectral substrate.",
+"file": "experiments/foldcore-steps/run_step95_spectral_pmnist.py",
+"commit": "3d5ef831"
+},
+{
+"era": 1,
+"id": "Step 96 order_discrimination",
+"step": 96,
+"date": "2026-03-15",
+"title": "Step 96 -- Temporal order discrimination.",
+"file": "experiments/foldcore-steps/run_step96_order_discrimination.py",
+"commit": "3d5ef831"
+},
+{
+"era": 1,
+"id": "Step 97 differential_response",
+"step": 97,
+"date": "2026-03-14",
+"title": "Step 97 -- Differential Response on P-MNIST.",
+"file": "experiments/foldcore-steps/run_step97_differential_response.py",
+"commit": "c32df325"
+},
+{
+"era": 1,
+"id": "Step 97 tier1",
+"step": 97,
+"date": "2026-03-15",
+"title": "Step 97 Tier 1 -- 2 tasks, validate mechanism runs.\"\"\"",
+"file": "experiments/foldcore-steps/run_step97_tier1.py",
+"commit": "3d5ef831"
+},
+{
+"era": 1,
+"id": "Step 98 coherence_readout",
+"step": 98,
+"date": "2026-03-14",
+"title": "Step 98 -- Neighborhood Coherence Readout on P-MNIST.",
+"file": "experiments/foldcore-steps/run_step98_coherence_readout.py",
+"commit": "c32df325"
+},
+{
+"era": 1,
+"id": "Step 98 tier1",
+"step": 98,
+"date": "2026-03-15",
+"title": "Step 98 Tier 1 -- 2 tasks, validate mechanism and spawning.\"\"\"",
+"file": "experiments/foldcore-steps/run_step98_tier1.py",
+"commit": "3d5ef831"
+},
+{
+"era": 1,
+"id": "Step 99 topk_vote",
+"step": 99,
+"date": "2026-03-14",
+"title": "Step 99 -- Top-K Class Vote on P-MNIST, full 10-task run.",
+"file": "experiments/foldcore-steps/run_step99_topk_vote.py",
+"commit": "c32df325"
+},
+{
+"era": 1,
+"id": "Step 107 unified_cifar100",
+"step": 107,
+"date": "2026-03-22",
+"title": "Step 107 -- Unified Process (S1) on CIFAR-100. Full 10-task.",
+"file": "experiments/run_step107_unified_cifar100.py",
+"commit": "75eca640"
+},
+{
+"era": 1,
+"id": "Step 108 ablation",
+"step": 108,
+"date": "2026-03-22",
+"title": "Step 108 -- Ablation: which parts of process() are load-bearing?",
+"file": "experiments/run_step108_ablation.py",
+"commit": "75eca640"
+},
+{
+"era": 1,
+"id": "Step 109 spawn_as_classification",
+"step": 109,
+"date": "2026-03-22",
+"title": "Step 109 -- Spawn-as-Classification. P-MNIST 10-task.",
+"file": "experiments/run_step109_spawn_as_classification.py",
+"commit": "75eca640"
+},
+{
+"era": 1,
+"id": "Step 110 raw_pixels",
+"step": 110,
+"date": "2026-03-22",
+"title": "Step 110 -- Raw pixels, no feature extractor. P-MNIST 10-task.",
+"file": "experiments/run_step110_raw_pixels.py",
+"commit": "75eca640"
+},
+{
+"era": 1,
+"id": "Step 111 retrieval_induced",
+"step": 111,
+"date": "2026-03-22",
+"title": "Step 111 -- Retrieval-Induced Learning. P-MNIST 10-task, raw pixels.",
+"file": "experiments/run_step111_retrieval_induced.py",
+"commit": "75eca640"
+},
+{
+"era": 1,
+"id": "Step 112 retrieval_projection",
+"step": 112,
+"date": "2026-03-22",
+"title": "Step 112 -- Retrieval-Driven Projection. P-MNIST 10-task, raw pixels.",
+"file": "experiments/run_step112_retrieval_projection.py",
+"commit": "75eca640"
+},
+{
+"era": 1,
+"id": "Step 113 hebbian_pca",
+"step": 113,
+"date": "2026-03-22",
+"title": "Step 113 -- Hebbian PCA + k-NN on CIFAR-100 raw pixels.",
+"file": "experiments/run_step113_hebbian_pca.py",
+"commit": "75eca640"
+},
+{
+"era": 1,
+"id": "Step 114 sparse_coding",
+"step": 114,
+"date": "2026-03-22",
+"title": "Step 114 -- Online Sparse Coding + k-NN, CIFAR-100 raw pixels.",
+"file": "experiments/run_step114_sparse_coding.py",
+"commit": "75eca640"
+},
+{
+"era": 1,
+"id": "Step 115 query_transform",
+"step": 115,
+"date": "2026-03-22",
+"title": "Step 115 -- Query Transformation KNN, CIFAR-100 raw pixels.",
+"file": "experiments/run_step115_query_transform.py",
+"commit": "75eca640"
+},
+{
+"era": 1,
+"id": "Step 116 augmented_knn",
+"step": 116,
+"date": "2026-03-22",
+"title": "Step 116 -- Augmentation-as-Learning KNN, CIFAR-100 raw pixels.",
+"file": "experiments/run_step116_augmented_knn.py",
+"commit": "75eca640"
+},
+{
+"era": 1,
+"id": "Step 117 adaptive_k",
+"step": 117,
+"date": "2026-03-22",
+"title": "Step 117 -- Adaptive k P-MNIST raw pixels. Spec.",
+"file": "experiments/run_step117_adaptive_k.py",
+"commit": "75eca640"
+},
+{
+"era": 1,
+"id": "Step 118 rff_knn",
+"step": 118,
+"date": "2026-03-22",
+"title": "Step 118 -- Random Fourier Features + k-NN, CIFAR-100 raw pixels.",
+"file": "experiments/run_step118_rff_knn.py",
+"commit": "75eca640"
+},
+{
+"era": 1,
+"id": "Step 119 constitutional_audit",
+"step": 119,
+"date": "2026-03-22",
+"title": "Step 119 -- Constitutional audit, ResNet-18 features, CIFAR-100, 10 tasks.",
+"file": "experiments/run_step119_constitutional_audit.py",
+"commit": "75eca640"
+},
+{
+"era": 1,
+"id": "Step 120 s1_multipass",
+"step": 120,
+"date": "2026-03-22",
+"title": "Step 120 -- S1 eval on P-MNIST + multi-pass CIFAR-100 ResNet.",
+"file": "experiments/run_step120_s1_multipass.py",
+"commit": "75eca640"
+},
+{
+"era": 1,
+"id": "Step 181 iterated_knn",
+"step": 181,
+"date": "2026-03-15",
+"title": "Step 181: Iterated k-NN closes the computation gap.",
+"file": "experiments/run_step181_iterated_knn.py",
+"commit": "8e401a31"
+},
+{
+"era": 1,
+"id": "Step 182 ca_all_rules",
+"step": 182,
+"date": "2026-03-15",
+"title": "Step 182: Iterated k-NN across all 10 elementary CA rules.",
+"file": "experiments/run_step182_ca_all_rules.py",
+"commit": "8e401a31"
+},
+{
+"era": 1,
+"id": "Step 190 fibonacci_e2e",
+"step": 190,
+"date": "2026-03-15",
+"title": "Step 190: End-to-end atomic substrate \u2014 Fibonacci mod 10.",
+"file": "experiments/run_step190_fibonacci_e2e.py",
+"commit": "8e401a31"
+},
+{
+"era": 1,
+"id": "Step 192 fsm_simulator",
+"step": 192,
+"date": "2026-03-15",
+"title": "Step 192: Universal finite state machine simulator.",
+"file": "experiments/run_step192_fsm_simulator.py",
+"commit": "8e401a31"
+},
+{
+"era": 1,
+"id": "Step 201 cos_universality",
+"step": 201,
+"date": "2026-03-22",
+"title": "Step 201 -- Cos-only primitive universality test.",
+"file": "experiments/run_step201_cos_universality.py",
+"commit": "75eca640"
+},
+{
+"era": 1,
+"id": "Step 216 comparison_primitives",
+"step": 216,
+"date": "2026-03-22",
+"title": "Step 216 -- Value comparison primitives: can we close the sort gap?",
+"file": "experiments/run_step216_comparison_primitives.py",
+"commit": "75eca640"
+},
+{
+"era": 1,
+"id": "Step 233 iterated_bubble_sort",
+"step": 233,
+"date": "2026-03-22",
+"title": "Step 233 -- Iterated bubble sort via k-NN transducer.",
+"file": "experiments/run_step233_iterated_bubble_sort.py",
+"commit": "75eca640"
+},
+{
+"era": 1,
+"id": "Step 235 decomposed_addition",
+"step": 235,
+"date": "2026-03-15",
+"title": "Step 235: OOD CEILING BROKEN \u2014 Decomposed addition via k-NN ripple-carry adder.",
+"file": "experiments/run_step235_decomposed_addition.py",
+"commit": "3519f331"
+},
+{
+"era": 1,
+"id": "Step 250 complete_substrate",
+"step": 250,
+"date": "2026-03-15",
+"title": "STEP 250: The Complete Substrate \u2014 one script demonstrating all capabilities.",
+"file": "experiments/run_step250_complete_substrate.py",
+"commit": "1fd18537"
+},
+{
+"era": 1,
+"id": "Step 255 analogy",
+"step": 255,
+"date": "2026-03-15",
+"title": "Step 255: Analogy reasoning \u2014 A:B :: C:?",
+"file": "experiments/run_step255_analogy.py",
+"commit": "74ef9fc6"
+},
+{
+"era": 1,
+"id": "Step 266 auto_discovery",
+"step": 266,
+"date": "2026-03-15",
+"title": "Step 266: Automatic discovery pipeline \u2014 from I/O to OOD computation.",
+"file": "experiments/run_step266_auto_discovery.py",
+"commit": "efdc19da"
+},
+{
+"era": 1,
+"id": "Step 273 278_algorithms",
+"step": 273,
+"date": "2026-03-15",
+"title": "Steps 273-278: Classical algorithms from ONE truth table (8 entries).",
+"file": "experiments/run_step273_278_algorithms.py",
+"commit": "395bcca8"
+},
+{
+"era": 1,
+"id": "Step 282 gcd_iteration",
+"step": 282,
+"date": "2026-03-22",
+"title": "Step 282 -- GCD via emergent Euclid's algorithm.",
+"file": "experiments/run_step282_gcd_iteration.py",
+"commit": "75eca640"
+},
+{
+"era": 1,
+"id": "Step 286 encoding_comparison",
+"step": 286,
+"date": "2026-03-22",
+"title": "Step 286 -- Which encoding makes a%b k-NN discoverable?",
+"file": "experiments/run_step286_encoding_comparison.py",
+"commit": "75eca640"
+},
+{
+"era": 1,
+"id": "Step 288 subtraction_gcd",
+"step": 288,
+"date": "2026-03-22",
+"title": "Step 288 -- Subtraction-based GCD: is (a,b) -> (b, a-b) easier to discover?",
+"file": "experiments/run_step288_subtraction_gcd.py",
+"commit": "75eca640"
+},
+{
+"era": 1,
+"id": "Step 289 curriculum_mod",
+"step": 289,
+"date": "2026-03-22",
+"title": "Step 289 (curriculum) -- Can curriculum help? 1-digit mod then 2-digit.",
+"file": "experiments/run_step289_curriculum_mod.py",
+"commit": "75eca640"
+},
+{
+"era": 1,
+"id": "Step 289 feature_discovery_encoding",
+"step": 289,
+"date": "2026-03-22",
+"title": "Step 289 -- Feature discovery on top of thermometer encoding for a%b.",
+"file": "experiments/run_step289_feature_discovery_encoding.py",
+"commit": "75eca640"
+},
+{
+"era": 1,
+"id": "Step 290 collatz",
+"step": 290,
+"date": "2026-03-22",
+"title": "Step 290 -- Can the substrate discover the Collatz step from I/O?",
+"file": "experiments/run_step290_collatz.py",
+"commit": "75eca640"
+},
+{
+"era": 1,
+"id": "Step 291 adaptive_spawn",
+"step": 291,
+"date": "2026-03-15",
+"title": "Step 291 -- Adaptive spawn threshold vs fixed on P-MNIST.",
+"file": "experiments/run_step291_adaptive_spawn.py",
+"commit": "78734213"
+},
+{
+"era": 1,
+"id": "Step 291 iterative_depth",
+"step": 291,
+"date": "2026-03-15",
+"title": "Step 291 -- Iterative Depth: does re-entering the fold improve accuracy?",
+"file": "experiments/run_step291_iterative_depth.py",
+"commit": "78734213"
+},
+{
+"era": 1,
+"id": "Step 292 composition_search",
+"step": 292,
+"date": "2026-03-15",
+"title": "Step 292 -- IO-guided composition search for a%b.",
+"file": "experiments/run_step292_composition_search.py",
+"commit": "78734213"
+},
+{
+"era": 1,
+"id": "Step 293 amr_fold",
+"step": 293,
+"date": "2026-03-15",
+"title": "Step 293 -- AMR Fold: disagreement-driven spawn + distance-gated merge on a%b.",
+"file": "experiments/run_step293_amr_fold.py",
+"commit": "78734213"
+},
+{
+"era": 1,
+"id": "Step 294 lvq_fold",
+"step": 294,
+"date": "2026-03-15",
+"title": "Step 294 -- LVQ Fold: label-aware attract/repel + chain emergence test.",
+"file": "experiments/run_step294_lvq_fold.py",
+"commit": "78734213"
+},
+{
+"era": 1,
+"id": "Step 295 dynamical_fold",
+"step": 295,
+"date": "2026-03-15",
+"title": "Step 295 -- Dynamical System Fold: basin sculpting on a%b.",
+"file": "experiments/run_step295_dynamical_fold.py",
+"commit": "78734213"
+},
+{
+"era": 1,
+"id": "Step 296 dist_matching",
+"step": 296,
+"date": "2026-03-15",
+"title": "Step 296 -- Per-class distribution matching on a%b.",
+"file": "experiments/run_step296_dist_matching.py",
+"commit": "1701576e"
+},
+{
+"era": 1,
+"id": "Step 297 ood_dist_matching",
+"step": 297,
+"date": "2026-03-15",
+"title": "Step 297 -- OOD Generalization Test for Per-class Distribution Matching.",
+"file": "experiments/run_step297_ood_dist_matching.py",
+"commit": "78734213"
+},
+{
+"era": 1,
+"id": "Step 298 periodic_ood",
+"step": 298,
+"date": "2026-03-15",
+"title": "Step 298 -- Periodic OOD via congruence class lookup.",
+"file": "experiments/run_step298_periodic_ood.py",
+"commit": "78734213"
+},
+{
+"era": 1,
+"id": "Step 299 perb_breakdown",
+"step": 299,
+"date": "2026-03-15",
+"title": "Step 299 -- Full per-b accuracy breakdown for distribution matching (Step 296).",
+"file": "experiments/run_step299_perb_breakdown.py",
+"commit": "78734213"
+},
+{
+"era": 1,
+"id": "Step 300 reflection_spawn",
+"step": 300,
+"date": "2026-03-15",
+"title": "Step 300 -- Reflection spawn for OOD extrapolation.",
+"file": "experiments/run_step300_reflection_spawn.py",
+"commit": "11f79b11"
+},
+{
+"era": 1,
+"id": "Step 301 atomic_operation",
+"step": 301,
+"date": "2026-03-15",
+"title": "Step 301 -- The atomic operation. S1 test.",
+"file": "experiments/run_step301_atomic_operation.py",
+"commit": "11f79b11"
+},
+{
+"era": 1,
+"id": "Step 302 generalization",
+"step": 302,
+"date": "2026-03-15",
+"title": "Step 302 -- Does phi generalize beyond a%b?",
+"file": "experiments/run_step302_generalization.py",
+"commit": "11f79b11"
+},
+{
+"era": 1,
+"id": "Step 303 absorb",
+"step": 303,
+"date": "2026-03-15",
+"title": "Step 303 -- The ABSORB operation. Atomic substrate.",
+"file": "experiments/run_step303_absorb.py",
+"commit": "11f79b11"
+},
+{
+"era": 1,
+"id": "Step 304 feature_only_nn",
+"step": 304,
+"date": "2026-03-15",
+"title": "Step 304 -- Feature-only NN in ABSORB. One hypothesis, one test.",
+"file": "experiments/run_step304_feature_only_nn.py",
+"commit": "11f79b11"
+},
+{
+"era": 1,
+"id": "Step 305 periodic_encoding",
+"step": 305,
+"date": "2026-03-15",
+"title": "Step 305 -- Periodic encoding for ABSORB. The Tempest physics test.",
+"file": "experiments/run_step305_periodic_encoding.py",
+"commit": "11f79b11"
+},
+{
+"era": 1,
+"id": "Step 306 phi_absorb",
+"step": 306,
+"date": "2026-03-15",
+"title": "Step 306 -- Distribution-space absorption. f = phi.",
+"file": "experiments/run_step306_phi_absorb.py",
+"commit": "78734213"
+},
+{
+"era": 1,
+"id": "Step 307 phi_raw",
+"step": 307,
+"date": "2026-03-15",
+"title": "Step 307 -- phi + raw features. One fix for Step 306 bootstrap failure.",
+"file": "experiments/run_step307_phi_raw.py",
+"commit": "78734213"
+},
+{
+"era": 1,
+"id": "Step 308 phi_weighted",
+"step": 308,
+"date": "2026-03-15",
+"title": "Step 308 -- Frozen phi-absorption (308a) vs Learned weights (308b).",
+"file": "experiments/run_step308_phi_weighted.py",
+"commit": "78734213"
+},
+{
+"era": 1,
+"id": "Step 309 ood_test",
+"step": 309,
+"date": "2026-03-15",
+"title": "Step 309 -- OOD test for learned w. Leo mail 1368.",
+"file": "experiments/run_step309_ood_test.py",
+"commit": "31926f6c"
+},
+{
+"era": 1,
+"id": "Step 310 raw_dist_w",
+"step": 310,
+"date": "2026-03-15",
+"title": "Step 310 -- Raw distances + learned weights. Leo mail 1370.",
+"file": "experiments/run_step310_raw_dist_w.py",
+"commit": "31926f6c"
+},
+{
+"era": 1,
+"id": "Step 311 recursive_absorb",
+"step": 311,
+"date": "2026-03-15",
+"title": "Step 311 -- Recursive absorption. Leo mail 1372.",
+"file": "experiments/run_step311_recursive_absorb.py",
+"commit": "31926f6c"
+},
+{
+"era": 1,
+"id": "Step 312 scoped_match",
+"step": 312,
+"date": "2026-03-15",
+"title": "Step 312 -- Two-level matching with self-discovered b-partition. Leo mail 1374.",
+"file": "experiments/run_step312_scoped_match.py",
+"commit": "31926f6c"
+},
+{
+"era": 1,
+"id": "Step 313 fixed_weights",
+"step": 313,
+"date": "2026-03-15",
+"title": "Step 313 -- Fixed decreasing weights on phi. Leo mail 1376.",
+"file": "experiments/run_step313_fixed_weights.py",
+"commit": "31926f6c"
+},
+{
+"era": 1,
+"id": "Step 313 loop_turn2",
+"step": 313,
+"date": "2026-03-15",
+"title": "Step 313 \u2014 Loop Turn 2: Prescribe the substrate's discovery as fixed physics.",
+"file": "experiments/run_step313_loop_turn2.py",
+"commit": "31926f6c"
+},
+{
+"era": 1,
+"id": "Step 314 per_b_weights",
+"step": 314,
+"date": "2026-03-15",
+"title": "Step 314 -- Per-b weight learning. Leo mail 1379.",
+"file": "experiments/run_step314_per_b_weights.py",
+"commit": "eff48f27"
+},
+{
+"era": 1,
+"id": "Step 315 grow_refine",
+"step": 315,
+"date": "2026-03-15",
+"title": "Step 315 -- Grow-and-refine loop. Leo mail 1381.",
+"file": "experiments/run_step315_grow_refine.py",
+"commit": "eff48f27"
+},
+{
+"era": 1,
+"id": "Step 316 consensus_grow",
+"step": 316,
+"date": "2026-03-15",
+"title": "Step 316 -- Consensus spacing in grow step. Leo mail 1383.",
+"file": "experiments/run_step316_consensus_grow.py",
+"commit": "eff48f27"
+},
+{
+"era": 1,
+"id": "Step 317 deep_grow",
+"step": 317,
+"date": "2026-03-15",
+"title": "Step 317 -- K=10 deep grow + per-b refine. Leo mail 1385.",
+"file": "experiments/run_step317_deep_grow.py",
+"commit": "eff48f27"
+},
+{
+"era": 1,
+"id": "Step 318 k_sweep",
+"step": 318,
+"date": "2026-03-15",
+"title": "Step 318 -- Sweep K=1..10: Pareto frontier (LOO-orig vs OOD). Leo mail 1387.",
+"file": "experiments/run_step318_k_sweep.py",
+"commit": "eff48f27"
+},
+{
+"era": 1,
+"id": "Step 319 orig_refine",
+"step": 319,
+"date": "2026-03-15",
+"title": "Step 319 -- Grow K=10, refine on original 400 only. Leo mail 1389.",
+"file": "experiments/run_step319_orig_refine.py",
+"commit": "eff48f27"
+},
+{
+"era": 1,
+"id": "Step 320 arc_baseline",
+"step": 320,
+"date": "2026-03-15",
+"title": "Step 320: ARC-AGI Baseline with Fold",
+"file": "experiments/run_step320_arc_baseline.py",
+"commit": "893f00e3"
+},
+{
+"era": 1,
+"id": "Step 321 taxonomy_xref",
+"step": 321,
+"date": "2026-03-15",
+"title": "Step 321 \u2014 Cross-reference failure map with task taxonomy.",
+"file": "experiments/run_step321_taxonomy_xref.py",
+"commit": "893f00e3"
+},
+{
+"era": 1,
+"id": "Step 322 local_patch",
+"step": 322,
+"date": "2026-03-15",
+"title": "Step 322: Local Patch Encoding for ARC-AGI",
+"file": "experiments/run_step322_local_patch.py",
+"commit": "893f00e3"
+},
+{
+"era": 1,
+"id": "Step 323 row_col_encoding",
+"step": 323,
+"date": "2026-03-15",
+"title": "Step 323 \u2014 Row/column histogram encoding.",
+"file": "experiments/run_step323_row_col_encoding.py",
+"commit": "893f00e3"
+},
+{
+"era": 1,
+"id": "Step 324 example_retrieval",
+"step": 324,
+"date": "2026-03-15",
+"title": "Step 324 \u2014 Example-level retrieval before cell-level 1-NN.",
+"file": "experiments/run_step324_example_retrieval.py",
+"commit": "893f00e3"
+},
+{
+"era": 1,
+"id": "Step 325 object_features",
+"step": 325,
+"date": "2026-03-15",
+"title": "Step 325 \u2014 Object-level features (connected components).",
+"file": "experiments/run_step325_object_features.py",
+"commit": "893f00e3"
+},
+{
+"era": 1,
+"id": "Step 326 rule_extraction",
+"step": 326,
+"date": "2026-03-15",
+"title": "Step 326 \u2014 Rule extraction for same-size ARC tasks.",
+"file": "experiments/run_step326_rule_extraction.py",
+"commit": "893f00e3"
+},
+{
+"era": 1,
+"id": "Step 327 arc_loop",
+"step": 327,
+"date": "2026-03-15",
+"title": "Step 327 \u2014 Port auto_loop to ARC-AGI.",
+"file": "experiments/run_step327_arc_loop.py",
+"commit": "893f00e3"
+},
+{
+"era": 1,
+"id": "Step 328 recursive_phi",
+"step": 328,
+"date": "2026-03-15",
+"title": "Step 328 \u2014 Recursive phi (Level 2) on ARC-AGI.",
+"file": "experiments/run_step328_recursive_phi.py",
+"commit": "893f00e3"
+},
+{
+"era": 1,
+"id": "Step 329 a_spatial_phi",
+"step": 329,
+"date": "2026-03-15",
+"title": "Step 329a \u2014 Spatial phi_2.",
+"file": "experiments/run_step329a_spatial_phi.py",
+"commit": "893f00e3"
+},
+{
+"era": 1,
+"id": "Step 330 pmnist_loop",
+"step": 330,
+"date": "2026-03-15",
+"title": "Step 330 \u2014 Automated loop on P-MNIST.",
+"file": "experiments/run_step330_pmnist_loop.py",
+"commit": "893f00e3"
+},
+{
+"era": 1,
+"id": "Step 331 local_metric",
+"step": 331,
+"date": "2026-03-15",
+"title": "Step 331 \u2014 Self-discovered clustering + local metric on a%b.",
+"file": "experiments/run_step331_local_metric.py",
+"commit": "893f00e3"
+},
+{
+"era": 1,
+"id": "Step 332 recursive_phi_ab",
+"step": 332,
+"date": "2026-03-15",
+"title": "Step 332 \u2014 Recursive phi on a%b.",
+"file": "experiments/run_step332_recursive_phi_ab.py",
+"commit": "893f00e3"
+},
+{
+"era": 1,
+"id": "Step 333 cl_filter",
+"step": 333,
+"date": "2026-03-15",
+"title": "Step 333 \u2014 Competitive learning as filter discovery on a%b.",
+"file": "experiments/run_step333_cl_filter.py",
+"commit": "893f00e3"
+},
+{
+"era": 1,
+"id": "Step 334 arc_constraint_map",
+"step": 334,
+"date": "2026-03-15",
+"title": "Step 334 \u2014 Classify every unsolved ARC task by capability gap.",
+"file": "experiments/run_step334_arc_constraint_map.py",
+"commit": "893f00e3"
+},
+{
+"era": 1,
+"id": "Step 335 cl_filter_arc",
+"step": 335,
+"date": "2026-03-15",
+"title": "Step 335 \u2014 CL filter discovery on ARC OBJECT_IDENTITY tasks.",
+"file": "experiments/run_step335_cl_filter_arc.py",
+"commit": "893f00e3"
+},
+{
+"era": 1,
+"id": "Step 336 cl_embedded_weights",
+"step": 336,
+"date": "2026-03-15",
+"title": "Step 336 \u2014 CL with embedded per-entry weights on a%b. Stage 7 attempt.",
+"file": "experiments/run_step336_cl_embedded_weights.py",
+"commit": "07cf771b"
+},
+{
+"era": 1,
+"id": "Step 337 mixed_function",
+"step": 337,
+"date": "2026-03-15",
+"title": "Step 337 \u2014 Mixed-function classification with CL+phi.",
+"file": "experiments/run_step337_mixed_function.py",
+"commit": "07cf771b"
+},
+{
+"era": 1,
+"id": "Step 338 spawn_as_data",
+"step": 338,
+"date": "2026-03-15",
+"title": "Step 338 \u2014 Spawn rule as codebook data. Stage 8 attempt.",
+"file": "experiments/run_step338_spawn_as_data.py",
+"commit": "9ed3abe0"
+},
+{
+"era": 1,
+"id": "Step 339 compressed_substrate",
+"step": 339,
+"date": "2026-03-15",
+"title": "Step 339 \u2014 COMPRESSION: one function that passes S1+S2.",
+"file": "experiments/run_step339_compressed_substrate.py",
+"commit": "a1a4d73b"
+},
+{
+"era": 1,
+"id": "Step 340 full_substrate",
+"step": 340,
+"date": "2026-03-15",
+"title": "Step 340 \u2014 process() with all 7 stages: state-derived hyperparameters.",
+"file": "experiments/run_step340_full_substrate.py",
+"commit": "03ed194b"
+},
+{
+"era": 1,
+"id": "Step 341 thresh_only",
+"step": 341,
+"date": "2026-03-15",
+"title": "Step 341 \u2014 State-derived threshold ONLY. One variable.",
+"file": "experiments/run_step341_thresh_only.py",
+"commit": "03ed194b"
+},
+{
+"era": 1,
+"id": "Step 342 stage3_stage5",
+"step": 342,
+"date": "2026-03-16",
+"title": "Step 342 \u2014 Stage 3 + Stage 5 verification (+ Stage 2 fix).",
+"file": "experiments/run_step342_stage3_stage5.py",
+"commit": "177c9a9e"
+},
+{
+"era": 1,
+"id": "Step 343 arc3",
+"step": 343,
+"date": "2026-03-16",
+"title": "Step 343 \u2014 ARC-AGI-3: process() with proper encoding + reward signal.",
+"file": "experiments/run_step343_arc3.py",
+"commit": "1bf2b55e"
+},
+{
+"era": 1,
+"id": "Step 344 arc3_diff",
+"step": 344,
+"date": "2026-03-16",
+"title": "Step 344 -- ARC-AGI-3: diff encoding.",
+"file": "experiments/run_step344_arc3_diff.py",
+"commit": "1bf2b55e"
+},
+{
+"era": 1,
+"id": "Step 345 explore_negative",
+"step": 345,
+"date": "2026-03-16",
+"title": "Step 345 -- ARC-AGI-3: pure exploration + negative signal from GAME_OVER.",
+"file": "experiments/run_step345_explore_negative.py",
+"commit": "1fc088e1"
+},
+{
+"era": 1,
+"id": "Step 346 visualize",
+"step": 346,
+"date": "2026-03-16",
+"title": "Step 346 -- Visualize ARC-AGI-3 frames.",
+"file": "experiments/run_step346_visualize.py",
+"commit": "1fc088e1"
+},
+{
+"era": 1,
+"id": "Step 347 centered_cosine",
+"step": 347,
+"date": "2026-03-16",
+"title": "Step 347 -- ARC-AGI-3: centered cosine similarity.",
+"file": "experiments/run_step347_centered_cosine.py",
+"commit": "1d140680"
+},
+{
+"era": 1,
+"id": "Step 348 centered_absolute",
+"step": 348,
+"date": "2026-03-16",
+"title": "Step 348 -- ARC-AGI-3: centered absolute frame encoding on LS20.",
+"file": "experiments/run_step348_centered_absolute.py",
+"commit": "1d140680"
+},
+{
+"era": 1,
+"id": "Step 349 effect_filter",
+"step": 349,
+"date": "2026-03-16",
+"title": "Step 349 -- ARC-AGI-3: only learn from actions that change the state.",
+"file": "experiments/run_step349_effect_filter.py",
+"commit": "1d140680"
+},
+{
+"era": 1,
+"id": "Step 350 resolution",
+"step": 350,
+"date": "2026-03-16",
+"title": "Step 350 -- ARC-AGI-3: 16x16 resolution diagnostic on LS20.",
+"file": "experiments/run_step350_resolution.py",
+"commit": "1d140680"
+},
+{
+"era": 1,
+"id": "Step 351 novelty",
+"step": 351,
+"date": "2026-03-16",
+"title": "Step 351 -- ARC-AGI-3: novelty-seeking CompressedFold at 16x16 on LS20.",
+"file": "experiments/run_step351_novelty.py",
+"commit": "1d140680"
+},
+{
+"era": 1,
+"id": "Step 352 progressive",
+"step": 352,
+"date": "2026-03-16",
+"title": "Step 352 -- ARC-AGI-3: progressive deepening on LS20 at 16x16.",
+"file": "experiments/run_step352_progressive.py",
+"commit": "849d405e"
+},
+{
+"era": 1,
+"id": "Step 353 pure_novelty",
+"step": 353,
+"date": "2026-03-16",
+"title": "Step 353 -- ARC-AGI-3: pure novelty-seeking (argmin), persistent codebook, 50000 steps.",
+"file": "experiments/run_step353_pure_novelty.py",
+"commit": "849d405e"
+},
+{
+"era": 1,
+"id": "Step 354 extended_novelty",
+"step": 354,
+"date": "2026-03-16",
+"title": "Step 354 -- ARC-AGI-3: extended pure novelty, 200000 steps.",
+"file": "experiments/run_step354_extended_novelty.py",
+"commit": "d5cfaa17"
+},
+{
+"era": 1,
+"id": "Step 355 thresh_temperature",
+"step": 355,
+"date": "2026-03-16",
+"title": "Step 355 -- ARC-AGI-3: Boltzmann action selection with thresh as temperature.",
+"file": "experiments/run_step355_thresh_temperature.py",
+"commit": "d5cfaa17"
+},
+{
+"era": 1,
+"id": "Step 356 local_epsilon",
+"step": 356,
+"date": "2026-03-16",
+"title": "Step 356 -- ARC-AGI-3: local sim as exploration probability.",
+"file": "experiments/run_step356_local_epsilon.py",
+"commit": "7dca44d2"
+},
+{
+"era": 1,
+"id": "Step 357 no_overcompress",
+"step": 357,
+"date": "2026-03-16",
+"title": "Step 357 -- Sampled thresh + local-sim epsilon + original spawn/attract.",
+"file": "experiments/run_step357_no_overcompress.py",
+"commit": "7dca44d2"
+},
+{
+"era": 1,
+"id": "Step 358 all_games",
+"step": 358,
+"date": "2026-03-16",
+"title": "Step 358 -- ARC-AGI-3: map ALL 3 games with pure argmin at 16x16.",
+"file": "experiments/run_step358_all_games.py",
+"commit": "685fe988"
+},
+{
+"era": 1,
+"id": "Step 359 ls20_deep",
+"step": 359,
+"date": "2026-03-16",
+"title": "Step 359 -- LS20 deep: 50000 steps, pure argmin, 16x16, sampled thresh.",
+"file": "experiments/run_step359_ls20_deep.py",
+"commit": "72c76d45"
+},
+{
+"era": 1,
+"id": "Step 360 ft09_resolution",
+"step": 360,
+"date": "2026-03-16",
+"title": "Step 360 -- FT09 resolution sweep + VC33 action space inspection.",
+"file": "experiments/run_step360_ft09_resolution.py",
+"commit": "72c76d45"
+},
+{
+"era": 1,
+"id": "Step 361 click_space",
+"step": 361,
+"date": "2026-03-16",
+"title": "Step 361 -- Click-space exploration for FT09 and VC33.",
+"file": "experiments/run_step361_click_space.py",
+"commit": "2fff7645"
+},
+{
+"era": 1,
+"id": "Step 362 vc33_deep",
+"step": 362,
+"date": "2026-03-16",
+"title": "Step 362 -- VC33 deep: 50K steps, click-space, analyze game-over patterns.",
+"file": "experiments/run_step362_vc33_deep.py",
+"commit": "a51919a9"
+},
+{
+"era": 1,
+"id": "Step 363 reliability",
+"step": 363,
+"date": "2026-03-16",
+"title": "Step 363 -- Reliability + multi-level: LS20 5x50K + FT09 1x50K.",
+"file": "experiments/run_step363_reliability.py",
+"commit": "7be5b6d8"
+},
+{
+"era": 1,
+"id": "Step 364 windowed",
+"step": 364,
+"date": "2026-03-16",
+"title": "Step 364 -- Windowed encoding: x = [state_t, state_{t-1}, state_{t-2}].",
+"file": "experiments/run_step364_windowed.py",
+"commit": "7be5b6d8"
+},
+{
+"era": 1,
+"id": "Step 365 variance_weighted",
+"step": 365,
+"date": "2026-03-16",
+"title": "Step 365 -- Variance-weighted encoding on LS20.",
+"file": "experiments/run_step365_variance_weighted.py",
+"commit": "7be5b6d8"
+},
+{
+"era": 1,
+"id": "Step 366 diff_variance",
+"step": 366,
+"date": "2026-03-16",
+"title": "Step 366 -- Diff-variance weighting + optional windowed encoding.",
+"file": "experiments/run_step366_diff_variance.py",
+"commit": "7be5b6d8"
+},
+{
+"era": 1,
+"id": "Step 367 masked_window",
+"step": 367,
+"date": "2026-03-16",
+"title": "Step 367 -- Timer mask + windowed encoding on LS20.",
+"file": "experiments/run_step367_masked_window.py",
+"commit": "7be5b6d8"
+},
+{
+"era": 1,
+"id": "Step 368 windowed_efficiency",
+"step": 368,
+"date": "2026-03-16",
+"title": "Step 368 -- Windowed encoding efficiency: 3 trials x 10K steps on LS20.",
+"file": "experiments/run_step368_windowed_efficiency.py",
+"commit": "db80ccf1"
+},
+{
+"era": 1,
+"id": "Step 369 scaling_law",
+"step": 369,
+"date": "2026-03-16",
+"title": "Step 369 -- Scaling law: LS20 with 2 actions only (ACTION1+ACTION2).",
+"file": "experiments/run_step369_scaling_law.py",
+"commit": "35421e72"
+},
+{
+"era": 1,
+"id": "Step 370 local_timing",
+"step": 370,
+"date": "2026-03-16",
+"title": "Step 370 -- Local timing game: can process() discover temporal patterns?",
+"file": "experiments/run_step370_local_timing.py",
+"commit": "4534b6fa"
+},
+{
+"era": 1,
+"id": "Step 371 vc33_fullres",
+"step": 371,
+"date": "2026-03-16",
+"title": "Step 371 -- VC33 at 64x64 full resolution. 2K steps.",
+"file": "experiments/run_step371_vc33_fullres.py",
+"commit": "4534b6fa"
+},
+{
+"era": 1,
+"id": "Step 372 ls20_all",
+"step": 372,
+"date": "2026-03-16",
+"title": "Step 372 -- LS20 ALL LEVELS. 100K steps. Track every level completion.",
+"file": "experiments/run_step372_ls20_all.py",
+"commit": "2ad8ab9d"
+},
+{
+"era": 1,
+"id": "Step 373 ft09_all",
+"step": 373,
+"date": "2026-03-16",
+"title": "Step 373 -- FT09 ALL LEVELS. 100K steps. Click-space (69 classes).",
+"file": "experiments/run_step373_ft09_all.py",
+"commit": "2ad8ab9d"
+},
+{
+"era": 1,
+"id": "Step 374 vc33_diagnostic",
+"step": 374,
+"date": "2026-03-16",
+"title": "Step 374 -- VC33 deep visual diagnostic. Pure observation.",
+"file": "experiments/run_step374_vc33_diagnostic.py",
+"commit": "2ad8ab9d"
+},
+{
+"era": 1,
+"id": "Step 375 vc33_zones",
+"step": 375,
+"date": "2026-03-16",
+"title": "Step 375 -- VC33 zone mapping + 3-class process().",
+"file": "experiments/run_step375_vc33_zones.py",
+"commit": "5d7852ed"
+},
+{
+"era": 1,
+"id": "Step 376 all_levels",
+"step": 376,
+"date": "2026-03-16",
+"title": "Step 376 -- Codebook reset on level transition. ALL levels, ALL 3 games.",
+"file": "experiments/run_step376_all_levels.py",
+"commit": "bc532d0f"
+},
+{
+"era": 1,
+"id": "Step 377 raw64",
+"step": 377,
+"date": "2026-03-16",
+"title": "Step 377 -- Raw 64x64 frames, no prescribed encoding. LS20.",
+"file": "experiments/run_step377_raw64.py",
+"commit": "0480c45b"
+},
+{
+"era": 1,
+"id": "Step 378 raw64_play",
+"step": 378,
+"date": "2026-03-16",
+"title": "Step 378 -- Raw 64x64, 50K steps. Does it find Level 1?",
+"file": "experiments/run_step378_raw64_play.py",
+"commit": "0480c45b"
+},
+{
+"era": 1,
+"id": "Step 379 raw64_centered",
+"step": 379,
+"date": "2026-03-16",
+"title": "Step 379 -- Raw 64x64 + centering. LS20.",
+"file": "experiments/run_step379_raw64_centered.py",
+"commit": "0480c45b"
+},
+{
+"era": 1,
+"id": "Step 380 raw_effect_filter",
+"step": 380,
+"date": "2026-03-16",
+"title": "Step 380 -- Raw 64x64 + effect filter. Only stamp when frame changes.",
+"file": "experiments/run_step380_raw_effect_filter.py",
+"commit": "af4fb2dd"
+},
+{
+"era": 1,
+"id": "Step 381 raw64_variance",
+"step": 381,
+"date": "2026-03-16",
+"title": "Step 381 -- Raw 64x64 + per-dim variance weighting. LS20.",
+"file": "experiments/run_step381_raw64_variance.py",
+"commit": "a92b9a2f"
+},
+{
+"era": 1,
+"id": "Step 382 raw64_diffs",
+"step": 382,
+"date": "2026-03-16",
+"title": "Step 382 -- Raw 64x64 DIFFS + variance weighting. LS20.",
+"file": "experiments/run_step382_raw64_diffs.py",
+"commit": "abf5e066"
+},
+{
+"era": 1,
+"id": "Step 383 diff_play",
+"step": 383,
+"date": "2026-03-16",
+"title": "Step 383 -- Raw 64x64 diffs, fixed thresh=0.5, 10K steps. Does it PLAY?",
+"file": "experiments/run_step383_diff_play.py",
+"commit": "abf5e066"
+},
+{
+"era": 1,
+"id": "Step 384 ft09_fine_click",
+"step": 384,
+"date": "2026-03-16",
+"title": "Step 384 -- FT09 level 2 with 256 click regions (16x16 grid). 50K steps.",
+"file": "experiments/run_step384_ft09_fine_click.py",
+"commit": "7eec51b5"
+},
+{
+"era": 1,
+"id": "Step 385 pca_selfencode",
+"step": 385,
+"date": "2026-03-16",
+"title": "Step 385 -- PCA self-encoding at 64x64 raw on LS20.",
+"file": "experiments/run_step385_pca_selfencode.py",
+"commit": "7eec51b5"
+},
+{
+"era": 1,
+"id": "Step 385 b_centered_raw",
+"step": 385,
+"date": "2026-03-16",
+"title": "Step 385b -- Raw 64x64 + proper centering. 50K steps.",
+"file": "experiments/run_step385b_centered_raw.py",
+"commit": "7eec51b5"
+},
+{
+"era": 1,
+"id": "Step 385 c_center_pca",
+"step": 385,
+"date": "2026-03-16",
+"title": "Step 385c -- Center + PCA self-encoding. Raw 64x64 -> center -> PCA 256.",
+"file": "experiments/run_step385c_center_pca.py",
+"commit": "7eec51b5"
+},
+{
+"era": 1,
+"id": "Step 386 rbf_kernel",
+"step": 386,
+"date": "2026-03-16",
+"title": "Step 386 -- RBF kernel at raw 64x64. Nonlinear similarity amplification.",
+"file": "experiments/run_step386_rbf_kernel.py",
+"commit": "7049caf6"
+},
+{
+"era": 1,
+"id": "Step 387 centered_unnorm",
+"step": 387,
+"date": "2026-03-16",
+"title": "Step 387 -- Centered UNNORMALIZED dot product at raw 64x64.",
+"file": "experiments/run_step387_centered_unnorm.py",
+"commit": "7049caf6"
+},
+{
+"era": 1,
+"id": "Step 388 raw_dot",
+"step": 388,
+"date": "2026-03-16",
+"title": "Step 388 -- Raw centered dot product, NO rescaling. LS20 64x64. 50K steps.",
+"file": "experiments/run_step388_raw_dot.py",
+"commit": "7049caf6"
+},
+{
+"era": 1,
+"id": "Step 389 raw_dot_200k",
+"step": 389,
+"date": "2026-03-16",
+"title": "Step 389 -- Raw centered dot product, 200K steps. Statistical test.",
+"file": "experiments/run_step389_raw_dot_200k.py",
+"commit": "7049caf6"
+},
+{
+"era": 1,
+"id": "Step 390 sparse_cb",
+"step": 390,
+"date": "2026-03-16",
+"title": "Step 390 -- Raw centered dot product, NO rescaling. LS20 64x64. 50K steps.",
+"file": "experiments/run_step390_sparse_cb.py",
+"commit": "7049caf6"
+},
+{
+"era": 1,
+"id": "Step 390 b_sparse_cb",
+"step": 390,
+"date": "2026-03-16",
+"title": "Step 390b -- Raw centered dot product, NO rescaling. LS20 64x64. 50K steps.",
+"file": "experiments/run_step390b_sparse_cb.py",
+"commit": "7049caf6"
+},
+{
+"era": 1,
+"id": "Step 391 adaptive_res",
+"step": 391,
+"date": "2026-03-16",
+"title": "Step 391 -- Adaptive resolution discovery. LS20.",
+"file": "experiments/run_step391_adaptive_res.py",
+"commit": "9eab27ec"
+},
+{
+"era": 1,
+"id": "Step 392 fisher_res",
+"step": 392,
+"date": "2026-03-16",
+"title": "Step 392 -- Adaptive resolution with Fisher discriminant ratio.",
+"file": "experiments/run_step392_fisher_res.py",
+"commit": "9eab27ec"
+},
+{
+"era": 1,
+"id": "Step 393 adaptive_2k",
+"step": 393,
+"date": "2026-03-16",
+"title": "Step 393 -- Adaptive resolution: 2000 steps/res + self-feeding displacement test.",
+"file": "experiments/run_step393_adaptive_2k.py",
+"commit": "9eab27ec"
+},
+{
+"era": 1,
+"id": "Step 394 self_feed",
+"step": 394,
+"date": "2026-03-16",
+"title": "Step 394 -- Self-feeding consolidation at 64x64. LS20. 200K steps.",
+"file": "experiments/run_step394_self_feed.py",
+"commit": "9eab27ec"
+},
+{
+"era": 1,
+"id": "Step 395 cascade",
+"step": 395,
+"date": "2026-03-16",
+"title": "Step 395 -- In-game resolution cascade. Start 64x64, drop when stuck.",
+"file": "experiments/run_step395_cascade.py",
+"commit": "9eab27ec"
+},
+{
+"era": 1,
+"id": "Step 396 multires_vote",
+"step": 396,
+"date": "2026-03-16",
+"title": "Step 396 -- Multi-resolution voting. All 4 resolutions simultaneously.",
+"file": "experiments/run_step396_multires_vote.py",
+"commit": "9eab27ec"
+},
+{
+"era": 1,
+"id": "Step 397 replace_cap",
+"step": 397,
+"date": "2026-03-16",
+"title": "Step 397 -- Replace-on-cap at 64x64. FIFO overwrite oldest entry.",
+"file": "experiments/run_step397_replace_cap.py",
+"commit": "9eab27ec"
+},
+{
+"era": 1,
+"id": "Step 398 two_codebook",
+"step": 398,
+"date": "2026-03-16",
+"title": "Step 398 -- Two-codebook architecture. Class vote IS the encoding.",
+"file": "experiments/run_step398_two_codebook.py",
+"commit": "9eab27ec"
+},
+{
+"era": 1,
+"id": "Step 398 b_bootstrap",
+"step": 398,
+"date": "2026-03-16",
+"title": "Step 398b -- Two-codebook with bootstrap. Force-spawn first 200 steps.",
+"file": "experiments/run_step398b_bootstrap.py",
+"commit": "2b5b9390"
+},
+{
+"era": 1,
+"id": "Step 399 twocb_16x16",
+"step": 399,
+"date": "2026-03-16",
+"title": "Step 399 -- Two-codebook at 16x16. Does meta-encoding improve over baseline?",
+"file": "experiments/run_step399_twocb_16x16.py",
+"commit": "2b5b9390"
+},
+{
+"era": 1,
+"id": "Step 400 changeweight",
+"step": 400,
+"date": "2026-03-16",
+"title": "Step 400 -- Change-rate weighted similarity at 64x64.",
+"file": "experiments/run_step400_changeweight.py",
+"commit": "2b5b9390"
+},
+{
+"era": 1,
+"id": "Step 401 hard_mask",
+"step": 401,
+"date": "2026-03-16",
+"title": "Step 401 -- Hard threshold on change rate. DELETE uninformative dims.",
+"file": "experiments/run_step401_hard_mask.py",
+"commit": "2b5b9390"
+},
+{
+"era": 1,
+"id": "Step 402 mask_group",
+"step": 402,
+"date": "2026-03-16",
+"title": "Step 402 -- Mask + group adjacent active dims. Self-derived spatial encoding.",
+"file": "experiments/run_step402_mask_group.py",
+"commit": "d178e1f5"
+},
+{
+"era": 1,
+"id": "Step 402 b_bootstrap",
+"step": 402,
+"date": "2026-03-16",
+"title": "Step 402b -- Mask + group + force-spawn 200. Bootstrap the codebook.",
+"file": "experiments/run_step402b_bootstrap.py",
+"commit": "d178e1f5"
+},
+{
+"era": 1,
+"id": "Step 403 2d_kernel",
+"step": 403,
+"date": "2026-03-16",
+"title": "Step 403 -- 2D-aware substrate. Temporal detection + kernel discovery.",
+"file": "experiments/run_step403_2d_kernel.py",
+"commit": "d178e1f5"
+},
+{
+"era": 1,
+"id": "Step 403 b_4x4_kernel",
+"step": 403,
+"date": "2026-03-16",
+"title": "Step 403b -- Force 4x4 kernel on self-discovered signal region.",
+"file": "experiments/run_step403b_4x4_kernel.py",
+"commit": "d178e1f5"
+},
+{
+"era": 1,
+"id": "Step 404 chunk_compose",
+"step": 404,
+"date": "2026-03-16",
+"title": "Step 404 -- Chunk composition. 16 codebooks x 256D + meta codebook.",
+"file": "experiments/run_step404_chunk_compose.py",
+"commit": "d178e1f5"
+},
+{
+"era": 1,
+"id": "Step 405 recursive",
+"step": 405,
+"date": "2026-03-16",
+"title": "Step 405 -- Recursive self-composition with cached depth.",
+"file": "experiments/run_step405_recursive.py",
+"commit": "d178e1f5"
+},
+{
+"era": 1,
+"id": "Step 406 delta_var",
+"step": 406,
+"date": "2026-03-16",
+"title": "Step 406 -- Attract-delta variance as self-derived encoding.",
+"file": "experiments/run_step406_delta_var.py",
+"commit": "1d2a7916"
+},
+{
+"era": 1,
+"id": "Step 407 winner_counts",
+"step": 407,
+"date": "2026-03-16",
+"title": "Step 407 -- Winner-identity encoding. Discrete state. Count-based exploration.",
+"file": "experiments/run_step407_winner_counts.py",
+"commit": "1d2a7916"
+},
+{
+"era": 1,
+"id": "Step 408 combined",
+"step": 408,
+"date": "2026-03-16",
+"title": "Step 408 -- Mask + centered unnorm + count-based selection. ALL pieces combined.",
+"file": "experiments/run_step408_combined.py",
+"commit": "d24b7e38"
+},
+{
+"era": 1,
+"id": "Step 408 b_argmin",
+"step": 408,
+"date": "2026-03-16",
+"title": "Step 408b -- Mask + centered unnorm + ARGMIN (standard process).",
+"file": "experiments/run_step408b_argmin.py",
+"commit": "d24b7e38"
+},
+{
+"era": 1,
+"id": "Step 409 temperature",
+"step": 409,
+"date": "2026-03-16",
+"title": "Step 409 -- Centered unnorm + self-tuning temperature.",
+"file": "experiments/run_step409_temperature.py",
+"commit": "9213398a"
+},
+{
+"era": 1,
+"id": "Step 409 b_unified_temp",
+"step": 409,
+"date": "2026-03-16",
+"title": "Step 409b -- Unified temperature. ONE noisy sims for everything.",
+"file": "experiments/run_step409b_unified_temp.py",
+"commit": "9213398a"
+},
+{
+"era": 1,
+"id": "Step 410 spawn_mask",
+"step": 410,
+"date": "2026-03-16",
+"title": "Step 410 -- Spawn-delta importance mask. Substrate discovers dims from growth.",
+"file": "experiments/run_step410_spawn_mask.py",
+"commit": "9213398a"
+},
+{
+"era": 1,
+"id": "Step 411 evolve_metric",
+"step": 411,
+"date": "2026-03-16",
+"title": "Step 411 -- process() evolving its own metric. Random mutation + natural selection.",
+"file": "experiments/run_step411_evolve_metric.py",
+"commit": "6592dff9"
+},
+{
+"era": 1,
+"id": "Step 412 no_normalize",
+"step": 412,
+"date": "2026-03-16",
+"title": "Step 412 -- Delete F.normalize from 16x16 baseline. The compression test.",
+"file": "experiments/run_step412_no_normalize.py",
+"commit": "4cf4be37"
+},
+{
+"era": 1,
+"id": "Step 413 dynamic_res",
+"step": 413,
+"date": "2026-03-16",
+"title": "Step 413 -- Parallel resolution competition. 4 codebooks, rotate driver per life.",
+"file": "experiments/run_step413_dynamic_res.py",
+"commit": "4cf4be37"
+},
+{
+"era": 1,
+"id": "Step 413 b_cap10k",
+"step": 413,
+"date": "2026-03-16",
+"title": "Step 413b -- Same rotation as 413, cb_cap=10K per codebook.",
+"file": "experiments/run_step413b_cap10k.py",
+"commit": "35ee20b3"
+},
+{
+"era": 1,
+"id": "Step 414 sequential_res",
+"step": 414,
+"date": "2026-03-16",
+"title": "Step 414 -- Sequential resolution dedication.",
+"file": "experiments/run_step414_sequential_res.py",
+"commit": "35ee20b3"
+},
+{
+"era": 1,
+"id": "Step 415 unified",
+"step": 415,
+"date": "2026-03-17",
+"title": "Step 415 -- Unified click-grid substrate. ALL games. Zero game knowledge.",
+"file": "experiments/run_step415_unified.py",
+"commit": "7b7405dd"
+},
+{
+"era": 1,
+"id": "Step 415 a_ls20_capped",
+"step": 415,
+"date": "2026-03-17",
+"title": "Step 415a -- LS20 sequential resolution, capped codebook.",
+"file": "experiments/run_step415a_ls20_capped.py",
+"commit": "7b7405dd"
+},
+{
+"era": 1,
+"id": "Step 416 partial_norm",
+"step": 416,
+"date": "2026-03-17",
+"title": "Step 416 -- Partial normalization at 64x64 raw. Stage 7 test.",
+"file": "experiments/run_step416_partial_norm.py",
+"commit": "7b7405dd"
+},
+{
+"era": 1,
+"id": "Step 417 adaptive_ops",
+"step": 417,
+"date": "2026-03-17",
+"title": "Step 417 \u2014 Adaptive Substrate: Operations as Data (Phase 2 begins)",
+"file": "experiments/run_step417_adaptive_ops.py",
+"commit": "485b044f"
+},
+{
+"era": 1,
+"id": "Step 417 constraint_validation",
+"step": 417,
+"date": "2026-03-17",
+"title": "Step 417 \u2014 Constraint Map Validation against process_novelty() baseline.",
+"file": "experiments/run_step417_constraint_validation.py",
+"commit": "3a6a4eb2"
+},
+{
+"era": 1,
+"id": "Step 418 read_is_write",
+"step": 418,
+"date": "2026-03-18",
+"title": "Step 418 \u2014 Read IS Write substrate on LS20.",
+"file": "experiments/run_step418_read_is_write.py",
+"commit": "047032cb"
+},
+{
+"era": 1,
+"id": "Step 418 b_riw_pmnist",
+"step": 418,
+"date": "2026-03-18",
+"title": "Step 418b \u2014 ReadIsWriteClassifier on P-MNIST.",
+"file": "experiments/run_step418b_riw_pmnist.py",
+"commit": "047032cb"
+},
+{
+"era": 1,
+"id": "Step 418 c_thresh_sweep",
+"step": 418,
+"date": "2026-03-18",
+"title": "Step 418c \u2014 ReadIsWriteClassifier spawn threshold sweep on P-MNIST.",
+"file": "experiments/run_step418c_thresh_sweep.py",
+"commit": "047032cb"
+},
+{
+"era": 1,
+"id": "Step 418 d_riw_cl",
+"step": 418,
+"date": "2026-03-18",
+"title": "Step 418d \u2014 ReadIsWriteClassifier on full P-MNIST (10 tasks, continual learning).",
+"file": "experiments/run_step418d_riw_cl.py",
+"commit": "047032cb"
+},
+{
+"era": 1,
+"id": "Step 418 e_riw_errspawn",
+"step": 418,
+"date": "2026-03-18",
+"title": "Step 418e \u2014 ReadIsWrite with error-based spawn on LS20.",
+"file": "experiments/run_step418e_riw_errspawn.py",
+"commit": "047032cb"
+},
+{
+"era": 1,
+"id": "Step 418 f_hybrid",
+"step": 418,
+"date": "2026-03-18",
+"title": "Step 418f \u2014 Hybrid: ReadIsWrite distributed update + argmin class scoring + error spawn.",
+"file": "experiments/run_step418f_hybrid.py",
+"commit": "047032cb"
+},
+{
+"era": 1,
+"id": "Step 418 g_hybrid_cl",
+"step": 418,
+"date": "2026-03-18",
+"title": "Step 418g \u2014 Hybrid (ReadIsWrite + argmin) on P-MNIST 10-task CL.",
+"file": "experiments/run_step418g_hybrid_cl.py",
+"commit": "047032cb"
+},
+{
+"era": 1,
+"id": "Step 419 encoding_discovery",
+"step": 419,
+"date": "2026-03-18",
+"title": "Step 419 \u2014 Encoding self-discovery: centering detection via codebook health.",
+"file": "experiments/run_step419_encoding_discovery.py",
+"commit": "047032cb"
+},
+{
+"era": 1,
+"id": "Step 420 pool_ab",
+"step": 420,
+"date": "2026-03-18",
+"title": "Step 420 \u2014 Mean vs max pooling at 16x16 on LS20. No centering.",
+"file": "experiments/run_step420_pool_ab.py",
+"commit": "047032cb"
+},
+{
+"era": 1,
+"id": "Step 421 b_reproduce",
+"step": 421,
+"date": "2026-03-18",
+"title": "Step 421b \u2014 Reproduce ReadIsWrite tau=0.01 P-MNIST 10-task CL.",
+"file": "experiments/run_step421b_reproduce.py",
+"commit": "047032cb"
+},
+{
+"era": 1,
+"id": "Step 424 riw_ft09",
+"step": 424,
+"date": "2026-03-18",
+"title": "Step 424 \u2014 ReadIsWrite hybrid (tau=0.01 + argmin + error spawn) on FT09 click-space.",
+"file": "experiments/run_step424_riw_ft09.py",
+"commit": "047032cb"
+},
+{
+"era": 1,
+"id": "Step 425 softmax_vote",
+"step": 425,
+"date": "2026-03-18",
+"title": "Step 425 \u2014 process_novelty with softmax voting (not top-K). Isolate 91.84% cause.",
+"file": "experiments/run_step425_softmax_vote.py",
+"commit": "047032cb"
+},
+{
+"era": 1,
+"id": "Step 426 softmax_nav",
+"step": 426,
+"date": "2026-03-19",
+"title": "Step 426 \u2014 Softmax voting on LS20 navigation.",
+"file": "experiments/run_step426_softmax_nav.py",
+"commit": "fda2d5ab"
+},
+{
+"era": 1,
+"id": "Step 428 score_diagnostic",
+"step": 428,
+"date": "2026-03-19",
+"title": "Step 428 \u2014 Action-score convergence diagnostic.",
+"file": "experiments/run_step428_score_diagnostic.py",
+"commit": "fda2d5ab"
+},
+{
+"era": 1,
+"id": "Step 429 topk_avg",
+"step": 429,
+"date": "2026-03-19",
+"title": "Step 429 \u2014 Top-K average scoring on LS20. Break the convergence wall.",
+"file": "experiments/run_step429_topk_avg.py",
+"commit": "fda2d5ab"
+},
+{
+"era": 1,
+"id": "Step 430 norm_sweep",
+"step": 430,
+"date": "2026-03-19",
+"title": "Step 430 \u2014 Fractional normalization sweep: score = top-K sum / count^p.",
+"file": "experiments/run_step430_norm_sweep.py",
+"commit": "fda2d5ab"
+},
+{
+"era": 1,
+"id": "Step 431 centering_discovery",
+"step": 431,
+"date": "2026-03-19",
+"title": "Step 431 \u2014 Can the substrate discover centering via codebook health?",
+"file": "experiments/run_step431_centering_discovery.py",
+"commit": "fda2d5ab"
+},
+{
+"era": 1,
+"id": "Step 432 labeled_vs_self",
+"step": 432,
+"date": "2026-03-19",
+"title": "Step 432 \u2014 Labeled vs self-generated labels on P-MNIST.",
+"file": "experiments/run_step432_labeled_vs_self.py",
+"commit": "fda2d5ab"
+},
+{
+"era": 1,
+"id": "Step 433 cross_domain",
+"step": 433,
+"date": "2026-03-19",
+"title": "Step 433 \u2014 Cross-domain survival. P-MNIST(5) -> LS20(10K) -> P-MNIST(5).",
+"file": "experiments/run_step433_cross_domain.py",
+"commit": "fda2d5ab"
+},
+{
+"era": 1,
+"id": "Step 434 random_walk",
+"step": 434,
+"date": "2026-03-19",
+"title": "Step 434 \u2014 Pure random walk on LS20. 10 seeds, 50K steps each.",
+"file": "experiments/run_step434_random_walk.py",
+"commit": "fda2d5ab"
+},
+{
+"era": 1,
+"id": "Step 434 b_tracked",
+"step": 434,
+"date": "2026-03-19",
+"title": "Step 434b \u2014 Random vs substrate with step-to-level tracking.",
+"file": "experiments/run_step434b_tracked.py",
+"commit": "fda2d5ab"
+},
+{
+"era": 1,
+"id": "Step 435 ewc_replay",
+"step": 435,
+"date": "2026-03-19",
+"title": "Step 435 \u2014 EWC + Replay comparison on our exact P-MNIST protocol.",
+"file": "experiments/run_step435_ewc_replay.py",
+"commit": "fda2d5ab"
+},
+{
+"era": 1,
+"id": "Step 437 reservoir",
+"step": 437,
+"date": "2026-03-19",
+"title": "Step 437 \u2014 Minimal self-modifying reservoir. No codebook.",
+"file": "experiments/run_step437_reservoir.py",
+"commit": "fda2d5ab"
+},
+{
+"era": 1,
+"id": "Step 437 b_reservoir_sr",
+"step": 437,
+"date": "2026-03-19",
+"title": "Step 437b \u2014 Self-modifying reservoir with spectral radius control.",
+"file": "experiments/run_step437b_reservoir_sr.py",
+"commit": "fda2d5ab"
+},
+{
+"era": 1,
+"id": "Step 437 c_reservoir_novelty",
+"step": 437,
+"date": "2026-03-19",
+"title": "Step 437c \u2014 Reservoir with novelty detection (delta_h threshold + perturbation).",
+"file": "experiments/run_step437c_reservoir_novelty.py",
+"commit": "fda2d5ab"
+},
+{
+"era": 1,
+"id": "Step 437 d_velocity",
+"step": 437,
+"date": "2026-03-19",
+"title": "Step 437d \u2014 Reservoir with velocity readout. action = delta_h[:n].abs().argmax().",
+"file": "experiments/run_step437d_velocity.py",
+"commit": "fda2d5ab"
+},
+{
+"era": 1,
+"id": "Step 438 growing_reservoir",
+"step": 438,
+"date": "2026-03-19",
+"title": "Step 438 \u2014 Growing reservoir. Start d=16, grow when trajectory rank < d/2.",
+"file": "experiments/run_step438_growing_reservoir.py",
+"commit": "fda2d5ab"
+},
+{
+"era": 1,
+"id": "Step 439 anti_hebb",
+"step": 439,
+"date": "2026-03-19",
+"title": "Step 439 \u2014 Reservoir with anti-Hebbian decorrelation.",
+"file": "experiments/run_step439_anti_hebb.py",
+"commit": "fda2d5ab"
+},
+{
+"era": 1,
+"id": "Step 440 particle_cb",
+"step": 440,
+"date": "2026-03-19",
+"title": "Step 440 \u2014 Interacting particle codebook. Entries have position + velocity.",
+"file": "experiments/run_step440_particle_cb.py",
+"commit": "fda2d5ab"
+},
+{
+"era": 1,
+"id": "Step 440 b_drift_baseline",
+"step": 440,
+"date": "2026-03-19",
+"title": "Step 440b \u2014 process_novelty + entry drift/velocity.",
+"file": "experiments/run_step440b_drift_baseline.py",
+"commit": "fda2d5ab"
+},
+{
+"era": 1,
+"id": "Step 441 sparse_reservoir",
+"step": 441,
+"date": "2026-03-18",
+"title": "Step 441 \u2014 SPARSE reservoir. Opposite of dense Hebb.",
+"file": "experiments/run_step441_sparse_reservoir.py",
+"commit": "1cfc9264"
+},
+{
+"era": 1,
+"id": "Step 442 graph_substrate",
+"step": 442,
+"date": "2026-03-18",
+"title": "Step 442 \u2014 GRAPH SUBSTRATE. Relational dual of the codebook.",
+"file": "experiments/run_step442_graph_substrate.py",
+"commit": "1cfc9264"
+},
+{
+"era": 1,
+"id": "Step 442 b_30k_seeds",
+"step": 442,
+"date": "2026-03-18",
+"title": "Step 442b \u2014 Graph Substrate, 30K steps, 3 seeds.",
+"file": "experiments/run_step442b_30k_seeds.py",
+"commit": "906a8571"
+},
+{
+"era": 1,
+"id": "Step 443 reliability",
+"step": 443,
+"date": "2026-03-18",
+"title": "Step 443 \u2014 Graph Substrate reliability: 10 seeds, 30K steps each.",
+"file": "experiments/run_step443_reliability.py",
+"commit": "03358246"
+},
+{
+"era": 1,
+"id": "Step 444 a_ft09",
+"step": 444,
+"date": "2026-03-18",
+"title": "Step 444a \u2014 Graph Substrate on FT09.",
+"file": "experiments/run_step444a_ft09.py",
+"commit": "03ae0c78"
+},
+{
+"era": 1,
+"id": "Step 444 b_pmnist",
+"step": 444,
+"date": "2026-03-18",
+"title": "Step 444b \u2014 Graph Substrate on P-MNIST (1 task, unsupervised).",
+"file": "experiments/run_step444b_pmnist.py",
+"commit": "03ae0c78"
+},
+{
+"era": 1,
+"id": "Step 445 50k_reliability",
+"step": 445,
+"date": "2026-03-18",
+"title": "Step 445 \u2014 Graph Substrate: 10 seeds \u00d7 50K steps.",
+"file": "experiments/run_step445_50k_reliability.py",
+"commit": "186348e0"
+},
+{
+"era": 1,
+"id": "Step 446 grid_graph",
+"step": 446,
+"date": "2026-03-18",
+"title": "Step 446 \u2014 Grid Graph Substrate on LS20.",
+"file": "experiments/run_step446_grid_graph.py",
+"commit": "b7558486"
+},
+{
+"era": 1,
+"id": "Step 446 b_grid_30k",
+"step": 446,
+"date": "2026-03-18",
+"title": "Step 446b \u2014 Grid Graph at 30K steps, 3 seeds.",
+"file": "experiments/run_step446b_grid_30k.py",
+"commit": "433d2f35"
+},
+{
+"era": 1,
+"id": "Step 447 pca_grid",
+"step": 447,
+"date": "2026-03-18",
+"title": "Step 447 \u2014 PCA Grid Graph on LS20.",
+"file": "experiments/run_step447_pca_grid.py",
+"commit": "a5a71242"
+},
+{
+"era": 1,
+"id": "Step 448 reservoir_graph",
+"step": 448,
+"date": "2026-03-18",
+"title": "Step 448 \u2014 Reservoir-Graph Hybrid on LS20.",
+"file": "experiments/run_step448_reservoir_graph.py",
+"commit": "0536eaed"
+},
+{
+"era": 1,
+"id": "Step 449 ca_graph",
+"step": 449,
+"date": "2026-03-18",
+"title": "Step 449 \u2014 CA-Graph Substrate on LS20.",
+"file": "experiments/run_step449_ca_graph.py",
+"commit": "058b434f"
+},
+{
+"era": 1,
+"id": "Step 449 b_ca_reliability",
+"step": 449,
+"date": "2026-03-18",
+"title": "Step 449b \u2014 CA-Graph reliability: 10 seeds \u00d7 10K steps.",
+"file": "experiments/run_step449b_ca_reliability.py",
+"commit": "6c90085d"
+},
+{
+"era": 1,
+"id": "Step 449 c_rule_sweep",
+"step": 449,
+"date": "2026-03-18",
+"title": "Step 449c \u2014 CA-Graph rule sweep: Rules 30, 90, 110, 184.",
+"file": "experiments/run_step449c_rule_sweep.py",
+"commit": "6c90085d"
+},
+{
+"era": 1,
+"id": "Step 450 binarize_only",
+"step": 450,
+"date": "2026-03-18",
+"title": "Step 450 \u2014 Binarize-only graph (no CA evolution).",
+"file": "experiments/run_step450_binarize_only.py",
+"commit": "28c8dab1"
+},
+{
+"era": 1,
+"id": "Step 451 random_walk",
+"step": 451,
+"date": "2026-03-18",
+"title": "Step 451 \u2014 Pure random walk baseline. action = randint(4) every step.",
+"file": "experiments/run_step451_random_walk.py",
+"commit": "28c8dab1"
+},
+{
+"era": 1,
+"id": "Step 452 partition_tree",
+"step": 452,
+"date": "2026-03-18",
+"title": "Step 452 \u2014 Online Adaptive Partition Tree + Graph (Architecture Family #5).",
+"file": "experiments/run_step452_partition_tree.py",
+"commit": "2a59bc73"
+},
+{
+"era": 1,
+"id": "Step 453 lsh_graph",
+"step": 453,
+"date": "2026-03-18",
+"title": "Step 453 \u2014 LSH Graph (fixed random hyperplanes).",
+"file": "experiments/run_step453_lsh_graph.py",
+"commit": "333aea51"
+},
+{
+"era": 1,
+"id": "Step 454 lsh_reliability",
+"step": 454,
+"date": "2026-03-18",
+"title": "Step 454 \u2014 LSH reliability at 50K steps, 10 seeds.",
+"file": "experiments/run_step454_lsh_reliability.py",
+"commit": "7a77d84f"
+},
+{
+"era": 1,
+"id": "Step 455 lsh_ft09",
+"step": 455,
+"date": "2026-03-18",
+"title": "Step 455 \u2014 LSH k=10 on FT09 (69-class click-space action).",
+"file": "experiments/run_step455_lsh_ft09.py",
+"commit": "7a77d84f"
+},
+{
+"era": 1,
+"id": "Step 456 multires_lsh",
+"step": 456,
+"date": "2026-03-18",
+"title": "Step 456 \u2014 Multi-Resolution LSH Graph (time-based cell growth).",
+"file": "experiments/run_step456_multires_lsh.py",
+"commit": "5b4b5289"
+},
+{
+"era": 1,
+"id": "Step 457 lsh_durability",
+"step": 457,
+"date": "2026-03-18",
+"title": "Step 457 \u2014 Fixed LSH k=10, durability test at 200K steps.",
+"file": "experiments/run_step457_lsh_durability.py",
+"commit": "89ce6ec0"
+},
+{
+"era": 1,
+"id": "Step 458 lsh_k_sweep",
+"step": 458,
+"date": "2026-03-18",
+"title": "Step 458 \u2014 LSH k-sweep: k=8, 10, 12, 14.",
+"file": "experiments/run_step458_lsh_k_sweep.py",
+"commit": "e7694521"
+},
+{
+"era": 1,
+"id": "Step 459 lsh_k12_reliability",
+"step": 459,
+"date": "2026-03-18",
+"title": "Step 459 \u2014 LSH k=12 reliability: 10 seeds x 50K steps.",
+"file": "experiments/run_step459_lsh_k12_reliability.py",
+"commit": "7e2cb860"
+},
+{
+"era": 1,
+"id": "Step 460 reservoir_lsh",
+"step": 460,
+"date": "2026-03-18",
+"title": "Step 460 \u2014 Reservoir-LSH hybrid: spectral radius sweep sr={0.0, 0.5, 0.9}.",
+"file": "experiments/run_step460_reservoir_lsh.py",
+"commit": "707c94d6"
+},
+{
+"era": 1,
+"id": "Step 461 reservoir_lsh_k12",
+"step": 461,
+"date": "2026-03-18",
+"title": "Step 461 \u2014 Reservoir-LSH k=12: upgrade Step 460's k=10 hash to k=12.",
+"file": "experiments/run_step461_reservoir_lsh_k12.py",
+"commit": "69ae456f"
+},
+{
+"era": 1,
+"id": "Step 463 reservoir_dim_sweep",
+"step": 463,
+"date": "2026-03-18",
+"title": "Step 463 \u2014 Reservoir-LSH dimension sweep: res_dim={32, 64, 128, 256}.",
+"file": "experiments/run_step463_reservoir_dim_sweep.py",
+"commit": "7b8ea924"
+},
+{
+"era": 1,
+"id": "Step 464 reservoir_quantized",
+"step": 464,
+"date": "2026-03-18",
+"title": "Step 464 \u2014 Reservoir output quantization: q={0.5, 0.1, 0.05}.",
+"file": "experiments/run_step464_reservoir_quantized.py",
+"commit": "3dbd9057"
+},
+{
+"era": 1,
+"id": "Step 465 low_sr_sweep",
+"step": 465,
+"date": "2026-03-18",
+"title": "Step 465 \u2014 Low spectral radius sweep: sr={0.0, 0.05, 0.1, 0.2}.",
+"file": "experiments/run_step465_low_sr_sweep.py",
+"commit": "126fa45e"
+},
+{
+"era": 1,
+"id": "Step 466 encoding_shootout",
+"step": 466,
+"date": "2026-03-18",
+"title": "Step 466 \u2014 Encoding shootout: centered_enc vs tanh(W_in @ centered_enc(obs)).",
+"file": "experiments/run_step466_encoding_shootout.py",
+"commit": "9e3514c3"
+},
+{
+"era": 1,
+"id": "Step 467 lsh_k12_ft09",
+"step": 467,
+"date": "2026-03-18",
+"title": "Step 467 \u2014 LSH k=12 on FT09. Cross-game generality test.",
+"file": "experiments/run_step467_lsh_k12_ft09.py",
+"commit": "6bff4cce"
+},
+{
+"era": 1,
+"id": "Step 468 lsh_k12_vc33",
+"step": 468,
+"date": "2026-03-18",
+"title": "Step 468 \u2014 LSH k=12 on VC33. Cross-game test 2/3.",
+"file": "experiments/run_step468_lsh_k12_vc33.py",
+"commit": "d2686532"
+},
+{
+"era": 1,
+"id": "Step 469 raw_ft09",
+"step": 469,
+"date": "2026-03-18",
+"title": "Step 469 \u2014 Raw 64x64 + k=16 LSH on FT09.",
+"file": "experiments/run_step469_raw_ft09.py",
+"commit": "61a26744"
+},
+{
+"era": 1,
+"id": "Step 470 raw_ls20",
+"step": 470,
+"date": "2026-03-18",
+"title": "Step 470 \u2014 Raw 64x64 k=16 LSH on LS20. No avgpool.",
+"file": "experiments/run_step470_raw_ls20.py",
+"commit": "37a785b9"
+},
+{
+"era": 1,
+"id": "Step 471 diff_frame",
+"step": 471,
+"date": "2026-03-18",
+"title": "Step 471 \u2014 Diff-frame encoding + k=12 LSH on LS20.",
+"file": "experiments/run_step471_diff_frame.py",
+"commit": "af112c65"
+},
+{
+"era": 1,
+"id": "Step 472 concat_enc",
+"step": 472,
+"date": "2026-03-18",
+"title": "Step 472 \u2014 Concatenated encoding (position + diff) + k=12 LSH on LS20.",
+"file": "experiments/run_step472_concat_enc.py",
+"commit": "76d3d4b0"
+},
+{
+"era": 1,
+"id": "Step 473 multi_hash",
+"step": 473,
+"date": "2026-03-18",
+"title": "Step 473 \u2014 Multi-hash LSH (L tables, k=12 each) on LS20.",
+"file": "experiments/run_step473_multi_hash.py",
+"commit": "73807656"
+},
+{
+"era": 1,
+"id": "Step 474 kmeans_l2",
+"step": 474,
+"date": "2026-03-18",
+"title": "Step 474 \u2014 L2 k-means centroid mapping + graph on LS20. New Family #8.",
+"file": "experiments/run_step474_kmeans_l2.py",
+"commit": "846820b7"
+},
+{
+"era": 1,
+"id": "Step 475 kmeans_reliability",
+"step": 475,
+"date": "2026-03-18",
+"title": "Step 475 \u2014 L2 k-means reliability: 10 seeds on LS20.",
+"file": "experiments/run_step475_kmeans_reliability.py",
+"commit": "8887134d"
+},
+{
+"era": 1,
+"id": "Step 476 kmeans_crossgame",
+"step": 476,
+"date": "2026-03-18",
+"title": "Step 476 \u2014 L2 k-means cross-game: FT09 (3 seeds) + VC33 (3 seeds).",
+"file": "experiments/run_step476_kmeans_crossgame.py",
+"commit": "8887134d"
+},
+{
+"era": 1,
+"id": "Step 477 softmax_temp",
+"step": 477,
+"date": "2026-03-18",
+"title": "Step 477 \u2014 Softmax action selection on L2 k-means. Temperature sweep.",
+"file": "experiments/run_step477_softmax_temp.py",
+"commit": "b2734f6a"
+},
+{
+"era": 1,
+"id": "Step 478 dest_novelty",
+"step": 478,
+"date": "2026-03-18",
+"title": "Step 478 \u2014 Destination-novelty action selection + LSH k=12 on LS20.",
+"file": "experiments/run_step478_dest_novelty.py",
+"commit": "fef95274"
+},
+{
+"era": 1,
+"id": "Step 479 ucb1",
+"step": 479,
+"date": "2026-03-18",
+"title": "Step 479 \u2014 UCB1 action selection on LSH k=12. C sweep.",
+"file": "experiments/run_step479_ucb1.py",
+"commit": "a0b43688"
+},
+{
+"era": 1,
+"id": "Step 480 proj_select",
+"step": 480,
+"date": "2026-03-18",
+"title": "Step 480 \u2014 Hash projection selection via early sig_q.",
+"file": "experiments/run_step480_proj_select.py",
+"commit": "37ede2ff"
+},
+{
+"era": 1,
+"id": "Step 481 pred_error",
+"step": 481,
+"date": "2026-03-18",
+"title": "Step 481 \u2014 Prediction-error action selection on LSH k=12.",
+"file": "experiments/run_step481_pred_error.py",
+"commit": "102f0103"
+},
+{
+"era": 1,
+"id": "Step 482 global_novelty",
+"step": 482,
+"date": "2026-03-18",
+"title": "Step 482 \u2014 Global cell novelty (anti-revisitation) on LSH k=12.",
+"file": "experiments/run_step482_global_novelty.py",
+"commit": "ac3f8743"
+},
+{
+"era": 1,
+"id": "Step 483 ensemble",
+"step": 483,
+"date": "2026-03-18",
+"title": "Step 483 \u2014 Ensemble: argmin OR global-novelty wins. 10 seeds x 30K each.",
+"file": "experiments/run_step483_ensemble.py",
+"commit": "888e6073"
+},
+{
+"era": 1,
+"id": "Step 484 hard_seeds_200k",
+"step": 484,
+"date": "2026-03-18",
+"title": "Step 484 \u2014 Hard seeds (1,2,5,6) at 200K steps. LSH k=12 argmin baseline.",
+"file": "experiments/run_step484_hard_seeds_200k.py",
+"commit": "e6b6fc47"
+},
+{
+"era": 1,
+"id": "Step 485 120k_10seeds",
+"step": 485,
+"date": "2026-03-18",
+"title": "Step 485 \u2014 LSH k=12 argmin at 120K steps, 10 seeds. Capstone reliability test.",
+"file": "experiments/run_step485_120k_10seeds.py",
+"commit": "0383ccd0"
+},
+{
+"era": 1,
+"id": "Step 486 multilevel",
+"step": 486,
+"date": "2026-03-18",
+"title": "Step 486 \u2014 Multi-level navigation. LSH k=12 argmin, no graph reset at level transitions.",
+"file": "experiments/run_step486_multilevel.py",
+"commit": "292e3f3a"
+},
+{
+"era": 1,
+"id": "Step 487 level_reset",
+"step": 487,
+"date": "2026-03-18",
+"title": "Step 487 \u2014 Graph reset at level transition. LSH k=12 argmin.",
+"file": "experiments/run_step487_level_reset.py",
+"commit": "b79a8d7f"
+},
+{
+"era": 1,
+"id": "Step 488 fresh_proj_per_level",
+"step": 488,
+"date": "2026-03-18",
+"title": "Step 488 \u2014 Fresh H per level. LSH k=12 argmin.",
+"file": "experiments/run_step488_fresh_proj_per_level.py",
+"commit": "4f6616ef"
+},
+{
+"era": 1,
+"id": "Step 489 level2_brute",
+"step": 489,
+"date": "2026-03-18",
+"title": "Step 489 \u2014 Level 2 brute force. 1M steps, seed 0. Fresh H+edges per level.",
+"file": "experiments/run_step489_level2_brute.py",
+"commit": "8fd7bbaf"
+},
+{
+"era": 1,
+"id": "Step 490 edge_decay",
+"step": 490,
+"date": "2026-03-18",
+"title": "Step 490 \u2014 Edge decay sweep. LSH k=12 + fresh H per level.",
+"file": "experiments/run_step490_edge_decay.py",
+"commit": "85553614"
+},
+{
+"era": 1,
+"id": "Step 491 death_avoidance",
+"step": 491,
+"date": "2026-03-18",
+"title": "Step 491 \u2014 Death-state avoidance on Level 2. LSH k=12, fresh H per level.",
+"file": "experiments/run_step491_death_avoidance.py",
+"commit": "f1d4f5a6"
+},
+{
+"era": 1,
+"id": "Step 492 death_seeking",
+"step": 492,
+"date": "2026-03-18",
+"title": "Step 492 \u2014 Death-seeking action selection. LSH k=12, fresh H per level.",
+"file": "experiments/run_step492_death_seeking.py",
+"commit": "02bd1d95"
+},
+{
+"era": 1,
+"id": "Step 493 kmeans_level2",
+"step": 493,
+"date": "2026-03-18",
+"title": "Step 493 \u2014 L2 k-means on Level 2. Does growing/adaptive mapping beat fixed LSH cells?",
+"file": "experiments/run_step493_kmeans_level2.py",
+"commit": "340b2cc5"
+},
+{
+"era": 1,
+"id": "Step 494 bloom_filter",
+"step": 494,
+"date": "2026-03-18",
+"title": "Step 494 \u2014 Bloom Filter action selection (Family #9). NO graph, no edges, no nodes.",
+"file": "experiments/run_step494_bloom_filter.py",
+"commit": "999ebb61"
+},
+{
+"era": 1,
+"id": "Step 495 ft09_lsh",
+"step": 495,
+"date": "2026-03-18",
+"title": "Step 495 \u2014 FT09 with raw 64x64 encoding + higher k. FT09 priority (Jun flagged).",
+"file": "experiments/run_step495_ft09_lsh.py",
+"commit": "6de94b8f"
+},
+{
+"era": 1,
+"id": "Step 496 ft09_kmeans",
+"step": 496,
+"date": "2026-03-18",
+"title": "Step 496 \u2014 FT09 k-means graph. Step 476 confirmed k-means reaches 32 FT09 cells.",
+"file": "experiments/run_step496_ft09_kmeans.py",
+"commit": "fd32e24e"
+},
+{
+"era": 1,
+"id": "Step 497 ft09_death_penalty",
+"step": 497,
+"date": "2026-03-18",
+"title": "Step 497 \u2014 FT09 death penalty diagnostic.",
+"file": "experiments/run_step497_ft09_death_penalty.py",
+"commit": "ff4793f6"
+},
+{
+"era": 1,
+"id": "Step 498 ft09_budget",
+"step": 498,
+"date": "2026-03-18",
+"title": "Step 498 \u2014 FT09 budget test with pen10k.",
+"file": "experiments/run_step498_ft09_budget.py",
+"commit": "b1f8f5b1"
+},
+{
+"era": 1,
+"id": "Step 499 ft09_diagnostic",
+"step": 499,
+"date": "2026-03-18",
+"title": "Step 499 \u2014 FT09 full diagnostic. Leo's requests from mails 1984+1986.",
+"file": "experiments/run_step499_ft09_diagnostic.py",
+"commit": "bfe9a8a8"
+},
+{
+"era": 1,
+"id": "Step 500 vc33_diagnostic",
+"step": 500,
+"date": "2026-03-19",
+"title": "Step 500 \u2014 VC33 full diagnostic. Leo's spec (mail 1988).",
+"file": "experiments/run_step500_vc33_diagnostic.py",
+"commit": "a60f62b8"
+},
+{
+"era": 1,
+"id": "Step 501 ft09_gridclick",
+"step": 501,
+"date": "2026-03-19",
+"title": "Step 501 \u2014 FT09 grid-click sweep. Leo's spec (mail 1994).",
+"file": "experiments/run_step501_ft09_gridclick.py",
+"commit": "27a5cf00"
+},
+{
+"era": 1,
+"id": "Step 502 vc33_gridclick",
+"step": 502,
+"date": "2026-03-19",
+"title": "Step 502 \u2014 VC33 grid-click sweep. Leo's spec (mail 1994).",
+"file": "experiments/run_step502_vc33_gridclick.py",
+"commit": "ef8a771e"
+},
+{
+"era": 1,
+"id": "Step 503 ft09_69action",
+"step": 503,
+"date": "2026-03-19",
+"title": "Step 503 \u2014 FT09 69-action k-means graph. Leo's spec (mail 1996).",
+"file": "experiments/run_step503_ft09_69action.py",
+"commit": "894b0bd5"
+},
+{
+"era": 1,
+"id": "Step 504 vc33_zones",
+"step": 504,
+"date": "2026-03-19",
+"title": "Step 504 \u2014 VC33 zone discovery + expanded actions. Leo's spec (mail 1997).",
+"file": "experiments/run_step504_vc33_zones.py",
+"commit": "3862cad8"
+},
+{
+"era": 1,
+"id": "Step 505 vc33_zones_fine",
+"step": 505,
+"date": "2026-03-19",
+"title": "Step 505 \u2014 VC33 zone discovery with 4x4 stride (256 positions). Step 504 found 1 zone with",
+"file": "experiments/run_step505_vc33_zones_fine.py",
+"commit": "139b2fdb"
+},
+{
+"era": 1,
+"id": "Step 506 chain_cifar_arc",
+"step": 506,
+"date": "2026-03-19",
+"title": "Step 506 \u2014 Chain test: CIFAR-100 -> ARC-AGI-3 (LS20) -> CIFAR-100.",
+"file": "experiments/run_step506_chain_cifar_arc.py",
+"commit": "8c6784e6"
+},
+{
+"era": 1,
+"id": "Step 507 dynamic_growth_chain",
+"step": 507,
+"date": "2026-03-19",
+"title": "Step 507 -- Dynamic centroid growth during chain: CIFAR-100 -> LS20 -> CIFAR-100.",
+"file": "experiments/run_step507_dynamic_growth_chain.py",
+"commit": "fd775c05"
+},
+{
+"era": 1,
+"id": "Step 508 full_chain",
+"step": 508,
+"date": "2026-03-19",
+"title": "Step 508 -- Full chain: CIFAR-100 -> LS20 -> FT09 -> VC33 -> CIFAR-100",
+"file": "experiments/run_step508_full_chain.py",
+"commit": "183a84e3"
+},
+{
+"era": 1,
+"id": "Step 509 cifar_encoding_diagnostic",
+"step": 509,
+"date": "2026-03-19",
+"title": "Step 509 -- CIFAR-100 encoding diagnostic.",
+"file": "experiments/run_step509_cifar_encoding_diagnostic.py",
+"commit": "25affd0f"
+},
+{
+"era": 1,
+"id": "Step 510 centroid_sweep",
+"step": 510,
+"date": "2026-03-19",
+"title": "Step 510 -- Centroid count sweep on CIFAR-100.",
+"file": "experiments/run_step510_centroid_sweep.py",
+"commit": "4b8ea1f2"
+},
+{
+"era": 1,
+"id": "Step 511 meta_clustering",
+"step": 511,
+"date": "2026-03-19",
+"title": "Step 511 -- Hierarchical meta-clustering on chain centroids.",
+"file": "experiments/run_step511_meta_clustering.py",
+"commit": "191034e4"
+},
+{
+"era": 1,
+"id": "Step 512 threshold_sweep",
+"step": 512,
+"date": "2026-03-19",
+"title": "Step 512 -- CIFAR threshold sweep.",
+"file": "experiments/run_step512_threshold_sweep.py",
+"commit": "adc7d185"
+},
+{
+"era": 1,
+"id": "Step 513 adaptive_threshold",
+"step": 513,
+"date": "2026-03-19",
+"title": "Step 513 -- Domain-adaptive threshold via local density.",
+"file": "experiments/run_step513_adaptive_threshold.py",
+"commit": "f76318b5"
+},
+{
+"era": 1,
+"id": "Step 514 cc_encoding_chain",
+"step": 514,
+"date": "2026-03-19",
+"title": "Step 514 -- Connected-component encoding (Rudakov-style) on chain.",
+"file": "experiments/run_step514_cc_encoding_chain.py",
+"commit": "441aca26"
+},
+{
+"era": 1,
+"id": "Step 515 kmeans_negative_transfer",
+"step": 515,
+"date": "2026-03-19",
+"title": "Step 515 -- K-means negative transfer: frozen CIFAR centroids on LS20.",
+"file": "experiments/run_step515_kmeans_negative_transfer.py",
+"commit": "ac95f88e"
+},
+{
+"era": 1,
+"id": "Step 516 lsh_cifar_chain",
+"step": 516,
+"date": "2026-03-19",
+"title": "Step 516 -- LSH chain: CIFAR-100 -> LS20 -> CIFAR-100",
+"file": "experiments/run_step516_lsh_cifar_chain.py",
+"commit": "f3e9be39"
+},
+{
+"era": 1,
+"id": "Step 517 bmr_consolidation",
+"step": 517,
+"date": "2026-03-19",
+"title": "Step 517 -- BMR-inspired consolidation on chain centroids.",
+"file": "experiments/run_step517_bmr_consolidation.py",
+"commit": "fda2d5ab"
+},
+{
+"era": 1,
+"id": "Step 518 reverse_chain",
+"step": 518,
+"date": "2026-03-19",
+"title": "Step 518 -- Reverse chain: LS20 -> CIFAR-100 -> LS20",
+"file": "experiments/run_step518_reverse_chain.py",
+"commit": "fda2d5ab"
+},
+{
+"era": 1,
+"id": "Step 521 ngram_ls20",
+"step": 521,
+"date": "2026-03-19",
+"title": "Step 521 -- N-gram sequence agent on LS20. New family: sequence-aware.",
+"file": "experiments/run_step521_ngram_ls20.py",
+"commit": "fda2d5ab"
+},
+{
+"era": 1,
+"id": "Step 522 kmeans_cross_game",
+"step": 522,
+"date": "2026-03-19",
+"title": "Step 522 -- K-means graph cross-game transfer.",
+"file": "experiments/run_step522_kmeans_cross_game.py",
+"commit": "7c64ab17"
+},
+{
+"era": 1,
+"id": "Step 523 lsh_full_chain",
+"step": 523,
+"date": "2026-03-19",
+"title": "Step 523 -- LSH graph full chain: CIFAR->LS20->FT09->VC33->CIFAR.",
+"file": "experiments/run_step523_lsh_full_chain.py",
+"commit": "6754503e"
+},
+{
+"era": 1,
+"id": "Step 524 hebbian_ls20",
+"step": 524,
+"date": "2026-03-19",
+"title": "Step 524 -- Hebbian learning substrate on LS20. New architecture family.",
+"file": "experiments/run_step524_hebbian_ls20.py",
+"commit": "84db2092"
+},
+{
+"era": 1,
+"id": "Step 525 markov_ls20",
+"step": 525,
+"date": "2026-03-19",
+"title": "Step 525 -- Markov chain substrate on LS20. New architecture family.",
+"file": "experiments/run_step525_markov_ls20.py",
+"commit": "8532a289"
+},
+{
+"era": 1,
+"id": "Step 526 lsh_nmi",
+"step": 526,
+"date": "2026-03-19",
+"title": "Step 526 -- LSH classification diagnostic (re-benchmark Step 432).",
+"file": "experiments/run_step526_lsh_nmi.py",
+"commit": "ff975a21"
+},
+{
+"era": 1,
+"id": "Step 527 hebbian_chain",
+"step": 527,
+"date": "2026-03-19",
+"title": "Step 527 -- Hebbian learning substrate on chain: CIFAR->LS20->CIFAR.",
+"file": "experiments/run_step527_hebbian_chain.py",
+"commit": "e5cd5d47"
+},
+{
+"era": 1,
+"id": "Step 528 level2_stochastic",
+"step": 528,
+"date": "2026-03-19",
+"title": "",
+"file": "experiments/run_step528_level2_stochastic.py",
+"commit": "7aaf242b"
+},
+{
+"era": 1,
+"id": "Step 529 lsh_1m",
+"step": 529,
+"date": "2026-03-19",
+"title": "Step 529 \u2014 Pure argmin LSH on LS20, 1M steps, 3 seeds.",
+"file": "experiments/run_step529_lsh_1m.py",
+"commit": "48e00185"
+},
+{
+"era": 1,
+"id": "Step 530 hebbian_chain_full",
+"step": 530,
+"date": "2026-03-19",
+"title": "Step 530 \u2014 Hebbian full chain: CIFAR->LS20->FT09->VC33->CIFAR.",
+"file": "experiments/run_step530_hebbian_chain_full.py",
+"commit": "c1ae105f"
+},
+{
+"era": 1,
+"id": "Step 531 lsh_k_sweep",
+"step": 531,
+"date": "2026-03-19",
+"title": "Step 531 \u2014 LSH k sweep on LS20, 200K steps, 3 seeds each.",
+"file": "experiments/run_step531_lsh_k_sweep.py",
+"commit": "c1ae105f"
+},
+{
+"era": 1,
+"id": "Step 532 level2_k16",
+"step": 532,
+"date": "2026-03-19",
+"title": "Step 532 \u2014 Level 2 stochastic attack, k=16.",
+"file": "experiments/run_step532_level2_k16.py",
+"commit": "576f29f8"
+},
+{
+"era": 1,
+"id": "Step 533 lsh_k16_chain",
+"step": 533,
+"date": "2026-03-19",
+"title": "Step 533 \u2014 LSH k=16 full chain: CIFAR->LS20->FT09->VC33->CIFAR.",
+"file": "experiments/run_step533_lsh_k16_chain.py",
+"commit": "dbe6f14f"
+},
+{
+"era": 1,
+"id": "Step 534 substrate_s",
+"step": 534,
+"date": "2026-03-20",
+"title": "",
+"file": "experiments/run_step534_substrate_s.py",
+"commit": "4a1cda91"
+},
+{
+"era": 1,
+"id": "Step 534 substrate_s_ls20",
+"step": 534,
+"date": "2026-03-19",
+"title": "Step 534 -- Substrate S on LS20. Jun's 11th family: self-partitioning decision tree.",
+"file": "experiments/run_step534_substrate_s_ls20.py",
+"commit": "576f29f8"
+},
+{
+"era": 1,
+"id": "Step 535 splittree_edgetransfer",
+"step": 535,
+"date": "2026-03-19",
+"title": "Step 535 -- SplitTree with edge transfer on split.",
+"file": "experiments/run_step535_splittree_edgetransfer.py",
+"commit": "54e310f0"
+},
+{
+"era": 1,
+"id": "Step 536 splittree_thresh_sweep",
+"step": 536,
+"date": "2026-03-19",
+"title": "Step 536 -- SplitTree threshold sweep (no edge transfer).",
+"file": "experiments/run_step536_splittree_thresh_sweep.py",
+"commit": "f7987984"
+},
+{
+"era": 1,
+"id": "Step 537 splittree_combined",
+"step": 537,
+"date": "2026-03-19",
+"title": "Step 537 -- SplitTree: edge transfer + threshold=64 (best from Step 536).",
+"file": "experiments/run_step537_splittree_combined.py",
+"commit": "614daa81"
+},
+{
+"era": 1,
+"id": "Step 538 splittree_chain",
+"step": 538,
+"date": "2026-03-19",
+"title": "Step 538 -- SplitTree chain: CIFAR -> LS20 -> CIFAR.",
+"file": "experiments/run_step538_splittree_chain.py",
+"commit": "3c59c6ba"
+},
+{
+"era": 1,
+"id": "Step 539 absorb",
+"step": 539,
+"date": "2026-03-19",
+"title": "",
+"file": "experiments/run_step539_absorb.py",
+"commit": "bb02091a"
+},
+{
+"era": 1,
+"id": "Step 540 absorb_reducible",
+"step": 540,
+"date": "2026-03-19",
+"title": "Step 540 -- Absorb with reducible-entropy filter (noisy TV fix).",
+"file": "experiments/run_step540_absorb_reducible.py",
+"commit": "0751935c"
+},
+{
+"era": 1,
+"id": "Step 541 absorb_stricter",
+"step": 541,
+"date": "2026-03-19",
+"title": "Step 541 -- Absorb with stricter entropy filter (recent-window + higher cutoff).",
+"file": "experiments/run_step541_absorb_stricter.py",
+"commit": "a7618448"
+},
+{
+"era": 1,
+"id": "Step 542 recode",
+"step": 542,
+"date": "2026-03-19",
+"title": "",
+"file": "experiments/run_step542_recode.py",
+"commit": "c83ff36d"
+},
+{
+"era": 1,
+"id": "Step 543 recode_chain",
+"step": 543,
+"date": "2026-03-19",
+"title": "Step 543 -- Recode chain: CIFAR-100 (10K) -> LS20 (50K) -> CIFAR-100 (10K).",
+"file": "experiments/run_step543_recode_chain.py",
+"commit": "6e091f63"
+},
+{
+"era": 1,
+"id": "Step 544 recode_uncentered",
+"step": 544,
+"date": "2026-03-19",
+"title": "Step 544 -- Recode WITHOUT centering on LS20.",
+"file": "experiments/run_step544_recode_uncentered.py",
+"commit": "6a7c765f"
+},
+{
+"era": 1,
+"id": "Step 546 recode_perdom",
+"step": 546,
+"date": "2026-03-19",
+"title": "Step 546 -- Recode with per-domain centering on chain.",
+"file": "experiments/run_step546_recode_perdom.py",
+"commit": "7cae5db2"
+},
+{
+"era": 1,
+"id": "Step 547 recode_nmi",
+"step": 547,
+"date": "2026-03-19",
+"title": "Step 547 -- U26 test: Recode argmax classification on CIFAR-100.",
+"file": "experiments/run_step547_recode_nmi.py",
+"commit": "ef6b695e"
+},
+{
+"era": 1,
+"id": "Step 548 r6_refine",
+"step": 548,
+"date": "2026-03-19",
+"title": "Step 548 \u2014 Recode R6 diagnostic: does self-refinement change policy post-saturation?",
+"file": "experiments/run_step548_r6_refine.py",
+"commit": "78af4fb5"
+},
+{
+"era": 1,
+"id": "Step 549 trajectory_divergence",
+"step": 549,
+"date": "2026-03-19",
+"title": "Step 549 \u2014 Recode trajectory divergence: does refinement change WHERE the agent explores?",
+"file": "experiments/run_step549_trajectory_divergence.py",
+"commit": "d4b0651a"
+},
+{
+"era": 1,
+"id": "Step 550 ls20_graph_dump",
+"step": 550,
+"date": "2026-03-19",
+"title": "Step 550 \u2014 LS20 state graph topology dump.",
+"file": "experiments/run_step550_ls20_graph_dump.py",
+"commit": "7c9abbba"
+},
+{
+"era": 1,
+"id": "Step 551 k20_recode",
+"step": 551,
+"date": "2026-03-19",
+"title": "Step 551 \u2014 Recode k=20 at 1M steps. Does finer partition reach L2?",
+"file": "experiments/run_step551_k20_recode.py",
+"commit": "7ebceb63"
+},
+{
+"era": 1,
+"id": "Step 552 transition_classify",
+"step": 552,
+"date": "2026-03-19",
+"title": "Step 552 \u2014 Transition-equivalent classification on CIFAR-100.",
+"file": "experiments/run_step552_transition_classify.py",
+"commit": "9369fbf3"
+},
+{
+"era": 1,
+"id": "Step 553 reducibility",
+"step": 553,
+"date": "2026-03-19",
+"title": "Step 553 \u2014 Which high-entropy graph edges are reducible?",
+"file": "experiments/run_step553_reducibility.py",
+"commit": "71710dce"
+},
+{
+"era": 1,
+"id": "Step 554 aggressive_split",
+"step": 554,
+"date": "2026-03-19",
+"title": "Step 554 \u2014 Aggressive hub splitting to escape the attractor.",
+"file": "experiments/run_step554_aggressive_split.py",
+"commit": "7c1db342"
+},
+{
+"era": 1,
+"id": "Step 555 longer_budget",
+"step": 555,
+"date": "2026-03-19",
+"title": "Step 555 \u2014 Does living longer help? Aggressive Recode at 2M steps.",
+"file": "experiments/run_step555_longer_budget.py",
+"commit": "46a4d671"
+},
+{
+"era": 1,
+"id": "Step 556 l2_autopsy",
+"step": 556,
+"date": "2026-03-19",
+"title": "Step 556 \u2014 L2 autopsy: what IS Level 2, and can any simple action reach it?",
+"file": "experiments/run_step556_l2_autopsy.py",
+"commit": "1874a649"
+},
+{
+"era": 1,
+"id": "Step 557 energy_budget",
+"step": 557,
+"date": "2026-03-19",
+"title": "Step 557 \u2014 Energy budget autopsy: is the 42-step budget the L2 blocker?",
+"file": "experiments/run_step557_energy_budget.py",
+"commit": "e94a2e18"
+},
+{
+"era": 1,
+"id": "Step 558 frame_anomaly",
+"step": 558,
+"date": "2026-03-19",
+"title": "Step 558 \u2014 Frame anomaly detection: is enc-space frame_diff bimodal?",
+"file": "experiments/run_step558_frame_anomaly.py",
+"commit": "0e9c9e72"
+},
+{
+"era": 1,
+"id": "Step 559 diff_guided",
+"step": 559,
+"date": "2026-03-19",
+"title": "Step 559 \u2014 Frame-diff guided Recode: skip blocked (node, action) pairs.",
+"file": "experiments/run_step559_diff_guided.py",
+"commit": "b7480f8c"
+},
+{
+"era": 1,
+"id": "Step 560 codebook_vs_lsh",
+"step": 560,
+"date": "2026-03-19",
+"title": "Step 560 \u2014 What would the codebook do? Analytical comparison (Q13)",
+"file": "experiments/run_step560_codebook_vs_lsh.py",
+"commit": "d28e42d7"
+},
+{
+"era": 1,
+"id": "Step 561 rudakov_cc",
+"step": 561,
+"date": "2026-03-19",
+"title": "Step 561 \u2014 Rudakov-style connected-component object detection for LS20 L2.",
+"file": "experiments/run_step561_rudakov_cc.py",
+"commit": "2382e6a2"
+},
+{
+"era": 1,
+"id": "Step 562 novel_cc",
+"step": 562,
+"date": "2026-03-19",
+"title": "Step 562 \u2014 Novel-object detection via frame diff (fix for Step 561).",
+"file": "experiments/run_step562_novel_cc.py",
+"commit": "c606cb83"
+},
+{
+"era": 1,
+"id": "Step 563 refinement_utility",
+"step": 563,
+"date": "2026-03-19",
+"title": "Step 563: Q4 \u2014 What fraction of refinements actually expand the frontier?",
+"file": "experiments/run_step563_refinement_utility.py",
+"commit": "a7ab1dab"
+},
+{
+"era": 1,
+"id": "Step 564 edge_redundancy",
+"step": 564,
+"date": "2026-03-19",
+"title": "Step 564: Q5 \u2014 What fraction of high-traffic edges are irredundant (load-bearing)?",
+"file": "experiments/run_step564_edge_redundancy.py",
+"commit": "a7ab1dab"
+},
+{
+"era": 1,
+"id": "Step 565 split_topology",
+"step": 565,
+"date": "2026-03-19",
+"title": "Step 565: Q7 \u2014 Does metric refinement rearrange topology?",
+"file": "experiments/run_step565_split_topology.py",
+"commit": "a7ab1dab"
+},
+{
+"era": 1,
+"id": "Step 566 bg_subtraction",
+"step": 566,
+"date": "2026-03-19",
+"title": "Step 566 \u2014 Background subtraction encoding for object detection.",
+"file": "experiments/run_step566_bg_subtraction.py",
+"commit": "8797e498"
+},
+{
+"era": 1,
+"id": "Step 567 mode_map_targets",
+"step": 567,
+"date": "2026-03-19",
+"title": "Step 567 \u2014 Mode map rare-color targeting. R1-compliant L2 attempt.",
+"file": "experiments/run_step567_mode_map_targets.py",
+"commit": "0ca88a6f"
+},
+{
+"era": 1,
+"id": "Step 568 exit_last",
+"step": 568,
+"date": "2026-03-19",
+"title": "Step 568 \u2014 Visit all targets before exit. Greedy TSP, exit forced last.",
+"file": "experiments/run_step568_exit_last.py",
+"commit": "7ac60595"
+},
+{
+"era": 1,
+"id": "Step 569 exit_last_fix",
+"step": 569,
+"date": "2026-03-19",
+"title": "Step 569 \u2014 Exit-last TSP: fix agent_yx=None bug from Step 568.",
+"file": "experiments/run_step569_exit_last_fix.py",
+"commit": "3302c4c2"
+},
+{
+"era": 1,
+"id": "Step 570 self_obs_ab",
+"step": 570,
+"date": "2026-03-19",
+"title": "Step 570 \u2014 Self-observation via graph planning: LS20 A/B test.",
+"file": "experiments/run_step570_self_obs_ab.py",
+"commit": "f258e962"
+},
+{
+"era": 1,
+"id": "Step 570 b_self_obs_ab",
+"step": 570,
+"date": "2026-03-19",
+"title": "Step 570b \u2014 Self-observation via graph planning: LS20 A/B test.",
+"file": "experiments/run_step570b_self_obs_ab.py",
+"commit": "cd6098c0"
+},
+{
+"era": 1,
+"id": "Step 571 candidate_sweep",
+"step": 571,
+"date": "2026-03-19",
+"title": "Step 571 \u2014 Candidate sweep for L2. R1-compliant.",
+"file": "experiments/run_step571_candidate_sweep.py",
+"commit": "d8a65ff4"
+},
+{
+"era": 1,
+"id": "Step 572 iri_diagnostic",
+"step": 572,
+"date": "2026-03-19",
+"title": "Step 572 \u2014 iri (palette) diagnostic + L2 attempt.",
+"file": "experiments/run_step572_iri_diagnostic.py",
+"commit": "bfc74c48"
+},
+{
+"era": 1,
+"id": "Step 572 b_l2_mapping",
+"step": 572,
+"date": "2026-03-20",
+"title": "Step 572b \u2014 Multi-episode Level 2 mapping for L2.",
+"file": "experiments/run_step572b_l2_mapping.py",
+"commit": "4a1cda91"
+},
+{
+"era": 1,
+"id": "Step 572 c_l2_targeting",
+"step": 572,
+"date": "2026-03-20",
+"title": "Step 572c \u2014 Multi-episode L2 mapping with two fixes over 572b:",
+"file": "experiments/run_step572c_l2_targeting.py",
+"commit": "4a1cda91"
+},
+{
+"era": 1,
+"id": "Step 572 d_hardcode_lhs",
+"step": 572,
+"date": "2026-03-20",
+"title": "Step 572d \u2014 Diagnostic: hardcoded lhs target in mgu.",
+"file": "experiments/run_step572d_hardcode_lhs.py",
+"commit": "4a1cda91"
+},
+{
+"era": 1,
+"id": "Step 572 e_isolated_clusters",
+"step": 572,
+"date": "2026-03-20",
+"title": "Step 572e \u2014 Isolated cluster detection (R1-compliant).",
+"file": "experiments/run_step572e_isolated_clusters.py",
+"commit": "4a1cda91"
+},
+{
+"era": 1,
+"id": "Step 572 f_maxcluster60",
+"step": 572,
+"date": "2026-03-20",
+"title": "Step 572f \u2014 Isolated cluster detection (R1-compliant).",
+"file": "experiments/run_step572f_maxcluster60.py",
+"commit": "4a1cda91"
+},
+{
+"era": 1,
+"id": "Step 572 g_l2_diagnostics",
+"step": 572,
+"date": "2026-03-20",
+"title": "Step 572g \u2014 L2 diagnostics: nav failure vs state failure.",
+"file": "experiments/run_step572g_l2_diagnostics.py",
+"commit": "8e7918cc"
+},
+{
+"era": 1,
+"id": "Step 572 h_wall_escape",
+"step": 572,
+"date": "2026-03-20",
+"title": "Step 572h \u2014 Wall escape for L2 navigation.",
+"file": "experiments/run_step572h_wall_escape.py",
+"commit": "8e7918cc"
+},
+{
+"era": 1,
+"id": "Step 572 i_bfs_nav",
+"step": 572,
+"date": "2026-03-20",
+"title": "Step 572i \u2014 BFS navigation for L2.",
+"file": "experiments/run_step572i_bfs_nav.py",
+"commit": "8e7918cc"
+},
+{
+"era": 1,
+"id": "Step 572 j_state_seq",
+"step": 572,
+"date": "2026-03-20",
+"title": "Step 572j \u2014 BFS + state sequencing for L2.",
+"file": "experiments/run_step572j_state_seq.py",
+"commit": "8e7918cc"
+},
+{
+"era": 1,
+"id": "Step 572 k_post_l2",
+"step": 572,
+"date": "2026-03-20",
+"title": "Step 572k \u2014 Post-L2 fix: freeze wall map, handle puq navigation.",
+"file": "experiments/run_step572k_post_l2.py",
+"commit": "8e7918cc"
+},
+{
+"era": 1,
+"id": "Step 572 l_puq_nav",
+"step": 572,
+"date": "2026-03-20",
+"title": "Step 572l \u2014 Puq navigation for L3.",
+"file": "experiments/run_step572l_puq_nav.py",
+"commit": "26dfa0a3"
+},
+{
+"era": 1,
+"id": "Step 572 m_puq_fix",
+"step": 572,
+"date": "2026-03-20",
+"title": "Step 572m \u2014 Fix prev_cl poisoning bug from terminal frame.",
+"file": "experiments/run_step572m_puq_fix.py",
+"commit": "26dfa0a3"
+},
+{
+"era": 1,
+"id": "Step 572 n_diag",
+"step": 572,
+"date": "2026-03-20",
+"title": "Step 572n \u2014 Diagnostic: why does cyc freeze after first L2 in 572m?",
+"file": "experiments/run_step572n_diag.py",
+"commit": "26dfa0a3"
+},
+{
+"era": 1,
+"id": "Step 572 o_probe",
+"step": 572,
+"date": "2026-03-20",
+"title": "572o: Minimal probe. Reach first L2, then print raw info['level'] for 200 steps.",
+"file": "experiments/run_step572o_probe.py",
+"commit": "26dfa0a3"
+},
+{
+"era": 1,
+"id": "Step 572 p_persistent",
+"step": 572,
+"date": "2026-03-20",
+"title": "Step 572p \u2014 Fix for persistent level in LS20 scorecard session.",
+"file": "experiments/run_step572p_persistent.py",
+"commit": "26dfa0a3"
+},
+{
+"era": 1,
+"id": "Step 572 q_puq_pos_tuv",
+"step": 572,
+"date": "2026-03-20",
+"title": "Step 572q \u2014 Puq positional tuv detection (replace broken kdj diff).",
+"file": "experiments/run_step572q_puq_pos_tuv.py",
+"commit": "26dfa0a3"
+},
+{
+"era": 1,
+"id": "Step 572 r_death_reset",
+"step": 572,
+"date": "2026-03-20",
+"title": "Step 572r \u2014 Detect within-episode deaths in puq and reset DR.",
+"file": "experiments/run_step572r_death_reset.py",
+"commit": "0463b3c0"
+},
+{
+"era": 1,
+"id": "Step 572 s_no_fallback_gap",
+"step": 572,
+"date": "2026-03-20",
+"title": "Step 572s \u2014 Eliminate fallback gap during puq waypoint navigation.",
+"file": "experiments/run_step572s_no_fallback_gap.py",
+"commit": "0463b3c0"
+},
+{
+"era": 1,
+"id": "Step 572 t_xhp_sync",
+"step": 572,
+"date": "2026-03-20",
+"title": "Step 572t \u2014 Fix xhp-step DR desync after puq death.",
+"file": "experiments/run_step572t_xhp_sync.py",
+"commit": "0463b3c0"
+},
+{
+"era": 1,
+"id": "Step 572 u_boost1",
+"step": 572,
+"date": "2026-03-20",
+"title": "Step 572u \u2014 Energy boost detour: route through (34,5) to pick up iri sprite.",
+"file": "experiments/run_step572u_boost1.py",
+"commit": "0463b3c0"
+},
+{
+"era": 1,
+"id": "Step 573 u26_pmnist",
+"step": 573,
+"date": "2026-03-20",
+"title": "Step 573 -- U26 validation: Recode self-label accuracy on P-MNIST.",
+"file": "experiments/run_step573_u26_pmnist.py",
+"commit": "6419c951"
+},
+{
+"era": 1,
+"id": "Step 574 u19_lsh_raw",
+"step": 574,
+"date": "2026-03-20",
+"title": "Step 574 -- U19 validation: LSH k=12 at 64x64 raw on LS20.",
+"file": "experiments/run_step574_u19_lsh_raw.py",
+"commit": "6419c951"
+},
+{
+"era": 1,
+"id": "Step 575 ft09_lsh_baseline",
+"step": 575,
+"date": "2026-03-20",
+"title": "Step 575 -- FT09 pure LSH k=12 baseline. 69-action argmin.",
+"file": "experiments/run_step575_ft09_lsh_baseline.py",
+"commit": "a7c223ae"
+},
+{
+"era": 1,
+"id": "Step 576 vc33_modemap",
+"step": 576,
+"date": "2026-03-20",
+"title": "Step 576 -- VC33 mode map + isolated CC: autonomous zone discovery.",
+"file": "experiments/run_step576_vc33_modemap.py",
+"commit": "321e98a4"
+},
+{
+"era": 1,
+"id": "Step 577 chain_l2",
+"step": 577,
+"date": "2026-03-20",
+"title": "Step 577 -- Chain benchmark with L2: CIFAR-100 -> LS20 (L2) -> CIFAR-100.",
+"file": "experiments/run_step577_chain_l2.py",
+"commit": "f006c23d"
+},
+{
+"era": 1,
+"id": "Step 577 selfdiscovery",
+"step": 577,
+"date": "2026-03-20",
+"title": "Step 577 -- Self-discovering substrate (R3 attack).",
+"file": "experiments/run_step577_selfdiscovery.py",
+"commit": "f006c23d"
+},
+{
+"era": 1,
+"id": "Step 577 b_exploration_proxy",
+"step": 577,
+"date": "2026-03-20",
+"title": "Step 577b -- Self-discovering substrate: exploration-proxy scoring.",
+"file": "experiments/run_step577b_exploration_proxy.py",
+"commit": "f006c23d"
+},
+{
+"era": 1,
+"id": "Step 577 c_multibuffer",
+"step": 577,
+"date": "2026-03-20",
+"title": "Step 577c -- Self-discovering substrate: online multi-buffer reinforcement.",
+"file": "experiments/run_step577c_multibuffer.py",
+"commit": "f006c23d"
+},
+{
+"era": 1,
+"id": "Step 577 d_buffer_windows",
+"step": 577,
+"date": "2026-03-20",
+"title": "Step 577d -- Self-discovering substrate: windowed buffer evaluation.",
+"file": "experiments/run_step577d_buffer_windows.py",
+"commit": "14645520"
+},
+{
+"era": 1,
+"id": "Step 578 u5_softmax_recode",
+"step": 578,
+"date": "2026-03-20",
+"title": "Step 578 -- U5 validation: proportional action selection in Recode on LS20.",
+"file": "experiments/run_step578_u5_softmax_recode.py",
+"commit": "f006c23d"
+},
+{
+"era": 1,
+"id": "Step 579 u8_softmax_lsh",
+"step": 579,
+"date": "2026-03-20",
+"title": "Step 579 -- U8 validation: soft blending in LSH on LS20.",
+"file": "experiments/run_step579_u8_softmax_lsh.py",
+"commit": "f006c23d"
+},
+{
+"era": 1,
+"id": "Step 580 per_edge_interpreter",
+"step": 580,
+"date": "2026-03-20",
+"title": "Step 580 -- Per-edge interpreter selection.",
+"file": "experiments/run_step580_per_edge_interpreter.py",
+"commit": "4a1cda91"
+},
+{
+"era": 1,
+"id": "Step 581 cerebellar_prediction",
+"step": 581,
+"date": "2026-03-20",
+"title": "Step 581 -- Cerebellar dual-signal substrate: per-edge prediction error.",
+"file": "experiments/run_step581_cerebellar_prediction.py",
+"commit": "4a1cda91"
+},
+{
+"era": 1,
+"id": "Step 581 b_death_avoidance",
+"step": 581,
+"date": "2026-03-20",
+"title": "Step 581b -- Death-edge avoidance: predictions filter, argmin explores.",
+"file": "experiments/run_step581b_death_avoidance.py",
+"commit": "4a1cda91"
+},
+{
+"era": 1,
+"id": "Step 581 c_confidence_death",
+"step": 581,
+"date": "2026-03-20",
+"title": "Step 581c -- Confidence-gated death avoidance: N\u22653 deaths on same edge before marking lethal.",
+"file": "experiments/run_step581c_confidence_death.py",
+"commit": "902b9cdf"
+},
+{
+"era": 1,
+"id": "Step 581 d_soft_penalty",
+"step": 581,
+"date": "2026-03-20",
+"title": "Step 581d -- Soft penalty: death edges get visit count += PENALTY instead of hard block.",
+"file": "experiments/run_step581d_soft_penalty.py",
+"commit": "902b9cdf"
+},
+{
+"era": 1,
+"id": "Step 582 ops_as_data",
+"step": 582,
+"date": "2026-03-20",
+"title": "Step 582 -- Operations as edge data. Argmin is the sole frozen interpreter.",
+"file": "experiments/run_step582_ops_as_data.py",
+"commit": "902b9cdf"
+},
+{
+"era": 1,
+"id": "Step 582 b_no_op3",
+"step": 582,
+"date": "2026-03-20",
+"title": "Step 582b: 582 with op3 DISABLED. Only op0+op2 (death penalty). If 4/5 -> op3 neutral. If 3/5 -> op3 contributes.\"\"\"",
+"file": "experiments/run_step582b_no_op3.py",
+"commit": "8f25893b"
+},
+{
+"era": 1,
+"id": "Step 582 c_no_op2",
+"step": 582,
+"date": "2026-03-20",
+"title": "Step 582c: 582 with op2 DISABLED. Only op0+op3 (surprise boost). If 4/5 -> op3 alone drives gain. If 3/5 -> op2 alone drives it.\"\"\"",
+"file": "experiments/run_step582c_no_op2.py",
+"commit": "8f25893b"
+},
+{
+"era": 1,
+"id": "Step 583 combined",
+"step": 583,
+"date": "2026-03-20",
+"title": "Step 583: Combined \u2014 permanent soft death penalty (581d) + surprise boost (582 op3) + per-edge predictions.",
+"file": "experiments/run_step583_combined.py",
+"commit": "8f25893b"
+},
+{
+"era": 1,
+"id": "Step 584 seed_expansion",
+"step": 584,
+"date": "2026-03-20",
+"title": "Step 584 \u2014 581d seed expansion: 20 seeds on LS20.",
+"file": "experiments/run_step584_seed_expansion.py",
+"commit": "4df3e791"
+},
+{
+"era": 1,
+"id": "Step 585 cross_game",
+"step": 585,
+"date": "2026-03-20",
+"title": "Step 585 \u2014 Cross-game: 581d on FT09 + VC33.",
+"file": "experiments/run_step585_cross_game.py",
+"commit": "4df3e791"
+},
+{
+"era": 1,
+"id": "Step 586 cl_baselines",
+"step": 586,
+"date": "2026-03-20",
+"title": "Step 586 \u2014 Continual Learning baselines: CIFAR-100 split into 5 tasks.",
+"file": "experiments/run_step586_cl_baselines.py",
+"commit": "4df3e791"
+},
+{
+"era": 1,
+"id": "Step 587 death_count_penalty",
+"step": 587,
+"date": "2026-03-20",
+"title": "Step 587 \u2014 Death-count penalty (\u2113_\u03c0 candidate).",
+"file": "experiments/run_step587_death_count_penalty.py",
+"commit": "80911c18"
+},
+{
+"era": 1,
+"id": "Step 588 recode_death",
+"step": 588,
+"date": "2026-03-20",
+"title": "Step 588 -- Recode + SoftPenalty combination on LS20.",
+"file": "experiments/run_step588_recode_death.py",
+"commit": "e0912cfc"
+},
+{
+"era": 1,
+"id": "Step 589 recode_vs_lsh",
+"step": 589,
+"date": "2026-03-20",
+"title": "Step 589 -- Recode vs LSH head-to-head, 20 seeds, 50K steps. NEEDS JUN APPROVAL.",
+"file": "experiments/run_step589_recode_vs_lsh.py",
+"commit": "63e2165c"
+},
+{
+"era": 1,
+"id": "Step 590 k_sweep",
+"step": 590,
+"date": "2026-03-20",
+"title": "Step 590 -- K sensitivity sweep for SoftPenalty (581d) on LS20.",
+"file": "experiments/run_step590_k_sweep.py",
+"commit": "c7b7c599"
+},
+{
+"era": 1,
+"id": "Step 591 hebbian_death",
+"step": 591,
+"date": "2026-03-20",
+"title": "Step 591 -- Death penalty on Hebbian substrate (family transfer test).",
+"file": "experiments/run_step591_hebbian_death.py",
+"commit": "c7b7c599"
+},
+{
+"era": 1,
+"id": "Step 592 argmin_vs_random",
+"step": 592,
+"date": "2026-03-20",
+"title": "Step 592 -- Argmin vs random baseline (sanity check).",
+"file": "experiments/run_step592_argmin_vs_random.py",
+"commit": "c7b7c599"
+},
+{
+"era": 1,
+"id": "Step 593 encoding_ablation",
+"step": 593,
+"date": "2026-03-20",
+"title": "Step 593 -- Encoding ablation: no centering (U16 confirmation).",
+"file": "experiments/run_step593_encoding_ablation.py",
+"commit": "c7b7c599"
+},
+{
+"era": 1,
+"id": "Step 594 random_vs_argmin",
+"step": 594,
+"date": "2026-03-20",
+"title": "Step 594 -- Random vs Argmin, 20 seeds, 50K steps. Reviewer validation.",
+"file": "experiments/run_step594_random_vs_argmin.py",
+"commit": "193a4569"
+},
+{
+"era": 1,
+"id": "Step 595 chain_tax",
+"step": 595,
+"date": "2026-03-20",
+"title": "Step 595 -- Chain tax measurement.",
+"file": "experiments/run_step595_chain_tax.py",
+"commit": "ad229768"
+},
+{
+"era": 1,
+"id": "Step 596 noise_pretrain",
+"step": 596,
+"date": "2026-03-20",
+"title": "Step 596 -- Noise pre-training control.",
+"file": "experiments/run_step596_noise_pretrain.py",
+"commit": "f11f5c45"
+},
+{
+"era": 1,
+"id": "Step 597 prop8_k_sweep",
+"step": 597,
+"date": "2026-03-20",
+"title": "Step 597 -- Proposition 8 test: K-dependent random baseline.",
+"file": "experiments/run_step597_prop8_k_sweep.py",
+"commit": "9e6f3eb9"
+},
+{
+"era": 1,
+"id": "Step 598 avgpool_ablation",
+"step": 598,
+"date": "2026-03-20",
+"title": "Step 598 -- Avgpool ablation: 16x16 vs 8x8 vs 4x4 resolution.",
+"file": "experiments/run_step598_avgpool_ablation.py",
+"commit": "9e6f3eb9"
+},
+{
+"era": 1,
+"id": "Step 599 action_space",
+"step": 599,
+"date": "2026-03-20",
+"title": "Step 599 -- Action space size effect.",
+"file": "experiments/run_step599_action_space.py",
+"commit": "9e6f3eb9"
+},
+{
+"era": 1,
+"id": "Step 600 graph_density_at_l1",
+"step": 600,
+"date": "2026-03-20",
+"title": "Step 600 -- Graph density at L1 transition.",
+"file": "experiments/run_step600_graph_density_at_l1.py",
+"commit": "9e6f3eb9"
+},
+{
+"era": 1,
+"id": "Step 601 ft09_l2",
+"step": 601,
+"date": "2026-03-22",
+"title": "Step 601 -- FT09 L2: level-aware mode map navigation.",
+"file": "experiments/run_step601_ft09_l2.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 602 ft09_argmin_l2",
+"step": 602,
+"date": "2026-03-22",
+"title": "Step 602 -- FT09 L2: argmin L0 + mode-map priority tiers for L1.",
+"file": "experiments/run_step602_ft09_argmin_l2.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 603 ft09_level_cycle",
+"step": 603,
+"date": "2026-03-22",
+"title": "Step 603 -- FT09 L2: fix level cycling (on_level_up every transition).",
+"file": "experiments/run_step603_ft09_level_cycle.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 604 ft09_deterministic_l1",
+"step": 604,
+"date": "2026-03-22",
+"title": "Step 604 -- FT09 L2: deterministic solution for level 1.",
+"file": "experiments/run_step604_ft09_deterministic_l1.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 605 vc33_l2",
+"step": 605,
+"date": "2026-03-22",
+"title": "Step 605 -- VC33 L2: argmin L0/L1 + mode-map CC for L2 targeting.",
+"file": "experiments/run_step605_vc33_l2.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 606 ls20_l4",
+"step": 606,
+"date": "2026-03-22",
+"title": "Step 606b -- LS20 L4 push (fix: G preserved across episodes, reset only on level transition).",
+"file": "experiments/run_step606_ls20_l4.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 607 grn_substrate",
+"step": 607,
+"date": "2026-03-22",
+"title": "Step 607 -- GRN Substrate on LS20 (Leo's step 606 spec).",
+"file": "experiments/run_step607_grn_substrate.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 608 ft09_chain",
+"step": 608,
+"date": "2026-03-22",
+"title": "Step 608 -- FT09 full deterministic chain: L0 through L6 (game completion).",
+"file": "experiments/run_step608_ft09_chain.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 609 grn_hypermutation",
+"step": 609,
+"date": "2026-03-22",
+"title": "Step 609 -- GRN + Somatic Hypermutation on LS20.",
+"file": "experiments/run_step609_grn_hypermutation.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 610 vc33_chain",
+"step": 610,
+"date": "2026-03-21",
+"title": "Step 610: VC33 full chain benchmark.",
+"file": "experiments/run_step610_vc33_chain.py",
+"commit": "6c5ff1c1"
+},
+{
+"era": 1,
+"id": "Step 611 ls20_diagnostic",
+"step": 611,
+"date": "2026-03-22",
+"title": "Step 611: LS20 L2->L3 state diagnostic.",
+"file": "experiments/run_step611_ls20_diagnostic.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 612 ls20_l3_bootstrap",
+"step": 612,
+"date": "2026-03-22",
+"title": "Step 612: LS20 L3 bootstrap fix (Option C from Leo's 611 analysis).",
+"file": "experiments/run_step612_ls20_l3_bootstrap.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 612 b_ls20_2seed_5min",
+"step": 612,
+"date": "2026-03-22",
+"title": "Step 612: LS20 L3 bootstrap fix (Option C from Leo's 611 analysis).",
+"file": "experiments/run_step612b_ls20_2seed_5min.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 613 ls20_l4_bootstrap",
+"step": 613,
+"date": "2026-03-22",
+"title": "Step 613: LS20 L4 bootstrap fix.",
+"file": "experiments/run_step613_ls20_l4_bootstrap.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 614 ls20_no_g_reset",
+"step": 614,
+"date": "2026-03-22",
+"title": "Step 614: LS20 L2 fix \u2014 remove G reset on level transitions.",
+"file": "experiments/run_step614_ls20_no_g_reset.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 615 ls20_random_tiebreak",
+"step": 615,
+"date": "2026-03-22",
+"title": "Step 615: LS20 fix \u2014 random tie-breaking in argmin + no G reset.",
+"file": "experiments/run_step615_ls20_random_tiebreak.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 616 ls20_no_cluster_nav",
+"step": 616,
+"date": "2026-03-22",
+"title": "Step 616: LS20 fix \u2014 remove L0 cluster targeting + random tie-breaking + no G reset.",
+"file": "experiments/run_step616_ls20_no_cluster_nav.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 617 ls20_l4_chain",
+"step": 617,
+"date": "2026-03-22",
+"title": "Step 617 \u2014 572u base + L3/L4 bootstrap chain. NO G resets.",
+"file": "experiments/run_step617_ls20_l4_chain.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 617 b_572u_verify",
+"step": 617,
+"date": "2026-03-22",
+"title": "Step 572u \u2014 Energy boost detour: route through (34,5) to pick up iri sprite.",
+"file": "experiments/run_step617b_572u_verify.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 618 ls20_l4_rtb",
+"step": 618,
+"date": "2026-03-22",
+"title": "Step 618 \u2014 572u base + 616 L0 fix + L3/L4 bootstrap chain. NO G resets.",
+"file": "experiments/run_step618_ls20_l4_rtb.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 619 572u_exact",
+"step": 619,
+"date": "2026-03-22",
+"title": "Step 572u \u2014 Energy boost detour: route through (34,5) to pick up iri sprite.",
+"file": "experiments/run_step619_572u_exact.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 620 eigenform_selfobs",
+"step": 620,
+"date": "2026-03-22",
+"title": "Step 620 \u2014 Eigenform self-observation on L1.",
+"file": "experiments/run_step620_eigenform_selfobs.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 621 eigenform_adaptive_m",
+"step": 621,
+"date": "2026-03-22",
+"title": "Step 621 \u2014 Eigenform adaptive observation frequency.",
+"file": "experiments/run_step621_eigenform_adaptive_m.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 625 eigenform_chain",
+"step": 625,
+"date": "2026-03-22",
+"title": "Step 625 \u2014 Eigenform chain: CIFAR -> LS20 -> CIFAR.",
+"file": "experiments/run_step625_eigenform_chain.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 626 eigenform_negative_control",
+"step": 626,
+"date": "2026-03-22",
+"title": "Step 626 \u2014 Eigenform negative control.",
+"file": "experiments/run_step626_eigenform_negative_control.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 627 eigenform_death",
+"step": 627,
+"date": "2026-03-22",
+"title": "Step 627 \u2014 Eigenform + death signal: combine 620 self-observation with 582 death penalty.",
+"file": "experiments/run_step627_eigenform_death.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 629 eigenform_l2",
+"step": 629,
+"date": "2026-03-22",
+"title": "Step 629 \u2014 Eigenform L2 attempt: L1 success tagging as L2 mechanism.",
+"file": "experiments/run_step629_eigenform_l2.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 630 delta_augmented",
+"step": 630,
+"date": "2026-03-22",
+"title": "Step 630 \u2014 Delta-augmented graph on LS20.",
+"file": "experiments/run_step630_delta_augmented.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 631 delta_probe",
+"step": 631,
+"date": "2026-03-22",
+"title": "Step 631 \u2014 Delta causality probe (diagnostic only).",
+"file": "experiments/run_step631_delta_probe.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 632 delta_coarse",
+"step": 632,
+"date": "2026-03-22",
+"title": "Step 632 \u2014 Delta-augmented action selection at coarser resolution.",
+"file": "experiments/run_step632_delta_coarse.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 633 binary_mask",
+"step": 633,
+"date": "2026-03-22",
+"title": "Step 633 \u2014 Binary change mask delta encoding.",
+"file": "experiments/run_step633_binary_mask.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 634 binary_mask_bits",
+"step": 634,
+"date": "2026-03-22",
+"title": "Step 634 \u2014 Binary mask with more bits, separate delta H matrix.",
+"file": "experiments/run_step634_binary_mask_bits.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 635 frontier_gradient",
+"step": 635,
+"date": "2026-03-22",
+"title": "Step 635 \u2014 Frontier-gradient action selection.",
+"file": "experiments/run_step635_frontier_gradient.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 636 per_edge_stale",
+"step": 636,
+"date": "2026-03-22",
+"title": "Step 636 \u2014 Per-edge stale detection (sparse negative bias).",
+"file": "experiments/run_step636_per_edge_stale.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 637 entropy_stale",
+"step": 637,
+"date": "2026-03-22",
+"title": "Step 637 \u2014 Transition entropy per edge (successor-destination stale).",
+"file": "experiments/run_step637_entropy_stale.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 638 event_catalog",
+"step": 638,
+"date": "2026-03-21",
+"title": "Step 638 \u2014 Environmental event diagnostic (pure logging, no mechanism).",
+"file": "experiments/run_step638_event_catalog.py",
+"commit": "c193daa8"
+},
+{
+"era": 1,
+"id": "Step 639 large_diff_penalty",
+"step": 639,
+"date": "2026-03-22",
+"title": "Step 639 + 639b \u2014 large_diff per-edge penalty.",
+"file": "experiments/run_step639_large_diff_penalty.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 640 metagraph_tiebreak",
+"step": 640,
+"date": "2026-03-22",
+"title": "Step 640 \u2014 Meta-graph tie-breaking via transition profile similarity.",
+"file": "experiments/run_step640_metagraph_tiebreak.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 641 metagraph_soft",
+"step": 641,
+"date": "2026-03-22",
+"title": "Step 641 \u2014 Meta-graph soft bias.",
+"file": "experiments/run_step641_metagraph_soft.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 642 outcome_hash",
+"step": 642,
+"date": "2026-03-22",
+"title": "Step 642 \u2014 Outcome-hash edges (passive data collection).",
+"file": "experiments/run_step642_outcome_hash.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 643 predictive_edges",
+"step": 643,
+"date": "2026-03-22",
+"title": "Step 643 \u2014 Predictive edges (passive data collection).",
+"file": "experiments/run_step643_predictive_edges.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 644 successor_diversity",
+"step": 644,
+"date": "2026-03-22",
+"title": "Step 644 \u2014 Successor diversity tie-breaking.",
+"file": "experiments/run_step644_successor_diversity.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 645 self_derived_penalty",
+"step": 645,
+"date": "2026-03-22",
+"title": "Step 645 \u2014 Self-derived penalty (R3 version of 581d).",
+"file": "experiments/run_step645_self_derived_penalty.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 645 b_normalized_surprise",
+"step": 645,
+"date": "2026-03-22",
+"title": "Step 645b \u2014 Normalized surprise-rate penalty (R3 version of 581d).",
+"file": "experiments/run_step645b_normalized_surprise.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 648 outcome_transfer",
+"step": 648,
+"date": "2026-03-22",
+"title": "Step 648 \u2014 Outcome-hash transfer tie-breaking.",
+"file": "experiments/run_step648_outcome_transfer.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 649 path_conditioned",
+"step": 649,
+"date": "2026-03-22",
+"title": "Step 649 \u2014 Path-conditioned counts (2nd-order Markov).",
+"file": "experiments/run_step649_path_conditioned.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 650 per_episode",
+"step": 650,
+"date": "2026-03-22",
+"title": "Step 650 \u2014 Per-episode exploration.",
+"file": "experiments/run_step650_per_episode.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 651 mgu_argmin_diagnostic",
+"step": 651,
+"date": "2026-03-22",
+"title": "Step 651 \u2014 Passive L2 diagnostic: what does the mgu pipeline DO that argmin doesn't?",
+"file": "experiments/run_step651_mgu_argmin_diagnostic.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 652 exit_cell",
+"step": 652,
+"date": "2026-03-22",
+"title": "Step 652 \u2014 Exit cell visit count diagnostic.",
+"file": "experiments/run_step652_exit_cell.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 653 argmin_vs_random",
+"step": 653,
+"date": "2026-03-22",
+"title": "Step 653 \u2014 Seed-matched argmin vs random walk.",
+"file": "experiments/run_step653_argmin_vs_random.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 654 hidden_state_mi",
+"step": 654,
+"date": "2026-03-22",
+"title": "Step 654 \u2014 Hidden state MI diagnostic.",
+"file": "experiments/run_step654_hidden_state_mi.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 655 tempest_graph",
+"step": 655,
+"date": "2026-03-22",
+"title": "Step 655 \u2014 Tempest graph: composition substrate.",
+"file": "experiments/run_step655_tempest_graph.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 656 ngram_buffer",
+"step": 656,
+"date": "2026-03-22",
+"title": "Step 656 \u2014 Is the graph necessary? N-gram history buffer vs graph.",
+"file": "experiments/run_step656_ngram_buffer.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 657 action_entropy",
+"step": 657,
+"date": "2026-03-22",
+"title": "Step 657 \u2014 Action sequence entropy before L1.",
+"file": "experiments/run_step657_action_entropy.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 658 decoupled",
+"step": 658,
+"date": "2026-03-22",
+"title": "Step 658 \u2014 Does the interpreter decompose? Decoupled compare vs select.",
+"file": "experiments/run_step658_decoupled.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 659 betweenness",
+"step": 659,
+"date": "2026-03-22",
+"title": "Step 659 \u2014 Spatial composition via graph betweenness centrality.",
+"file": "experiments/run_step659_betweenness.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 660 flat_counter",
+"step": 660,
+"date": "2026-03-22",
+"title": "Step 660 \u2014 Graph vs flat counter (same 20 seeds as Step 653).",
+"file": "experiments/run_step660_flat_counter.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 661 ngram_cell",
+"step": 661,
+"date": "2026-03-22",
+"title": "Step 661 \u2014 N-gram vs argmin seed comparison (same 20 seeds as 653).",
+"file": "experiments/run_step661_ngram_cell.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 662 seq_library",
+"step": 662,
+"date": "2026-03-22",
+"title": "Step 662 \u2014 Sequence storage substrate.",
+"file": "experiments/run_step662_seq_library.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 663 graph_random",
+"step": 663,
+"date": "2026-03-22",
+"title": "Step 663 \u2014 Graph without argmin (random walk with graph memory).",
+"file": "experiments/run_step663_graph_random.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 664 outcome_variability",
+"step": 664,
+"date": "2026-03-21",
+"title": "Step 664 \u2014 Outcome variability per cell (diagnostic).",
+"file": "experiments/run_step664_outcome_variability.py",
+"commit": "237b9e2e"
+},
+{
+"era": 1,
+"id": "Step 665 frame_diff_exit",
+"step": 665,
+"date": "2026-03-21",
+"title": "Step 665 \u2014 Frame-diff at exit cell.",
+"file": "experiments/run_step665_frame_diff_exit.py",
+"commit": "237b9e2e"
+},
+{
+"era": 1,
+"id": "Step 666 finer_hash",
+"step": 666,
+"date": "2026-03-21",
+"title": "Step 666 \u2014 Finer hash at high-entropy cells.",
+"file": "experiments/run_step666_finer_hash.py",
+"commit": "237b9e2e"
+},
+{
+"era": 1,
+"id": "Step 667 outcome_conditioned",
+"step": 667,
+"date": "2026-03-21",
+"title": "Step 667 \u2014 Outcome-conditioned action selection.",
+"file": "experiments/run_step667_outcome_conditioned.py",
+"commit": "237b9e2e"
+},
+{
+"era": 1,
+"id": "Step 668 visit_count",
+"step": 668,
+"date": "2026-03-21",
+"title": "Step 668 \u2014 Multi-visit belief accumulator.",
+"file": "experiments/run_step668_visit_count.py",
+"commit": "237b9e2e"
+},
+{
+"era": 1,
+"id": "Step 669 gaussian_variance",
+"step": 669,
+"date": "2026-03-21",
+"title": "Step 669 \u2014 Gaussian-inspired observation (frame variance drives refinement).",
+"file": "experiments/run_step669_gaussian_variance.py",
+"commit": "237b9e2e"
+},
+{
+"era": 1,
+"id": "Step 670 alternating",
+"step": 670,
+"date": "2026-03-21",
+"title": "Step 670 \u2014 Alternating exploration (argmin/random every 5 episodes).",
+"file": "experiments/run_step670_alternating.py",
+"commit": "237b9e2e"
+},
+{
+"era": 1,
+"id": "Step 671 splatter",
+"step": 671,
+"date": "2026-03-21",
+"title": "Step 671 \u2014 Splatter substrate (one frame -> predict the world).",
+"file": "experiments/run_step671_splatter.py",
+"commit": "237b9e2e"
+},
+{
+"era": 1,
+"id": "Step 672 dual_hash_diagnostic",
+"step": 672,
+"date": "2026-03-22",
+"title": "Step 672 \u2014 Dual-hash baseline (k=12 nav + k=20 everywhere, diagnostic).",
+"file": "experiments/run_step672_dual_hash_diagnostic.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 673 selective_dual_hash",
+"step": 673,
+"date": "2026-03-22",
+"title": "Step 673 \u2014 Selective dual-hash (fine hash only at variable cells).",
+"file": "experiments/run_step673_selective_dual_hash.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 674 transition_triggered",
+"step": 674,
+"date": "2026-03-22",
+"title": "Step 674 \u2014 Transition-triggered refinement (direct aliasing test).",
+"file": "experiments/run_step674_transition_triggered.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 674 b_capped_transition_top100",
+"step": 674,
+"date": "2026-03-22",
+"title": "Step 674b \u2014 Capped transition-triggered refinement (top-100 aliased cells).",
+"file": "experiments/run_step674b_capped_transition_top100.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 674 c_capped_transition_top50",
+"step": 674,
+"date": "2026-03-22",
+"title": "Step 674c \u2014 Capped transition-triggered refinement (top-50 aliased cells).",
+"file": "experiments/run_step674c_capped_transition_top50.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 674 d_adaptive_cap",
+"step": 674,
+"date": "2026-03-22",
+"title": "Step 674d \u2014 Adaptive cap transition-triggered refinement (top 25% by inconsistency).",
+"file": "experiments/run_step674d_adaptive_cap.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 675 progressive_refinement",
+"step": 675,
+"date": "2026-03-22",
+"title": "Step 675 \u2014 Progressive refinement (increase k over time).",
+"file": "experiments/run_step675_progressive_refinement.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 676 outcome_hash",
+"step": 676,
+"date": "2026-03-22",
+"title": "Step 676 \u2014 Outcome-hash refinement (fix Step 667 sparse key problem).",
+"file": "experiments/run_step676_outcome_hash.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 677 multi_resolution_ensemble",
+"step": 677,
+"date": "2026-03-22",
+"title": "Step 677 \u2014 Multi-resolution ensemble (retinal cell-type diversity).",
+"file": "experiments/run_step677_multi_resolution_ensemble.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 678 variance_top5pct",
+"step": 678,
+"date": "2026-03-22",
+"title": "Step 678 \u2014 Variance-triggered refinement (fix Step 669).",
+"file": "experiments/run_step678_variance_top5pct.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 679 recode_k16_replication",
+"step": 679,
+"date": "2026-03-22",
+"title": "Step 679 \u2014 Recode k=16 on LS20 current game (replication of Step 542).",
+"file": "experiments/run_step679_recode_k16_replication.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 680 ft09_transition_triggered",
+"step": 680,
+"date": "2026-03-22",
+"title": "Step 680 \u2014 Transition-triggered dual-hash on FT09.",
+"file": "experiments/run_step680_ft09_transition_triggered.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 681 vc33_transition_triggered",
+"step": 681,
+"date": "2026-03-22",
+"title": "Step 681 \u2014 Transition-triggered dual-hash on VC33.",
+"file": "experiments/run_step681_vc33_transition_triggered.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 682 ls20_l2_attempt",
+"step": 682,
+"date": "2026-03-22",
+"title": "Step 682 \u2014 Transition-triggered dual-hash on LS20, extended budget for L2.",
+"file": "experiments/run_step682_ls20_l2_attempt.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 683 seed3_300s",
+"step": 683,
+"date": "2026-03-22",
+"title": "Step 683 \u2014 674 on LS20, seed 3 only, 300s cap.",
+"file": "experiments/run_step683_seed3_300s.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 686 seed8_300s",
+"step": 686,
+"date": "2026-03-22",
+"title": "Step 686 \u2014 674 on LS20, seed 8 only, 300s cap.",
+"file": "experiments/run_step686_seed8_300s.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 687 chain_674",
+"step": 687,
+"date": "2026-03-22",
+"title": "Step 687 \u2014 Chain benchmark with 674 substrate (transition-triggered dual-hash).",
+"file": "experiments/run_step687_chain_674.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 688 chemotaxis",
+"step": 688,
+"date": "2026-03-22",
+"title": "Step 688 \u2014 Chemotaxis-inspired biased random walk for L2.",
+"file": "experiments/run_step688_chemotaxis.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 689 survival_bonus",
+"step": 689,
+"date": "2026-03-22",
+"title": "Step 689 \u2014 Death-edge inversion: survival bonus for L2.",
+"file": "experiments/run_step689_survival_bonus.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 690 ls20_20seeds",
+"step": 690,
+"date": "2026-03-22",
+"title": "Step 690 \u2014 674 on LS20, 20 seeds (full sweep).",
+"file": "experiments/run_step690_ls20_20seeds.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 691 ft09_l2_attempt",
+"step": 691,
+"date": "2026-03-22",
+"title": "Step 691 \u2014 674 on FT09, extended budget for L2.",
+"file": "experiments/run_step691_ft09_l2_attempt.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 692 ls20_120k_20seeds",
+"step": 692,
+"date": "2026-03-22",
+"title": "Step 692 \u2014 674 on LS20, 20 seeds, 120K steps.",
+"file": "experiments/run_step692_ls20_120k_20seeds.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 693 chain_120k",
+"step": 693,
+"date": "2026-03-22",
+"title": "Step 693 \u2014 Chain benchmark with 674 at 120K steps (definitive).",
+"file": "experiments/run_step693_chain_120k.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 694 regression_diagnosis",
+"step": 694,
+"date": "2026-03-22",
+"title": "Step 694 \u2014 Regression diagnosis: plain k=12 on seeds 0 and 4.",
+"file": "experiments/run_step694_regression_diagnosis.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 695 freeze_aliased",
+"step": 695,
+"date": "2026-03-22",
+"title": "Step 695 \u2014 674 variant: freeze aliased set at 150.",
+"file": "experiments/run_step695_freeze_aliased.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 696 death_penalty",
+"step": 696,
+"date": "2026-03-22",
+"title": "Step 696 \u2014 674 + death penalty (from 581d).",
+"file": "experiments/run_step696_death_penalty.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 697 plain_baseline_20seeds",
+"step": 697,
+"date": "2026-03-22",
+"title": "Step 697 \u2014 Plain k=12 argmin baseline, 20 seeds, 25s cap.",
+"file": "experiments/run_step697_plain_baseline_20seeds.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 698 s4_centering_diagnostic",
+"step": 698,
+"date": "2026-03-22",
+"title": "Step 698 \u2014 s4 centering diagnostic: 674 with running mean centering.",
+"file": "experiments/run_step698_s4_centering_diagnostic.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 699 674_120k_20seeds_verified",
+"step": 699,
+"date": "2026-03-22",
+"title": "Step 699 \u2014 674 at 120K, 20 seeds, game version verified.",
+"file": "experiments/run_step699_674_120k_20seeds_verified.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 700 chain_20seeds",
+"step": 700,
+"date": "2026-03-22",
+"title": "Step 700 \u2014 Chain 20-seed sweep.",
+"file": "experiments/run_step700_chain_20seeds.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 701 plain_baseline_120k",
+"step": 701,
+"date": "2026-03-22",
+"title": "Step 701 \u2014 Plain k=12 argmin baseline, 20 seeds, 120K steps.",
+"file": "experiments/run_step701_plain_baseline_120k.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 702 ft09_674_120k",
+"step": 702,
+"date": "2026-03-22",
+"title": "Step 702 \u2014 674 on FT09, 20 seeds, 120K steps.",
+"file": "experiments/run_step702_ft09_674_120k.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 703 ft09_chain",
+"step": 703,
+"date": "2026-03-22",
+"title": "Step 703 \u2014 FT09 chain, 5 seeds.",
+"file": "experiments/run_step703_ft09_chain.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 704 adaptive_centering",
+"step": 704,
+"date": "2026-03-22",
+"title": "Step 704 \u2014 674 with running-mean centering (adaptive), 10 seeds, 25s cap.",
+"file": "experiments/run_step704_adaptive_centering.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 705 running_mean_20seeds",
+"step": 705,
+"date": "2026-03-22",
+"title": "Step 705 \u2014 674 running-mean centering, 20 seeds, 25s cap.",
+"file": "experiments/run_step705_running_mean_20seeds.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 706 ft09_plain_baseline",
+"step": 706,
+"date": "2026-03-22",
+"title": "Step 706 \u2014 Plain k=12 on FT09, 20 seeds, 120K steps.",
+"file": "experiments/run_step706_ft09_plain_baseline.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 707 vc33_running_mean",
+"step": 707,
+"date": "2026-03-22",
+"title": "Step 707 \u2014 VC33 with running-mean 674, 5 seeds, 25s cap.",
+"file": "experiments/run_step707_vc33_running_mean.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 708 running_mean_120k",
+"step": 708,
+"date": "2026-03-22",
+"title": "Step 708 \u2014 674 running-mean centering, 20 seeds, 120K steps.",
+"file": "experiments/run_step708_running_mean_120k.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 709 ft09_running_mean_120k",
+"step": 709,
+"date": "2026-03-22",
+"title": "Step 709 \u2014 FT09 running-mean 674, 20 seeds, 120K.",
+"file": "experiments/run_step709_ft09_running_mean_120k.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 710 frame_local_chain_20seeds",
+"step": 710,
+"date": "2026-03-22",
+"title": "Step 710 \u2014 Frame-local 674 chain, 20 seeds, 120K.",
+"file": "experiments/run_step710_frame_local_chain_20seeds.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 711 ft09_plain_25s",
+"step": 711,
+"date": "2026-03-22",
+"title": "Step 711 \u2014 Plain k=12 on FT09, 20 seeds, 25s cap.",
+"file": "experiments/run_step711_ft09_plain_25s.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 712 plain_running_mean_120k",
+"step": 712,
+"date": "2026-03-22",
+"title": "Step 712 \u2014 Plain k=12 with running-mean centering, LS20, 20 seeds, 120K.",
+"file": "experiments/run_step712_plain_running_mean_120k.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 713 raw_ls20",
+"step": 713,
+"date": "2026-03-22",
+"title": "Step 713 (raw) \u2014 Universal Action Discovery on LS20 with raw 64x64 encoding.",
+"file": "experiments/run_step713_raw_ls20.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 713 a_ls20_universal_ad",
+"step": 713,
+"date": "2026-03-22",
+"title": "Step 713a \u2014 Universal Action Discovery on LS20.",
+"file": "experiments/run_step713a_ls20_universal_ad.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 713 b_ft09_universal_ad",
+"step": 713,
+"date": "2026-03-22",
+"title": "Step 713b \u2014 Universal Action Discovery on FT09.",
+"file": "experiments/run_step713b_ft09_universal_ad.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 713 b_raw_ft09",
+"step": 713,
+"date": "2026-03-22",
+"title": "Step 713b (raw) \u2014 Universal Action Discovery on FT09, raw 64x64.",
+"file": "experiments/run_step713b_raw_ft09.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 714 vc33_universal_ad",
+"step": 714,
+"date": "2026-03-22",
+"title": "Step 714 \u2014 Universal Action Discovery on VC33, raw 64x64.",
+"file": "experiments/run_step714_vc33_universal_ad.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 714 c_vc33_tol_sweep",
+"step": 714,
+"date": "2026-03-22",
+"title": "Step 714c \u2014 VC33 tol sweep diagnostic.",
+"file": "experiments/run_step714c_vc33_tol_sweep.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 715 vc33_outcome_pruning",
+"step": 715,
+"date": "2026-03-22",
+"title": "Step 715 \u2014 Outcome-based action pruning (graph-derived R3) on VC33.",
+"file": "experiments/run_step715_vc33_outcome_pruning.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 715 b_knav_sweep",
+"step": 715,
+"date": "2026-03-22",
+"title": "Step 715b \u2014 k_prune sweep for outcome-based pruning across all 3 games.",
+"file": "experiments/run_step715b_knav_sweep.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 715 c_knav_sweep_fixed",
+"step": 715,
+"date": "2026-03-22",
+"title": "Step 715c \u2014 k_prune sweep with FIXED novelty hash (raw, uncentered).",
+"file": "experiments/run_step715c_knav_sweep_fixed.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 715 d_knav_sweep_fixed2",
+"step": 715,
+"date": "2026-03-22",
+"title": "Step 715d \u2014 k_prune sweep, fixed novelty detection (add current obs to all_seen).",
+"file": "experiments/run_step715d_knav_sweep_fixed2.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 715 e_knav_sweep_fixed3",
+"step": 715,
+"date": "2026-03-22",
+"title": "Step 715e \u2014 k_prune sweep, third fix: MIN_PROBES=5 (was 10).",
+"file": "experiments/run_step715e_knav_sweep_fixed3.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 716 vc33_outcome_k8",
+"step": 716,
+"date": "2026-03-22",
+"title": "Step 716 \u2014 Outcome-based action pruning, k_prune=8, full run on VC33.",
+"file": "experiments/run_step716_vc33_outcome_k8.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 716 b_ls20_outcome_k8",
+"step": 716,
+"date": "2026-03-22",
+"title": "Step 716b \u2014 Outcome-based action pruning, k_prune=8, full run on LS20.",
+"file": "experiments/run_step716b_ls20_outcome_k8.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 716 c_ft09_outcome_k8",
+"step": 716,
+"date": "2026-03-22",
+"title": "Step 716c \u2014 Outcome-based action pruning, k_prune=8, full run on FT09.",
+"file": "experiments/run_step716c_ft09_outcome_k8.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 717 ls20_episode_weighting",
+"step": 717,
+"date": "2026-03-22",
+"title": "Step 717 \u2014 Episode-outcome action weighting (environmental R3) on LS20.",
+"file": "experiments/run_step717_ls20_episode_weighting.py",
+"commit": "cc92c70a"
+},
+{
+"era": 1,
+"id": "Step 718 a_candidate_characterize",
+"step": 718,
+"date": "2026-03-22",
+"title": "Step 718a \u2014 Standalone characterization of candidate.c.",
+"file": "experiments/run_step718a_candidate_characterize.py",
+"commit": "81ab7fe3"
+},
+{
+"era": 1,
+"id": "Step 718 b2_candidate_analysis",
+"step": 718,
+"date": "2026-03-22",
+"title": "Step 718b2 \u2014 Enhanced analysis of candidate.c on LS20.",
+"file": "experiments/run_step718b2_candidate_analysis.py",
+"commit": "4ee1ae12"
+},
+{
+"era": 1,
+"id": "Step 718 b_candidate_game",
+"step": 718,
+"date": "2026-03-22",
+"title": "Step 718b \u2014 candidate.c raw game connection on LS20.",
+"file": "experiments/run_step718b_candidate_game.py",
+"commit": "81ab7fe3"
+},
+{
+"era": 1,
+"id": "Step 719 ls20_subset_bandit",
+"step": 719,
+"date": "2026-03-22",
+"title": "Step 719 \u2014 Action subset bandit on LS20.",
+"file": "experiments/run_step719_ls20_subset_bandit.py",
+"commit": "75eca640"
+},
+{
+"era": 1,
+"id": "Step 719 b_ft09_subset_bandit",
+"step": 719,
+"date": "2026-03-22",
+"title": "Step 719b \u2014 Action subset bandit on FT09.",
+"file": "experiments/run_step719b_ft09_subset_bandit.py",
+"commit": "8d2919c0"
+}
+],
+"findings": [
+{
+"n": 1,
+"finding": "R2-compliant prediction compresses weakly (3-9%)",
+"evidence": "LPL cr=0.93 (Steps 1310-1313). K=50 iterations = K=5 (Step 1322). LPL normalized cr=0.91 (Step 1328).",
+"falsified_if": "An R2-compliant local update rule achieves cr < 0.5 without target propagation.",
+"steps": [
+1310,
+1322,
+1328
+]
+},
+{
+"n": 2,
+"finding": "Target propagation compression is game-dependent (54-92%) and R2-compliant",
+"evidence": "TP cr=0.08 on easy games (Steps 1329-1343), cr=0.36-0.46 on harder games (Step 1344). \"92% compression\" was game-selection artifact. Local targets from forward computation, no global backward pass.",
+"falsified_if": "TP compression shown to require a global signal.",
+"steps": [
+1329,
+1344
+]
+},
+{
+"n": 3,
+"finding": "CNN+Adam compresses 98% and reaches task progress, violating R2",
+"evidence": "cr=0.003 (Steps 1305-1307). RHAE=2.4e-5 (Step 1306). Adam optimizer separable from forward pass.",
+"falsified_if": "Adam shown to be non-separable from forward computation, or an R2-compliant method matches RHAE.",
+"steps": [
+1305,
+1306
+]
+},
+{
+"n": 4,
+"finding": "Prediction learning does not shift action distribution",
+"evidence": "action_head(h3) entropy is FLAT (max) throughout training (Step 1350). TP updates h3, h3 feeds action_head, but softmax outputs near-uniform regardless. 10 engineered action selectors also \u2248 entropy (Steps 1306-1343). REFLEX vs PURE_RANDOM difference was PRNG artifact, not learned signal.",
+"falsified_if": "action_head entropy measurably decreases during training (H_2000 < H_100).",
+"steps": [
+1306,
+1350
+]
+},
+{
+"n": 5,
+"finding": "All spatial representations are episode-specific",
+"evidence": "TP anti-speedup (Steps 1330, 1335). Mode map zones: try1 [3,4,4,3] \u2192 try2 [0,0,0,0] (Step 1338). CNN try2 diverges cr=20.76 (Step 1337).",
+"falsified_if": "A spatial representation produces speedup > 1 confirmed by seed swap control.",
+"steps": [
+1330,
+1337,
+1338
+]
+},
+{
+"n": 6,
+"finding": "MLP processes text; CNN cannot",
+"evidence": "MLP MBPP cr=0.08 (Step 1337). CNN MBPP cr=null, wdrift=0.",
+"falsified_if": "CNN shown to compress MBPP text, or MLP shown to fail on text.",
+"steps": [
+1337
+]
+},
+{
+"n": 7,
+"finding": "Single-layer Hebbian degrades prediction",
+"evidence": "cr=1.44 \u2014 prediction gets worse (Step 1309).",
+"falsified_if": "Single-layer Hebbian achieves cr < 1.0 on any game.",
+"steps": [
+1309
+]
+},
+{
+"n": 8,
+"finding": "Seeds are unnecessary",
+"evidence": "Deterministic orthogonal init produces consistent results (Step 1313).",
+"falsified_if": "Deterministic init produces >10% metric variance across runs.",
+"steps": [
+1313
+]
+},
+{
+"n": 9,
+"finding": "Game reachability is ~10-30% with random actions in 2K steps",
+"evidence": "3/30 games reached progress (Step 1349, 10 draws). 3/10 draws non-zero. Both TP and Adam score zero on hard seeds (Steps 1344-1345).",
+"falsified_if": ">50% of games reachable by random play, or 0% reachable (1349 was PRNG luck).",
+"steps": [
+1344,
+1349
+]
+},
+{
+"n": 10,
+"finding": "Adam also fails on hard games \u2014 not credit depth",
+"evidence": "MLP+Adam RHAE=0 on same 5 hard seeds as MLP+TP (Step 1345). Adam diverges on 65536-dim input.",
+"falsified_if": "Adam reaches progress where TP doesn't on matched seeds.",
+"steps": [
+1345
+]
+},
+{
+"n": 11,
+"finding": "Cross-game features don't transfer (childhood)",
+"evidence": "cr=1.0 on eval game after 10-game childhood (Step 1348). Weights from 10 random games don't help on new game.",
+"falsified_if": "Childhood weights produce cr < 0.5 on first observation of eval game.",
+"steps": [
+1348
+]
+},
+{
+"n": 12,
+"finding": "Hierarchical action improves reachability 1.64\u00d7",
+"evidence": "HIER 4/10 non-zero, RHAE=7.53e-5 vs FLAT 3/10, 4.59e-5 (Steps 1351-1352). Structural keyboard coverage, not learned.",
+"falsified_if": "FLAT matches or exceeds HIER on 10+ draws.",
+"steps": [
+1351
+]
+},
+{
+"n": 13,
+"finding": "Type_head CAN learn from self-supervised signal",
+"evidence": "Entropy drops 0.16 with change-magnitude target (Step 1353), 0.11 with info-gain (Step 1354). First self-supervised action distribution shift in the search.",
+"falsified_if": "Type entropy stays flat (=max) under any self-supervised target.",
+"steps": [
+1353,
+1354
+]
+},
+{
+"n": 14,
+"finding": "Both trained type targets suppress clicks and regress RHAE",
+"evidence": "Change-magnitude (1353): click_frac 0.094, RHAE=0. Info-gain (1354): click_frac 0.087, RHAE=5e-6. Both worse than untrained HIER (click_frac 0.123, RHAE=7.53e-5). Action space asymmetry: keyboard always wins per-step metrics.",
+"falsified_if": "A type target that increases click_frac and improves RHAE simultaneously.",
+"steps": []
+},
+{
+"n": 15,
+"finding": "Training the action head HURTS \u2014 random actions are optimal",
+"evidence": "SSM disconnected (1364): RHAE=1.34e-4. Every trained variant scored worse: circular CE (8.5e-6), Gumbel feedback (0.0), surprise REINFORCE (0.0). 4 SSM experiments confirm.",
+"falsified_if": "Trained action head outperforms random on matched seeds.",
+"steps": []
+},
+{
+"n": 16,
+"finding": "SSM produces 2.92\u00d7 better features than MLP for random exploration",
+"evidence": "SSM disconnected 2K (1364): RHAE=1.34e-4, 3/10 non-zero. MLP flat 2K (1349): 4.59e-5, 3/10 non-zero. Same reachability, higher efficiency per game. Sequence structure provides action-conditional prediction structurally. **Note: 2.92\u00d7 was draw variance \u2014 SSM replication (1365) showed 0.19\u00d7. Finding unstable.**",
+"falsified_if": "MLP matches or exceeds SSM RHAE on 10+ matched draws.",
+"steps": []
+},
+{
+"n": 17,
+"finding": "Persistent recurrent state is TOXIC across episodes",
+"evidence": "SSM COUNT-PERSIST: 0/30 nz vs COUNT-RESET: 8/30 nz (Step 1375). h from try1 actively destroys try2 progress \u2014 carries action-strategy-specific state that interferes when try2 uses different actions. Replicated: PERSIST also worse in Step 1374 (RAND try1).",
+"falsified_if": "Persistent h outperforms reset h on 30+ paired draws.",
+"steps": [
+1374,
+1375
+]
+},
+{
+"n": 18,
+"finding": "Try2 action selection is irrelevant",
+"evidence": "COUNT-COUNT: 5/30 nz vs COUNT-RAND: 5/30 nz, paired 3-3-24, p=0.656 (Step 1376). With good try1 weights, try2 coverage doesn't matter. Random try2 \u2248 COUNT try2.",
+"falsified_if": "Try2 action mechanism significantly outperforms random try2 given matched try1.",
+"steps": [
+1376
+]
+},
+{
+"n": 19,
+"finding": "Disconnected actions = null experiment. Weight transfer is zero.",
+"evidence": "100-draw PRNG-fixed paired test (Step 1377). COUNT=RAND exactly: 0-0-100 ties, p=1.0. Same chain_mean (6.2e-5), same nz (19/100). 1375's p=0.090 \"transfer\" was PRNG artifact (try1 mode shifted try2's random sequence through global RNG coupling \u2014 same bug as Step 1350). With disconnected actions, try1 weights CANNOT affect try2 behavior. 17 SSM experiments (1360-1377) measured noise. True baseline: 19% reachability, RHAE=6.2e-5.",
+"falsified_if": "Any disconnected-action experiment shows COUNT \u2260 RAND with PRNG fix applied.",
+"steps": [
+1350,
+1377
+]
+},
+{
+"n": 20,
+"finding": "SSM prediction features ANTI-CORRELATE with task progress",
+"evidence": "Frozen projection softmax(W_fixed @ h / T=3) produces non-uniform actions (h_norm=0.72, entropy < max on 30/30 draws). But FROZEN 8/30 nz, RHAE=2.91e-5 vs DISCONNECTED 9/30 nz, RHAE=1.22e-3 (Step 1378). Structured h-based actions are WORSE than random. The prediction features encode \"what's predictable\" not \"what leads to progress.\" Every action mechanism (17 trained + 1 frozen) worse than random = features point the wrong direction.",
+"falsified_if": "Frozen projection outperforms disconnected on 30+ paired draws.",
+"steps": [
+1378
+]
+},
+{
+"n": 21,
+"finding": "SSM is action-blind by construction",
+"evidence": "Prediction loss with action tokens: 0.796971. Without action tokens (zeroed): 0.796955. Ratio: 1.00002 (0.002% difference). Verdict: ACTION_BLIND (Step 1379). The action token has ZERO influence on SSM prediction. h encodes only observation autocorrelation. RTRL optimizes obs\u2192obs, which doesn't need actions. This is the ROOT CAUSE of all SSM failures: no action info in h \u2192 no mechanism can extract useful actions from h.",
+"falsified_if": "SSM prediction loss changes >5% when action tokens are masked.",
+"steps": [
+1379
+]
+},
+{
+"n": 22,
+"finding": "Multiplicative action gating degenerates to constant",
+"evidence": "Gated SSM: x' = (A@x + B@obs) * sigmoid(W_gate @ one_hot(act)). Action-blind ratio: 1.000119 (0.012% \u2014 same as ungated). RTRL optimizes gate for obs prediction \u2192 optimal gate is constant scaling \u2192 action info doesn't enter h (Step 1380). Architecture changes cannot force action conditioning when the objective doesn't need it.",
+"falsified_if": "Gated SSM action-blind ratio >5%.",
+"steps": [
+1380
+]
+},
+{
+"n": 23,
+"finding": "Inverse dynamics can't fix linear SSM action-blindness",
+"evidence": "Inverse head learns to classify actions at 88\u00d7 random (2.14% accuracy, Step 1381) but through OBSERVATION SHORTCUT (obs_{t+1} pixel changes reveal action) not action-conditional state. Action-blind ratio: 0.999989 \u2014 SSM prediction unchanged. RTRL gradient flows through obs encoder, bypassing action path. Linear dynamics x'=a*x+b*u are structurally action-independent (b*act is constant regardless of state). No objective change fixes this.",
+"falsified_if": "Inverse dynamics + linear SSM produces action-blind ratio >5%.",
+"steps": [
+1381
+]
+}
+],
+"stages": [
+{
+"era": 2,
+"id": "1b",
+"variable": "object-centric grammar",
+"result": "\u2014 (HOLLOW REDUX: structure-absence)",
+"status": "\u2796",
+"rest": " `55fab552` | \u2014 |"
+},
+{
+"era": 2,
+"id": "1c / 1c-holed",
+"variable": "flat BFS / skeleton macro",
+"result": "\u2014 (FLAT; macro forms, no transfer)",
+"status": "\u2796",
+"rest": " `cdbc65bc` / `8c22183b` | \u2014 |"
+},
+{
+"era": 2,
+"id": "1d / 1d-b30000",
+"variable": "near-miss semantic / minimality-aware near-miss",
+"result": "\u2014 (premise curve)",
+"status": "\u2796",
+"rest": " `5381faf1` / `ea615f2d` | \u2014 |"
+},
+{
+"era": 2,
+"id": "1f",
+"variable": "(seed-1 confirmation)",
+"result": "D\u2032=7 FLAT",
+"status": "\u2796",
+"rest": " `4759d3a2` | \u2014 |"
+},
+{
+"era": 2,
+"id": "1g",
+"variable": "object-relational diagnostic (MAP_RELATE)",
+"result": "D\u2033=9 FLAT (rejected)",
+"status": "\u2796",
+"rest": " `08fa574d` | \u2014 |"
+},
+{
+"era": 2,
+"id": "1h",
+"variable": "time-wall saturation @ depth-2, B=30K",
+"result": "7",
+"status": "\u2796",
+"rest": " `7eeae08a` | [#4](https://github.com/wordingone/the-search/issues/4) |"
+},
+{
+"era": 2,
+"id": "1i",
+"variable": "MAX_DEPTH 2\u21923 @ B=30K",
+"result": "8 (LIFT)",
+"status": "\u2796",
+"rest": " `1c297652` | [#6](https://github.com/wordingone/the-search/issues/6) |"
+},
+{
+"era": 2,
+"id": "1j",
+"variable": "BUDGET_B 30K\u2192300K @ depth-3",
+"result": "9 (LIFT)",
+"status": "\u2796",
+"rest": " `2e7ce7ce` | [#9](https://github.com/wordingone/the-search/issues/9) |"
+},
+{
+"era": 2,
+"id": "1k",
+"variable": "TIME_PER_TASK 120s\u2192600s @ depth-3/B=300K",
+"result": "10",
+"status": "\u2705 baseline",
+"rest": " `45691fa6` | [#10](https://github.com/wordingone/the-search/issues/10) |"
+},
+{
+"era": 2,
+"id": "F1",
+"variable": "Is a learned dense energy E_theta(candidate, examples) monotone in distance-to-target (where E2.3's sparse proxy was flat)?",
+"result": "\u2705 PASS",
+"status": "near-miss Spearman rho 0.9806, strict-min 0.78; recount 9/9; R1 firewall held_in_train_count=0",
+"rest": " `aecfb643` \u00b7 [#14](https://github.com/wordingone/the-search/issues/14) \u00b7 [Release `stage-f1-energy-probe`](https://github.com/wordingone/the-search/releases/tag/stage-f1-energy-probe) |"
+},
+{
+"era": 2,
+"id": "F2",
+"variable": "Does that energy GUIDE the depth-3 program search \u2014 energy-ranked best-first vs BFS reach (D=10/200), one variable = candidate ordering, frozen F1 energy?",
+"result": "\ud83d\udd35 current",
+"status": "`gate:pending`",
+"rest": " [#17](https://github.com/wordingone/the-search/issues/17) |"
+},
+{
+"era": 2,
+"id": "F3",
+"variable": "(planned, contingent on F2 PASS) validate the next CORE face \u2014 grid-native tokenizer / program-transform output representation under energy-guided inference.",
+"result": "\u26aa planned",
+"status": "\u2014",
+"rest": " \u2014 |"
+},
+{
+"era": 2,
+"id": "F4",
+"variable": "(planned) BitNet ternary substrate for E_theta \u2014 does the energy survive ternarization with reach intact?",
+"result": "\u26aa planned",
+"status": "\u2014",
+"rest": " \u2014 |"
+}
+],
+"headings": [
+{
+"era": 2,
+"heading": "E1 \u2014 R2-fusion feasibility (DONE -> REVISE)",
+"verdict": "REVISE"
+},
+{
+"era": 2,
+"heading": "E1b \u2014 Fair test, composition-varying family (DONE -> STRONGER REVISE)",
+"verdict": "STRONGER REVISE"
+},
+{
+"era": 2,
+"heading": "K1 \u2014 Seed-basis novelty kill probe (DONE -> K1 FIRES)",
+"verdict": "K1 FIRES"
+},
+{
+"era": 2,
+"heading": "E2.1 \u2014 Combinatorial meta-layer gate (DONE -> R6_FIRES; IN-COVERAGE ONLY)",
+"verdict": ""
+},
+{
+"era": 2,
+"heading": "E2.1b \u2014 Out-of-coverage prediction (DONE -> R4_LEG2_CONFIRMED)",
+"verdict": "R4_LEG2_CONFIRMED"
+},
+{
+"era": 2,
+"heading": "E2.2(b) \u2014 Trace-conditional accumulation, TERMINAL selection-axis test (PRE-REGISTERED 2026-05-29)",
+"verdict": ""
+},
+{
+"era": 2,
+"heading": "E2.2(b) \u2014 Trace-conditional accumulation result (DONE -> K3_FIRES)",
+"verdict": "K3_FIRES"
+},
+{
+"era": 2,
+"heading": "HARD PIVOT \u2014 E2.2' (Coverage-Expansion Core)",
+"verdict": ""
+},
+{
+"era": 2,
+"heading": "E2.2' Architecture \u2014 Leo directive #11531 (2026-05-29)",
+"verdict": ""
+},
+{
+"era": 2,
+"heading": "E2.2' Stage-0 \u2014 CORE_ONLY coverage probe (DONE -> KILL)",
+"verdict": "KILL"
+},
+{
+"era": 2,
+"heading": "E2.2' Reshaped \u2014 Core Inference Mode Comparison (Leo #11545, user directive)",
+"verdict": ""
+},
+{
+"era": 2,
+"heading": "E2.2' Redesigned \u2014 Code-Synthesis (Leo #11549)",
+"verdict": ""
+},
+{
+"era": 2,
+"heading": "E2.2' Stage 0' \u2014 Code-Synthesis CORE_ONLY (PRE-REGISTERED 2026-05-29, BEFORE RUNNING)",
+"verdict": ""
+},
+{
+"era": 2,
+"heading": "E2.2' Stage 0' \u2014 Code-Synthesis CORE_ONLY (DONE -> KILL)",
+"verdict": "KILL"
+},
+{
+"era": 2,
+"heading": "E2.2' Stage 0'' \u2014 Capability-Isolation: scale 2B -> 26B (DONE -> STRUCTURAL_WALL)",
+"verdict": "STRUCTURAL_WALL"
+},
+{
+"era": 2,
+"heading": "E2.3 \u2014 Inference-by-optimization: search loop (DONE -> BOTH_MODES_EXHAUSTED)",
+"verdict": "BOTH_MODES_EXHAUSTED"
+},
+{
+"era": 2,
+"heading": "E2.x \u2014 Capability-Isolation Matrix: CLOSED (Leo #11608, 2026-05-29)",
+"verdict": ""
+},
+{
+"era": 2,
+"heading": "CLOSED: 12-op Self-Compilation (Leo #11683, 2026-05-30)",
+"verdict": ""
+},
+{
+"era": 2,
+"heading": "E3 \u2014 Minimal Self-Compilation Experiment (PRE-REGISTERED 2026-05-30, BEFORE RUNNING)",
+"verdict": ""
+},
+{
+"era": 2,
+"heading": "E3 Full-Corpus Engine (PRE-REGISTERED 2026-05-30, Leo #11633)",
+"verdict": ""
+},
+{
+"era": 2,
+"heading": "E4 \u2014 Controlled-Reuse Characterization R*-Grade (PRE-REGISTERED 2026-05-30, Leo #11627 + Kai review #11638)",
+"verdict": ""
+},
+{
+"era": 2,
+"heading": "E3 Trace-Density Amplification Curve \u2014 CLOSED: HOLLOW_CLIMB (Leo #11717, 2026-05-30)",
+"verdict": ""
+},
+{
+"era": 2,
+"heading": "Stage 0' \u2014 Code-Synthesis Feasibility (PRE-REGISTERED 2026-05-30, Leo #11717, BEFORE RUNNING)",
+"verdict": ""
+},
+{
+"era": 2,
+"heading": "Stage 0b \u2014 Arbitrary-Python Exec Feasibility: CHICKEN-EGG CONFIRMED (2026-05-30, Leo #11728)",
+"verdict": ""
+},
+{
+"era": 2,
+"heading": "Stage 1 \u2014 Wake-Sleep on Whole-Grid Grammar: HOLLOW; DISCRIMINATION PENDING (2026-05-30, Leo #11734 + #11740)",
+"verdict": ""
+},
+{
+"era": 2,
+"heading": "Stage 1b \u2014 Object-Centric Wake-Sleep: CLOSED: STAGE1B_EMPTY_LIBRARY_VACUOUS_TRANSFER (2026-05-30, Leo #11740)",
+"verdict": ""
+},
+{
+"era": 2,
+"heading": "Stage 1c \u2014 Depth-2 Flat BFS (Object-Centric, N_CURRICULUM=200): CLOSED: SINGLE_ARM_N200_DEPTH_STARVATION_SIGNAL (2026-05-30, Leo #11745/#11749/#11752/#11766)",
+"verdict": ""
+},
+{
+"era": 2,
+"heading": "Stage 1c-HOLED \u2014 Holed Skeleton Grammar BFS: PRE-REGISTERED (Leo #11766/#11769/#11785, 2026-05-30)",
+"verdict": ""
+},
+{
+"era": 2,
+"heading": "Stage 1e \u2014 Four-Arm Cross-Tier Best-First Proposer Probe (TWO-SEED COMPLETE \u2014 2026-05-30)",
+"verdict": ""
+}
+]
+}
