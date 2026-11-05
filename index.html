@@ -84,13 +84,13 @@
     <h2 class="kicker" id="selected-work">Selected work</h2>
     <ul class="works">
       <li><a href="#ember" data-place="ember" data-land="true"><span class="w-title">Ember</span><span class="w-year">2026</span>
-        <span class="w-line">Trained a language model from scratch on one RTX 4090 in hourly steps, each kept only if it passed a recorded check: about 6.06 billion tokens of training kept across 33 hourly checkpoints; no checkpoint yet meets the project&rsquo;s own bar.</span></a></li>
+        <span class="w-line">Trained a language model from scratch on one RTX 4090 in hourly steps, each kept only if it passed a recorded check: about 6.06 billion token positions of training kept across 33 hourly checkpoints; no checkpoint yet meets the project&rsquo;s own bar.</span></a></li>
       <li><a href="#the-search" data-place="the-search" data-land="true"><span class="w-title">The Search</span><span class="w-year">2026</span>
         <span class="w-line">A falsification study of self-improving learners: more than 1,000 experiments across 14 architecture families by the paper&rsquo;s count (575 first-era scripts recovered). In the first era no learned action selection beat random actions; measured transfer was zero.</span></a></li>
       <li><a href="#web-cad" data-place="web-cad" data-land="true"><span class="w-title">WEB-CAD</span><span class="w-year">2026</span>
         <span class="w-line">A CAD workbench that runs entirely in the browser, with an in-browser Gemma 4 model that turns prompts into editable geometry.</span></a></li>
     </ul>
-    <p class="update">November 2026: an experiment on reading a model from its weights is <a href="#in-progress" data-place="in-progress">in progress</a>.</p>
+    <p class="update">November 2026: <a href="#in-progress" data-place="in-progress">reading a model from its weights</a>, in progress. An Ember-internal result with one failed public replication as ported.</p>
    </div>
     <p class="scroll-cue">Scroll to go in <span class="cue-arrow" aria-hidden="true">&darr;</span></p>
   </div>
@@ -175,8 +175,9 @@
     <p class="eyebrow"><span class="num">04</span> November 2026 &middot; In progress</p>
     <h2 id="ip-title" class="title">Reading a model from its weights</h2>
     <p class="lede">Can you tell what an attention head does from its weights alone, without running the model on any input?</p>
-    <p>The test case is the induction head, a head that finds an earlier copy of the current token and copies what came next. The plan is to score every head from its weights, write down the top five with the pass/fail rule fixed in the same commit, and only then check, first on a small public model whose induction heads are already published.</p>
-    <p class="quiet">No code or result is public yet, and no result is claimed. This place will link the committed prediction when it exists.</p>
+    <p>The test case is the induction head, a head that finds an earlier copy of the current token and copies what came next. Each test scores heads from their weights alone, with its pass/fail rule committed before any score. So far this is an Ember-internal result with one failed public replication as ported: on two checkpoints of one Ember training run, a parent and its child, a second version of the weights-only score ranked the three measured copying heads at the top, after the first version failed; two later tests on the same checkpoints also failed. Carried over without tuning to a small public model, EleutherAI&rsquo;s Pythia-160M, under a rule frozen before download, it failed both of its tests.</p>
+    <p>The failure is not yet separated from a side effect of how the method builds its basis (very large activations at the first position), and that diagnosis is itself untested. The method was designed by someone who already knew which Ember heads it should find, so the Ember result is not a blind test of it.</p>
+    <p class="quiet">No code or result file is public yet. AI coding agents designed, ran and wrote up these experiments under my direction.</p>
   </div>
 </section>
 <section class="station deep" id="method" data-station="5" aria-labelledby="method-title">
