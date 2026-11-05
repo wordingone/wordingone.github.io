@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prada: (Re)Making</title>
+    <link rel="icon" href="data:,">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&family=GFS+Didot&display=swap">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #000;
+            color: #fff;
+            min-height: 100vh;
+        }
+
+        /* Simple single-page scroll layout */
+        .page-container {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        /* First screen - Header */
+        .header-screen {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .header-text {
+            font-family: 'Roboto', sans-serif;
+            font-size: clamp(18px, 4vw, 24px);
+            font-weight: 300;
+            letter-spacing: clamp(2px, 0.5vw, 4px);
+            text-transform: uppercase;
+            color: #fff;
+            margin-bottom: 8px;
+        }
+
+        .subtitle-text {
+            font-family: 'Roboto', sans-serif;
+            font-size: clamp(12px, 3vw, 16px);
+            font-weight: 300;
+            letter-spacing: 2px;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        /* Second screen - Logo */
+        .logo-screen {
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            cursor: pointer;
+            opacity: 0;
+            animation: fadeIn 1s ease-out forwards;
+            animation-delay: 0.5s;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        .logo-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: clamp(20px, 4vh, 40px);
+            transition: transform 0.3s ease;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+
+        .logo-wrapper:hover {
+            transform: scale(1.05);
+        }
+
+        .logo-wrapper:active {
+            transform: scale(0.98);
+        }
+
+        .logo-image {
+            width: min(90vw, 800px);
+            height: auto;
+            filter: brightness(0) invert(1);
+        }
+
+        .brand-text {
+            font-family: 'GFS Didot', serif;
+            font-size: clamp(24px, 6vw, 64px);
+            font-weight: 400;
+            letter-spacing: clamp(6px, 1.5vw, 12px);
+            text-transform: uppercase;
+            color: #fff;
+            margin: 0;
+            text-align: center;
+            word-wrap: break-word;
+            max-width: 90vw;
+        }
+
+        /* Click indicator */
+        .click-hint {
+            margin-top: 40px;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 0.8; }
+        }
+
+        /* Smooth scroll indicator */
+        .scroll-down {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            z-index: 10;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        .scroll-down.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .scroll-text {
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.6);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .scroll-arrow {
+            width: 2px;
+            height: 30px;
+            background: linear-gradient(to bottom, transparent, #fff);
+            animation: scroll-pulse 2s infinite;
+        }
+
+        @keyframes scroll-pulse {
+            0%, 100% { 
+                opacity: 0.5;
+                transform: translateY(0);
+            }
+            50% { 
+                opacity: 1;
+                transform: translateY(5px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <!-- First screen with header -->
+        <div class="header-screen" id="headerScreen">
+            <h1 class="header-text">Hyun Jun Han × Oskar Maly</h1>
+            <p class="subtitle-text">SCIARC: Peter Testa Vertical Studio Project</p>
+        </div>
+
+        <!-- Second screen with logo -->
+        <div class="logo-screen" id="logoScreen">
+            <div class="logo-wrapper" id="logoWrapper">
+                <img src="./logo/remaking logo 1.png" alt="Prada Logo" class="logo-image">
+                <h2 class="brand-text">Prada: (Re)Making</h2>
+            </div>
+            <div class="click-hint">Click to Enter</div>
+        </div>
+
+        <!-- Scroll indicator -->
+        <div class="scroll-down" id="scrollIndicator">
+            <div class="scroll-text">Scroll</div>
+            <div class="scroll-arrow"></div>
+        </div>
+    </div>
+
+    <script>
+        // Simple and reliable navigation
+        const logoWrapper = document.getElementById('logoWrapper');
+        const logoScreen = document.getElementById('logoScreen');
+        const scrollIndicator = document.getElementById('scrollIndicator');
+        
+        // Check if logo is in view
+        function checkScroll() {
+            const scrollY = window.scrollY || window.pageYOffset;
+            const windowHeight = window.innerHeight;
+            
+            // Hide scroll indicator when logo is visible
+            if (scrollY > windowHeight * 0.5) {
+                scrollIndicator.classList.add('hidden');
+            } else {
+                scrollIndicator.classList.remove('hidden');
+            }
+        }
+        
+        // Handle navigation
+        function navigateToMain(e) {
+            if (e) e.preventDefault();
+            sessionStorage.setItem('playIntroVideo', 'true');
+            window.location.href = 'main-app.html';
+        }
+        
+        // Add click handlers - works immediately when logo appears
+        logoWrapper.addEventListener('click', navigateToMain);
+        logoWrapper.addEventListener('touchend', navigateToMain);
+        
+        // Also allow clicking anywhere on the logo screen
+        logoScreen.addEventListener('click', function(e) {
+            if (e.target === logoScreen) {
+                navigateToMain(e);
+            }
+        });
+        
+        // Keyboard support
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                const logoRect = logoScreen.getBoundingClientRect();
+                const isLogoVisible = logoRect.top < window.innerHeight && logoRect.bottom > 0;
+                if (isLogoVisible) {
+                    e.preventDefault();
+                    navigateToMain();
+                }
+            }
+        });
+        
+        // Monitor scroll
+        window.addEventListener('scroll', checkScroll, { passive: true });
+        checkScroll();
+        
+        // Auto-scroll to logo after a moment
+        setTimeout(() => {
+            const logoPosition = logoScreen.offsetTop;
+            window.scrollTo({
+                top: logoPosition,
+                behavior: 'smooth'
+            });
+        }, 3000);
+    </script>
+    <!-- Mobile Support Script -->
+    <script src="mobile/responsive.additions.js"></script>
+</body>
+</html>

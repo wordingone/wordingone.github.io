@@ -1,277 +1,269 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="en" class="no-js" data-at="0">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prada: (Re)Making</title>
-    <link rel="icon" href="data:,">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&family=GFS+Didot&display=swap">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        html, body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            overflow-x: hidden;
-        }
-
-        body {
-            font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: #000;
-            color: #fff;
-            min-height: 100vh;
-        }
-
-        /* Simple single-page scroll layout */
-        .page-container {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-        }
-
-        /* First screen - Header */
-        .header-screen {
-            width: 100%;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 20px;
-        }
-
-        .header-text {
-            font-family: 'Roboto', sans-serif;
-            font-size: clamp(18px, 4vw, 24px);
-            font-weight: 300;
-            letter-spacing: clamp(2px, 0.5vw, 4px);
-            text-transform: uppercase;
-            color: #fff;
-            margin-bottom: 8px;
-        }
-
-        .subtitle-text {
-            font-family: 'Roboto', sans-serif;
-            font-size: clamp(12px, 3vw, 16px);
-            font-weight: 300;
-            letter-spacing: 2px;
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        /* Second screen - Logo */
-        .logo-screen {
-            width: 100%;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-            cursor: pointer;
-            opacity: 0;
-            animation: fadeIn 1s ease-out forwards;
-            animation-delay: 0.5s;
-        }
-
-        @keyframes fadeIn {
-            to { opacity: 1; }
-        }
-
-        .logo-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: clamp(20px, 4vh, 40px);
-            transition: transform 0.3s ease;
-            -webkit-tap-highlight-color: transparent;
-            touch-action: manipulation;
-        }
-
-        .logo-wrapper:hover {
-            transform: scale(1.05);
-        }
-
-        .logo-wrapper:active {
-            transform: scale(0.98);
-        }
-
-        .logo-image {
-            width: min(90vw, 800px);
-            height: auto;
-            filter: brightness(0) invert(1);
-        }
-
-        .brand-text {
-            font-family: 'GFS Didot', serif;
-            font-size: clamp(24px, 6vw, 64px);
-            font-weight: 400;
-            letter-spacing: clamp(6px, 1.5vw, 12px);
-            text-transform: uppercase;
-            color: #fff;
-            margin: 0;
-            text-align: center;
-            word-wrap: break-word;
-            max-width: 90vw;
-        }
-
-        /* Click indicator */
-        .click-hint {
-            margin-top: 40px;
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.4);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 0.4; }
-            50% { opacity: 0.8; }
-        }
-
-        /* Smooth scroll indicator */
-        .scroll-down {
-            position: fixed;
-            bottom: 30px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-            z-index: 10;
-            opacity: 1;
-            transition: opacity 0.3s ease;
-        }
-
-        .scroll-down.hidden {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .scroll-text {
-            font-size: 12px;
-            color: rgba(255, 255, 255, 0.6);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .scroll-arrow {
-            width: 2px;
-            height: 30px;
-            background: linear-gradient(to bottom, transparent, #fff);
-            animation: scroll-pulse 2s infinite;
-        }
-
-        @keyframes scroll-pulse {
-            0%, 100% { 
-                opacity: 0.5;
-                transform: translateY(0);
-            }
-            50% { 
-                opacity: 1;
-                transform: translateY(5px);
-            }
-        }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Hyun Jun Han (M.Arch, SCI-Arc). Research on how intelligence develops: credit assignment, verified learning, developmental environments for agents.">
+<meta property="og:title" content="Hyun Jun Han: How does intelligence develop?">
+<meta property="og:description" content="Hyun Jun Han (M.Arch, SCI-Arc). Research on how intelligence develops: credit assignment, verified learning, developmental environments for agents.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://wordingone.github.io/world/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#000000">
+<title>Hyun Jun Han: How does intelligence develop?</title>
+<link rel="canonical" href="https://wordingone.github.io/">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%23000'/%3E%3Cpath d='M8 1v14' stroke='%23fff' stroke-width='1'/%3E%3Ccircle cx='8' cy='5' r='1.6' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="preload" href="world/fonts/gfs-didot-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="world/fonts/roboto-latin-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="world/world.css">
+<script>document.documentElement.classList.replace('no-js','js');</script>
+<script type="importmap">{"imports":{"three":"./world/vendor/three.module.min.js"}}</script>
 </head>
 <body>
-    <div class="page-container">
-        <!-- First screen with header -->
-        <div class="header-screen" id="headerScreen">
-            <h1 class="header-text">Hyun Jun Han × Oskar Maly</h1>
-            <p class="subtitle-text">SCIARC: Peter Testa Vertical Studio Project</p>
-        </div>
+<a class="skip" href="#main">Skip to content</a>
+<canvas id="world" aria-hidden="true"></canvas>
+<div class="veil" aria-hidden="true"></div>
+<div id="labels" aria-hidden="true"></div>
 
-        <!-- Second screen with logo -->
-        <div class="logo-screen" id="logoScreen">
-            <div class="logo-wrapper" id="logoWrapper">
-                <img src="./logo/remaking logo 1.png" alt="Prada Logo" class="logo-image">
-                <h2 class="brand-text">Prada: (Re)Making</h2>
-            </div>
-            <div class="click-hint">Click to Enter</div>
-        </div>
+<header class="hud">
+  <a class="hud-name" href="#question" data-place="question">Hyun Jun Han</a>
+  <button class="hud-menu" type="button" aria-expanded="false" aria-controls="stations">Index</button>
+  <nav id="stations" aria-label="Places in this site">
+    <ol>
+      <li><a href="#question" data-place="question"><span>00</span>Question</a></li>
+      <li><a href="#ember" data-place="ember" data-land="true"><span>01</span>Ember</a></li>
+      <li><a href="#the-search" data-place="the-search" data-land="true"><span>02</span>The Search</a></li>
+      <li><a href="#web-cad" data-place="web-cad" data-land="true"><span>03</span>WEB-CAD</a></li>
+      <li><a href="#in-progress" data-place="in-progress"><span>04</span>In progress</a></li>
+      <li><a href="#method" data-place="method"><span>05</span>Method</a></li>
+    </ol>
+    <p class="hud-aux"><a href="cv.html">CV</a><a href="text.html">Text version</a><a href="prada/">Prada Re:Making (architecture)</a></p>
+  </nav>
+</header>
 
-        <!-- Scroll indicator -->
-        <div class="scroll-down" id="scrollIndicator">
-            <div class="scroll-text">Scroll</div>
-            <div class="scroll-arrow"></div>
-        </div>
+<div class="rail" aria-hidden="true"><div class="rail-fill"></div></div>
+<p class="fallback-note" role="note">The 3D world could not start in this browser, so this is the plain reading order. A <a href="text.html">text-only version</a> is also available.</p>
+<div class="flight">
+  <p class="hint"><span class="k">scroll</span> move <span class="k">pointer</span> steer <span class="k">enter</span> land <span class="k">esc</span> take off <span class="sep"></span><span class="seen"></span></p>
+  <p class="prompt-wrap"><span class="prompt"></span> <button class="land" type="button">Land</button></p>
+  <button class="takeoff" type="button">Take off <span class="k">esc</span></button>
+</div>
+<p id="live" class="sr" aria-live="polite"></p>
+<main id="main">
+
+<section class="station" id="question" data-station="0" aria-labelledby="q-title">
+  <div class="plate plate-first">
+   <div class="intro">
+    <p class="eyebrow">Hyun Jun (Jun) Han</p>
+    <p class="status">Master of Architecture, Southern California Institute of Architecture (SCI-Arc), 2022&ndash;2025</p>
+    <h1 id="q-title" class="display">How does intelligence develop?</h1>
+    <p class="contact">
+      <a href="https://github.com/wordingone">GitHub</a>
+      <a href="cv.html">CV</a>
+    </p>
+   </div>
+   <div class="dirs-wrap">
+    <h2 class="kicker">Directions</h2>
+    <ol class="directions">
+      <li><b>Credit assignment.</b> Which parts of a model should change after an experience.</li>
+      <li><b>Learning only from verified experience.</b> A model grows only by experience that passes verification. Ember built a form of this.</li>
+      <li><b>A developmental environment.</b> An external world an agent lives in and learns from, of which benchmarks are verifiable slices. Not an internal world model.</li>
+      <li><b>Adaptive learning-compute allocation.</b> Predicting which parameter blocks are worth updating before computing gradients.</li>
+    </ol>
+   </div>
+   <div class="works-wrap">
+    <h2 class="kicker">Selected work</h2>
+    <ul class="works">
+      <li><a href="#ember" data-place="ember" data-land="true"><span class="w-title">Ember</span><span class="w-year">2026</span>
+        <span class="w-line">Trained a language model from scratch on one RTX 4090 in hourly steps, each kept only if it passed a recorded check: about 6.06 billion tokens of training kept across 33 hourly checkpoints; no checkpoint yet meets the project&rsquo;s own bar.</span></a></li>
+      <li><a href="#the-search" data-place="the-search" data-land="true"><span class="w-title">The Search</span><span class="w-year">2026</span>
+        <span class="w-line">A falsification study of self-improving learners: more than 1,000 experiments across 14 architecture families. In the first era no learned action selection beat random actions; measured transfer was zero.</span></a></li>
+      <li><a href="#web-cad" data-place="web-cad" data-land="true"><span class="w-title">WEB-CAD</span><span class="w-year">2026</span>
+        <span class="w-line">A CAD workbench that runs entirely in the browser, with an in-browser Gemma 4 model that turns prompts into editable geometry.</span></a></li>
+    </ul>
+    <p class="update">November 2026: an experiment on reading a model from its weights is <a href="#in-progress" data-place="in-progress">in progress</a>.</p>
+   </div>
+    <p class="scroll-cue">Scroll to go in <span class="cue-arrow" aria-hidden="true">&darr;</span></p>
+  </div>
+</section>
+
+<div class="spacer" aria-hidden="true"></div>
+
+<section class="station deep" id="ember" data-station="1" aria-labelledby="ember-title">
+  <div class="plate">
+    <p class="eyebrow"><span class="num">01</span> June&ndash;October 2026</p>
+    <h2 id="ember-title" class="title">Ember</h2>
+    <p class="lede">Can one person with one consumer graphics card train a language model from scratch, with no borrowed weights, teacher models or judge models, and keep only the training that passes a check?</p>
+    <button class="open" type="button" data-place="ember" data-land="true">Go there</button>
+  </div>
+  <article class="story" id="story-ember" aria-labelledby="ember-story-title">
+    <h2 id="ember-story-title" class="story-title">Ember</h2>
+    <p class="story-meta">June&ndash;October 2026. <a href="https://github.com/wordingone/ember">Code</a> &middot; <a href="https://wordingone.github.io/ember/">Research log</a></p>
+    <p>The project, in its README's words: <a href="https://github.com/wordingone/ember/blob/df2a2d69603ffe8c1eca0faa54eb44837a0bd9b3/README.md#L13-L14">&ldquo;build an AI model from scratch on one home computer with one consumer graphics card&rdquo;</a>, an <a href="https://github.com/wordingone/ember/blob/df2a2d69603ffe8c1eca0faa54eb44837a0bd9b3/baseline/4090-ceiling-v0.md#L5">RTX 4090-class 24 GB card</a>. The target is a sparse decoder for text, images and audio with a <a href="https://github.com/wordingone/ember/blob/df2a2d69603ffe8c1eca0faa54eb44837a0bd9b3/README.md#L41-L42">minimum of three billion parameters</a>; that is a goal, not a measurement. Only text (and some image-text) training has run.</p>
+    <p>Ember is the &ldquo;learn only from verified experience&rdquo; direction built and run: training happens in hour-long steps, and each hour's checkpoint is kept only if it passes a recorded check. The idea is close to existing work; no novelty is claimed.</p>
+    <h3>What was built</h3>
+    <p>The gated training loop. A rejected checkpoint is not kept and <a href="https://github.com/wordingone/ember/blob/df2a2d69603ffe8c1eca0faa54eb44837a0bd9b3/docs/domains/governance/authority/CONTINUITY.md#L157">adds nothing to the chain</a>; the rule is <a href="https://github.com/wordingone/ember/blob/df2a2d69603ffe8c1eca0faa54eb44837a0bd9b3/src/ember/infrastructure/tools/ember-restart-3b/lineage_candidate_audit.py#L10">in code</a>.</p>
+    <p>A research log in which every hypothesis must carry a pass/fail criterion written before the run, with an index of <a href="https://github.com/wordingone/ember/blob/df2a2d69603ffe8c1eca0faa54eb44837a0bd9b3/receipts/CLAIMS.md#L9">1,022 run records</a>.</p>
+    <p>ember-cli, the terminal tool used to run and watch training. A branch, <a href="https://github.com/wordingone/ember/tree/feat/ember-cli-open-weights-mode">not merged or released</a>, adds a mode that runs third-party open-weights models on one GPU.</p>
+    <h3>What was measured</h3>
+    <p>Training kept across the chain: about <a href="https://github.com/wordingone/ember/blob/df2a2d69603ffe8c1eca0faa54eb44837a0bd9b3/docs/domains/governance/authority/CONTINUITY.md#L155">6.06 billion token positions over 1.48 million steps, 33 hourly checkpoints deep</a>, with a <a href="https://github.com/wordingone/ember/blob/df2a2d69603ffe8c1eca0faa54eb44837a0bd9b3/docs/domains/governance/authority/CONTINUITY.md#L158">check that each hour is counted once</a>.</p>
+    <p>Benchmarks were run only on an early checkpoint trained on 51,200 tokens, which is not a trained model, and were at chance: ARC-Challenge <a href="https://github.com/wordingone/ember/blob/df2a2d69603ffe8c1eca0faa54eb44837a0bd9b3/docs/domains/governance/authority/CONTINUITY.md#L276">0.2295</a> and HellaSwag <a href="https://github.com/wordingone/ember/blob/df2a2d69603ffe8c1eca0faa54eb44837a0bd9b3/docs/domains/governance/authority/CONTINUITY.md#L277">0.2588</a> (chance 0.25). No benchmark of the kept chain is published.</p>
+    <h3>A measurement that was wrong</h3>
+    <p>A profiling probe reported about 1.76 s per training step. Training actually ran with CUDA graph capture at about 0.19 s, and the probe had never called capture, so <a href="https://github.com/wordingone/ember/blob/df2a2d69603ffe8c1eca0faa54eb44837a0bd9b3/docs/domains/lab/research/export/research-index.json">76 of 142 records</a> described a step that training never took. The probe was replaced by one that stops instead of reporting when capture did not happen.</p>
+    <h3>A data decision</h3>
+    <p>An audit found that the largest prose source, <a href="https://github.com/wordingone/ember/blob/df2a2d69603ffe8c1eca0faa54eb44837a0bd9b3/receipts/genesis/genesis-audit-20260706.md#L13-L19">FineWeb-Edu (about 29% of corpus bytes)</a>, had been selected by a classifier trained on Llama-3-70B-Instruct annotations: an outside model's influence on the data. It was dropped. Whether the current corpus is clean is <a href="https://github.com/wordingone/ember/blob/df2a2d69603ffe8c1eca0faa54eb44837a0bd9b3/docs/domains/governance/anatomy/14_MODEL_CARD.md#L47-L51">not established</a>.</p>
+    <h3>What is open</h3>
+    <p>The main goal was not reached: <a href="https://github.com/wordingone/ember/blob/df2a2d69603ffe8c1eca0faa54eb44837a0bd9b3/docs/domains/governance/authority/CONTINUITY.md#L217-L219">&ldquo;No current checkpoint is an Ember model&rdquo;</a>, and the latest candidate is <a href="https://github.com/wordingone/ember/blob/df2a2d69603ffe8c1eca0faa54eb44837a0bd9b3/docs/domains/governance/authority/CONTINUITY.md#L138">not accepted</a>.</p>
+    <p class="story-foot">Links pinned to commit df2a2d6. <a href="projects/ember.html">Full page</a></p>
+  </article>
+</section>
+<section class="station deep" id="the-search" data-station="2" aria-labelledby="search-title">
+  <div class="plate">
+    <p class="eyebrow"><span class="num">02</span> March&ndash;June 2026 &middot; Concluded</p>
+    <h2 id="search-title" class="title">The Search</h2>
+    <p class="lede"><a href="https://github.com/wordingone/the-search/blob/0c1a96402bfd6606c18029fa62c801500258544d/README.md#L9">&ldquo;Can a system improve itself by criteria it generates?&rdquo;</a> A falsification study: more than 1,000 experiments. In its first era, no learned action selection beat random actions.</p>
+    <button class="open" type="button" data-place="the-search" data-land="true">Go there</button>
+  </div>
+  <article class="story" id="story-the-search" aria-labelledby="search-story-title">
+    <h2 id="search-story-title" class="story-title">The Search</h2>
+    <p class="story-meta">March&ndash;June 2026. Concluded. <a href="https://github.com/wordingone/the-search">Code</a> &middot; <a href="https://github.com/wordingone/the-search/blob/0c1a96402bfd6606c18029fa62c801500258544d/docs/paper.pdf">Manuscript (unpublished, not peer reviewed)</a></p>
+    <p>One question, asked of a long run of learner designs: can a system improve itself by criteria it generates? It is a direct form of the question of how intelligence develops. The first era used <a href="https://github.com/wordingone/the-search/blob/0c1a96402bfd6606c18029fa62c801500258544d/README.md#L42">ARC-AGI-3 game environments</a> and <a href="https://github.com/wordingone/the-search/blob/0c1a96402bfd6606c18029fa62c801500258544d/README.md#L44">MBPP</a>; the second used <a href="https://github.com/wordingone/the-search/blob/0c1a96402bfd6606c18029fa62c801500258544d/docs/STAGE_MAP.md#L17">ARC-AGI-1 program synthesis</a>. Every design was judged against a written set of six constraints, amended once mid-study (May 2026).</p>
+    <h3>What was built</h3>
+    <p><a href="https://github.com/wordingone/the-search/blob/0c1a96402bfd6606c18029fa62c801500258544d/docs/paper.tex#L80">&ldquo;1000+ experiments across 14 architecture families&rdquo;</a>, with scripts and logs, and a manuscript.</p>
+    <h3>What was found</h3>
+    <p>In the first era, <a href="https://github.com/wordingone/the-search/blob/0c1a96402bfd6606c18029fa62c801500258544d/docs/STAGE_MAP.md#L19">no learned action selection beat random actions</a>.</p>
+    <p>The best designs, which met only part of the constraint set, scored <a href="https://github.com/wordingone/the-search/blob/0c1a96402bfd6606c18029fa62c801500258544d/README.md#L23">about 1e-5 to 1e-4 depending on the game draw</a>; the draw mattered more than the architecture.</p>
+    <p>Transfer was <a href="https://github.com/wordingone/the-search/blob/0c1a96402bfd6606c18029fa62c801500258544d/README.md#L37">zero</a>: a paired test over 100 fixed draws gave <a href="https://github.com/wordingone/the-search/blob/0c1a96402bfd6606c18029fa62c801500258544d/README.md#L58">0 wins, 0 losses, 100 ties (p = 1.0)</a>.</p>
+    <p>In the second era the search reached <a href="https://github.com/wordingone/the-search/blob/0c1a96402bfd6606c18029fa62c801500258544d/docs/STAGE_MAP.md#L47">10 of 200 held-out ARC-AGI-1 tasks</a>; 185 of the 200 runs ended because the search budget ran out.</p>
+    <h3>What is open</h3>
+    <p>The paper's conclusion: <a href="https://github.com/wordingone/the-search/blob/0c1a96402bfd6606c18029fa62c801500258544d/docs/paper.tex#L88">whether any design satisfies all six constraints &ldquo;remains open&rdquo;</a>. An earlier claim that one constraint was &ldquo;solved by composition&rdquo; is <a href="https://github.com/wordingone/the-search/blob/0c1a96402bfd6606c18029fa62c801500258544d/docs/PAPER.md#L7">marked superseded</a>: that test measured a change in representation, not a gain in task performance. The experiments were <a href="https://github.com/wordingone/the-search/blob/0c1a96402bfd6606c18029fa62c801500258544d/docs/paper.tex#L1833">not reviewed by independent humans</a>.</p>
+    <p class="story-foot">Links pinned to commit 0c1a964. <a href="projects/the-search.html">Full page</a></p>
+  </article>
+</section>
+<section class="station deep" id="web-cad" data-station="3" aria-labelledby="webcad-title">
+  <div class="plate">
+    <p class="eyebrow"><span class="num">03</span> April&ndash;June 2026</p>
+    <h2 id="webcad-title" class="title">WEB-CAD</h2>
+    <p class="lede">A CAD workbench that <a href="https://github.com/wordingone/WEB-CAD/blob/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/README.md#L13">&ldquo;runs entirely in the browser: no server, no API key, no install&rdquo;</a>, where a small language model turns a prompt into geometry you can keep editing.</p>
+    <p class="actions"><button class="open" type="button" data-place="web-cad" data-land="true">Go there</button><a class="open open-link" href="https://wordingone.github.io/WEB-CAD/">Live demo</a></p>
+  </div>
+  <article class="story" id="story-web-cad" aria-labelledby="webcad-story-title">
+    <h2 id="webcad-story-title" class="story-title">WEB-CAD</h2>
+    <p class="story-meta">April&ndash;June 2026. <a href="https://wordingone.github.io/WEB-CAD/">Live demo</a> &middot; <a href="https://github.com/wordingone/WEB-CAD">Code</a></p>
+    <p>An experimental workbench, <a href="https://github.com/wordingone/WEB-CAD/blob/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/README.md#L13">&ldquo;not a production replacement for Rhino, Revit, or ArchiCAD&rdquo;</a>. It grew out of <a href="https://github.com/wordingone/gemma-architect">gemma-architect</a>, an entry to the Gemma 4 Good Hackathon whose bundled demos are answered from <a href="https://github.com/wordingone/gemma-architect/blob/3f43ee6feb4187154b4ce7d3f86c9e484cec5b6a/README.md#L75">a 60-row prompt cache</a>, not generated live.</p>
+    <h3>What was built</h3>
+    <p>An in-browser agent using <a href="https://github.com/wordingone/WEB-CAD/blob/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/README.md#L116">Gemma 4 E4B-it through Transformers.js and WebGPU</a>; NURBS surfaces with <a href="https://github.com/wordingone/WEB-CAD/blob/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/README.md#L24">IFC4 export</a>; a <a href="https://github.com/wordingone/WEB-CAD/tree/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/kern">C++ geometry kernel compiled to WebAssembly</a> (booleans, fillet, chamfer, loft); and an <a href="https://github.com/wordingone/WEB-CAD/blob/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/README.md#L50">MCP server</a> that lets coding agents drive the geometry tools.</p>
+    <h3>What was measured</h3>
+    <p>The C++ kernel against OpenCASCADE: <a href="https://github.com/wordingone/WEB-CAD/blob/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/docs/kern-parity-report.md#L115">7 of 7 box/box boolean cases matched in volume within 0.1%</a>, and <a href="https://github.com/wordingone/WEB-CAD/blob/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/docs/kern-parity-report.md#L116">60 of 60 robustness fuzz cases ran without a crash</a>. Only box/box booleans were tested; the NURBS check was <a href="https://github.com/wordingone/WEB-CAD/blob/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/docs/kern-parity-report.md#L117">skipped</a>.</p>
+    <p>In-browser decoding ran at a <a href="https://github.com/wordingone/WEB-CAD/blob/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/docs/measurements/baseline-tps-2026-05-25.json#L11">median 2.13 tokens per second</a> (range 1.96&ndash;2.23, 25 prompts, WebGPU, on the gemma-architect deployment); the file does not record the hardware.</p>
+    <h3>What is open</h3>
+    <p>The README lists <a href="https://github.com/wordingone/WEB-CAD/blob/c672cb9b3c16c96a5ea86696a556329d6a9a2e9b/README.md#L105">&ldquo;AI agent accuracy varies&rdquo;</a> among its known limits, and the AI needs WebGPU. At about 2 tokens per second the live model is slow.</p>
+    <p class="story-foot">Links pinned to commit c672cb9. <a href="projects/web-cad.html">Full page</a></p>
+  </article>
+</section>
+<section class="station deep" id="in-progress" data-station="4" aria-labelledby="ip-title">
+  <div class="plate">
+    <p class="eyebrow"><span class="num">04</span> November 2026 &middot; In progress</p>
+    <h2 id="ip-title" class="title">Reading a model from its weights</h2>
+    <p class="lede">Can you tell what an attention head does from its weights alone, without running the model on any input?</p>
+    <p>The test case is the induction head, a head that finds an earlier copy of the current token and copies what came next. The plan is to score every head from its weights, write down the top five with the pass/fail rule fixed in the same commit, and only then check, first on a small public model whose induction heads are already published.</p>
+    <p class="quiet">No code or result is public yet, and no result is claimed. This place will link the committed prediction when it exists.</p>
+  </div>
+</section>
+<section class="station deep" id="method" data-station="5" aria-labelledby="method-title">
+  <div class="plate plate-wide">
+    <p class="eyebrow"><span class="num">05</span> Method</p>
+    <h2 id="method-title" class="title">How the work is checked</h2>
+    <p class="lede">I set the questions, the pass/fail rules a result must meet, and the review. The method is built to stop a claim from getting ahead of its evidence.</p>
+    <dl class="method">
+      <dt>Criteria fixed before the run</dt>
+      <dd>Each hypothesis in Ember's log carries a refutation criterion written before any number exists: <a href="https://github.com/wordingone/ember/blob/df2a2d69603ffe8c1eca0faa54eb44837a0bd9b3/docs/domains/lab/research/index.html">&ldquo;a criterion is never amended after the numbers arrive&rdquo;</a>. The log's export holds <a href="https://github.com/wordingone/ember/blob/df2a2d69603ffe8c1eca0faa54eb44837a0bd9b3/docs/domains/lab/research/export/research-index.json">456 supported, 402 refuted and 100 inconclusive results</a>.</dd>
+      <dt>Every number traces to a run</dt>
+      <dd>A claim counts only if it points to the stored record of a run that actually executed; the research pages are generated from those records and <a href="https://github.com/wordingone/ember/blob/df2a2d69603ffe8c1eca0faa54eb44837a0bd9b3/docs/domains/lab/research/method.html">&ldquo;a validation failure produces no page at all&rdquo;</a>.</dd>
+      <dt>Instruments that fail closed</dt>
+      <dd>A measuring tool that cannot confirm what it measured stops instead of reporting, as the replacement for Ember's faulty profiling probe does.</dd>
+      <dt>Replace, don't patch</dt>
+      <dd>A failed test or tool is <a href="https://github.com/wordingone/ember/blob/df2a2d69603ffe8c1eca0faa54eb44837a0bd9b3/docs/domains/lab/research/export/research-index.json">replaced by a new, named one</a> with its own fixed criterion; the old one stays in the record.</dd>
+      <dt>Corrections beside the claim</dt>
+      <dd>When a public claim outruns its evidence, the correction is written next to it: The Search's <a href="https://github.com/wordingone/the-search/blob/0c1a96402bfd6606c18029fa62c801500258544d/docs/PAPER.md#L7">&ldquo;solved by composition&rdquo; line</a>, and gemma-architect's write-up, marked a <a href="https://github.com/wordingone/gemma-architect/blob/3f43ee6feb4187154b4ce7d3f86c9e484cec5b6a/submission/README.md#L1">historical draft</a>.</dd>
+    </dl>
+    <p class="quiet">Limits: fixed criteria stop moving goalposts; they do not make a badly chosen criterion good. None of this work has been peer reviewed.</p>
+
+
+    <h2 class="kicker" id="cv-brief">Background</h2>
+    <ul class="cv">
+      <li><b>M.Arch</b>, Southern California Institute of Architecture (SCI-Arc), Los Angeles, 2022&ndash;2025. Thesis &ldquo;The Time a Building Takes&rdquo;, advised by Zeina Koreitem.</li>
+      <li><b>B.F.A. Interior Design</b>, Virginia Commonwealth University, 2022. Magna Cum Laude.</li>
+      <li><b>Design work.</b> PRADA Re:Making, with Oskar Maly, Spring 2025 (<a href="prada/">shown here</a>). Windward Pavilion, Atlas of Risks studio, Fall 2024.</li>
+      <li><b>Other software.</b> <a href="https://github.com/wordingone/genesis-forge">Genesis Forge</a>, an offline Windows app around Microsoft's TRELLIS 3D model; most of the model code is Microsoft's.</li>
+      <li><b>Manuscript.</b> &ldquo;Characterizing the Feasible Region for Self-Modifying Substrates in Interactive Environments&rdquo;, March 2026, <a href="https://github.com/wordingone/the-search/blob/0c1a96402bfd6606c18029fa62c801500258544d/docs/paper.pdf">public PDF</a>, unpublished and not peer reviewed. Two further manuscripts are in preparation and not public.</li>
+    </ul>
+    <p class="contact"><a href="cv.html">Full CV</a><a href="https://github.com/wordingone">GitHub</a><a href="text.html">Text version</a></p>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ landings: the territory becomes the thing itself ============ -->
+<section class="landing" id="land-ember" hidden aria-labelledby="land-ember-title">
+  <div class="landing-bar"><p class="eyebrow"><span class="num">01</span> Ember &middot; landed</p><div class="landing-actions"><button class="open fly-btn" type="button" data-fly="ember">Fly</button><button class="open takeoff-inline" type="button">Take off</button></div></div>
+  <div class="landing-grid">
+    <div class="landing-text">
+      <h2 id="land-ember-title" class="title">A plane of training steps</h2>
+      <p class="lede">Every point below is one recorded training step of a language model trained from scratch on one RTX 4090: its position is when it ran and what its loss was; its brightness is how fast it ran.</p>
+      <dl class="facts">
+        <dt>Hours plotted</dt><dd><span id="f-hours"></span> governed hours on the kept lineage, and <span id="f-off"></span> more that were run and not kept (the dim band behind)</dd>
+        <dt>Steps plotted</dt><dd><span id="f-points"></span> of <span id="f-updates"></span> recorded updates (every 12th); <span id="f-positions"></span> token positions applied over these hours</dd>
+        <dt>Speed at the head hour</dt><dd><span id="f-headp10"></span> positions/s at the tenth-percentile step, <span id="f-headoverall"></span> overall including the checkpoint write; the best hour on the lineage reached <span id="f-bestp10"></span>. The project's bar is 80,000 and was not met.</dd>
+        <dt>What this is not</dt><dd>No checkpoint from these hours is an accepted Ember model, and no benchmark of the kept chain is published. The chain the project counts is 33 checkpoints deep (6.06 B positions); the receipts plotted here cover the last 31 of those hours.</dd>
+      </dl>
+      <p class="quiet">Numbers are read at load time from the hour receipts (hour-result.json: complete_step_p10_positions_per_second, overall_measured_positions_per_second, applied_positions, measured_updates). <button class="open story-btn" type="button" data-story="ember">Read the story</button> &middot; <a href="projects/ember.html">Full page</a></p>
     </div>
+    <div class="term" id="term" aria-label="Replay of recorded training receipts">
+      <div class="term-bar"><span>Replay &middot; recorded receipts of hour <span id="f-headstamp"></span>, the head of the kept lineage &middot; not live</span><button class="term-play" type="button" aria-label="Play or pause">&#9654;&#10074;&#10074;</button></div>
+      <div class="term-body"></div>
+      <input id="scrub" class="scrub" type="range" min="0" max="100" value="0" aria-label="Scrub the replay">
+    </div>
+  </div>
+</section>
 
-    <script>
-        // Simple and reliable navigation
-        const logoWrapper = document.getElementById('logoWrapper');
-        const logoScreen = document.getElementById('logoScreen');
-        const scrollIndicator = document.getElementById('scrollIndicator');
-        
-        // Check if logo is in view
-        function checkScroll() {
-            const scrollY = window.scrollY || window.pageYOffset;
-            const windowHeight = window.innerHeight;
-            
-            // Hide scroll indicator when logo is visible
-            if (scrollY > windowHeight * 0.5) {
-                scrollIndicator.classList.add('hidden');
-            } else {
-                scrollIndicator.classList.remove('hidden');
-            }
-        }
-        
-        // Handle navigation
-        function navigateToMain(e) {
-            if (e) e.preventDefault();
-            sessionStorage.setItem('playIntroVideo', 'true');
-            window.location.href = 'main-app.html';
-        }
-        
-        // Add click handlers - works immediately when logo appears
-        logoWrapper.addEventListener('click', navigateToMain);
-        logoWrapper.addEventListener('touchend', navigateToMain);
-        
-        // Also allow clicking anywhere on the logo screen
-        logoScreen.addEventListener('click', function(e) {
-            if (e.target === logoScreen) {
-                navigateToMain(e);
-            }
-        });
-        
-        // Keyboard support
-        document.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' || e.key === ' ') {
-                const logoRect = logoScreen.getBoundingClientRect();
-                const isLogoVisible = logoRect.top < window.innerHeight && logoRect.bottom > 0;
-                if (isLogoVisible) {
-                    e.preventDefault();
-                    navigateToMain();
-                }
-            }
-        });
-        
-        // Monitor scroll
-        window.addEventListener('scroll', checkScroll, { passive: true });
-        checkScroll();
-        
-        // Auto-scroll to logo after a moment
-        setTimeout(() => {
-            const logoPosition = logoScreen.offsetTop;
-            window.scrollTo({
-                top: logoPosition,
-                behavior: 'smooth'
-            });
-        }, 3000);
-    </script>
-    <!-- Mobile Support Script -->
-    <script src="mobile/responsive.additions.js"></script>
+<section class="landing" id="land-the-search" hidden aria-labelledby="land-search-title">
+  <div class="landing-bar"><p class="eyebrow"><span class="num">02</span> The Search &middot; landed</p><div class="landing-actions"><button class="open fly-btn" type="button" data-fly="the-search">Fly</button><button class="open takeoff-inline" type="button">Take off</button></div></div>
+  <div class="landing-text landing-side">
+    <h2 id="land-search-title" class="title">Where the search went, and where it ended</h2>
+    <p class="lede">Every point is one experiment. The body of points is the first era (<span id="s-scripts"></span> experiment scripts recovered from the repository's history, March 2026, wound in order of their step number); the short column at the end of the line is the second era's <span id="s-stages"></span> staged gates. Point at a point to read it.</p>
+    <p>The line is the route the search took at the end: the reach ladder, then the four-faces gates. It stops at the hollow mark. <span id="s-end"></span>.</p>
+    <p class="quiet">Blue points passed their gate; white ones were killed, flat, or left open. The paper's own count is 1,000+ experiments across 14 families; the cloud shows only what could be recovered as a script or a staged row. <button class="open story-btn" type="button" data-story="the-search">Read the story</button> &middot; <a href="projects/the-search.html">Full page</a></p>
+  </div>
+  <div id="exp-card" class="card" hidden></div>
+</section>
+
+<section class="landing" id="land-web-cad" hidden aria-labelledby="land-webcad-title">
+  <div class="landing-bar"><p class="eyebrow"><span class="num">03</span> WEB-CAD &middot; landed</p><div class="landing-actions"><a class="open" href="https://wordingone.github.io/WEB-CAD/" target="_blank" rel="noopener">Open full</a><button class="open fly-btn" type="button" data-fly="web-cad">Fly</button><button class="open takeoff-inline" type="button">Take off</button></div></div>
+  <div class="landing-frame">
+    <div class="frame-gate"><div><p>The tool runs in this frame on request. Opening it downloads its in-browser language model (about 5 GB) and needs WebGPU; the drawing viewer works without it.</p><button class="open" type="button" id="webcad-run">Run WEB-CAD here</button></div></div>
+    <iframe title="WEB-CAD, the live tool" data-src="https://wordingone.github.io/WEB-CAD/" allow="cross-origin-isolated"></iframe>
+  </div>
+  <p class="quiet landing-foot">The frame above holds the tool itself; the cloud you landed on is the <span id="w-points"></span> vertices of two sample building files it ships with. The in-browser model needs WebGPU and runs at about two tokens per second. <button class="open story-btn" type="button" data-story="web-cad">Read the story</button> &middot; <a href="projects/web-cad.html">Full page</a></p>
+</section>
+
+<footer class="colophon">
+  <p>Hyun Jun Han, 2026. <a href="text.html">Text version</a></p>
+  <details class="authorship" id="authorship">
+    <summary>Authorship</summary>
+    <p>I designed and directed this work and reviewed it; most of the code was written by AI coding agents. In The Search, agents also implemented, ran and reviewed the experiments, as <a href="https://github.com/wordingone/the-search/blob/0c1a96402bfd6606c18029fa62c801500258544d/docs/paper.tex#L1833">the manuscript's attribution section</a> states.</p>
+  </details>
+</footer>
+
+<div class="panel" id="panel" role="region" aria-labelledby="panel-title" hidden>
+  <div class="panel-bar"><span class="panel-num" id="panel-title">Story</span><button class="panel-close" type="button" aria-label="Close story">Close</button></div>
+  <div class="panel-body" tabindex="-1"></div>
+</div>
+
+<div class="loader" aria-hidden="true"><span></span></div>
+<script type="module" src="world/world.js"></script>
 </body>
 </html>
