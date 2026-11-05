@@ -535,8 +535,8 @@ async function build() {
     const el = document.createElement('div'); el.className = 'row';
     el.innerHTML = `<span class="c0">step ${String(step).padStart(6, ' ')}</span><span class="c1">loss ${loss.toFixed(4)}</span><span class="c2">${fmt(pps).padStart(7, ' ')} pos/s</span><span class="c3">${wall.toFixed(3)} s</span>`;
     termBody.appendChild(el);
-    while (termBody.children.length > 60) termBody.removeChild(termBody.firstChild);
-    termBody.scrollTop = termBody.scrollHeight;
+    const rowH = el.getBoundingClientRect().height || 19.5, fit = Math.max(3, Math.floor((termBody.clientHeight - 24) / rowH));
+    while (termBody.children.length > fit) termBody.removeChild(termBody.firstChild);
   }
   function stopReplay() { if (replayTimer) clearTimeout(replayTimer); replayTimer = null; }
   scrub.addEventListener('input', () => {
@@ -631,8 +631,9 @@ async function build() {
     const ap = approachProgress();
     state.p += (ap - state.p) * (reduce ? 1 : 1 - Math.exp(-dt * 4));
     if (!state.entered && ap >= 0.985) enter();
-    transit.classList.toggle('on', !state.entered && state.p > 0.12 && state.p < 0.97);
-    if (letters) { const q = THREE.MathUtils.clamp(state.p, 0, 1); letters.mat.uniforms.uFade.value = THREE.MathUtils.smoothstep(q, 0.025, 0.15); if (plate0 && !state.entered) plate0.style.opacity = 1 - THREE.MathUtils.smoothstep(q, 0.015, 0.13); }
+    transit.classList.toggle('on', !state.entered && state.p > 0.05 && state.p < 0.97);
+    if (letters) { const q = THREE.MathUtils.clamp(state.p, 0, 1); letters.mat.uniforms.uFade.value = THREE.MathUtils.smoothstep(q, 0.04, 0.13); if (plate0 && !state.entered) plate0.style.opacity = 1 - THREE.MathUtils.smoothstep(q, 0.005, 0.05); }
+    { const ef = state.entered ? 1 : THREE.MathUtils.smoothstep(state.p, 0.005, 0.06); for (const c of clouds) if (!c.isLetters) c.mat.uniforms.uFade.value = ef; } // the page is the page; the world arrives as you leave it
 
     if (!state.entered) {
       // the approach: carried by the scroll, through the letters, into the dark
@@ -707,6 +708,7 @@ async function build() {
     uniforms.uCam.value.copy(camera.position);
 
     // reveal what the camera has come near
+    if (state.landed) bird.visible = false;
     for (const c of clouds) { if (c.isLetters || c.isDust) continue; reveal(c, camera.position, dt); c.mat.uniforms.uFocus.value = state.landed === c.id ? 0.35 : 0; }
     // the search's route brightens only as the search cloud is seen
     if (search.cloud && search.route && state.landed !== 'the-search') { const f = search.cloud.revealed / search.cloud.n; search.route.material.opacity = f * 0.6; if (search.endMark) search.endMark.material.opacity = f * 0.8; }
@@ -735,7 +737,7 @@ async function build() {
     // the rail shows the approach, then the share of the world that has been seen
     const seenShare = clouds.filter(c => !c.isLetters && !c.isDust).reduce((a, c) => a + c.revealed / c.n, 0) / 3;
     $('.rail-fill').style.height = ((state.entered ? 0.35 + 0.65 * seenShare : state.p * 0.35) * 100).toFixed(1) + '%';
-    const seenEl = $('.seen'); if (seenEl) seenEl.textContent = state.entered ? Math.round(seenShare * 100) + '% of the world seen' : '';
+    const seenEl = $('.seen'); if (seenEl) seenEl.textContent = state.entered ? 'records flown past: ' + Math.round(seenShare * 100) + '%' : '';
 
     if (++frames < 150 && frames > 30) { if (dt > 0.026) slow++; if (frames === 149 && slow > 60 && dpr > 1) { dpr = 1; renderer.setPixelRatio(1); resize(); } }
     if (frames === 2) root.classList.add('ready');
