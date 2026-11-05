@@ -40,7 +40,7 @@
       <li><a href="#in-progress" data-place="in-progress"><span>04</span>In progress</a></li>
       <li><a href="#method" data-place="method"><span>05</span>Method</a></li>
     </ol>
-    <p class="hud-aux"><a href="cv.html">CV</a><a href="text.html">Text version</a><a href="prada/">Prada Re:Making (architecture)</a></p>
+    <p class="hud-aux"><a href="cv.html">CV</a><a href="text.html">Text version</a><a href="prada/">Architecture portfolio</a></p>
   </nav>
 </header>
 
@@ -66,11 +66,15 @@
       <a href="cv.html">CV</a>
     </p>
    </div>
+   <div class="entry-cue" aria-hidden="true">
+    <p class="kicker">How to read this page</p>
+    <p>Scroll to leave the page and fly through three places, each drawn from a project's own records: Ember's training steps, The Search's experiments, WEB-CAD's geometry. The wheel moves you; a Land prompt appears by the cursor when a place is close.</p>
+   </div>
    <div class="dirs-wrap">
     <h2 class="kicker">Directions</h2>
     <ol class="directions">
       <li><b>Credit assignment.</b> Which parts of a model should change after an experience.</li>
-      <li><b>Learning only from verified experience.</b> A model grows only by experience that passes verification. Ember built a form of this.</li>
+      <li><b>Learning only from verified experience.</b> A model grows only by experience that passes verification. Ember is one attempt at this.</li>
       <li><b>A developmental environment.</b> An external world an agent lives in and learns from, of which benchmarks are verifiable slices. Not an internal world model.</li>
       <li><b>Adaptive learning-compute allocation.</b> Predicting which parameter blocks are worth updating before computing gradients.</li>
     </ol>
@@ -81,7 +85,7 @@
       <li><a href="#ember" data-place="ember" data-land="true"><span class="w-title">Ember</span><span class="w-year">2026</span>
         <span class="w-line">Trained a language model from scratch on one RTX 4090 in hourly steps, each kept only if it passed a recorded check: about 6.06 billion tokens of training kept across 33 hourly checkpoints; no checkpoint yet meets the project&rsquo;s own bar.</span></a></li>
       <li><a href="#the-search" data-place="the-search" data-land="true"><span class="w-title">The Search</span><span class="w-year">2026</span>
-        <span class="w-line">A falsification study of self-improving learners: more than 1,000 experiments across 14 architecture families. In the first era no learned action selection beat random actions; measured transfer was zero.</span></a></li>
+        <span class="w-line">A falsification study of self-improving learners: more than 1,000 experiments across 14 architecture families by the paper&rsquo;s count (575 first-era scripts recovered). In the first era no learned action selection beat random actions; measured transfer was zero.</span></a></li>
       <li><a href="#web-cad" data-place="web-cad" data-land="true"><span class="w-title">WEB-CAD</span><span class="w-year">2026</span>
         <span class="w-line">A CAD workbench that runs entirely in the browser, with an in-browser Gemma 4 model that turns prompts into editable geometry.</span></a></li>
     </ul>
@@ -219,7 +223,7 @@
         <dt>Kept lineage</dt><dd><span id="f-hours"></span> hours; <span id="f-points"></span> of <span id="f-updates"></span> steps plotted; <span id="f-positions"></span> token positions</dd>
         <dt>Speed</dt><dd><span id="f-headp10"></span> positions/s at the head hour (<span id="f-headoverall"></span> overall); best hour <span id="f-bestp10"></span>; the bar was 80,000, not met</dd>
       </dl>
-      <p class="quiet">No checkpoint shown is an accepted model. The dim band behind is <span id="f-off"></span> hours run and not kept. Numbers are read from the hour receipts at load. <button class="open story-btn" type="button" data-story="ember">Read the story</button> &middot; <a href="projects/ember.html">Full page</a></p>
+      <p class="quiet">No checkpoint shown is an accepted model. The dim band behind is <span id="f-off"></span> hours run and not kept. Numbers are read from the hour receipts at load. The repository&rsquo;s continuity file counts 33 checkpoints and 6.06 billion positions; the two not plotted total 16,415 steps and have no per-step receipts in this export. <button class="open story-btn" type="button" data-story="ember">Read the story</button> &middot; <a href="projects/ember.html">Full page</a></p>
     </div>
     <div class="term" id="term" aria-label="Replay of recorded training receipts">
       <div class="term-bar"><span>Replay &middot; recorded receipts of hour <span id="f-headstamp"></span>, the head of the kept lineage &middot; not live<br><span class="term-note">loss = per-step value on one packed batch, not a smoothed curve</span></span><button class="term-play" type="button" aria-label="Play or pause">&#9654;&#10074;&#10074;</button></div>
@@ -235,7 +239,7 @@
     <h2 id="land-search-title" class="title">Where the search went, and where it ended</h2>
     <p class="lede">Every point is one experiment: <span id="s-scripts"></span> first-era scripts (March 2026), wound by step number, then the second era's <span id="s-stages"></span> staged gates at the end of the line. Point at one to read it.</p>
     <p class="plain">In plain words: of the final idea's three tests, one passed, one was stopped, one failed, and the search ended there.</p>
-    <p class="quiet legend"><span class="sw sw-blue"></span>passed its gate <span class="sw"></span>killed, flat or left open. The line stops at the hollow mark. Codes: <span id="s-end"></span>. <button class="open story-btn" type="button" data-story="the-search">Read the story</button> &middot; <a href="projects/the-search.html">Full page</a></p>
+    <p class="quiet legend"><span class="sw sw-blue"></span>passed its gate <span class="sw"></span>killed, flat or left open. The line stops at the hollow mark. The paper counts more than 1,000 experiments; only the recovered scripts are plotted. Codes: <span id="s-end"></span>. <button class="open story-btn" type="button" data-story="the-search">Read the story</button> &middot; <a href="projects/the-search.html">Full page</a></p>
   </div>
   <div id="exp-card" class="card" hidden></div>
 </section>
