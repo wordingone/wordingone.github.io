@@ -47,9 +47,9 @@
 <div class="rail" aria-hidden="true"><div class="rail-fill"></div></div>
 <p class="fallback-note" role="note">The 3D world could not start in this browser, so this is the plain reading order. A <a href="text.html">text-only version</a> is also available.</p>
 <div class="flight">
-  <p class="hint"><span class="k">scroll</span> move <span class="k">pointer</span> steer <span class="k">enter</span> land <span class="k">esc</span> take off <span class="sep"></span><span class="seen"></span></p>
+  <p class="hint"><span class="hint-kb"><span class="k">scroll</span> move <span class="k">pointer</span> steer <span class="k">enter</span> land <span class="k">esc</span> take off</span><span class="hint-touch"><span class="k">drag</span> steer and fly <span class="k">two fingers up</span> faster <span class="k">tap</span> land</span> <span class="sep"></span><span class="seen"></span></p>
   <p class="prompt-wrap"><span class="prompt"></span> <button class="land" type="button">Land</button></p>
-  <button class="takeoff" type="button">Take off <span class="k">esc</span></button>
+  <button class="takeoff" type="button">Take off <span class="k kb-only">esc</span></button>
 </div>
 <p id="live" class="sr" aria-live="polite"></p>
 <p class="transit" aria-hidden="true">Keep scrolling: the question becomes a world. Three places ahead are built from the projects' own records.</p>
@@ -221,11 +221,22 @@
     <div class="landing-text">
       <h2 id="land-ember-title" class="title">A plane of training steps</h2>
       <p class="lede">Every point is one recorded training step: when it ran, its loss, and, as brightness, how fast it ran. One RTX 4090, from scratch.</p>
-      <dl class="facts">
-        <dt>Kept lineage</dt><dd><span id="f-hours"></span> hours; <span id="f-points"></span> of <span id="f-updates"></span> steps plotted; <span id="f-positions"></span> token positions</dd>
-        <dt>Speed</dt><dd><span id="f-headp10"></span> positions/s at the head hour (<span id="f-headoverall"></span> overall); best hour <span id="f-bestp10"></span>; the bar was 80,000, not met</dd>
+      <dl class="facts facts-three">
+        <dt>Kept</dt><dd><span id="f-hours"></span> hourly checkpoints in the kept lineage <a class="src" href="https://github.com/wordingone/wordingone.github.io/blob/16b16afb65c1f1bf48a5182ac2a410bf1872b6f9/world/data/ember-meta.json#L5">source</a></dd>
+        <dt>Fastest kept hour</dt><dd><span id="f-bestp10"></span> positions/s, tenth-percentile step <a class="src" href="https://github.com/wordingone/wordingone.github.io/blob/16b16afb65c1f1bf48a5182ac2a410bf1872b6f9/world/data/ember-meta.json#L54-L59">source</a></dd>
+        <dt>The bar</dt><dd><span>80,000</span> positions/s, not met in any kept hour <a class="src" href="https://github.com/wordingone/ember/issues/1945">source</a></dd>
       </dl>
-      <p class="quiet">No checkpoint shown is an accepted model. The dim band behind is <span id="f-off"></span> hours run and not kept. Numbers are read from the hour receipts at load. The repository&rsquo;s continuity file counts 33 checkpoints and 6.06 billion positions; the two not plotted total 16,415 steps and have no per-step receipts in this export. <button class="open story-btn" type="button" data-story="ember">Read the story</button> &middot; <a href="projects/ember.html">Full page</a></p>
+      <p class="quiet">No checkpoint shown is an accepted model. The dim band behind is hours that ran and were not kept. <button class="open story-btn" type="button" data-story="ember">Read the story</button> &middot; <a href="projects/ember.html">Full page</a></p>
+      <details class="more-numbers">
+        <summary>More numbers</summary>
+        <dl class="facts">
+          <dt>Head hour</dt><dd><span id="f-headp10"></span> positions/s tenth-percentile step, <span id="f-headoverall"></span> overall</dd>
+          <dt>Fastest kept hour</dt><dd>ran <span id="f-beststamp"></span> (UTC stamp)</dd>
+          <dt>Training kept</dt><dd><span id="f-positions"></span> token positions over <span id="f-updates"></span> steps; <span id="f-points"></span> steps plotted</dd>
+          <dt>Not kept</dt><dd><span id="f-off"></span> hours, the dim band<span id="f-offover"></span></dd>
+        </dl>
+        <p class="quiet">Rates are each hour&rsquo;s own tenth-percentile step rate, read at load from <a href="https://github.com/wordingone/wordingone.github.io/blob/16b16afb65c1f1bf48a5182ac2a410bf1872b6f9/world/data/ember-meta.json">this site&rsquo;s export</a> of the hour receipts; the receipts themselves are not public. The <a href="https://github.com/wordingone/ember/blob/df2a2d69603ffe8c1eca0faa54eb44837a0bd9b3/docs/domains/governance/authority/CONTINUITY.md#L155">continuity file</a> counts 33 checkpoints and 6.06 billion positions; the two not plotted total 16,415 steps and have no per-step receipts in this export.</p>
+      </details>
     </div>
     <div class="term" id="term" aria-label="Replay of recorded training receipts">
       <div class="term-bar"><span>Replay &middot; recorded receipts of hour <span id="f-headstamp"></span>, the head of the kept lineage &middot; not live<br><span class="term-note">loss = per-step value on one packed batch, not a smoothed curve</span></span><button class="term-play" type="button" aria-label="Play or pause">&#9654;&#10074;&#10074;</button></div>

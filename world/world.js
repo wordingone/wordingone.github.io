@@ -122,19 +122,21 @@ async function build() {
   /* ---- one shader for every cloud: brightness = ghost + seen, size by distance ---- */
   const cloudMaterial = (opts = {}) => new THREE.ShaderMaterial({
     uniforms: { uTime: uniforms.uTime, uScale: uniforms.uScale, uTex: { value: glowTex }, uCam: uniforms.uCam,
-      uGhost: { value: opts.ghost ?? 0.11 }, uSize: { value: opts.size ?? 1.0 }, uFocus: { value: 0 }, uFade: { value: 1 }, uTint: { value: new THREE.Color(opts.tint ?? 0xffffff) }, uAccent: { value: new THREE.Color(0x8ea9ff) } },
+      uGhost: { value: opts.ghost ?? 0.11 }, uSize: { value: opts.size ?? 1.0 }, uFocus: { value: 0 }, uFade: { value: 1 }, uLift: { value: 1 }, uDrift: { value: 0 }, uTint: { value: new THREE.Color(opts.tint ?? 0xffffff) }, uAccent: { value: new THREE.Color(0x8ea9ff) } },
     transparent: true, depthWrite: false, blending: THREE.AdditiveBlending,
     vertexShader: `
-      uniform float uScale; uniform float uSize; uniform float uGhost; uniform float uFocus; uniform float uFade; uniform vec3 uCam;
+      uniform float uScale; uniform float uSize; uniform float uGhost; uniform float uFocus; uniform float uFade; uniform float uLift; uniform float uDrift; uniform vec3 uCam;
       attribute float aSeen; attribute float aW; attribute float aK;
       varying float vA; varying float vK;
       void main(){
-        vec4 mv = modelViewMatrix * vec4(position, 1.);
+        // uDrift parts the letters around the reader as the camera passes through them (0 for every other cloud)
+        vec3 p = position + vec3(position.xy * uDrift * 2.2, -uDrift * 10. * (0.4 + aW));
+        vec4 mv = modelViewMatrix * vec4(p, 1.);
         gl_Position = projectionMatrix * mv;
         float d = -mv.z;
-        gl_PointSize = clamp(uScale * (uSize * (0.35 + 0.65 * aW) / d), 1.9, 9.0);
+        gl_PointSize = clamp(uScale * (uSize * (0.35 + 0.65 * aW) / d) * (0.6 + 0.4 * uLift), 1.9, 9.0);
         float seen = max(aSeen, uFocus);
-        vA = (uGhost + seen * (0.6 + 0.4 * aW)) * mix(0.5, 1.0, smoothstep(1200., 30., d)) * uFade;
+        vA = (uGhost * uLift + seen * (0.6 + 0.4 * aW)) * mix(0.5, 1.0, smoothstep(1200., 30., d)) * uFade;
         vK = aK;
       }`,
     fragmentShader: `
@@ -531,6 +533,15 @@ async function build() {
     $('#f-headoverall').textContent = fmt(T.head_overall);
     $('#f-headstamp').textContent = head ? head.stamp : '';
     $('#f-points').textContent = fmt(emberMeta.points);
+    const best = emberMeta.hours.filter(h => h.on_lineage).reduce((a, h) => (!a || h.complete_step_p10_positions_per_second > a.complete_step_p10_positions_per_second) ? h : a, null);
+    const bs = $('#f-beststamp'); if (bs && best) bs.textContent = best.stamp;
+    // unkept hours at or above the bar are named, not hidden
+    const over = emberMeta.hours.filter(h => !h.on_lineage && h.complete_step_p10_positions_per_second >= emberMeta.target_p10_positions_per_second);
+    const oo = $('#f-offover'), first = emberMeta.hours.filter(h => h.on_lineage).map(h => h.stamp).sort()[0];
+    if (oo && over.length) {
+      const before = over.every(h => h.stamp < first);
+      oo.textContent = '; ' + (over.length === 1 ? 'one of them' : over.length + ' of them') + (before ? ', run before this lineage,' : '') + ' read ' + over.map(h => fmt(h.complete_step_p10_positions_per_second)).join(' and ') + ' on the same statistic';
+    }
   }
   emberFacts();
   function startReplay() {
@@ -638,7 +649,7 @@ async function build() {
   addEventListener('resize', resize); resize();
 
   /* ---- loop ---- */
-  let last = performance.now(), t = 0, frames = 0, slow = 0, running = true, scheduled = false;
+  let last = performance.now(), t = 0, frames = 0, slow = 0, running = true, scheduled = false, lift = 0;
   function schedule() { if (scheduled || !running) return; scheduled = true; requestAnimationFrame(now => { scheduled = false; frame(now); }); }
   const camPos = new THREE.Vector3(), camLook = new THREE.Vector3(), up = new THREE.Vector3(0, 1, 0);
   const vv = new THREE.Vector3();
@@ -655,6 +666,12 @@ async function build() {
     transit.classList.toggle('on', !state.entered && state.p > 0.05 && state.p < 0.97);
     if (letters) { const q = THREE.MathUtils.clamp(state.p, 0, 1); letters.mat.uniforms.uFade.value = THREE.MathUtils.smoothstep(q, 0.04, 0.13); if (plate0 && !state.entered) plate0.style.opacity = 1 - THREE.MathUtils.smoothstep(q, 0.005, 0.05); }
     { const ef = state.entered ? 1 : THREE.MathUtils.smoothstep(state.p, 0.005, 0.06); for (const c of clouds) if (!c.isLetters) c.mat.uniforms.uFade.value = ef; } // the page is the page; the world arrives as you leave it
+    // the transit: once the letters are behind, the three places ahead brighten and the dust streams past, so the
+    // stretch between the page and the world is never empty; it eases back to the flight's own levels on entry
+    const liftT = state.entered ? 0 : THREE.MathUtils.smoothstep(state.p, 0.12, 0.42);
+    lift += (liftT - lift) * (reduce ? 1 : 1 - Math.exp(-dt * 1.2));
+    for (const c of clouds) { if (c.isLetters) continue; c.mat.uniforms.uLift.value = c.isDust ? 1 + 4 * lift : 1 + 1.5 * lift; }
+    if (letters) letters.mat.uniforms.uDrift.value = state.entered ? 1 : THREE.MathUtils.smoothstep(state.p, 0.22, 0.75);
 
     if (!state.entered) {
       // the approach: carried by the scroll, through the letters, into the dark
@@ -741,10 +758,12 @@ async function build() {
     const w = innerWidth, h = innerHeight;
     for (const L of labels) {
       let o = 0;
-      if (state.entered && !state.landed) {
+      const approaching = !state.entered && lift > 0.02 && L.el.classList.contains('place');
+      if ((state.entered || approaching) && !state.landed) {
         const d = camera.position.distanceTo(L.pos);
         o = THREE.MathUtils.clamp((L.far - d) / (L.far - L.near), 0, 1);
         if (L.cloud) o *= 0.35 + 0.65 * Math.min(1, L.cloud.revealed / (L.cloud.n * 0.15) + (d < L.near ? 1 : 0));
+        if (approaching) o *= lift;
       }
       if (o <= 0.01) { if (L.el.style.opacity !== '0') L.el.style.opacity = '0'; continue; }
       vv.copy(L.pos).project(camera);
