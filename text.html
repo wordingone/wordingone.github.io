@@ -35,10 +35,10 @@
       <li><b>Adaptive learning-compute allocation.</b> Predicting which parameter blocks are worth updating before computing gradients.</li>
     </ol>
 <h2>Selected work</h2>
-<ul><li><a href="#ember">Ember</a> (2026). Trained a language model from scratch on one RTX 4090 in hourly steps, each kept only if it passed a recorded check: about 6.06 billion tokens of training kept across 33 hourly checkpoints; no checkpoint yet meets the project&rsquo;s own bar.</li>
+<ul><li><a href="#ember">Ember</a> (2026). Trained a language model from scratch on one RTX 4090 in hourly steps, each kept only if it passed a recorded check: about 6.00 billion token positions of training kept across 31 hourly checkpoints; no checkpoint yet meets the project&rsquo;s own bar.</li>
       <li><a href="#the-search">The Search</a> (2026). A falsification study of self-improving learners: more than 1,000 experiments across 14 architecture families. In the first era no learned action selection beat random actions; measured transfer was zero.</li>
       <li><a href="#web-cad">WEB-CAD</a> (2026). A CAD workbench that runs entirely in the browser, with an in-browser Gemma 4 model that turns prompts into editable geometry.</li></ul>
-<p>November 2026: an experiment on reading a model from its weights is <a href="#in-progress">in progress</a>.</p>
+<p>November 2026: <a href="#in-progress">reading a model from its weights</a>, in progress. An Ember-internal result with one failed public replication as ported.</p>
 <h2 id="ember">Ember</h2>
 <p class="meta">June&ndash;October 2026</p>
 <p class="lede">Can one person with one consumer graphics card train a language model from scratch, with no borrowed weights, teacher models or judge models, and keep only the training that passes a check?</p>
@@ -50,7 +50,7 @@
     <p>A research log in which every hypothesis must carry a pass/fail criterion written before the run, with an index of <a href="https://github.com/wordingone/ember/blob/df2a2d69603ffe8c1eca0faa54eb44837a0bd9b3/receipts/CLAIMS.md#L9">1,022 run records</a>.</p>
     <p>ember-cli, the terminal tool used to run and watch training. A branch, <a href="https://github.com/wordingone/ember/tree/feat/ember-cli-open-weights-mode">not merged or released</a>, adds a mode that runs third-party open-weights models on one GPU.</p>
     <h3>What was measured</h3>
-    <p>Training kept across the chain: about <a href="https://github.com/wordingone/ember/blob/df2a2d69603ffe8c1eca0faa54eb44837a0bd9b3/docs/domains/governance/authority/CONTINUITY.md#L155">6.06 billion token positions over 1.48 million steps, 33 hourly checkpoints deep</a>, with a <a href="https://github.com/wordingone/ember/blob/df2a2d69603ffe8c1eca0faa54eb44837a0bd9b3/docs/domains/governance/authority/CONTINUITY.md#L158">check that each hour is counted once</a>.</p>
+    <p>Training kept across the chain: about <a href="https://github.com/wordingone/ember/blob/df2a2d69603ffe8c1eca0faa54eb44837a0bd9b3/docs/domains/governance/authority/CONTINUITY.md#L155">6.06 billion token positions over 1.48 million steps, 33 checkpoints deep</a>, with a <a href="https://github.com/wordingone/ember/blob/df2a2d69603ffe8c1eca0faa54eb44837a0bd9b3/docs/domains/governance/authority/CONTINUITY.md#L158">check that each hour is counted once</a>.</p>
     <p>Benchmarks were run only on an early checkpoint trained on 51,200 tokens, which is not a trained model, and were at chance: ARC-Challenge <a href="https://github.com/wordingone/ember/blob/df2a2d69603ffe8c1eca0faa54eb44837a0bd9b3/docs/domains/governance/authority/CONTINUITY.md#L276">0.2295</a> and HellaSwag <a href="https://github.com/wordingone/ember/blob/df2a2d69603ffe8c1eca0faa54eb44837a0bd9b3/docs/domains/governance/authority/CONTINUITY.md#L277">0.2588</a> (chance 0.25). No benchmark of the kept chain is published.</p>
     <h3>A measurement that was wrong</h3>
     <p>A profiling probe reported about 1.76 s per training step. Training actually ran with CUDA graph capture at about 0.19 s, and the probe had never called capture, so <a href="https://github.com/wordingone/ember/blob/df2a2d69603ffe8c1eca0faa54eb44837a0bd9b3/docs/domains/lab/research/export/research-index.json">76 of 142 records</a> described a step that training never took. The probe was replaced by one that stops instead of reporting when capture did not happen.</p>
@@ -90,8 +90,9 @@
 <h2 id="in-progress">In progress: reading a model from its weights</h2>
 <p class="meta">November 2026</p>
 <p class="lede">Can you tell what an attention head does from its weights alone, without running the model on any input?</p>
-<p>The test case is the induction head, a head that finds an earlier copy of the current token and copies what came next. The plan is to score every head from its weights, write down the top five with the pass/fail rule fixed in the same commit, and only then check, first on a small public model whose induction heads are already published.</p>
-    <p class="quiet">No code or result is public yet, and no result is claimed. This place will link the committed prediction when it exists.</p>
+<p>The test case is the induction head, a head that finds an earlier copy of the current token and copies what came next. Each test scores heads from their weights alone, with its pass/fail rule committed before any score. So far this is an Ember-internal result with one failed public replication as ported: on two checkpoints of one Ember training run, a parent and its child, a second version of the weights-only score ranked the three measured copying heads at the top, after the first version failed; two later tests on the same checkpoints also failed. Carried over without tuning to a small public model, EleutherAI&rsquo;s Pythia-160M, under a rule frozen before download, it failed both of its tests.</p>
+    <p>The failure is not yet separated from a side effect of how the method builds its basis (very large activations at the first position), and that diagnosis is itself untested. The method was designed by someone who already knew which Ember heads it should find, so the Ember result is not a blind test of it.</p>
+    <p class="quiet">No code or result file is public yet. AI coding agents designed, ran and wrote up these experiments under my direction.</p>
 <h2 id="method">How the work is checked</h2>
 <p class="lede">I set the questions, the pass/fail rules a result must meet, and the review. The method is built to stop a claim from getting ahead of its evidence.</p>
 <dl class="method">

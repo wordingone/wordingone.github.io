@@ -367,3 +367,20 @@ html.js::-webkit-scrollbar{width:0;height:0}
 }
 
 @media (max-width:760px){.tag.line{max-width:min(46ch,66vw)}}
+
+/* ---------- v5: touch HUD, three numbers and a reveal ---------- */
+.hint-kb,.hint-touch{display:contents}
+.hint-touch{display:none}
+@media (hover:none) and (pointer:coarse){.hint-kb,.kb-only{display:none}.hint-touch{display:contents}.hint{font-size:10px}}
+.facts .src{font:400 9px/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;color:var(--ink-3);margin-left:8px;text-decoration:none;border-bottom:1px solid var(--hair-2);white-space:nowrap}
+.facts .src:hover{color:var(--ink)}
+.facts-three dd span{font:400 1.18em/1 var(--serif);letter-spacing:.01em}
+.more-numbers{margin-top:2px}
+.more-numbers summary{cursor:pointer;list-style:none;font:400 10px/1 var(--sans);letter-spacing:.22em;text-transform:uppercase;color:var(--ink-3);padding:6px 0}
+.more-numbers summary::-webkit-details-marker{display:none}
+.more-numbers summary::after{content:' +';color:var(--accent)}
+.more-numbers[open] summary::after{content:' 2'}
+.more-numbers summary:hover,.more-numbers[open] summary{color:var(--ink)}
+.more-numbers[open]>:not(summary){animation:numbers-in .6s ease both}
+.more-numbers .facts{margin-top:8px}
+@keyframes numbers-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
