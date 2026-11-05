@@ -1,227 +1,55 @@
-# PRADA: (RE)MAKING — Architectural Web Experience
+# wordingone.github.io
 
-## ✅ Mobile Fix Applied (2025-08-13)
+Source of the personal site at **https://wordingone.github.io/**: research on how intelligence develops, and architecture design work.
 
-### Critical Bug Fixed
-The mobile support files (`responsive.additions.css` and `.js`) existed but were **never included in the HTML**. This has now been corrected - the files are properly loaded.
+> **At a glance (read this first)**
+>
+> **What it is.** A static GitHub Pages site with no build step. Since 2026-11-05 ([#12](https://github.com/wordingone/wordingone.github.io/pull/12)) the root page is the research site, and the earlier PRADA (RE)MAKING studio project lives at [`/prada/`](https://wordingone.github.io/prada/).
+>
+> **Status.** Active. Built 2026-11-04 to 2026-11-05 (pull requests #9 to #16); the Prada project dates from 2025.
+>
+> **Who wrote it.** I designed and directed this work and reviewed it; most of the code was written by AI coding agents. The site carries the same note in its Authorship section.
+>
+> **How the claims are sourced.** Project pages link to files in the project repositories at pinned commits, so a quoted line stays checkable after the repositories change. [`LINKS.md`](LINKS.md) records the last external link check (28 of 28 unique URLs returned HTTP 200 on 2026-11-05).
 
-### What Was Fixed:
-1. **Added mobile CSS/JS includes** to both index.html and main-app.html
-2. **Removed CSS conflicts** (multiple `top` values in logo centering)
-3. **Removed JavaScript style overrides** that conflicted with CSS
+## What is where
 
-### Testing Required:
-- Verify on real mobile devices (not just DevTools)
-- Confirm desktop experience unchanged
-- Check all three critical issues are resolved
+| Path | What it is |
+|---|---|
+| `index.html` | Root page: the research question, the selected work (Ember, The Search, WEB-CAD), how the work is checked, and background. If the 3D view cannot start, it falls back to a plain reading order. |
+| `world/` | The interactive 3D view used by the root page (`world.js`, `world.css`), its data exported from the project repositories (`world/data/`), and a vendored copy of three.js (`world/vendor/`, with its licence). |
+| `projects/` | One full page per project: `ember.html`, `the-search.html`, `web-cad.html`. |
+| `text.html` | Text-only version of the root page. |
+| `cv.html` | CV. |
+| `prada/` | PRADA (RE)MAKING, the SCI-Arc 2025 studio project (see below). |
+| `research/` | Redirect only: the old `/research/` address now forwards to the root. |
+| `LINKS.md` | Result of the last external link check. |
+| `HANDOFF.md` | 2025 maintenance notes for the Prada project (mobile fixes). |
+| `_ai/` | Agent-facing notes; not linked from the site. |
 
-**See [HANDOFF.md](./HANDOFF.md) for technical details.**
+Code for the projects themselves lives in their own repositories: [ember](https://github.com/wordingone/ember), [the-search](https://github.com/wordingone/the-search), [WEB-CAD](https://github.com/wordingone/WEB-CAD), [gemma-architect](https://github.com/wordingone/gemma-architect) and [genesis-forge](https://github.com/wordingone/genesis-forge).
 
----
+## Run locally
 
-## Overview
+Any static file server works; ES modules need it to be served over HTTP rather than opened as a file.
 
-An immersive, cinematic web platform showcasing an architectural proposal for Prada's upcycling-focused extension at their Montevarchi Logistics Center. The project, developed at SCI-Arc under Peter Testa's vertical studio, reimagines fashion production through visible, interconnected processes housed in a contemporary insula typology.
-
-**Live Site**: [wordingone.github.io](https://wordingone.github.io)  
-**Credits**: Hyun Jun Han × Oskar Maly • SCI-Arc 2025
-
-## Experience Architecture
-
-### Entry Sequence
-1. **Landing Page** (`index.html`): Cinematic scroll-to-reveal with Prada logo
-2. **Intro Animation**: 50MB architectural flythrough video with smart autoplay
-3. **Main Application** (`main-app.html`): Dual-panel interface combining 3D navigation and LiDAR exploration
-
-### Interface Design
-
-#### Left Panel: 3D Model Viewer (33% width)
-- **Real-time WebGL visualization** of 5-floor architectural system
-- **GPU-instanced rendering**: 2,673 architectural components
-- **Interactive controls**: Orbit (mouse drag) + Zoom (scroll wheel)
-- **Model focus system**: Synchronized highlighting with LiDAR hotspots
-- **Glass morphism UI**: Premium frosted glass aesthetic throughout
-
-#### Right Panel: LiDAR Board (67% width)
-- **High-resolution mood board**: 1920×1080 LiDAR-scanned collage
-- **9 Interactive hotspots**: Trigger video series on click
-- **Magnifying lens cursor**: 3× magnification (225px on desktop, 60-80px mobile)
-- **Highlighting mode**: Reveals interactive regions with mask overlay
-- **Zoom animation**: 3.5× scale focusing on selected areas
-
-## Technical Implementation
-
-### Core Technologies
-- **Three.js r160**: WebGL rendering and 3D scene management
-- **ES6 Modules**: Modular architecture for maintainability
-- **GPU Instancing**: Optimized rendering for thousands of components
-- **Intersection Observer**: Lazy loading for performance
-- **Container Queries**: Responsive without media query dependencies
-
-### Architecture
-```
-src/
-├── core/viewer.js         # Three.js scene initialization
-├── load/loadModels.js     # GLTF/GLB loader with progress tracking
-├── instancing/            # GPU instancing for arch_module_smallest.glb
-├── focus/modelFocus.js    # Model highlighting and region mapping
-├── overlay/videoOverlay.js # Video player with series navigation
-├── ui/lidarBoard.js       # Hotspot positioning and mask system
-└── sync/controller.js     # 2D/3D view synchronization
-
-mobile/
-├── responsive.additions.css  # Mobile-specific styles
-└── responsive.additions.js   # Mobile event handlers
-```
-
-### Performance Optimizations
-- **Pixel ratio capping**: 1.25× on mobile, 2× on desktop
-- **Binary GLB delivery**: No LFS pointers for reliable web serving
-- **Video preloading**: Intro animation loads during scroll sequence
-- **CLS prevention**: Aspect-ratio boxes prevent layout shift
-- **Reduced motion support**: Respects accessibility preferences
-
-## Content Structure
-
-### 3D Models (10 GLB files)
-- `arch_module_smallest.glb` (2.5MB): Instanced architectural framework
-- `misc geometry.glb` (6.1MB): Environmental details
-- `altars.glb`: Designer-visitor interaction platforms
-- `circulation.glb`: Vertical/horizontal movement systems
-- `Index.glb`, `mirror.glb`: Scanning and reflection spaces
-- Additional: `Distress.glb`, `embellishments.glb`, `Moulage.glb`, `robot.glb`
-
-### Video Content (30 files)
-- **Intro**: `complete animation.mp4` (~50MB flythrough)
-- **Series Collections**:
-  - Altar Series (4 videos): Work platforms and customization
-  - Archive Series (7 videos): Storage and retrieval systems
-  - Circulation Series (2 videos): Movement through building
-  - Index Series (2 videos): Garment documentation
-  - Model Series (4 videos): Physical model presentations
-  - Single Features: Insula, Mirror, Red Dye stations
-
-### Interactive Regions
-Each hotspot maps to specific architectural program:
-1. **INDEX**: Garment scanning and digital documentation
-2. **MIRROR**: First-floor corridor with visual continuity
-3. **MODEL SERIES**: Physical model and projection displays
-4. **ARCHIVE INSIDE**: Climate-controlled storage views
-5. **ARCHIVE 2**: Exterior glass block facade
-6. **RED DYE**: Material treatment and coloring station
-7. **CIRCULATION**: Main vertical/horizontal routes
-8. **INSULA**: Central courtyard organization
-9. **ALTAR**: Primary designer-visitor workspaces
-
-## Visual Design System
-
-### Liquid Glass UI
-- **Glass morphism**: Backdrop blur (18px) with transparency
-- **Color palette**: 
-  - Ink (#0B0B0F): Dark backgrounds
-  - Paper (#F7F7F8): Light text
-  - Accent (#8EA9FF): Interactive elements
-- **Typography**: Inter font family with optical sizing
-- **Animations**: Cubic-bezier easing for smooth transitions
-- **Shadow system**: 4-tier z-depth for layered interface
-
-### Responsive Behavior
-- **Desktop**: Full dual-panel layout with hover interactions
-- **Tablet**: Stacked panels with touch-optimized controls
-- **Mobile**: Full-screen overlays, 44×44px tap targets
-- **Landscape**: Optimized video viewing
-
-## Installation & Development
-
-### Prerequisites
-- Modern browser with WebGL 2.0 support
-- JavaScript modules (ES6) capability
-- 100MB+ bandwidth for optimal video streaming
-
-### Local Development
 ```bash
-# Clone repository
 git clone https://github.com/wordingone/wordingone.github.io.git
-
-# Serve locally (requires CORS headers for modules)
+cd wordingone.github.io
 python -m http.server 8000
-# or
-npx serve -s .
-
-# Access at http://localhost:8000
+# open http://localhost:8000/ (research site) or http://localhost:8000/prada/
 ```
 
-### Mobile Testing
-```bash
-# Use ngrok for mobile device testing
-ngrok http 8000
+The repository is large (GitHub reports about 0.6 GB, mostly the Prada videos and 3D models).
 
-# Or use Chrome DevTools device emulation
-# Settings > More tools > Device toolbar (Ctrl+Shift+M)
-```
+## PRADA (RE)MAKING (`/prada/`)
 
-## Browser Support
+An architectural proposal for an upcycling-focused extension to Prada's Montevarchi logistics centre, presented as an interactive web experience. Credits: Hyun Jun Han × Oskar Maly, SCI-Arc, Spring 2025.
 
-### Desktop
-- Chrome 90+ / Edge 90+
-- Safari 15+ (macOS/iOS)
-- Firefox 88+
+- **Entry** (`prada/index.html`): scroll-to-reveal landing with the Prada logo, then an intro flythrough video.
+- **Main view** (`prada/main-app.html`): a 3D model viewer (three.js r160, GPU-instanced architectural modules) beside a LiDAR-scanned collage board with nine hotspots that open video series about each part of the programme (index, mirror, model series, archive, red dye, circulation, insula, altar).
+- **Design idea**: the insula, traditionally a Roman apartment block around a courtyard, reworked as a vertical factory where garment production, exhibition and customisation stay visible.
+- **Code layout** (paths relative to `prada/`): `src/core/viewer.js` (scene setup), `src/load/loadModels.js` (GLB loading), `src/instancing/`, `src/focus/modelFocus.js`, `src/overlay/videoOverlay.js`, `src/ui/lidarBoard.js`, `src/sync/controller.js`, and `mobile/` for the mobile styles and handlers.
+- **Known limits**: heavy assets (about 320 MB according to the 2025 notes), best on desktop with a mouse; the mobile fixes from 2025-08-13 are described in [`HANDOFF.md`](HANDOFF.md) and were marked "testing required" at the time.
 
-### Mobile (Now Fixed)
-- iOS Safari 15+
-- Chrome Mobile 90+
-- Firefox Mobile 88+
-- Samsung Internet 14+
-
-### Required Features
-- WebGL 2.0
-- ES6 Modules
-- CSS Grid/Flexbox
-- Backdrop Filter
-
-### Performance Targets
-- FCP: < 2.5s
-- TTI: < 4.0s
-- CLS: < 0.1
-- Mobile Lighthouse: 85+
-
-## Project Context
-
-### Academic Framework
-This project emerged from SCI-Arc's vertical studio investigating fashion's circular economy through architectural intervention. The brief challenged students to design spaces that make garment transformation visible, positioning upcycling as performance rather than hidden industrial process.
-
-### Design Philosophy
-The insula typology—traditionally a Roman apartment block around a courtyard—is reimagined as a vertical factory where production, exhibition, and customization coexist. Glass blocks, mirrored corridors, and open "altars" ensure all processes remain visible, transforming Prada's logistics into public theater.
-
-### Technical Innovation
-- **LiDAR mapping**: Physical models scanned to create navigable collages
-- **GPU instancing**: Thousands of components rendered efficiently
-- **Hybrid media**: Videos, 3D models, and 2D mapping in unified interface
-- **Cinema-first web**: Cinematic transitions prioritized over traditional UX
-
-## Maintenance Notes
-
-### Recent Fixes (2025-08-13)
-- Connected mobile support files that were created but never loaded
-- Removed CSS conflicts in logo centering
-- Eliminated JavaScript style overrides
-- Fixed z-index hierarchy issues
-
-### Testing Priority
-- **P0**: Verify mobile loading screen dismisses
-- **P0**: Confirm logo centers properly on all devices
-- **P0**: Check video overlay accessibility
-- **P1**: Test touch interactions
-- **P1**: Validate landscape orientation
-
-### Known Limitations
-- Heavy resource usage (~320MB total assets)
-- Requires stable internet connection
-- Best experienced on desktop with mouse
-- Mobile magnifier reduced to 60-80px
-
----
-
-**Repository**: [github.com/wordingone/wordingone.github.io](https://github.com/wordingone/wordingone.github.io)  
-**Status**: Desktop stable, Mobile fix applied (testing required)  
-**Last Updated**: August 13, 2025
+The longer 2025 description of the Prada project is in the history of this file (for example at commit `16b16af`).
