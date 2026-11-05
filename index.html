@@ -40,7 +40,7 @@
       <li><a href="#in-progress" data-place="in-progress"><span>04</span>In progress</a></li>
       <li><a href="#method" data-place="method"><span>05</span>Method</a></li>
     </ol>
-    <p class="hud-aux"><a href="cv.html">CV</a><a href="text.html">Text version</a><a href="prada/">Architecture portfolio</a></p>
+    <div class="hud-aux"><a href="cv.html">CV</a><details class="hud-more"><summary>More</summary><div><a href="text.html">Text version</a><a href="prada/">Architecture portfolio</a></div></details></div>
   </nav>
 </header>
 
@@ -64,6 +64,7 @@
     <p class="contact">
       <a href="https://github.com/wordingone">GitHub</a>
       <a href="cv.html">CV</a>
+      <a class="phone-only" href="#selected-work">Selected work</a>
     </p>
    </div>
    <div class="entry-cue" aria-hidden="true">
@@ -80,7 +81,7 @@
     </ol>
    </div>
    <div class="works-wrap">
-    <h2 class="kicker">Selected work</h2>
+    <h2 class="kicker" id="selected-work">Selected work</h2>
     <ul class="works">
       <li><a href="#ember" data-place="ember" data-land="true"><span class="w-title">Ember</span><span class="w-year">2026</span>
         <span class="w-line">Trained a language model from scratch on one RTX 4090 in hourly steps, each kept only if it passed a recorded check: about 6.06 billion tokens of training kept across 33 hourly checkpoints; no checkpoint yet meets the project&rsquo;s own bar.</span></a></li>
@@ -239,7 +240,7 @@
     <h2 id="land-search-title" class="title">Where the search went, and where it ended</h2>
     <p class="lede">Every point is one experiment: <span id="s-scripts"></span> first-era scripts (March 2026), wound by step number, then the second era's <span id="s-stages"></span> staged gates at the end of the line. Point at one to read it.</p>
     <p class="plain">In plain words: of the final idea's three tests, one passed, one was stopped, one failed, and the search ended there.</p>
-    <p class="quiet legend"><span class="sw sw-blue"></span>passed its gate <span class="sw"></span>killed, flat or left open. The line stops at the hollow mark. The paper counts more than 1,000 experiments; only the recovered scripts are plotted. Codes: <span id="s-end"></span>. <button class="open story-btn" type="button" data-story="the-search">Read the story</button> &middot; <a href="projects/the-search.html">Full page</a></p>
+    <p class="quiet legend"><span class="sw sw-blue"></span>passed its gate <span class="sw"></span>killed, flat or left open. The line stops at the hollow mark. <a href="https://github.com/wordingone/the-search/blob/0c1a96402bfd6606c18029fa62c801500258544d/docs/paper.tex#L80">The paper counts more than 1,000 experiments</a>; only the recovered scripts are plotted. Codes: <span id="s-end"></span>. <button class="open story-btn" type="button" data-story="the-search">Read the story</button> &middot; <a href="projects/the-search.html">Full page</a></p>
   </div>
   <div id="exp-card" class="card" hidden></div>
 </section>
