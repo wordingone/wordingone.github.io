@@ -339,6 +339,7 @@ html.js::-webkit-scrollbar{width:0;height:0}
 @media (max-width:760px){
   .landing.is-open{display:block;overflow-y:auto;pointer-events:auto;padding-bottom:calc(40px + env(safe-area-inset-bottom,0px));-webkit-overflow-scrolling:touch;overscroll-behavior:contain}
   .contact .phone-only{display:inline-block}
+  .landed .hud{z-index:29} /* the open landing would otherwise cover the Index button */
   #selected-work{scroll-margin-top:84px}
   .landing-grid{grid-template-columns:1fr;padding-bottom:70px}
   .landing-text{padding:14px 20px 16px;margin-left:-20px;background:rgba(0,0,0,.82)}

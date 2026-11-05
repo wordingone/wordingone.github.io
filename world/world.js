@@ -484,7 +484,7 @@ async function build() {
     const id = state.landed; if (!id) return;
     const ov = overlays[id]; if (ov) { ov.classList.remove('is-open'); setTimeout(() => { ov.hidden = true; }, 600); }
     root.classList.remove('landed'); delete root.dataset.landed;
-    state.landed = null; landAnim = null; fly.speed = 14; fly.lastInput = performance.now();
+    state.landed = null; landAnim = null; fly.speed = reduce ? 0 : 14; fly.lastInput = performance.now();
     if (id === 'ember') stopReplay();
     if (id === 'web-cad') { const fr = $('#land-web-cad iframe'); if (fr) fr.removeAttribute('src'); $('#land-web-cad .landing-frame')?.classList.remove('running'); }
     history.replaceState(null, '', '#world');
@@ -500,7 +500,9 @@ async function build() {
     if (id === 'question') { if (state.landed) takeOff(); scrollTo({ top: 0, behavior: reduce ? 'auto' : 'smooth' }); return; }
     if (id === 'in-progress' || id === 'method') { openStory(id); return; }
     if (!SITES[id]) return;
-    if (!state.entered) enter();
+    // entering from the index skips the approach: put the page where a scroll-in would have left it,
+    // so the entry plate is gone and the next wheel tick does not count as scrolling back out
+    if (!state.entered) { scrollTo(0, document.documentElement.scrollHeight); state.p = 1; enter(); }
     if (state.landed && state.landed !== id) takeOff();
     if (doLand !== false) setTimeout(() => land(id), state.landed ? 700 : 300);
     else { fly.auto = false; fly.pos.copy(SITES[id].center).add(new THREE.Vector3(0, 30, 120)); }
@@ -527,6 +529,11 @@ async function build() {
     stopReplay(); replayI = 0; termBody.innerHTML = '';
     const rows = replay.rows;
     scrub.max = rows.length - 1; scrub.value = 0;
+    if (reduce) { // no rolling text: show the first screenful at once; play and the scrubber still work
+      const end = Math.min(rows.length, 40);
+      for (; replayI < end; replayI++) appendRow(rows[replayI]);
+      scrub.value = replayI - 1; return;
+    }
     const tick = () => {
       if (replayI >= rows.length) { replayTimer = null; return; }
       appendRow(rows[replayI]); scrub.value = replayI; replayI++;
@@ -595,11 +602,13 @@ async function build() {
   function enter() {
     if (state.entered) return;
     state.entered = 1; root.classList.add('entered');
+    if (plate0) plate0.style.opacity = ''; // the inline fade would outrank the .entered rule that hides the plate
     bird.visible = true;
-    fly.auto = true; fly.lastInput = performance.now() - 7000; fly.tourT = 0;
+    // with reduced motion there is no autopilot tour: the reader moves only on input, and the index lands directly
+    fly.auto = !reduce; fly.lastInput = performance.now() - 7000; fly.tourT = 0;
     const p = approach.getPoint(1), l = approachLook.getPoint(1);
     fly.pos.copy(p); dir.copy(l).sub(p).normalize(); fly.yaw = Math.atan2(-dir.x, -dir.z); fly.pitch = Math.asin(dir.y);
-    fly.speed = 14;
+    fly.speed = reduce ? 0 : 14;
     announce('You are in the world. Scroll to move, move the pointer to steer, Enter to land.');
   }
   function leaveWorld() {
@@ -662,7 +671,8 @@ async function build() {
     } else {
       // flight
       const idle = now - fly.lastInput > 6000;
-      if (idle && !fly.auto) { fly.auto = true; fly.tourT = nearestTourT(fly.pos); }
+      if (idle && !fly.auto && !reduce) { fly.auto = true; fly.tourT = nearestTourT(fly.pos); }
+      if (reduce) fly.auto = false;
       if (fly.auto) {
         fly.tourT = (fly.tourT + dt / TOUR_SECONDS) % 1;
         tour.getPoint(fly.tourT, vv); tour.getTangent(fly.tourT, pathTangent);
