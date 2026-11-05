@@ -52,6 +52,14 @@ document.addEventListener('click', e => {
   const st = e.target.closest('.story-btn'); if (st) openStory(st.dataset.story, st);
 });
 
+// the aux "More" menu is a <details>: on phones its links sit open in the index overlay; on desktop it closes on an outside click
+const more = $('.hud-more');
+if (more) {
+  const syncMore = () => { if (isSmall()) { more.open = true; more.dataset.forced = '1'; } else if (more.dataset.forced) { more.open = false; delete more.dataset.forced; } };
+  syncMore(); addEventListener('resize', syncMore);
+  document.addEventListener('click', e => { if (!isSmall() && more.open && !more.contains(e.target)) more.open = false; });
+  addEventListener('keydown', e => { if (e.key === 'Escape' && !isSmall() && more.open) { more.open = false; more.querySelector('summary').focus(); } });
+}
 const menuBtn = $('.hud-menu');
 function closeMenu() { root.classList.remove('menu-open'); menuBtn.setAttribute('aria-expanded', 'false'); }
 menuBtn.addEventListener('click', () => {

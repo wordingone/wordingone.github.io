@@ -54,6 +54,17 @@ b{font-weight:500;color:var(--ink)}
 .hud-aux{display:flex;gap:22px;pointer-events:none}
 .hud-aux a{font:400 10px/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3);text-decoration:none}
 .hud-aux a:hover{color:var(--ink)}
+/* one row at desktop widths: stations, then CV and a More menu for the rest */
+@media (min-width:761px){
+  #stations{flex-direction:row;align-items:center;gap:30px}
+  .hud-aux{align-items:center}
+}
+.hud summary{pointer-events:auto}
+.hud-more{position:relative}
+.hud-more summary{list-style:none;cursor:pointer;font:400 10px/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;color:var(--ink-3);padding:6px 0}
+.hud-more summary::-webkit-details-marker{display:none}
+.hud-more summary:hover,.hud-more[open] summary{color:var(--ink)}
+.hud-more>div{position:absolute;right:0;top:calc(100% + 12px);display:flex;flex-direction:column;gap:14px;padding:14px 18px;white-space:nowrap;background:var(--glass);border:1px solid var(--hair);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}
 
 /* progress rail: a section elevator on the right edge */
 .rail{position:fixed;right:calc(var(--gutter) * .45);top:50%;height:34vh;width:1px;transform:translateY(-50%);background:var(--hair);z-index:5;pointer-events:none}
@@ -190,6 +201,8 @@ main{position:relative;z-index:3;pointer-events:none}
   #stations ol a{font:400 30px/1.2 var(--serif);letter-spacing:0;text-transform:none;color:var(--ink-2);gap:16px;align-items:baseline}
   #stations ol a span{display:inline;font:400 11px/1 var(--sans);letter-spacing:.2em}
   .hud-aux{pointer-events:auto}
+  .hud-more summary{display:none}
+  .hud-more>div{position:static;flex-direction:row;gap:22px;padding:0;background:none;border:0;-webkit-backdrop-filter:none;backdrop-filter:none}
   .rail{right:8px;height:24vh;top:auto;bottom:20px;transform:none}
   .station{min-height:140vh;align-items:flex-end;padding:96px 20px 48px}
   #question{padding-top:96px;padding-bottom:40px}
